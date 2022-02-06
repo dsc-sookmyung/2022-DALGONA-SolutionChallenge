@@ -31,9 +31,7 @@ class SelectModeSentencePage extends StatelessWidget {
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => SelectModeSentencePage())
-                    );
+                    //
                   }
               ),
               height: 40,
@@ -50,9 +48,7 @@ class SelectModeSentencePage extends StatelessWidget {
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => SelectModeSentencePage())
-                    );
+                    //
                   }
               ),
               height: 40,
@@ -68,9 +64,7 @@ class SelectModeSentencePage extends StatelessWidget {
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => SelectModeSentencePage())
-                    );
+                    //
                   }
               ),
               height: 40,
@@ -87,9 +81,7 @@ class SelectModeSentencePage extends StatelessWidget {
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => SelectModeSentencePage())
-                    );
+                    //
                   }
               ),
               height: 40,
@@ -105,9 +97,7 @@ class SelectModeSentencePage extends StatelessWidget {
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => SelectModeSentencePage())
-                    );
+                    //
                   }
               ),
               height: 40,
