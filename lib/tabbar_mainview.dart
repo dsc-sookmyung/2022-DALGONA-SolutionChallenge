@@ -12,7 +12,7 @@ class tabBarMainPage extends StatelessWidget {
       title: '구화 연습하기',
       home: BottomNavigator(),
       theme: ThemeData(
-          primaryColor: Colors.white
+        primaryColor: Colors.white,
       ),
     );
   }
@@ -59,22 +59,25 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: TabBar( //(1)
+      bottomNavigationBar: TabBar(
         controller: _tabController,
         tabs: <Widget>[
           Tab(
-              icon: _seletedIndex == 0 ? Icon(Icons.face) : Icon(Icons.face_outlined)
+            icon: _seletedIndex == 0 ? Icon(Icons.face) : Icon(Icons.face_outlined),
+            text: '읽기',
           ),
           Tab(
-              icon: _seletedIndex == 1 ? Icon(Icons.record_voice_over) : Icon(Icons.record_voice_over_outlined)
+            icon: _seletedIndex == 1 ? Icon(Icons.record_voice_over) : Icon(Icons.record_voice_over_outlined),
+            text: '말하기',
           ),
           Tab(
-              icon: _seletedIndex == 2? Icon(Icons.home_filled) : Icon(Icons.home_outlined)
+            icon: _seletedIndex == 2? Icon(Icons.home_filled) : Icon(Icons.home_outlined),
+            text: '쓰기',
           ),
         ],
         indicatorColor: Colors.transparent,
       ),
-      body: TabBarView( //(2)
+      body: TabBarView(
         controller: _tabController,
         children: _widgetOptions,
       ),
