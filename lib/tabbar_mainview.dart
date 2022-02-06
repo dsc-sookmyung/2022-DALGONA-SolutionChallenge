@@ -63,16 +63,25 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
         controller: _tabController,
         tabs: <Widget>[
           Tab(
-            icon: _seletedIndex == 0 ? Icon(Icons.face) : Icon(Icons.face_outlined),
-            text: '읽기',
+            icon: _seletedIndex == 0 ? Icon(Icons.face, color: Color(0xff5AA9DD)) : Icon(Icons.face_outlined, color: Color(0xff5AA9DD)),
+            child: Text(
+              '읽기',
+              style: TextStyle(color: Color(0xff5AA9DD), fontSize: 11),
+            ),
           ),
           Tab(
-            icon: _seletedIndex == 1 ? Icon(Icons.record_voice_over) : Icon(Icons.record_voice_over_outlined),
-            text: '말하기',
+            icon: _seletedIndex == 1 ? Icon(Icons.record_voice_over, color: Color(0xff5AA9DD)) : Icon(Icons.record_voice_over_outlined, color: Color(0xff5AA9DD)),
+            child: Text(
+              '말하기',
+              style: TextStyle(color: Color(0xff5AA9DD), fontSize: 11),
+            ),
           ),
           Tab(
-            icon: _seletedIndex == 2? Icon(Icons.home_filled) : Icon(Icons.home_outlined),
-            text: '쓰기',
+            icon: _seletedIndex == 2? Icon(Icons.home_filled, color: Color(0xff5AA9DD),) : Icon(Icons.home_outlined, color: Color(0xff5AA9DD)),
+            child: Text(
+              '마이페이지',
+              style: TextStyle(color: Color(0xff5AA9DD), fontSize: 11),
+            ),
           ),
         ],
         indicatorColor: Colors.transparent,

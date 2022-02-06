@@ -20,7 +20,11 @@ class selectModeMainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("말하기 연습"),
+        title: Text(
+          "말하기 연습",
+          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+        ),
+        backgroundColor: Color(0xffC8E8FF),
       ),
       body: new Container(
         margin: EdgeInsets.only(top: 130.0),
@@ -41,7 +45,10 @@ class selectModeMainPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
               margin: EdgeInsets.only(left: 0.0, top:40.0, right: 0.0, bottom: 0.0),
               child: new RaisedButton(
-                  color: Color(0xff97D5FE),
+                  color: Color(0xffC8E8FF),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                  ),
                   child: new Text(
                   '한 글자 연습하기',
                   style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
@@ -59,7 +66,10 @@ class selectModeMainPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
               margin: EdgeInsets.only(left: 0.0, top:20.0, right: 0.0, bottom: 0.0),
               child: new RaisedButton(
-                  color: Color(0xff97D5FE),
+                  color: Color(0xffC8E8FF),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: new Text(
                     '단어 연습하기',
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
@@ -77,7 +87,10 @@ class selectModeMainPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
               margin: EdgeInsets.only(left: 0.0, top:20.0, right: 0.0, bottom: 0.0),
               child: new RaisedButton(
-                  color: Color(0xff97D5FE),
+                  color: Color(0xffC8E8FF),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: new Text(
                     '문장 연습하기',
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
