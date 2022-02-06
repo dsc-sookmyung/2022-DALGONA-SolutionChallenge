@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'spword_consonant.dart';
+
 class SelectModeWordPage extends StatelessWidget {
   const SelectModeWordPage({Key? key}) : super(key: key);
 
@@ -40,7 +42,9 @@ class SelectModeWordPage extends StatelessWidget {
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    //
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => ChooseWordConsonantPage())
+                    );
                   }
               ),
               height: 40,

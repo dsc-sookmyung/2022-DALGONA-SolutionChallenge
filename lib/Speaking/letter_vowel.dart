@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ChooseVowelPage extends StatefulWidget {
-  const ChooseVowelPage({Key? key}) : super(key: key);
+
+  final String consonant;
+  final int consonantIndex;
+  const ChooseVowelPage({Key? key, required this.consonant, required this.consonantIndex }) : super(key: key);
 
   @override
   _ChooseVowelPageState createState() => _ChooseVowelPageState();
 }
 
-// ToDo - 색깔 교차로 나타나도록 설정 & 위에 텍스트 표시되도록 설정
-
 class _ChooseVowelPageState extends State<ChooseVowelPage> {
 
-  List<String> consonantList = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ'];
+  List<String> vowelList = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ'];
 
   getGridViewSelectedItem(BuildContext context, String gridItem){
     showDialog(
@@ -47,17 +48,33 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
         body: new Container(
           padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 30.0, bottom: 100.0),
           child: new Column(
-              children: [ Expanded(child: GridView.count(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                      color: Color(0xff5AA9DD),
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                  width: 300,
+                  height: 50,
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 10.0, bottom:30.0),
+                  child: Text(
+                    '선택한 자음: ${widget.consonant}',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                  ),
+                ),
+                Expanded(child: GridView.count(
                 crossAxisCount: 3,
-                children: consonantList.map((data) => GestureDetector(
-
+                  children: vowelList.asMap().map((index,data) => MapEntry(index, GestureDetector(
 
                     onTap: (){getGridViewSelectedItem(context, data);},
                     child: Container(
 
                         margin:EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                         decoration:BoxDecoration(
-                            color: Color(0xffD8EFFF),
+                            color: (index/3)%2 < 1 ? Color(0xffD8EFFF) : Color(0xff97D5FE),
                             borderRadius:BorderRadius.all(Radius.circular(15.0))
                         ) ,
 
@@ -68,12 +85,10 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
                             textAlign: TextAlign.center,
                           ),
 
-                        )))
-                ).toList(),
+                        ))))
+                ).values.toList(),
               ),)
               ]),
         ));
-
-
   }
 }
