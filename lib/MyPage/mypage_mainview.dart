@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../Login/login.dart';
 
+
 class MyPage extends StatelessWidget {
 
   const MyPage({Key? key}) : super(key: key);
@@ -10,9 +11,16 @@ class MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('마이 페이지'),),
-      body: new Container(
-        child: new Column(
+      appBar: AppBar(
+        title: Text(
+          '마이 페이지',
+          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+        ),
+        backgroundColor: Color(0xffC8E8FF),
+
+      ),
+      body: Container(
+        child: Column(
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(top: 50.0, left: 40.0, right: 40.0, bottom: 50.0),
@@ -26,7 +34,7 @@ class MyPage extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(15.0))
               ),
-              child: new Column(
+              child: Column(
                 children: <Widget>[
                   Container(
                     alignment: Alignment.centerRight,
@@ -67,7 +75,7 @@ class MyPage extends StatelessWidget {
               child: RaisedButton(
                 child: new Text(
                   "학습 목록",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
                   //
@@ -82,7 +90,7 @@ class MyPage extends StatelessWidget {
               child: RaisedButton(
                 child: new Text(
                   "책갈피 목록",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
                   //

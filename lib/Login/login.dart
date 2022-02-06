@@ -33,55 +33,57 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
 
-      body: new Container(
-        padding: EdgeInsets.all(30),
+      body: Container(
+        padding: const EdgeInsets.all(30),
 
-        child: new Form(
+        child: Form(
           key: formKey,
-          child: new Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(left: 0.0, top:0.0, right: 0.0, bottom: 20.0),
                 alignment: Alignment.center,
-                child: new Text(
+                child: const Text(
                     "로그인",
-                    style: new TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Color(0xff5AA9DD) ),
+                    style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Color(0xff5AA9DD) ),
                 ),
 
               ),
 
               Container(
-                child: new Column(
+                child: Column(
                   children: <Widget> [
 
-                    new TextFormField(
-                      decoration: new InputDecoration(labelText: 'Email'),
+                    TextFormField(
+                      decoration: const InputDecoration(labelText: 'Email'),
                       validator: (value) =>
                       value!.isEmpty ? 'Email can\'t be empty' : null,
                       onSaved: (value) => _email = value!,
                     ),
 
-                    new TextFormField(
+                    TextFormField(
                       obscureText: true,
-                      decoration: new InputDecoration(labelText: 'Password'),
+                      decoration: const InputDecoration(labelText: 'Password'),
                       validator: (value) =>
                       value!.isEmpty ? 'Password can\'t be empty' : null,
                       onSaved: (value) => _password = value!,
                     ),
-
-                    new TextButton(
-                        onPressed: forgotPassword,
-                        child: Text(
-                          "비밀번호 찾기",
-                          textAlign: TextAlign.left,
-                          style: new TextStyle(fontSize: 12.0, color: Color(0xff525457), ),
-                        ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        TextButton(
+                          onPressed: forgotPassword,
+                          child: const Text(
+                            "비밀번호 찾기",
+                            style: TextStyle(fontSize: 12.0, color: Color(0xff525457), ),
+                          ),
+                        )
+                      ],
                     )
-
                   ],
                 ),
               ),
@@ -89,12 +91,12 @@ class _LoginPageState extends State<LoginPage> {
 
               //로그인
               Container(
-                margin: EdgeInsets.only(left: 0.0, top:40.0, right: 0.0, bottom: 10.0),
-                child: new RaisedButton(
-                  color: Color(0xff97D5FE),
-                  child: new Text(
+                margin: const EdgeInsets.only(left: 0.0, top:40.0, right: 0.0, bottom: 10.0),
+                child: RaisedButton(
+                  color: const Color(0xff97D5FE),
+                  child: const Text(
                     '로그인',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xffFFFFFF), ),
+                    style: TextStyle(fontSize: 20.0, color: Color(0xffFFFFFF), ),
                   ),
                   onPressed: validateAndSave,
                 ),
@@ -103,12 +105,12 @@ class _LoginPageState extends State<LoginPage> {
 
               //회원가입
               Container(
-                margin: EdgeInsets.only(left: 0.0, top:10.0, right: 0.0, bottom: 0.0),
-                child: new RaisedButton(
-                  color: Color(0xff97D5FE),
-                  child: new Text(
+                margin: const EdgeInsets.only(left: 0.0, top:10.0, right: 0.0, bottom: 0.0),
+                child: RaisedButton(
+                  color: const Color(0xff97D5FE),
+                  child: const Text(
                     '회원가입',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xffFFFFFF), ),
+                    style: TextStyle(fontSize: 20.0, color: Color(0xffFFFFFF), ),
                   ),
                   onPressed: validateAndSave,
                 ),

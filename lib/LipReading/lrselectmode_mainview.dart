@@ -16,7 +16,11 @@ class lrselectModeMainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("구화 연습"),
+          title: Text(
+            "구화 연습",
+            style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+          ),
+          backgroundColor: Color(0xffC8E8FF),
         ),
         body: new Container(
           margin: EdgeInsets.only(top: 130.0),

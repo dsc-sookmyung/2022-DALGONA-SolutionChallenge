@@ -36,7 +36,14 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: AppBar(title: Text('말하기 연습 - 한 글자')),
+        appBar: AppBar(
+            title: Text(
+              '말하기 연습 - 한 글자',
+              style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+            ),
+          backgroundColor: Color(0xffC8E8FF),
+          foregroundColor: Colors.black,
+        ),
         body: new Container(
           padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 30.0, bottom: 100.0),
           child: new Column(

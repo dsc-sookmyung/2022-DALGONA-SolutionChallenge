@@ -6,7 +6,14 @@ class SelectModeWordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('말하기 연습 - 단어'),),
+      appBar: AppBar(
+        title: Text(
+          '말하기 연습 - 단어',
+          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+        ),
+        backgroundColor: Color(0xffC8E8FF),
+        foregroundColor: Colors.black,
+      ),
       body: new Container(
         margin: EdgeInsets.only(top: 130.0),
         child: new Column(
