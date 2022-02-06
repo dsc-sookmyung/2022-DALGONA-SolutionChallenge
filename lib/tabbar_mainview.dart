@@ -72,7 +72,7 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
           ),
           Tab(
             icon: _seletedIndex == 2? Icon(Icons.home_filled) : Icon(Icons.home_outlined),
-            text: '쓰기',
+            text: '마이 페이지',
           ),
         ],
         indicatorColor: Colors.transparent,
