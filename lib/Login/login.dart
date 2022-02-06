@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Speaking/selectmode_mainview.dart';
+import '../tabbar_mainview.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
       print('Form is valid Email: $_email, password: $_password');
 
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => selectModeMainPage()),);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => tabBarMainPage()),);
 
     } else {
       print('Form is invalid Email: $_email, password: $_password');
