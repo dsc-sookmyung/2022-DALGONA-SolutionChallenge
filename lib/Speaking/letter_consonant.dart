@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'letter_vowel.dart';
+
 class ChooseConsonantPage extends StatefulWidget {
   const ChooseConsonantPage({Key? key}) : super(key: key);
 
@@ -7,30 +9,14 @@ class ChooseConsonantPage extends StatefulWidget {
   _ChooseConsonantPageState createState() => _ChooseConsonantPageState();
 }
 
-// https://flutter-examples.com/flutter-change-listview-to-gridview/
-// ToDo - 색깔 교차로 나타나도록 설정
-
 class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
 
   List<String> consonantList = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 
-
-  getGridViewSelectedItem(BuildContext context, String gridItem){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text(gridItem),
-          actions: <Widget>[
-            FlatButton(
-              child: new Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+  getGridViewSelectedItem(BuildContext context, String gridItem, int index){
+    //
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => ChooseVowelPage(consonant: gridItem, consonantIndex: index,))
     );
   }
 
@@ -51,17 +37,16 @@ class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
         child: new Column(
             children: [ Expanded(child: GridView.count(
               crossAxisCount: 3,
-              children: consonantList.map((data) => GestureDetector(
-
+              children: consonantList.asMap().map((index,data) => MapEntry(index, GestureDetector(
 
                   onTap: (){
-                    getGridViewSelectedItem(context, data);
+                    getGridViewSelectedItem(context, data, index);
                   },
                   child: Container(
 
                       margin:EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       decoration:BoxDecoration(
-                          color: Color(0xffD8EFFF),
+                          color: (index/3)%2 < 1 ? Color(0xffD8EFFF) : Color(0xff97D5FE),
                           borderRadius:BorderRadius.all(Radius.circular(15.0))
                       ) ,
 
@@ -72,8 +57,8 @@ class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
                           textAlign: TextAlign.center,
                         ),
 
-                      )))
-              ).toList(),
+                      ))))
+              ).values.toList(),
             ),)
             ]),
       ));
