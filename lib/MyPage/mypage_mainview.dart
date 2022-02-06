@@ -37,15 +37,7 @@ class MyPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Container(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      onPressed: (){},
-                      icon: Icon(Icons.edit),
-                      iconSize: 20,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 20.0),
+                    margin: EdgeInsets.only(top: 40.0, bottom: 20.0),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
@@ -80,6 +72,9 @@ class MyPage extends StatelessWidget {
                 onPressed: (){
                   //
                 },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 color: Color(0xffC8E8FF),
               ),
               width: 300,
@@ -95,6 +90,9 @@ class MyPage extends StatelessWidget {
                 onPressed: (){
                   //
                 },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 color: Color(0xffC8E8FF),
               ),
               width: 300,
@@ -114,16 +112,6 @@ class MyPage extends StatelessWidget {
                     child: Text(
                       '로그아웃',
                       style: TextStyle(fontSize: 12, decoration: TextDecoration.underline),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: (){
-                      Navigator.pop(context);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
-                    },
-                    child: Text(
-                      '회원탈퇴',
-                      style: TextStyle(fontSize: 12, decoration: TextDecoration.underline ),
                     ),
                   ),
                 ],

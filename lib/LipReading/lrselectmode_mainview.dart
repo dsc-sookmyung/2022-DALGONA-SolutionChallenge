@@ -41,10 +41,13 @@ class lrselectModeMainPage extends StatelessWidget {
                 padding: EdgeInsets.only(left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
                 margin: EdgeInsets.only(left: 0.0, top:40.0, right: 0.0, bottom: 0.0),
                 child: new RaisedButton(
-                    color: Color(0xff97D5FE),
+                    color: Color(0xffC8E8FF),
                     child: new Text(
                       '연습하기',
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     onPressed: (){
                       //
@@ -57,7 +60,10 @@ class lrselectModeMainPage extends StatelessWidget {
                 padding: EdgeInsets.only(left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
                 margin: EdgeInsets.only(left: 0.0, top:20.0, right: 0.0, bottom: 0.0),
                 child: new RaisedButton(
-                    color: Color(0xff97D5FE),
+                    color: Color(0xffC8E8FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child: new Text(
                       '시험 보기',
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
