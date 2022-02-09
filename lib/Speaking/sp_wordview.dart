@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'letter_consonant.dart';
+import 'sp_word_consonant.dart';
 
-class SelectModeLetterPage extends StatelessWidget {
-  const SelectModeLetterPage({Key? key}) : super(key: key);
+class SelectModeWordPage extends StatelessWidget {
+  const SelectModeWordPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '말하기 연습 - 한 글자',
+          '말하기 연습 - 단어',
           style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
         ),
         backgroundColor: Color(0xffC8E8FF),
@@ -38,12 +38,12 @@ class SelectModeLetterPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: new Text(
-                    '한 글자 선택하기',
+                    '단어 선택하기',
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => ChooseConsonantPage())
+                        context, MaterialPageRoute(builder: (_) => ChooseWordConsonantPage())
                     );
                   }
               ),
@@ -72,7 +72,7 @@ class SelectModeLetterPage extends StatelessWidget {
 
           ],
         ),
-      )
+      ),
     );
   }
 }
