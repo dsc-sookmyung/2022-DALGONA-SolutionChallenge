@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'selectmode_letterview.dart';
-import 'selectmode_wordview.dart';
-import 'selectmode_sentenceview.dart';
+import 'sp_letterview.dart';
+import 'sp_wordview.dart';
+import 'sp_sentenceview.dart';
 
 class selectModeMainPage extends StatelessWidget {
   const selectModeMainPage({Key? key}) : super(key: key);
