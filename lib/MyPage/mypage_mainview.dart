@@ -5,6 +5,7 @@ import '../Login/login.dart';
 
 import 'mypage_bookmarklistview.dart';
 import 'mypage_studylistview.dart';
+import 'mypage_editinformationview.dart';
 
 
 class MyPage extends StatelessWidget {
@@ -43,7 +44,9 @@ class MyPage extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: IconButton(
                       onPressed: (){
-                        print('edit button clicked');
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (_) => ModifyInformationPage())
+                        );
                       },
                       icon: Icon(Icons.edit),
                       iconSize: 20,
