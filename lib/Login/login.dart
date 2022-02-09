@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../tabbar_mainview.dart';
+import 'signup.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -29,6 +30,11 @@ class _LoginPageState extends State<LoginPage> {
 
   void forgotPassword(){
     print('forgot password is clicked! ');
+  }
+
+  void signUp(){
+    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()),);
   }
 
   @override
@@ -118,10 +124,11 @@ class _LoginPageState extends State<LoginPage> {
                     '회원가입',
                     style: new TextStyle(fontSize: 20.0, color: Color(0xffFFFFFF), ),
                   ),
-                  onPressed: validateAndSave,
+                  onPressed: signUp,
                 ),
                 height: 40,
               ),
+
 
 
             ],
