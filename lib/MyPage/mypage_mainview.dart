@@ -3,6 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../Login/login.dart';
 
+import 'mypage_bookmarklistview.dart';
+import 'mypage_studylistview.dart';
+
 
 class MyPage extends StatelessWidget {
 
@@ -26,7 +29,7 @@ class MyPage extends StatelessWidget {
               margin: EdgeInsets.only(top: 50.0, left: 40.0, right: 40.0, bottom: 50.0),
               //padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0, bottom: 10.0),
               alignment: Alignment.center,
-              height: 300,
+              height: 350,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 2,
@@ -37,7 +40,18 @@ class MyPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 40.0, bottom: 20.0),
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: (){
+                        print('edit button clicked');
+                      },
+                      icon: Icon(Icons.edit),
+                      iconSize: 20,
+                    ),
+                    height: 20,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 40.0, bottom: 30.0),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
@@ -49,7 +63,7 @@ class MyPage extends StatelessWidget {
                     //   "https://user-images.githubusercontent.com/61380136/152644132-fdcaff3b-d192-4513-853c-fb4f1516bdea.png",
                     //
                     // ),
-                    height: 130,
+                    height: 140,
                     // width: 150,
                   ),
                   Text(
@@ -70,7 +84,9 @@ class MyPage extends StatelessWidget {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
-                  //
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => StudyListPage())
+                  );
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -88,7 +104,9 @@ class MyPage extends StatelessWidget {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
-                  //
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => BookMarkListPage())
+                  );
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -99,7 +117,7 @@ class MyPage extends StatelessWidget {
               height: 40,
             ),
             Container(
-              margin: EdgeInsets.only(top: 100.0, left: 50.0, right: 50.0),
+              margin: EdgeInsets.only(top: 30.0, left: 50.0, right: 50.0),
               alignment: Alignment.bottomRight,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -111,6 +129,16 @@ class MyPage extends StatelessWidget {
                     },
                     child: Text(
                       '로그아웃',
+                      style: TextStyle(fontSize: 12, decoration: TextDecoration.underline),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
+                    },
+                    child: Text(
+                      '회원탈퇴',
                       style: TextStyle(fontSize: 12, decoration: TextDecoration.underline),
                     ),
                   ),
