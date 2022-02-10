@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'lr_letterview.dart';
+import 'lr_sentenceview.dart';
 
 class lrselectModeWordPage extends StatelessWidget {
   const lrselectModeWordPage({Key? key}) : super(key: key);
@@ -72,9 +73,9 @@ class lrselectModeWordPage extends StatelessWidget {
                         fontWeight: FontWeight.w500),
                   ),
                   onPressed: () {
-                    // Navigator.push(
-                    // context, MaterialPageRoute(builder: (_) => )
-                    // );
+                    Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => LrModeSentencePage())
+                    );
                   }),
               height: 40,
             ),

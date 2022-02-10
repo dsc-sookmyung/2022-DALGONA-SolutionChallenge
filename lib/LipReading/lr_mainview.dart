@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'lr_wordview.dart';
+import 'lr_practiceview.dart';
 
 class lrselectModeMainPage extends StatelessWidget {
   const lrselectModeMainPage({Key? key}) : super(key: key);
