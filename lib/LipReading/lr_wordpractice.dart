@@ -16,7 +16,6 @@ class _WordPracticePageState extends State<WordPracticePage> {
   bool _isHint = false;
   bool isCorrect=true;
   String color='0xff97D5FE';
-
   
   final myController = TextEditingController();
 
