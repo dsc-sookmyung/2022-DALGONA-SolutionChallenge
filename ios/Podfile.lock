@@ -1,28 +1,44 @@
 PODS:
   - Flutter (1.0.0)
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
   - speech_to_text (0.0.1):
     - Flutter
     - Try
+  - Toast (4.0.0)
   - Try (2.1.1)
+  - video_player_avfoundation (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - speech_to_text (from `.symlinks/plugins/speech_to_text/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
 
 SPEC REPOS:
   trunk:
+    - Toast
     - Try
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
   speech_to_text:
     :path: ".symlinks/plugins/speech_to_text/ios"
+  video_player_avfoundation:
+    :path: ".symlinks/plugins/video_player_avfoundation/ios"
 
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   speech_to_text: b43a7d99aef037bd758ed8e45d79bbac035d2dfe
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
+  video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   speech_to_text: ^5.4.3
   avatar_glow: ^2.0.2
+  video_player:
 
 dev_dependencies:
   flutter_test:
