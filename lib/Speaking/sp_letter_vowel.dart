@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'sp_practiceview_letter.dart';
 
 class ChooseVowelPage extends StatefulWidget {
 
@@ -15,21 +16,11 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
   List<String> vowelList = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ'];
 
   getGridViewSelectedItem(BuildContext context, String gridItem){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text(gridItem),
-          actions: <Widget>[
-            FlatButton(
-              child: new Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => SpLetterPracticePage())
     );
   }
 

@@ -15,11 +15,13 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      //resizeToAvoidBottomInset : false,
+      body:SingleChildScrollView(
+      child: Container(
         margin: EdgeInsets.only(top: 80.0, left: 30.0, right: 30.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+          children: <Widget>[
             Container(
               margin: EdgeInsets.only(bottom: 40.0),
               child: Center(
@@ -258,6 +260,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ],
         ),
       ),
+      )
     );
   }
 }
