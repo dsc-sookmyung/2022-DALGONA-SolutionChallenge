@@ -1,23 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'lr_wordpractice_correct.dart';
-import 'lr_wordpractice_wrong.dart';
 
-class WordPracticePage extends StatefulWidget {
-  const WordPracticePage({Key? key}) : super(key: key);
+class WordPracticeCorrect extends StatefulWidget {
+  final answer;
+  const WordPracticeCorrect({Key? key, required this.answer}) : super(key: key);
 
   @override
-  _WordPracticePageState createState() => _WordPracticePageState();
+  _WordPracticeCorrectState createState() => _WordPracticeCorrectState();
 }
 
-class _WordPracticePageState extends State<WordPracticePage> {
+class _WordPracticeCorrectState extends State<WordPracticeCorrect> {
   bool _isStared = false;
   bool _isHint = false;
-  bool isCorrect=true;
-  String color='0xff97D5FE';
-
-  final myController = TextEditingController();
+  String input='';
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +75,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size.zero,
                                   padding:
-                                      EdgeInsets.only(right: 5.0, left: 5.0),
+                                  EdgeInsets.only(right: 5.0, left: 5.0),
                                   primary: Color(0xffC8E8FF),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -100,7 +96,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                   primary: Color(0xffC8E8FF),
                                   minimumSize: Size.zero,
                                   padding:
-                                      EdgeInsets.only(right: 5.0, left: 5.0),
+                                  EdgeInsets.only(right: 5.0, left: 5.0),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -121,7 +117,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                   primary: Color(0xffC8E8FF),
                                   minimumSize: Size.zero,
                                   padding:
-                                      EdgeInsets.only(right: 20.0, left: 20.0),
+                                  EdgeInsets.only(right: 20.0, left: 20.0),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -183,15 +179,15 @@ class _WordPracticePageState extends State<WordPracticePage> {
                           },
                           child: _isHint
                               ? new Text(
-                                  '힌트 닫기',
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 15),
-                                )
+                            '힌트 닫기',
+                            style: TextStyle(
+                                color: Colors.grey, fontSize: 15),
+                          )
                               : new Text(
-                                  "힌트 보기",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 15),
-                                ),
+                            "힌트 보기",
+                            style: TextStyle(
+                                color: Colors.grey, fontSize: 15),
+                          ),
                         ),
                       ],
                     ),
@@ -202,19 +198,16 @@ class _WordPracticePageState extends State<WordPracticePage> {
                         children: [
                           _isHint
                               ? Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xff97D5FE),
-                                  ),
-                                  width: 300,
-                                  height: 40,
-                                  child: Center(
-                                    child: Text("hello",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.w600)),
-                                  ))
+                              width: 300,
+                              height: 40,
+                              color: Color(0xff97D5FE),
+                              child: Center(
+                                child: Text("ㅇㄴㅎㅅㅇ",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w600)),
+                              ))
                               : Container(),
                         ],
                       ),
@@ -222,35 +215,28 @@ class _WordPracticePageState extends State<WordPracticePage> {
                     Container(
                       // height: 50.0,
                       margin:
-                          EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
+                      EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
                       child: Column(
                         //crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           TextField(
-                            controller: myController,
                             style: TextStyle(
                               fontSize: 20.0,
                             ),
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                                borderSide: BorderSide(
-                                    width: 3, color: Color(0xff97D5FE)),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                                borderSide: BorderSide(
-                                    width: 3, color: Color(0xff97D5FE)),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                              ),
+                            enabled: false,
+                        decoration: InputDecoration(
+                          labelText: widget.answer,
+                          contentPadding:
+                          EdgeInsets.symmetric(horizontal: 10),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(10.0)),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xff60D642)),
+                              borderRadius: BorderRadius.circular(10)
+                            ),
                             ),
                           )
                         ],
@@ -258,47 +244,23 @@ class _WordPracticePageState extends State<WordPracticePage> {
                     ),
                     Padding(padding: EdgeInsets.all(8.0)),
                     Column(children: [
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xff97D5FE),
-                            minimumSize: Size(90, 40),
-                          ),
-                          onPressed: () {
-                            if(myController.text=='hello') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WordPracticeCorrect(answer: myController.text)
-                                  )
-                              );
-                            }
-                            else if(myController.text==''){
-                              Fluttertoast.showToast(
-                                msg: '답을 적어주세요',
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                backgroundColor: Colors.grey,
-                              );
-                            }
-                            else{
-
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => WordPracticeWrong(answer: myController.text)
-                              //     )
-                              // );
-                            }
-                          },
-                          child: Text(
-                            '확인',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
+                      Text('정답이에요!', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16.0),)
+                    ]),
+                    Padding(padding: EdgeInsets.all(5.0)),
+                    Column(children: [
+                      Container(
+                          width: 300,
+                          height: 50,
+                          color: Color(0xff97D5FE),
+                          child: Center(
+                            child: Text("hello",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600)),
                           ))
                     ]),
-                    Padding(padding: EdgeInsets.all(60.0)),
+                    Padding(padding: EdgeInsets.all(50.0)),
                     Container(
                       alignment: AlignmentDirectional.centerEnd,
                       padding: EdgeInsets.only(right: 10.0),
