@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:video_player/video_player.dart';
 
 class WordPracticeCorrect extends StatefulWidget {
   final answer;
@@ -14,6 +15,22 @@ class _WordPracticeCorrectState extends State<WordPracticeCorrect> {
   bool _isStared = false;
   bool _isHint = false;
   String input='';
+
+  double _videoSpeed = 1.0;
+
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  void initState() {
+    _controller = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    );
+    _initializeVideoPlayerFuture = _controller.initialize();
+    _controller.setLooping(true);
+    super.initState();
+
+    //usingCamera();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,17 +75,31 @@ class _WordPracticeCorrectState extends State<WordPracticeCorrect> {
                         ),
                       ],
                     ),
-                    Image.network(
-                        "https://cdn.pixabay.com/photo/2020/07/27/02/09/tent-5441144_960_720.jpg",
-                        height: 200,
-                        width: 380,
-                        fit: BoxFit.cover),
-                    Padding(padding: EdgeInsets.all(3.0)),
+                    Container(
+                      child: FutureBuilder(
+                        future: _initializeVideoPlayerFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return AspectRatio(
+                              aspectRatio: 100 / 100,
+                              child: VideoPlayer(_controller),
+                            );
+                          } else {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                        },
+                      ),
+                      width: 380,
+                      height: 200,
+                    ),
+                    Padding(padding: EdgeInsets.all(2.0)),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //동영상 플레이 버튼
+                      mainAxisAlignment: MainAxisAlignment.center,
                       // crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Padding(padding: EdgeInsets.only(left: 0.5)),
+                        Padding(padding: EdgeInsets.only(left: 1.0)),
                         Column(
                           children: [
                             ElevatedButton(
@@ -89,81 +120,94 @@ class _WordPracticeCorrectState extends State<WordPracticeCorrect> {
                                 onPressed: () {}),
                           ],
                         ),
+                        Padding(padding: EdgeInsets.all(3.0)),
                         Column(
                           children: [
                             ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xffC8E8FF),
-                                  minimumSize: Size.zero,
-                                  padding:
-                                  EdgeInsets.only(right: 5.0, left: 5.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                              onPressed: () {
+                                setState(() {
+                                  if (_controller.value.isPlaying) {
+                                    _controller.pause();
+                                  } else {
+                                    _controller.play();
+                                  }
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xffC8E8FF),
+                                minimumSize: Size(45, 37),
+                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Icon(
-                                  Icons.arrow_right,
-                                  size: 37,
-                                  color: Color(0xff97D5FE),
-                                ),
-                                onPressed: () {}),
+                              ),
+                              child: Icon(
+                                _controller.value.isPlaying
+                                    ? Icons.pause
+                                    : Icons.play_arrow,
+                                size: 21,
+                                color: Color(0xff97D5FE),
+                              ),
+                            )
                           ],
                         ),
-                        Padding(padding: EdgeInsets.only(right: 60.0)),
-                        Column(
-                          children: [
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xffC8E8FF),
-                                  minimumSize: Size.zero,
-                                  padding:
-                                  EdgeInsets.only(right: 20.0, left: 20.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                        Padding(padding: EdgeInsets.only(right: 130.0)),
+                        Container(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (_videoSpeed > 0.25) {
+                                    _videoSpeed -= 0.25;
+                                  }
+                                });
+                                _controller.setPlaybackSpeed(_videoSpeed);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xffC8E8FF),
+                                minimumSize: Size(40, 35),
+                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                                child: Text("-",
-                                    style: TextStyle(
-                                      fontSize: 32,
-                                      color: Color(0xff97D5FE),
-                                    )),
-                                onPressed: () {}),
-                          ],
+                              ),
+                              child: Icon(
+                                Icons.remove,
+                                size: 20,
+                                color: Color(0xff97D5FE),
+                              ),
+                            )),
+                        Padding(padding: EdgeInsets.only(right: 8.0)),
+                        Container(
+                          child: Text('$_videoSpeed'),
+                          width: 30,
                         ),
-                        // Padding(
-                        //   padding: EdgeInsets.only(right: 8.0),
-                        // ),
-                        Text("1.0", style: TextStyle()),
-                        // Padding(
-                        //   padding: EdgeInsets.only(right: 8.0),
-                        // ),
-                        Column(
-                          children: [
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xffC8E8FF),
-                                  minimumSize: Size.zero,
-                                  padding: EdgeInsets.only(
-                                      right: 15.0,
-                                      left: 15.0,
-                                      top: 8.0,
-                                      bottom: 8.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                        Container(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (_videoSpeed < 1.5) {
+                                    _videoSpeed += 0.25;
+                                  }
+                                });
+                                _controller.setPlaybackSpeed(_videoSpeed);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xffC8E8FF),
+                                minimumSize: Size(40, 35),
+                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                                child: Icon(
-                                  Icons.add_outlined,
-                                  size: 20,
-                                  color: Color(0xff97D5FE),
-                                ),
-                                onPressed: () {}),
-                          ],
-                        ),
-                        Padding(padding: EdgeInsets.only(right: 0.5)),
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                size: 20,
+                                color: Color(0xff97D5FE),
+                              ),
+                            )),
                       ],
                     ),
-                    Padding(padding: EdgeInsets.all(3.0)),
+                    Padding(padding: EdgeInsets.all(2.0)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -215,7 +259,7 @@ class _WordPracticeCorrectState extends State<WordPracticeCorrect> {
                     Container(
                       // height: 50.0,
                       margin:
-                      EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
+                      EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
                       child: Column(
                         //crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -234,7 +278,7 @@ class _WordPracticeCorrectState extends State<WordPracticeCorrect> {
                               BorderRadius.all(Radius.circular(10.0)),
                             ),
                             disabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xff60D642)),
+                              borderSide: BorderSide(color: Color(0xff60D642), width: 2.0),
                               borderRadius: BorderRadius.circular(10)
                             ),
                             ),
