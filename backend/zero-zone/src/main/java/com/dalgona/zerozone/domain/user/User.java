@@ -1,18 +1,23 @@
-package com.dalgona.zerozone.domain;
+package com.dalgona.zerozone.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 //@Builder
 @Entity
-public class User {
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +32,16 @@ public class User {
     @Column(length = 300, nullable = false)
     private String name;
 
+//    @Builder.Default
+    @Column
+    private String role;
+
     @Builder
     public User(String email, String password, String name){
         this.email=email;
         this.password=password;
         this.name=name;
+        this.role="ROLE_USER";
     }
 
 

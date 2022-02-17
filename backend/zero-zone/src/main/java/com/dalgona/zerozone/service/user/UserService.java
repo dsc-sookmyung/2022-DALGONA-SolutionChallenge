@@ -1,7 +1,10 @@
 package com.dalgona.zerozone.service.user;
 
-import com.dalgona.zerozone.domain.User;
-import com.dalgona.zerozone.domain.UserRepository;
+import com.dalgona.zerozone.config.security.JwtTokenProvider;
+import com.dalgona.zerozone.domain.user.User;
+import com.dalgona.zerozone.domain.user.UserRepository;
+import com.dalgona.zerozone.domain.user.UserSecurity;
+import com.dalgona.zerozone.web.dto.user.UserLoginRequestDTO;
 import com.dalgona.zerozone.web.dto.user.UserSaveRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +19,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder pwdEncorder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 회원가입
     @Transactional
@@ -34,7 +38,13 @@ public class UserService {
     }
 
     // 로그인
-
-
+    public String login(UserLoginRequestDTO userLoginRequestDTO){
+        UserSecurity member = new UserSecurity(userRepository.findByEmail(userLoginRequestDTO.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다.")));
+        if (!pwdEncorder.matches(userLoginRequestDTO.getPassword(), member.getPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
+        return jwtTokenProvider.createToken(member.getUsername());
+    }
 
 }

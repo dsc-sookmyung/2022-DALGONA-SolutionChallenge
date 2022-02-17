@@ -1,4 +1,4 @@
-package com.dalgona.zerozone.domain;
+package com.dalgona.zerozone.domain.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
