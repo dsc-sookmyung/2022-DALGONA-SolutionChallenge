@@ -1,11 +1,9 @@
 package com.dalgona.zerozone.web.dto.user;
 
-import com.dalgona.zerozone.domain.User;
+import com.dalgona.zerozone.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
 
 @Getter
 @NoArgsConstructor
