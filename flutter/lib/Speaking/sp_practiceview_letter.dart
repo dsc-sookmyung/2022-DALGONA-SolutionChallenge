@@ -107,7 +107,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
               foregroundColor: Colors.black,
               backgroundColor: Color(0xffC8E8FF),
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton: AvatarGlow(
               animate: _isListening,
               glowColor: Color(0xffC8E8FF),
@@ -278,7 +278,20 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
                     ),
 
                     Container(
-                      margin: EdgeInsets.only(top:20.0),
+                        margin: EdgeInsets.only(top: 20.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              "다음과 같이 발음하고 있습니다.",
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        )
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top:10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
