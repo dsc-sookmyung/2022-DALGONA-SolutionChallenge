@@ -30,6 +30,8 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	// JWT
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	// 이메일 인증
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {
