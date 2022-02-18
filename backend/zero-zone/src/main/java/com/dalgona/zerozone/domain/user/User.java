@@ -9,8 +9,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
 
 @Getter
 @NoArgsConstructor
@@ -32,12 +30,12 @@ public class User{
     @Column(length = 300, nullable = false)
     private String name;
 
-//    @Builder.Default
     @Column
     private String role;
 
     @Builder
     public User(String email, String password, String name){
+        System.out.println("User Builder");
         this.email=email;
         this.password=password;
         this.name=name;
