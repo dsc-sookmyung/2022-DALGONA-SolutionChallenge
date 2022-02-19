@@ -48,7 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web)throws Exception{
         web.ignoring().antMatchers("/h2-console/**")
         .antMatchers("/user")
-                .antMatchers("/user/login");
+                .antMatchers("/user/login")
+                .antMatchers("/email/code/**");
     }
 
 }
