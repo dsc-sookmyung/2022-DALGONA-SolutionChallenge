@@ -2,11 +2,9 @@ package com.dalgona.zerozone.service.email;
 
 import com.dalgona.zerozone.domain.user.UserEmailAuth;
 import com.dalgona.zerozone.domain.user.UserEmailAuthRepository;
-import com.dalgona.zerozone.domain.user.UserRepository;
-import com.dalgona.zerozone.service.user.UserService;
 import com.dalgona.zerozone.web.dto.Response;
-import com.dalgona.zerozone.web.dto.user.UserCodeValidateRequestDTO;
-import com.dalgona.zerozone.web.dto.user.UserEmailAuthSaveDTO;
+import com.dalgona.zerozone.web.dto.user.UserCodeValidateRequestDto;
+import com.dalgona.zerozone.web.dto.user.UserEmailAuthRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +48,7 @@ public class EmailService {
     // 인증코드 db에 저장
     private String saveCode(String email){
         String code = createCode();
-        UserEmailAuthSaveDTO userEmailAuthSaveDTO = new UserEmailAuthSaveDTO(email, code);
+        UserEmailAuthRequestDto userEmailAuthSaveDTO = new UserEmailAuthRequestDto(email, code);
         return userEmailAuthRepository.save(userEmailAuthSaveDTO.toEntity()).getAuthCode();
     }
     
@@ -89,7 +87,7 @@ public class EmailService {
 
     // 인증코드 검증
     @Transactional
-    public ResponseEntity<?> validateCode(UserCodeValidateRequestDTO codeValidDTO){
+    public ResponseEntity<?> validateCode(UserCodeValidateRequestDto codeValidDTO){
         // 이메일로 코드 객체 가져오기
         if(!isExistInUserEmailAuth(codeValidDTO.getEmail())){
             return response.fail("인증 코드가 등록되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);

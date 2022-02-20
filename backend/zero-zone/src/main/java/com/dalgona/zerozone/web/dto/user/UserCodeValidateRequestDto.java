@@ -5,13 +5,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UserCodeValidateRequestDTO {
+public class UserCodeValidateRequestDto {
 
     private String email;
     private String authCode;
 
     @Builder
-    public UserCodeValidateRequestDTO(String email, String authCode){
+    public UserCodeValidateRequestDto(String email, String authCode){
         this.email=email;
         this.authCode=authCode;
     }

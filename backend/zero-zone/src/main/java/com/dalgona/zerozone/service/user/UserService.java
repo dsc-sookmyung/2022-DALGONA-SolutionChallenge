@@ -5,8 +5,9 @@ import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
 import com.dalgona.zerozone.domain.user.UserSecurity;
 import com.dalgona.zerozone.web.dto.Response;
-import com.dalgona.zerozone.web.dto.user.UserLoginRequestDTO;
-import com.dalgona.zerozone.web.dto.user.UserSaveRequestDTO;
+import com.dalgona.zerozone.web.dto.user.UserInfoResponseDto;
+import com.dalgona.zerozone.web.dto.user.UserLoginRequestDto;
+import com.dalgona.zerozone.web.dto.user.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class UserService {
 
     // 회원가입
     @Transactional
-    public ResponseEntity<?> join(UserSaveRequestDTO userSaveRequestDTO){
+    public ResponseEntity<?> join(UserSaveRequestDto userSaveRequestDTO){
         if (isExistMethod(userSaveRequestDTO.getEmail())) {
             return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);
         }
@@ -46,13 +48,14 @@ public class UserService {
     }
 
     // 이메일 중복체크
+    @Transactional
     public ResponseEntity<?> isExist(String email){
         return response.success(isExistMethod(email), "이메일 중복체크에 성공했습니다.", HttpStatus.OK);
     }
 
     // 로그인
-    public ResponseEntity<?> login(UserLoginRequestDTO userLoginRequestDTO){
-
+    @Transactional
+    public ResponseEntity<?> login(UserLoginRequestDto userLoginRequestDTO){
         if (!isExistMethod(userLoginRequestDTO.getEmail())) {
             return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
         }
@@ -60,8 +63,50 @@ public class UserService {
         if (!pwdEncorder.matches(userLoginRequestDTO.getPassword(), member.getPassword())) {
             return response.fail("잘못된 비밀번호입니다.", HttpStatus.BAD_REQUEST);
         }
+//        String name = userRepository.findByEmail(member.getUsername()).get().getName();
         String token = jwtTokenProvider.createToken(member.getUsername());
         return response.success(token, "로그인에 성공했습니다.", HttpStatus.OK);
     }
+
+    // 토큰 가져오기
+    public String getToken(HttpServletRequest request){
+        return jwtTokenProvider.resolveToken(request);
+    }
+
+    // 토큰 유효성 검사
+    public boolean isValidToken(String token){
+        return jwtTokenProvider.validateToken(token);
+    }
+
+    // 토큰이 유효하지 않은 경우의 응답 반환
+    public ResponseEntity<?> getResponseOfUnvalidateToken(){
+        return response.fail("유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST);
+    }
+
+    // 내 정보 조회
+    @Transactional
+    public ResponseEntity<?> getMyInfo(String token){
+        String email = jwtTokenProvider.getUserPk(token);
+        if (!isExistMethod(email)) {
+            return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
+        }
+        String name = userRepository.findByEmail(email).get().getName();
+        UserInfoResponseDto info = new UserInfoResponseDto(email, name);
+        return response.success(info, "내 정보 조회에 성공했습니다.", HttpStatus.OK);
+    }
+
+    // 이름 수정
+    @Transactional
+    public ResponseEntity<?> updateMyName(String token, String name){
+        String email = jwtTokenProvider.getUserPk(token);
+        if (!isExistMethod(email)) {
+            return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
+        }
+        User findUser = userRepository.findByEmail(email).get();
+        System.out.println(findUser.getEmail());
+        findUser.updateName(name);
+        return response.success("회원 이름 수정에 성공했습니다.");
+    }
+
 
 }
