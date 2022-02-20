@@ -9,10 +9,10 @@ class SelectModeSentencePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           '말하기 연습 - 문장',
-          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+          style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
         ),
         backgroundColor: Color(0xffC8E8FF),
-        foregroundColor: Colors.black,
+        foregroundColor: Color(0xff333333),
       ),
       body: new Container(
         margin: EdgeInsets.only(top: 50.0),
@@ -35,7 +35,7 @@ class SelectModeSentencePage extends StatelessWidget {
                   color: Color(0xffD8EFFF),
                   child: new Text(
                     '인사하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     //
@@ -52,7 +52,7 @@ class SelectModeSentencePage extends StatelessWidget {
                   color: Color(0xff97D5FE),
                   child: new Text(
                     '날짜와 시간 말하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     //
@@ -68,7 +68,7 @@ class SelectModeSentencePage extends StatelessWidget {
                   color: Color(0xffD8EFFF),
                   child: new Text(
                     '날씨 말하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     //
@@ -85,7 +85,7 @@ class SelectModeSentencePage extends StatelessWidget {
                   color: Color(0xff97D5FE),
                   child: new Text(
                     '부탁 요청하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     //
@@ -101,7 +101,7 @@ class SelectModeSentencePage extends StatelessWidget {
                   color: Color(0xffD8EFFF),
                   child: new Text(
                     '기분 표하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     //

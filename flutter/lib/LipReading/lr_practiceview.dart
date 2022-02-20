@@ -12,10 +12,11 @@ class lrselectModeWordPage extends StatelessWidget {
         title: Text(
           "연습하기",
           style: TextStyle(
-              color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+              color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
         ),
         centerTitle: true,
         backgroundColor: Color(0xffC8E8FF),
+        foregroundColor: Color(0xff333333),
       ),
       body: new Container(
         margin: EdgeInsets.only(top: 130.0),
@@ -44,7 +45,7 @@ class lrselectModeWordPage extends StatelessWidget {
                     '단어 연습하기',
                     style: new TextStyle(
                         fontSize: 20.0,
-                        color: Color(0xff000000),
+                        color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
                   onPressed: () {
@@ -69,7 +70,7 @@ class lrselectModeWordPage extends StatelessWidget {
                     '문장 연습하기',
                     style: new TextStyle(
                         fontSize: 20.0,
-                        color: Color(0xff000000),
+                        color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
                   onPressed: () {

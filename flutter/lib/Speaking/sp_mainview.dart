@@ -22,7 +22,7 @@ class selectModeMainPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "말하기 연습",
-          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+          style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
         ),
         backgroundColor: Color(0xffC8E8FF),
       ),
@@ -51,7 +51,7 @@ class selectModeMainPage extends StatelessWidget {
                   ),
                   child: new Text(
                   '한 글자 연습하기',
-                  style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
+                  style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
                   Navigator.push(
@@ -72,7 +72,7 @@ class selectModeMainPage extends StatelessWidget {
                   ),
                   child: new Text(
                     '단어 연습하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     Navigator.push(
@@ -93,7 +93,7 @@ class selectModeMainPage extends StatelessWidget {
                   ),
                   child: new Text(
                     '문장 연습하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     Navigator.push(

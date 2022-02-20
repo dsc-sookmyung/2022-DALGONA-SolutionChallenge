@@ -27,10 +27,10 @@ class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
       appBar: AppBar(
           title: Text(
             '말하기 연습 - 한 글자',
-            style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+            style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
           ),
         backgroundColor: Color(0xffC8E8FF),
-        foregroundColor: Colors.black,
+        foregroundColor: Color(0xff333333),
       ),
       body: new Container(
         padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 30.0, bottom: 100.0),
@@ -53,7 +53,7 @@ class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
                       child: Center(
                         child: Text(
                           data,
-                          style: TextStyle(fontSize: 42, color: Colors.black, fontWeight: FontWeight.w900),
+                          style: TextStyle(fontSize: 42, color: Color(0xff333333), fontWeight: FontWeight.w900),
                           textAlign: TextAlign.center,
                         ),
 

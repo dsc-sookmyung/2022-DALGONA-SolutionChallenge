@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zerozone/Login/privacypolicy.dart';
 import 'login.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -215,7 +216,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                 ),
                 TextButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage()),);
+                    },
                     child: Text(
                         '개인정보 이용정책',
                       style: TextStyle(fontWeight: FontWeight.w600),

@@ -18,7 +18,7 @@ class MyPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           '마이 페이지',
-          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+          style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
         ),
         backgroundColor: Color(0xffC8E8FF),
 
@@ -59,7 +59,7 @@ class MyPage extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(
                         width: 2.0,
-                        color: Colors.black
+                        color: Color(0xff333333)
                       )
                     ),
                     // child: Image.network(

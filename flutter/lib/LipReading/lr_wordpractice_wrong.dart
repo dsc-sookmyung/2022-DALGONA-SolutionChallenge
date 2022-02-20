@@ -43,12 +43,13 @@ class _WordPracticeWrongState extends State<WordPracticeWrong> {
               title: Text(
                 "단어",
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Color(0xff333333),
                     fontSize: 24,
                     fontWeight: FontWeight.w800),
               ),
               centerTitle: true,
               backgroundColor: Color(0xffC8E8FF),
+              foregroundColor: Color(0xff333333),
             ),
             body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -247,7 +248,7 @@ class _WordPracticeWrongState extends State<WordPracticeWrong> {
                               child: Center(
                                 child: Text("ㅇㄴㅎㅅㅇ",
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        color: Color(0xff333333),
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.w600)),
                               ))
@@ -298,7 +299,7 @@ class _WordPracticeWrongState extends State<WordPracticeWrong> {
                           child: Center(
                             child: Text("hello",
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: Color(0xff333333),
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w600)),
                           ))
