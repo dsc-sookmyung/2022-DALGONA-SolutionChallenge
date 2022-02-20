@@ -44,12 +44,13 @@ class _WordPracticeCorrectState extends State<WordPracticeCorrect> {
               title: Text(
                 "단어",
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Color(0xff333333),
                     fontSize: 24,
                     fontWeight: FontWeight.w800),
               ),
               centerTitle: true,
               backgroundColor: Color(0xffC8E8FF),
+              foregroundColor: Color(0xff333333),
             ),
             body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -248,7 +249,7 @@ class _WordPracticeCorrectState extends State<WordPracticeCorrect> {
                               child: Center(
                                 child: Text("ㅇㄴㅎㅅㅇ",
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        color: Color(0xff333333),
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.w600)),
                               ))
@@ -299,7 +300,7 @@ class _WordPracticeCorrectState extends State<WordPracticeCorrect> {
                           child: Center(
                             child: Text("hello",
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: Color(0xff333333),
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w600)),
                           ))

@@ -21,10 +21,10 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
             appBar: AppBar(
               title: Text(
                 '책갈피 목록',
-                style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+                style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
               ),
               backgroundColor: Color(0xffC8E8FF),
-              foregroundColor: Colors.black,
+              foregroundColor: Color(0xff333333),
             ),
 
           body: Container(

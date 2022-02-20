@@ -19,7 +19,7 @@ class lrselectModeMainPage extends StatelessWidget {
           title: Text(
             "구화 연습",
             style: TextStyle(
-                color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+                color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
           ),
           centerTitle: true,
           backgroundColor: Color(0xffC8E8FF),
@@ -48,7 +48,7 @@ class lrselectModeMainPage extends StatelessWidget {
                       '연습하기',
                       style: new TextStyle(
                           fontSize: 20.0,
-                          color: Color(0xff000000),
+                          color: Color(0xff333333),
                           fontWeight: FontWeight.w500),
                     ),
                     shape: RoundedRectangleBorder(
@@ -76,7 +76,7 @@ class lrselectModeMainPage extends StatelessWidget {
                       '시험 보기',
                       style: new TextStyle(
                           fontSize: 20.0,
-                          color: Color(0xff000000),
+                          color: Color(0xff333333),
                           fontWeight: FontWeight.w500),
                     ),
                     onPressed: () {

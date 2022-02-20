@@ -86,15 +86,11 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: forgotPassword,
               child: const Text(
                 "비밀번호 찾기",
-                style: TextStyle(fontSize: 12.0, color: Color(0xff525457), ),
+                style: TextStyle(fontSize: 12.0, color: Color(0xff666666), ),
               ),
             )
           ]
         )
-
-
-
-
 
                   ],
                 ),
@@ -108,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: Color(0xff97D5FE),
                   child: new Text(
                     '로그인',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xffFFFFFF), ),
+                    style: new TextStyle(fontSize: 16.0, color: Color(0xffFFFFFF), ),
                   ),
                   onPressed: validateAndSave,
                 ),
@@ -122,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: Color(0xff97D5FE),
                   child: new Text(
                     '회원가입',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xffFFFFFF), ),
+                    style: new TextStyle(fontSize: 16.0, color: Color(0xffFFFFFF), ),
                   ),
                   onPressed: signUp,
                 ),

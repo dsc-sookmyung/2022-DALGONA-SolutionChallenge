@@ -61,10 +61,10 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
               title: Text(
                 "단어 연습",
                 style: TextStyle(
-                    color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+                    color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
               ),
               centerTitle: true,
-              foregroundColor: Colors.black,
+              foregroundColor: Color(0xff333333),
               backgroundColor: Color(0xffC8E8FF),
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -283,7 +283,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                                   '${_text}',
                                   style: const TextStyle(
                                     fontSize: 38.0,
-                                    color: Colors.black,
+                                    color: Color(0xff333333),
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

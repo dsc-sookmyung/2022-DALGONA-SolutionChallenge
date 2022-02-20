@@ -49,12 +49,13 @@ class _WordPracticePageState extends State<WordPracticePage> {
               title: Text(
                 "단어",
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Color(0xff333333),
                     fontSize: 24,
                     fontWeight: FontWeight.w800),
               ),
               centerTitle: true,
               backgroundColor: Color(0xffC8E8FF),
+              foregroundColor: Color(0xff333333),
             ),
             body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -252,7 +253,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                             nip: BubbleNip.rightTop,
                             margin: BubbleEdges.only(top: 2.0, bottom: 3.0, right: 3.0, left: 3.0),
                             child: Text('hello', style: TextStyle(
-                                                color: Colors.black,
+                                                color: Color(0xff333333),
                                                 fontSize: 20.0,
                                                 fontWeight: FontWeight.w600)),
                           )

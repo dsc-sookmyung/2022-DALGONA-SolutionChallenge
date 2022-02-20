@@ -101,10 +101,10 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
               title: Text(
                 "한 글자 연습",
                 style: TextStyle(
-                    color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+                    color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
               ),
               centerTitle: true,
-              foregroundColor: Colors.black,
+              foregroundColor: Color(0xff333333),
               backgroundColor: Color(0xffC8E8FF),
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -322,7 +322,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
                                       '${_text}',
                                       style: const TextStyle(
                                         fontSize: 50.0,
-                                        color: Colors.black,
+                                        color: Color(0xff333333),
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
