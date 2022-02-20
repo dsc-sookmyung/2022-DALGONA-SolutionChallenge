@@ -103,10 +103,20 @@ public class UserService {
             return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
         }
         User findUser = userRepository.findByEmail(email).get();
-        System.out.println(findUser.getEmail());
         findUser.updateName(name);
         return response.success("회원 이름 수정에 성공했습니다.");
     }
 
+    // 비밀번호 수정
+    @Transactional
+    public ResponseEntity<?> updateMyPassword(String token, String password){
+        String email = jwtTokenProvider.getUserPk(token);
+        if (!isExistMethod(email)) {
+            return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
+        }
+        User findUser = userRepository.findByEmail(email).get();
+        findUser.updatePassword(password);
+        return response.success("회원 비밀번호 수정에 성공했습니다.");
+    }
 
 }
