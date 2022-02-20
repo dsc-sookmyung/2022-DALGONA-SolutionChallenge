@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http.httpBasic()
                 .and()
                 .authorizeRequests()
@@ -49,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/h2-console/**")
         .antMatchers("/user")
                 .antMatchers("/user/login")
+                .antMatchers("/user/email")
                 .antMatchers("/email/code/**");
     }
 

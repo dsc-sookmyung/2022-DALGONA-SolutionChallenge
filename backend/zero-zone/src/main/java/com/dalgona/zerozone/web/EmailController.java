@@ -2,7 +2,7 @@ package com.dalgona.zerozone.web;
 
 import com.dalgona.zerozone.service.email.EmailService;
 import com.dalgona.zerozone.web.dto.Response;
-import com.dalgona.zerozone.web.dto.user.UserCodeValidateRequestDTO;
+import com.dalgona.zerozone.web.dto.user.UserCodeValidateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class EmailController {
 
     // 이메일 인증 코드 검증
     @PostMapping("/email/code/verify")
-    public ResponseEntity<?> verifyCode(@RequestBody UserCodeValidateRequestDTO codeValidDTO) {
+    public ResponseEntity<?> verifyCode(@RequestBody UserCodeValidateRequestDto codeValidDTO) {
         return emailService.validateCode(codeValidDTO);
     }
 }

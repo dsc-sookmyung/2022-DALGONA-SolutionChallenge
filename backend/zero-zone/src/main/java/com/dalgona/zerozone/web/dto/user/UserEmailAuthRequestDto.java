@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UserEmailAuthSaveDTO {
+public class UserEmailAuthRequestDto {
 
     String email;
     String authCode;
 
     @Builder
-    public UserEmailAuthSaveDTO(String email, String authCode){
+    public UserEmailAuthRequestDto(String email, String authCode){
         this.email=email;
         this.authCode=authCode;
     }

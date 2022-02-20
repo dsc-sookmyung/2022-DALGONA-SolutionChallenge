@@ -35,11 +35,15 @@ public class User{
 
     @Builder
     public User(String email, String password, String name){
-        System.out.println("User Builder");
         this.email=email;
         this.password=password;
         this.name=name;
         this.role="ROLE_USER";
+    }
+
+    public User updateName(String name){
+        this.name=name;
+        return this;
     }
 
 
