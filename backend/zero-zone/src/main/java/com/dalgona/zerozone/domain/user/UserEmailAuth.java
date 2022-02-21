@@ -26,6 +26,12 @@ public class UserEmailAuth {
     @Column
     private boolean authStatus;
 
+    @Column
+    private String authPwdCode;
+
+    @Column
+    private boolean authPwdStatus;
+
     @Builder
     public UserEmailAuth(String email, String authCode, boolean authStatus){
         this.email=email;
@@ -40,8 +46,19 @@ public class UserEmailAuth {
         return this;
     }
 
-    public UserEmailAuth updateAuthstatus(boolean authStatus){
+    public UserEmailAuth updateAuthStatus(boolean authStatus){
         this.authStatus=authStatus;
+        return this;
+    }
+
+    public UserEmailAuth updatePwdCode(String authPwdCode){
+        this.authPwdCode=authPwdCode;
+        this.authPwdStatus=false;
+        return this;
+    }
+
+    public UserEmailAuth updateAuthPwdStatus(boolean authPwdStatus){
+        this.authPwdStatus=authPwdStatus;
         return this;
     }
 

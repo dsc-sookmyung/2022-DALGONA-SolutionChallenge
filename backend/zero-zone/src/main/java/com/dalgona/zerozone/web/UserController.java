@@ -72,6 +72,14 @@ public class UserController {
         return userService.updateMyPassword(token, password.get("password"));
     }
 
+    // 비밀번호 분실시 수정
+    @PostMapping("/user/password/lost")
+    public ResponseEntity<?> lostPassword(HttpServletRequest request, @RequestBody Map<String, String> passwordChangeRequestDto) {
+        return userService.updateMyPasswordIfLost(
+                passwordChangeRequestDto.get("email"),
+                passwordChangeRequestDto.get("password"));
+    }
+
 
 
 }
