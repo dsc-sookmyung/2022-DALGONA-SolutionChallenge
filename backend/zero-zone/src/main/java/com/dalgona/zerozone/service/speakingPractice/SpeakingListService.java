@@ -30,10 +30,6 @@ public class SpeakingListService {
     private final SentenceRepository sentenceRepository;
     private final Response response;
 
-    /***
-     * 글자 조회
-     */
-
     // 초성 조회
     @Transactional
     public ResponseEntity<?> getOnset(){
@@ -82,10 +78,7 @@ public class SpeakingListService {
         return response.success(codaList, "종성 조회에 성공했습니다.", HttpStatus.OK);
     }
 
-    /***
-     * 단어 조회
-     */
-
+    // 단어 조회 : 초성에 따라 달라짐
     @Transactional
     public ResponseEntity<?> getWords(WordRequestDto onsetData){
         // 단어 테이블에서 해당 초성으로 시작하는 모든 단어 가져오기
@@ -95,11 +88,6 @@ public class SpeakingListService {
         return response.success(wordList, "단어 조회에 성공했습니다.", HttpStatus.OK);
     }
 
-
-    /***
-     * 문장 조회
-     */
-    
     // 상황 조회
     public ResponseEntity<?> getSituations() {
         List<Situation> situationList = situationRepository.findAll();
@@ -110,7 +98,7 @@ public class SpeakingListService {
         return response.success(situationList, "상황 조회에 성공했습니다.", HttpStatus.OK);
     }
     
-    // 문장 조회
+    // 문장 조회 : 상황에 따라 달라짐
     public ResponseEntity getSentences(SentenceRequestDto sentenceRequestDto){
         List<Sentence> sentenceList = sentenceRepository.findAllBySituation(sentenceRequestDto.toEntity());
         // 문장의 ID 오름차순으로 정렬

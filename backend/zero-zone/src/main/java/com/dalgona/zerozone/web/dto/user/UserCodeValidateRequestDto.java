@@ -1,5 +1,6 @@
-package com.dalgona.zerozone.web.dto.user;import lombok.Builder;
+package com.dalgona.zerozone.web.dto.user;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

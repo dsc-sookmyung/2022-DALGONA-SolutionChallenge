@@ -1,6 +1,5 @@
 package com.dalgona.zerozone.web.dto.comparator;
 
-import com.dalgona.zerozone.domain.letter.Coda;
 import com.dalgona.zerozone.domain.sentence.Situation;
 
 import java.util.Comparator;

@@ -1,6 +1,5 @@
 package com.dalgona.zerozone.domain.sentence;
 
-import com.dalgona.zerozone.domain.letter.Onset;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -17,10 +17,6 @@ public class SpeakingListController {
 
     private final SpeakingListService speakingService;
 
-    /***
-     * 단어 조회
-     * @return
-     */
     // 초성 조회
     @GetMapping("/letter/onset")
     public ResponseEntity<?> getOnsets(){
