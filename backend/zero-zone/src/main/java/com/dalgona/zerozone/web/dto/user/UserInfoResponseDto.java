@@ -1,6 +1,5 @@
 package com.dalgona.zerozone.web.dto.user;
 
-import com.dalgona.zerozone.domain.user.UserEmailAuth;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +17,4 @@ public class UserInfoResponseDto {
         this.name=name;
     }
 
-
-//    public UserEmailAuth toEntity(){
-//        return UserEmailAuth.builder()
-//                .email(email)
-//                .authCode(authCode)
-//                .build();
-//    }
-//
 }

@@ -1,4 +1,5 @@
 package com.dalgona.zerozone.web.dto.user;
+
 import com.dalgona.zerozone.domain.user.UserEmailAuth;
 import lombok.Builder;
 import lombok.Getter;

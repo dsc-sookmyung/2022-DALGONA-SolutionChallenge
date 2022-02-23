@@ -1,5 +1,6 @@
-package com.dalgona.zerozone.domain.letter;
+package com.dalgona.zerozone.domain.content.letter;
 
+import com.dalgona.zerozone.domain.content.Content;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Onset {
+public class Onset extends Content {
 
     @Id
     @Column(name = "ONSET_ID")

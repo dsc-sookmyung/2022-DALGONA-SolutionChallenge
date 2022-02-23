@@ -1,6 +1,6 @@
 package com.dalgona.zerozone.web.dto.speakingPractice;
 
-import com.dalgona.zerozone.domain.sentence.Situation;
+import com.dalgona.zerozone.domain.content.sentence.Situation;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

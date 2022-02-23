@@ -1,6 +1,6 @@
-package com.dalgona.zerozone.domain.sentence;
+package com.dalgona.zerozone.domain.content.sentence;
 
-import com.dalgona.zerozone.domain.letter.Onset;
+import com.dalgona.zerozone.domain.content.Content;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Situation {
+public class Situation extends Content {
 
     @Id
     @Column(name = "SITUATION_ID")
