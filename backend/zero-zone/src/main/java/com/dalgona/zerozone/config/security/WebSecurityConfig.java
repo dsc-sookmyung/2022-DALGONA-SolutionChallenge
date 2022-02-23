@@ -51,7 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/user")
                 .antMatchers("/user/login")
                 .antMatchers("/user/email")
-                .antMatchers("/email/code/**");
+                .antMatchers("/email/**")
+                .antMatchers("/speakingPractice/**");
     }
 
 }

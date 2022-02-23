@@ -1,9 +1,7 @@
 package com.dalgona.zerozone.service.user;
 
 import com.dalgona.zerozone.config.security.JwtTokenProvider;
-import com.dalgona.zerozone.domain.user.User;
-import com.dalgona.zerozone.domain.user.UserRepository;
-import com.dalgona.zerozone.domain.user.UserSecurity;
+import com.dalgona.zerozone.domain.user.*;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.user.UserInfoResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserLoginRequestDto;
@@ -23,6 +21,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserEmailAuthRepository userEmailAuthRepository;
     private final PasswordEncoder pwdEncorder;
     private final JwtTokenProvider jwtTokenProvider;
     private final Response response;
@@ -32,6 +31,10 @@ public class UserService {
     public ResponseEntity<?> join(UserSaveRequestDto userSaveRequestDTO){
         if (isExistMethod(userSaveRequestDTO.getEmail())) {
             return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);
+        }
+        // 이메일 인증을 마친 사용자인지 확인
+        if (!isAuthed(userSaveRequestDTO.getEmail())){
+            return response.fail("이메일이 인증되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST);
         }
         // 비밀번호 암호화
         String encodedPwd = pwdEncorder.encode(userSaveRequestDTO.getPassword());
@@ -83,9 +86,21 @@ public class UserService {
         return response.fail("유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST);
     }
 
+    // 인증된 이메일인지 확인
+    public boolean isAuthed(String email){
+        Optional<UserEmailAuth> findUser = userEmailAuthRepository.findByEmail(email);
+        if(!findUser.isPresent())
+            return false;
+        else if(findUser.get().isAuthStatus())
+            return true;
+        else
+            return false;
+    }
+
     // 내 정보 조회
     @Transactional
     public ResponseEntity<?> getMyInfo(String token){
+        System.out.println("UserService - getMyInfo");
         String email = jwtTokenProvider.getUserPk(token);
         if (!isExistMethod(email)) {
             return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
@@ -103,10 +118,39 @@ public class UserService {
             return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
         }
         User findUser = userRepository.findByEmail(email).get();
-        System.out.println(findUser.getEmail());
         findUser.updateName(name);
         return response.success("회원 이름 수정에 성공했습니다.");
     }
 
+    // 비밀번호 수정
+    @Transactional
+    public ResponseEntity<?> updateMyPassword(String token, String password){
+        String email = jwtTokenProvider.getUserPk(token);
+        if (!isExistMethod(email)) {
+            return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
+        }
+        User findUser = userRepository.findByEmail(email).get();
+        findUser.updatePassword(password);
+        return response.success("회원 비밀번호 수정에 성공했습니다.");
+    }
+
+    // 비번 분실시 비밀번호 수정
+    @Transactional
+    public ResponseEntity<?> updateMyPasswordIfLost(String email, String password){
+        if (!isExistMethod(email)) {
+            return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
+        }
+        Optional<UserEmailAuth> user = userEmailAuthRepository.findByEmail(email);
+        // 인증된 이메일인지 확인
+        if(user.isPresent()){
+            // 인증되었다면 비밀번호 수정
+            if(user.get().isAuthPwdStatus()){
+                User findUser = userRepository.findByEmail(email).get();
+                findUser.updatePassword(password);
+                return response.success("회원 비밀번호 수정에 성공했습니다.");
+            }
+        }
+        return response.fail("인증되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST);
+    }
 
 }

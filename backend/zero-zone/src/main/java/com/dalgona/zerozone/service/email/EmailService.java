@@ -30,9 +30,7 @@ public class EmailService {
     private final Response response;
 
     // 인증코드 이메일 보내기
-    public ResponseEntity<?> sendSimpleMessage(String email) throws Exception {
-        // 코드 생성하고 저장
-        String code = saveCode(email);
+    public ResponseEntity<?> sendSimpleMessage(String email, String code) throws Exception {
         // 이메일 메시지 생성
         MimeMessage message = createMessage(email, code);
         try{
@@ -46,10 +44,29 @@ public class EmailService {
     }
 
     // 인증코드 db에 저장
-    private String saveCode(String email){
+    @Transactional
+    public String saveCode(String email){
         String code = createCode();
         UserEmailAuthRequestDto userEmailAuthSaveDTO = new UserEmailAuthRequestDto(email, code);
         return userEmailAuthRepository.save(userEmailAuthSaveDTO.toEntity()).getAuthCode();
+    }
+
+    // 인증코드 수정
+    @Transactional
+    public String updateCode(String email){
+        String code = createCode();
+        UserEmailAuth findUser = userEmailAuthRepository.findByEmail(email).get();
+        findUser.updateCode(code);
+        return code;
+    }
+
+    // 비밀번호 변경시 인증코드 수정
+    @Transactional
+    public String updatePwdCode(String email){
+        String code = createCode();
+        UserEmailAuth findUser = userEmailAuthRepository.findByEmail(email).get();
+        findUser.updatePwdCode(code);
+        return code;
     }
     
     // 메시지 생성
@@ -75,7 +92,7 @@ public class EmailService {
     }
 
     // 인증코드 만들기
-    public String createCode() {
+    private String createCode() {
         StringBuffer key = new StringBuffer();
         Random rnd = new Random();
 
@@ -97,14 +114,34 @@ public class EmailService {
         String findCode = findUser.getAuthCode();
         if(findCode.compareTo(codeValidDTO.getAuthCode())==0){
             // 인증 상태 업데이트
-            findUser.updateAuthstatus(true);
+            findUser.updateAuthStatus(true);
             return response.success("이메일 인증에 성공했습니다.");
         }
         return response.fail("인증 코드가 틀립니다.", HttpStatus.BAD_REQUEST);
 
     }
 
-    private boolean isExistInUserEmailAuth(String email){
+    // 비밀번호 변경시 인증코드 검증
+    @Transactional
+    public ResponseEntity<?> validatePwdCode(UserCodeValidateRequestDto codeValidDTO){
+        // 이메일로 코드 객체 가져오기
+        if(!isExistInUserEmailAuth(codeValidDTO.getEmail())){
+            return response.fail("인증 코드가 등록되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
+        }
+        // 코드 비교
+        UserEmailAuth findUser = userEmailAuthRepository.findByEmail(codeValidDTO.getEmail()).get();
+        String findCode = findUser.getAuthPwdCode();
+        if(findCode.compareTo(codeValidDTO.getAuthCode())==0){
+            // 인증 상태 업데이트
+            findUser.updateAuthPwdStatus(true);
+            return response.success("이메일 인증에 성공했습니다.");
+        }
+        return response.fail("인증 코드가 틀립니다.", HttpStatus.BAD_REQUEST);
+    }
+
+
+    @Transactional
+    public boolean isExistInUserEmailAuth(String email){
         Optional<UserEmailAuth> findUser = userEmailAuthRepository.findByEmail(email);
         return findUser.isPresent();
     }
