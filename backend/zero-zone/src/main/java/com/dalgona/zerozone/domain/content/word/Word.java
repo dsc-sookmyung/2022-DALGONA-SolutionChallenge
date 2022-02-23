@@ -1,6 +1,7 @@
-package com.dalgona.zerozone.domain.word;
+package com.dalgona.zerozone.domain.content.word;
 
-import com.dalgona.zerozone.domain.letter.Onset;
+import com.dalgona.zerozone.domain.content.Content;
+import com.dalgona.zerozone.domain.content.letter.Onset;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Word {
+public class Word extends Content {
 
     @Id
     @Column(name = "WORD_ID")

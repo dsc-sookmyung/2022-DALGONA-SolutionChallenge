@@ -1,7 +1,7 @@
 package com.dalgona.zerozone.web.dto.speakingPractice;
 
-import com.dalgona.zerozone.domain.letter.Nucleus;
-import com.dalgona.zerozone.domain.letter.Onset;
+import com.dalgona.zerozone.domain.content.letter.Nucleus;
+import com.dalgona.zerozone.domain.content.letter.Onset;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

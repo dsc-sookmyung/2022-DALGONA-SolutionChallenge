@@ -1,5 +1,6 @@
-package com.dalgona.zerozone.domain.sentence;
+package com.dalgona.zerozone.domain.content.sentence;
 
+import com.dalgona.zerozone.domain.content.Content;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Sentence {
+public class Sentence extends Content {
 
     @Id
     @Column(name = "SENTENCE_ID")

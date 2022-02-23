@@ -1,6 +1,6 @@
-package com.dalgona.zerozone.domain.word;
+package com.dalgona.zerozone.domain.content.word;
 
-import com.dalgona.zerozone.domain.letter.Onset;
+import com.dalgona.zerozone.domain.content.letter.Onset;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
