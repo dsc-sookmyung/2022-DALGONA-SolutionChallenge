@@ -1,4 +1,4 @@
-package com.dalgona.zerozone.web;
+package com.dalgona.zerozone.web.controller;
 
 import com.dalgona.zerozone.config.security.JwtTokenProvider;
 import com.dalgona.zerozone.service.user.UserService;

@@ -1,4 +1,4 @@
-package com.dalgona.zerozone.web.dto.speakingPractice;
+package com.dalgona.zerozone.web.dto.comparator;
 
 import com.dalgona.zerozone.domain.letter.Nucleus;
 

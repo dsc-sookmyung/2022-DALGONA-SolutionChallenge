@@ -1,4 +1,4 @@
-package com.dalgona.zerozone.web;
+package com.dalgona.zerozone.web.controller;
 
 import com.dalgona.zerozone.service.email.EmailService;
 import com.dalgona.zerozone.web.dto.Response;
