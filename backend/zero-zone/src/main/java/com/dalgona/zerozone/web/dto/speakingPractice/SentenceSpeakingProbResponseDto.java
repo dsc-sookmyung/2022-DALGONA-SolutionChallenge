@@ -7,21 +7,20 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class LetterProbResponseDto {
+public class SentenceSpeakingProbResponseDto {
 
     Long probId;
     String type;
-    Long letterId;
-    String letter;
+    Long sentenceId;
+    String sentence;
     String url;
 
     @Builder
-    public LetterProbResponseDto(SpeakingProb speakingProb){
+    public SentenceSpeakingProbResponseDto(SpeakingProb speakingProb){
         this.probId = speakingProb.getId();
-        this.type = "letter";
-        this.letterId = speakingProb.getLetter().getId();
-        this.letter = speakingProb.getLetter().getLetter();
+        this.type = "sentence";
+        this.sentenceId = speakingProb.getSentence().getId();
+        this.sentence = speakingProb.getSentence().getSentence();
         this.url = speakingProb.getUrl();
     }
-
 }

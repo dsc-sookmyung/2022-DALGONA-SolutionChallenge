@@ -1,4 +1,4 @@
-package com.dalgona.zerozone.service.speakingPractice;
+package com.dalgona.zerozone.service.speakingAndReadingPractice;
 
 import com.dalgona.zerozone.domain.content.letter.Letter;
 import com.dalgona.zerozone.domain.content.letter.LetterRepository;
@@ -9,9 +9,9 @@ import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.dalgona.zerozone.domain.speaking.SpeakingProbRepository;
 import com.dalgona.zerozone.web.dto.Response;
-import com.dalgona.zerozone.web.dto.speakingPractice.LetterProbResponseDto;
-import com.dalgona.zerozone.web.dto.speakingPractice.SentenceProbResponseDto;
-import com.dalgona.zerozone.web.dto.speakingPractice.WordProbResponseProbDto;
+import com.dalgona.zerozone.web.dto.speakingPractice.LetterSpeakingProbResponseDto;
+import com.dalgona.zerozone.web.dto.speakingPractice.SentenceSpeakingProbResponseDto;
+import com.dalgona.zerozone.web.dto.speakingPractice.WordSpeakingProbResponseProbDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,7 @@ public class SpeakingPracticeService {
         if(!letter.isPresent()) return response.fail("글자가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         Optional<SpeakingProb> speakingProb = speakingProbRepository.findByTypeAndLetter("letter", letter.get());
         if(!speakingProb.isPresent()) return response.fail("글자가 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
-        LetterProbResponseDto letterResponseDto = new LetterProbResponseDto(speakingProb.get());
+        LetterSpeakingProbResponseDto letterResponseDto = new LetterSpeakingProbResponseDto(speakingProb.get());
         return response.success(letterResponseDto, "발음 글자 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
     
@@ -49,7 +49,7 @@ public class SpeakingPracticeService {
         if(!word.isPresent()) return response.fail("단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         Optional<SpeakingProb> speakingProb = speakingProbRepository.findByTypeAndWord("word", word.get());
         if(!speakingProb.isPresent()) return response.fail("단어가 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
-        WordProbResponseProbDto wordResponseDto = new WordProbResponseProbDto(speakingProb.get());
+        WordSpeakingProbResponseProbDto wordResponseDto = new WordSpeakingProbResponseProbDto(speakingProb.get());
         return response.success(wordResponseDto, "발음 단어 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
 
@@ -60,8 +60,8 @@ public class SpeakingPracticeService {
         if(!sentence.isPresent()) return response.fail("문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         Optional<SpeakingProb> speakingProb = speakingProbRepository.findByTypeAndSentence("sentence", sentence.get());
         if(!speakingProb.isPresent()) return response.fail("문장이 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
-        SentenceProbResponseDto sentenceProbResponseDto = new SentenceProbResponseDto(speakingProb.get());
-        return response.success(sentenceProbResponseDto, "발음 문장 연습 조회에 성공했습니다.", HttpStatus.OK);
+        SentenceSpeakingProbResponseDto sentenceSpeakingProbResponseDto = new SentenceSpeakingProbResponseDto(speakingProb.get());
+        return response.success(sentenceSpeakingProbResponseDto, "발음 문장 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
 
 }

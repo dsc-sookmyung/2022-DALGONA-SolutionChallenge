@@ -1,4 +1,4 @@
-package com.dalgona.zerozone.service.speakingPractice;
+package com.dalgona.zerozone.service.speakingAndReadingPractice;
 
 import com.dalgona.zerozone.domain.content.letter.*;
 import com.dalgona.zerozone.domain.content.sentence.Sentence;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class SpeakingListService {
+public class listService {
 
     private final OnsetRepository onsetRepository;
     private final LetterRepository letterRepository;

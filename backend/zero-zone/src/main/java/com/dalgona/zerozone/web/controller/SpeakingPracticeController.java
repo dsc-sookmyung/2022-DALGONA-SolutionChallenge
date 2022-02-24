@@ -1,6 +1,6 @@
 package com.dalgona.zerozone.web.controller;
 
-import com.dalgona.zerozone.service.speakingPractice.SpeakingPracticeService;
+import com.dalgona.zerozone.service.speakingAndReadingPractice.SpeakingPracticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

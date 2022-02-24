@@ -1,7 +1,7 @@
 package com.dalgona.zerozone.web.controller;
 
 import com.dalgona.zerozone.domain.customAnnotation.QueryStringArgResolver;
-import com.dalgona.zerozone.service.speakingPractice.SpeakingListService;
+import com.dalgona.zerozone.service.speakingAndReadingPractice.listService;
 import com.dalgona.zerozone.web.dto.content.CodaRequestDto;
 import com.dalgona.zerozone.web.dto.content.NucleusRequestDto;
 import com.dalgona.zerozone.web.dto.content.SentenceRequestDto;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/speaking/list")
 public class SpeakingListController {
 
-    private final SpeakingListService speakingService;
+    private final listService speakingService;
 
     // 초성 조회
     @GetMapping("/letter/onset")
