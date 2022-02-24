@@ -2,17 +2,17 @@ package com.dalgona.zerozone.web.controller;
 
 import com.dalgona.zerozone.domain.customAnnotation.QueryStringArgResolver;
 import com.dalgona.zerozone.service.speakingPractice.SpeakingListService;
-import com.dalgona.zerozone.web.dto.speakingPractice.CodaRequestDto;
-import com.dalgona.zerozone.web.dto.speakingPractice.NucleusRequestDto;
-import com.dalgona.zerozone.web.dto.speakingPractice.SentenceRequestDto;
-import com.dalgona.zerozone.web.dto.speakingPractice.WordRequestDto;
+import com.dalgona.zerozone.web.dto.content.CodaRequestDto;
+import com.dalgona.zerozone.web.dto.content.NucleusRequestDto;
+import com.dalgona.zerozone.web.dto.content.SentenceRequestDto;
+import com.dalgona.zerozone.web.dto.content.WordRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/speakingPractice")
+@RequestMapping("/speaking/list")
 public class SpeakingListController {
 
     private final SpeakingListService speakingService;
