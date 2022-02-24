@@ -14,7 +14,6 @@ public class WordProbResponseProbDto {
     Long wordId;
     String word;
     String url;
-    String hint;
 
     @Builder
     public WordProbResponseProbDto(SpeakingProb speakingProb){
@@ -23,6 +22,5 @@ public class WordProbResponseProbDto {
         this.wordId = speakingProb.getWord().getId();
         this.word = speakingProb.getWord().getWord();
         this.url = speakingProb.getUrl();
-        this.hint = speakingProb.getHint();
     }
 }

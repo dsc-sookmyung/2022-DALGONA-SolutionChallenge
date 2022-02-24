@@ -14,7 +14,6 @@ public class SentenceProbResponseDto {
     Long sentenceId;
     String sentence;
     String url;
-    String hint;
 
     @Builder
     public SentenceProbResponseDto(SpeakingProb speakingProb){
@@ -23,6 +22,5 @@ public class SentenceProbResponseDto {
         this.sentenceId = speakingProb.getSentence().getId();
         this.sentence = speakingProb.getSentence().getSentence();
         this.url = speakingProb.getUrl();
-        this.hint = speakingProb.getHint();
     }
 }

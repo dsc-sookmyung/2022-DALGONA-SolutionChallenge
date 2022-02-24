@@ -14,7 +14,6 @@ public class LetterProbResponseDto {
     Long letterId;
     String letter;
     String url;
-    String hint;
 
     @Builder
     public LetterProbResponseDto(SpeakingProb speakingProb){
@@ -23,7 +22,6 @@ public class LetterProbResponseDto {
         this.letterId = speakingProb.getLetter().getId();
         this.letter = speakingProb.getLetter().getLetter();
         this.url = speakingProb.getUrl();
-        this.hint = speakingProb.getHint();
     }
 
 }
