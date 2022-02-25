@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Word extends Content {
+public class Word {
 
     @Id
     @Column(name = "WORD_ID")

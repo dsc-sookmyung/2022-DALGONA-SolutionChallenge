@@ -1,4 +1,4 @@
-package com.dalgona.zerozone.service.speakingPractice;
+package com.dalgona.zerozone.service.speakingAndReadingPractice;
 
 import com.dalgona.zerozone.domain.content.letter.*;
 import com.dalgona.zerozone.domain.content.sentence.Sentence;
@@ -9,7 +9,7 @@ import com.dalgona.zerozone.domain.content.word.Word;
 import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.comparator.*;
-import com.dalgona.zerozone.web.dto.speakingPractice.*;
+import com.dalgona.zerozone.web.dto.content.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class SpeakingListService {
+public class listService {
 
     private final OnsetRepository onsetRepository;
     private final LetterRepository letterRepository;
@@ -59,18 +59,19 @@ public class SpeakingListService {
     }
 
     // 종성 조회 : 앞에 선택한 초성과 중성에 따라 달라짐
+    // 초성, 중성, 종성 조합에 해당하는 글자 ID도 함께 반환
     @Transactional
     public ResponseEntity<?> getCodas(CodaRequestDto onsetAndNucleusData) {
         // 글자 테이블에서 해당 초성과 중성을 가진 글자와 조인해서 가져오기
         List<Letter> letters = letterRepository.findAllByOnsetAndNucleus(
                 onsetAndNucleusData.toEntityOnset(), onsetAndNucleusData.toEntityNucleus());
-        // 종성만 추출하여 ID 오름차순으로 정렬
-        List<Coda> codaList = new ArrayList<>();
+        // Dto로 바꾸기
+        List<LetterResponseDto> letterResponseDtoList = new ArrayList<>();
         for(Letter letter:letters){
-            codaList.add(letter.getCoda());
+            letterResponseDtoList.add(new LetterResponseDto(letter));
         }
-        Collections.sort(codaList, new ContentComparator());
-        return response.success(codaList, "종성 조회에 성공했습니다.", HttpStatus.OK);
+        Collections.sort(letterResponseDtoList, new ContentComparator());
+        return response.success(letterResponseDtoList, "종성 및 글자 조회에 성공했습니다.", HttpStatus.OK);
     }
 
     // 단어 조회 : 초성에 따라 달라짐
@@ -78,9 +79,14 @@ public class SpeakingListService {
     public ResponseEntity<?> getWords(WordRequestDto onsetData){
         // 단어 테이블에서 해당 초성으로 시작하는 모든 단어 가져오기
         List<Word> wordList = wordRepository.findAllByOnset(onsetData.toEntity());
+        // Dto로 변경
+        List<WordResponseDto> wordResponseDtoList = new ArrayList<>();
+        for(Word word:wordList){
+            wordResponseDtoList.add(new WordResponseDto(word));
+        }
         // 단어의 ID 오름차순으로 정렬
-        Collections.sort(wordList, new ContentComparator());
-        return response.success(wordList, "단어 조회에 성공했습니다.", HttpStatus.OK);
+        Collections.sort(wordResponseDtoList, new ContentComparator());
+        return response.success(wordResponseDtoList, "단어 조회에 성공했습니다.", HttpStatus.OK);
     }
 
     // 상황 조회
@@ -96,9 +102,14 @@ public class SpeakingListService {
     // 문장 조회 : 상황에 따라 달라짐
     public ResponseEntity getSentences(SentenceRequestDto sentenceRequestDto){
         List<Sentence> sentenceList = sentenceRepository.findAllBySituation(sentenceRequestDto.toEntity());
+        // Dto로 변경
+        List<SentenceResponseDto> sentenceResponseDtoList = new ArrayList<>();
+        for(Sentence sentence:sentenceList){
+            sentenceResponseDtoList.add(new SentenceResponseDto(sentence));
+        }
         // 문장의 ID 오름차순으로 정렬
-        Collections.sort(sentenceList, new ContentComparator());
-        return response.success(sentenceList, "문장 조회에 성공했습니다.", HttpStatus.OK);
+        Collections.sort(sentenceResponseDtoList, new ContentComparator());
+        return response.success(sentenceResponseDtoList, "문장 조회에 성공했습니다.", HttpStatus.OK);
     }
 
 
