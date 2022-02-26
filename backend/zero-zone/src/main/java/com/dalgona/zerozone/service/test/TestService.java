@@ -6,7 +6,6 @@ import com.dalgona.zerozone.domain.test.TestRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
 import com.dalgona.zerozone.web.dto.Response;
-import com.dalgona.zerozone.web.dto.test.TestCreateRequestDto;
 import com.dalgona.zerozone.web.dto.test.TestSettingInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,6 @@
 package com.dalgona.zerozone.domain.reading;
 
+import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProb;
 import com.dalgona.zerozone.domain.content.sentence.Sentence;
 import com.dalgona.zerozone.domain.content.word.Word;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -35,5 +38,8 @@ public class ReadingProb {
     @OneToOne
     @JoinColumn(name = "SENTENCE_ID")
     private Sentence sentence;
+
+    @OneToMany(mappedBy = "readingProb")
+    private List<BookmarkReadingProb> bookmarkReadingList = new ArrayList<>();
 
 }
