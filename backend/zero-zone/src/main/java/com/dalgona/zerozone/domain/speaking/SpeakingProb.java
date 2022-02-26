@@ -1,5 +1,6 @@
 package com.dalgona.zerozone.domain.speaking;
 
+import com.dalgona.zerozone.domain.bookmark.BookmarkSpeakingProb;
 import com.dalgona.zerozone.domain.content.letter.Letter;
 import com.dalgona.zerozone.domain.content.sentence.Sentence;
 import com.dalgona.zerozone.domain.content.word.Word;
@@ -8,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -37,5 +40,8 @@ public class SpeakingProb {
     @OneToOne
     @JoinColumn(name = "SENTENCE_ID")
     private Sentence sentence;
+
+    @OneToMany(mappedBy = "speakingProb")
+    private List<BookmarkSpeakingProb> bookmarkSpeakingProbList = new ArrayList<>();
 
 }

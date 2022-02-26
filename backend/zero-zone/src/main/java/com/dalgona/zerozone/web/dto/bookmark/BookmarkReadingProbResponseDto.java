@@ -36,7 +36,7 @@ public class BookmarkReadingProbResponseDto {
         // 단어
         if(bookmarkReadingProb.getReadingProb().getType().compareTo("word")==0){
             return new BookmarkReadingProbResponseDto(
-                    "word",
+                    "Word",
                     bookmarkReadingProb.getReadingProb().getWord().getWord(),
                     bookmarkReadingProb.getReadingProb().getWord().getId()
                     );
@@ -44,7 +44,7 @@ public class BookmarkReadingProbResponseDto {
         // 문장
         else if(bookmarkReadingProb.getReadingProb().getType().compareTo("sentence")==0){
             return new BookmarkReadingProbResponseDto(
-                    "sentence",
+                    "Sentence",
                     bookmarkReadingProb.getReadingProb().getSentence().getSentence(),
                     bookmarkReadingProb.getReadingProb().getSentence().getId()
             );
