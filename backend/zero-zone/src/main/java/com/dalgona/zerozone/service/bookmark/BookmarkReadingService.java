@@ -25,7 +25,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +46,7 @@ public class BookmarkReadingService {
         // 필요한 변수 : 회원, 회원의 북마크, 북마크 요청한 구화 연습 문제, 연습 문제를 담을 중간 엔티티
         Optional<User> user = userRepository.findByEmail(email);
         Optional<BookmarkReading> bookmarkReading;
-        ReadingProb readingProb;
+        Optional<ReadingProb> readingProb;
         BookmarkReadingProb totalReadingProb;
         List<BookmarkReadingProb> bookmarkReadingProbList;
 
@@ -56,25 +55,30 @@ public class BookmarkReadingService {
             return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // 2. 유저의 구화 북마크 조회
         bookmarkReading = bookmarkReadingRepository.findByUser(user.get());
-        if(!bookmarkReading.isPresent())
-            return response.fail("해당 회원의 구화 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 
         // 3. 요청한 구화 연습 문제 조회
         if(requestDto.getType().compareTo("word")==0){
-            System.out.println("requestDto.getId() = " + requestDto.getId());
             Optional<Word> word = wordRepository.findById(requestDto.getId());
-            readingProb = readingProbRepository.findByTypeAndWord("word", word.get()).get();
+            if(!word.isPresent())
+                return response.fail("요청한 단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+            readingProb = readingProbRepository.findByTypeAndWord("word", word.get());
         }
         else if(requestDto.getType().compareTo("sentence")==0){
             Optional<Sentence> sentence = sentenceRepository.findById(requestDto.getId());
-            readingProb = readingProbRepository.findByTypeAndSentence("sentence", sentence.get()).get();
+            if(!sentence.isPresent())
+                return response.fail("요청한 문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+            readingProb = readingProbRepository.findByTypeAndSentence("sentence", sentence.get());
         }
         else {
             return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
         }
 
+        // 구화 연습 문제로 등록되지 않은 경우 처리
+        if(!readingProb.isPresent())
+            return response.fail("해당 문제가 구화 연습 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
+
         // 4. 찾은 문항을 중간 엔티티로 변경
-        totalReadingProb = new BookmarkReadingProb(bookmarkReading.get(), readingProb);
+        totalReadingProb = new BookmarkReadingProb(bookmarkReading.get(), readingProb.get());
         // 5. 해당 유저의 북마크에 담긴 문제 리스트 가져오기
         bookmarkReadingProbList = bookmarkReading.get().getBookmarkReadingList();
 
@@ -85,7 +89,7 @@ public class BookmarkReadingService {
         // 7. 중복이 아니라면 추가
         bookmarkReadingProbRepository.save(totalReadingProb);   // 중간테이블에 추가
         bookmarkReading.get().addReadingProb(totalReadingProb); // 북마크의 문제 리스트에 추가
-        readingProb.getBookmarkReadingList().add(totalReadingProb); // 문제의 북마크 리스트에 추가
+        readingProb.get().getBookmarkReadingList().add(totalReadingProb); // 문제의 북마크 리스트에 추가
         return response.success("구화 북마크에 추가했습니다.");
     }
 
@@ -120,7 +124,7 @@ public class BookmarkReadingService {
         // 필요한 변수 : 회원, 회원의 북마크, 북마크 요청한 구화 연습 문제, 연습 문제를 담을 중간 엔티티
         Optional<User> user = userRepository.findByEmail(email);
         Optional<BookmarkReading> bookmarkReading;
-        ReadingProb readingProb;
+        Optional<ReadingProb> readingProb;
         Optional<BookmarkReadingProb> totalReadingProb;
         List<BookmarkReadingProb> bookmarkReadingProbList;
 
@@ -134,25 +138,28 @@ public class BookmarkReadingService {
 
         // 3. 요청한 구화 연습 문제 조회
         if(requestDto.getType().compareTo("word")==0){
-            System.out.println("requestDto.getId() = " + requestDto.getId());
             Optional<Word> word = wordRepository.findById(requestDto.getId());
             if(!word.isPresent())
                 return response.fail("요청한 단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            readingProb = readingProbRepository.findByTypeAndWord("word", word.get()).get();
+            readingProb = readingProbRepository.findByTypeAndWord("word", word.get());
         }
         else if(requestDto.getType().compareTo("sentence")==0){
             Optional<Sentence> sentence = sentenceRepository.findById(requestDto.getId());
             if(!sentence.isPresent())
                 return response.fail("요청한 문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            readingProb = readingProbRepository.findByTypeAndSentence("sentence", sentence.get()).get();
+            readingProb = readingProbRepository.findByTypeAndSentence("sentence", sentence.get());
         }
         else {
             return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
         }
 
+        // 구화 연습 문제로 등록되지 않은 경우 처리
+        if(!readingProb.isPresent())
+            return response.fail("해당 문제가 구화 연습 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
+
         // 4. 찾은 문항을 중간 엔티티에서 조회 : 북마크+구화연습
         totalReadingProb = bookmarkReadingProbRepository.findByBookmarkReadingAndReadingProb(
-                bookmarkReading.get(), readingProb
+                bookmarkReading.get(), readingProb.get()
         );
         // 5. 중복 조회
         if(!totalReadingProb.isPresent()){
@@ -160,7 +167,7 @@ public class BookmarkReadingService {
         }
         // 6. 중복이라면 삭제
         bookmarkReading.get().deleteReadingProb(totalReadingProb.get()); // 북마크의 문제 리스트에서 삭제
-        readingProb.getBookmarkReadingList().remove(totalReadingProb.get()); // 문제의 북마크 리스트에서 삭제
+        readingProb.get().getBookmarkReadingList().remove(totalReadingProb.get()); // 문제의 북마크 리스트에서 삭제
         bookmarkReadingProbRepository.delete(totalReadingProb.get());   // 중간테이블에서 삭제
 
         return response.success("구화 북마크 리스트에서 해당 문항을 삭제했습니다.");
