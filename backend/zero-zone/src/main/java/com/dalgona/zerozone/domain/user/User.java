@@ -1,5 +1,6 @@
 package com.dalgona.zerozone.domain.user;
 
+import com.dalgona.zerozone.domain.test.Test;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -32,6 +35,9 @@ public class User{
 
     @Column
     private String role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Test> tests = new ArrayList<>();
 
     @Builder
     public User(String email, String password, String name){

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Coda extends Content {
+public class Coda {
 
     @Id
     @Column(name = "CODA_ID")

@@ -1,6 +1,10 @@
 package com.dalgona.zerozone.service.user;
 
 import com.dalgona.zerozone.config.security.JwtTokenProvider;
+import com.dalgona.zerozone.domain.bookmark.BookmarkReading;
+import com.dalgona.zerozone.domain.bookmark.BookmarkReadingRepository;
+import com.dalgona.zerozone.domain.bookmark.BookmarkSpeaking;
+import com.dalgona.zerozone.domain.bookmark.BookmarkSpeakingRepository;
 import com.dalgona.zerozone.domain.user.*;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.user.UserInfoResponseDto;
@@ -22,6 +26,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserEmailAuthRepository userEmailAuthRepository;
+    private final BookmarkReadingRepository bookmarkReadingRepository;
+    private final BookmarkSpeakingRepository bookmarkSpeakingRepository;
+
     private final PasswordEncoder pwdEncorder;
     private final JwtTokenProvider jwtTokenProvider;
     private final Response response;
@@ -40,7 +47,14 @@ public class UserService {
         String encodedPwd = pwdEncorder.encode(userSaveRequestDTO.getPassword());
         userSaveRequestDTO.encodePwd(encodedPwd);
         // DB 저장
-        userRepository.save(userSaveRequestDTO.toEntity()).getId();
+        User user = userRepository.save(userSaveRequestDTO.toEntity());
+
+        // 북마크 생성
+        BookmarkReading bookmarkReading = new BookmarkReading(user);
+        bookmarkReadingRepository.save(bookmarkReading);
+        BookmarkSpeaking bookmarkSpeaking = new BookmarkSpeaking(user);
+        bookmarkSpeakingRepository.save(bookmarkSpeaking);
+
         return response.success("회원가입에 성공했습니다.");
     }
 

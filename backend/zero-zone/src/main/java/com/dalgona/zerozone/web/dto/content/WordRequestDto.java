@@ -1,4 +1,4 @@
-package com.dalgona.zerozone.web.dto.speakingPractice;
+package com.dalgona.zerozone.web.dto.content;
 
 import com.dalgona.zerozone.domain.content.letter.Onset;
 import lombok.Builder;
