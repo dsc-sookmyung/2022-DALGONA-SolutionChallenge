@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'sp_sentence_select.dart';
 
 class SelectModeSentencePage extends StatelessWidget {
   const SelectModeSentencePage({Key? key}) : super(key: key);
@@ -38,7 +39,11 @@ class SelectModeSentencePage extends StatelessWidget {
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    //
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                SentenceSelectPage(select:'인사하기')));
                   }
               ),
               height: 40,

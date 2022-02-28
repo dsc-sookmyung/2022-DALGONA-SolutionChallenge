@@ -41,7 +41,7 @@ class lrselectModeMainPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                     left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
                 margin: EdgeInsets.only(
-                    left: 0.0, top: 40.0, right: 0.0, bottom: 0.0),
+                    left: 0.0, top: 20.0, right: 0.0, bottom: 0.0),
                 child: new RaisedButton(
                     color: Color(0xffC8E8FF),
                     child: new Text(
