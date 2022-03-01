@@ -2,17 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:video_player/video_player.dart';
-// import 'package:camera/camera.dart';
+import 'package:camera/camera.dart';
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 
 class SpLetterPracticePage extends StatefulWidget {
-  //const SpLetterPracticePage({Key? key}) : super(key: key);
+
+  const SpLetterPracticePage({Key? key}) : super(key: key);
+
   @override
   _SpLetterPracticePageState createState() => _SpLetterPracticePageState();
 }
+
+List<CameraDescription> cameras = <CameraDescription>[];
 
 class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
 
@@ -31,8 +35,13 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
 
-  // bool _cameraInitialized = false;
-  // late CameraController _cameraController;
+  bool _cameraInitialized = false;
+  late CameraController _cameraController;
+  late Future<void>
+  _initializeControllerFuture; //Future to wait until camera initializes
+  int selectedCamera = 0;
+
+
 
   @override
   void initState() {
@@ -41,40 +50,19 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
+
+    // initializeCamera(selectedCamera);
     super.initState();
     _speech = stt.SpeechToText();
-
-    //usingCamera();
   }
 
-  // Future usingCamera() async {
+  // // initializeCamera(int cameraIndex) async {
+  // //   _cameraController = CameraController(
+  // //       widget.cameras[cameraIndex],
+  // //       ResolutionPreset.medium
+  // //   );
   //
-  //   final cameras = await availableCameras();
-  //
-  //   if( 0 == cameras.length )
-  //   {
-  //     print( "not found any cameras" );
-  //     return;
-  //   }
-  //
-  //   CameraDescription frontCamera;
-  //   for( var camera in cameras )
-  //   {
-  //     // 저 같은 경우에는 전면 카메라를 사용해야 했기 때문에
-  //     // 아래와 같이 코딩하여 카메라를 찾았습니다.
-  //     if( camera.lensDirection == CameraLensDirection.front )
-  //     {
-  //       frontCamera = camera;
-  //       break;
-  //     }
-  //   }
-  //
-  //
-  //   _cameraController.initialize().then(( value ) {
-  //     setState( ()=>_cameraInitialized = true );
-  //   }
-  //   );
-  //
+  //   _initializeControllerFuture = _cameraController.initialize();
   // }
 
 
@@ -83,8 +71,9 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
     _controller.dispose();
 
     // if(_cameraController != null){
-    //   _cameraController.dispose();
+    //   _cameraController?.dispose();
     // }
+    _cameraController.dispose();
 
     super.dispose();
   }
@@ -93,7 +82,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          //FocusManager.instance.primaryFocus?.unfocus();
+          FocusManager.instance.primaryFocus?.unfocus();
           FocusScope.of(context).unfocus();
         },
         child: Scaffold(

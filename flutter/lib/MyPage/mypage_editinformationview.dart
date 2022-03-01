@@ -10,8 +10,7 @@ class ModifyInformationPage extends StatefulWidget {
 class _ModifyInformationPageState extends State<ModifyInformationPage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text(
           '내 정보 수정',
@@ -21,7 +20,8 @@ class _ModifyInformationPageState extends State<ModifyInformationPage> {
         foregroundColor: Color(0xff333333),
       ),
 
-      body: Container(
+      body: SingleChildScrollView(
+        child: Container(
         margin: EdgeInsets.only(top: 50.0, left: 40.0, right: 40.0, bottom: 130.0),
         padding: EdgeInsets.only(top: 50.0, left: 30.0, right: 30.0, bottom: 30.0),
         decoration: BoxDecoration(
