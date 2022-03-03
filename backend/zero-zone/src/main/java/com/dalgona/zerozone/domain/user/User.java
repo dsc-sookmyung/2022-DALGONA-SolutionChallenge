@@ -1,6 +1,7 @@
 package com.dalgona.zerozone.domain.user;
 
 import com.dalgona.zerozone.domain.test.Test;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class User{
     @Column
     private String role;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Test> tests = new ArrayList<>();
 
