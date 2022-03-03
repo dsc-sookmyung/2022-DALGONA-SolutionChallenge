@@ -2,6 +2,8 @@ package com.dalgona.zerozone.domain.test;
 
 import com.dalgona.zerozone.domain.BaseTimeEntity;
 import com.dalgona.zerozone.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,19 +23,21 @@ public class Test extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100, nullable = false, unique = true)
+    @Column(length = 100, nullable = false)
     private String testName;
 
-    @Column
+    @Column(nullable = false)
     private int probsCount;
 
-    @Column
+    @Column(nullable = false)
     private int correctCount;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "test")
     private List<TestProbs> testProbs = new ArrayList<>();
 
@@ -47,6 +51,16 @@ public class Test extends BaseTimeEntity {
 
     public Test updateTestName(String newName){
         this.testName = newName;
+        return this;
+    }
+
+    public Test updateCorrectCount(int correctCount){
+        this.correctCount = correctCount;
+        return this;
+    }
+
+    public Test updateTestProbs(List<TestProbs> testProbs){
+        this.testProbs = testProbs;
         return this;
     }
 

@@ -9,4 +9,5 @@ public interface BookmarkReadingRepository extends JpaRepository<BookmarkReading
 
     Optional<BookmarkReading> findByUser(User user);
 
+
 }
