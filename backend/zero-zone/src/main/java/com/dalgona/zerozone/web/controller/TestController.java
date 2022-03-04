@@ -4,6 +4,7 @@ import com.dalgona.zerozone.domain.customAnnotation.QueryStringArgResolver;
 import com.dalgona.zerozone.service.test.TestCreateService;
 import com.dalgona.zerozone.service.test.TestService;
 import com.dalgona.zerozone.web.dto.test.TestCreateRequestDto;
+import com.dalgona.zerozone.web.dto.test.TestNameUpdateRequestDto;
 import com.dalgona.zerozone.web.dto.test.TestResultUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -115,6 +116,14 @@ public class TestController {
     @GetMapping("/list/probs/result")
     public ResponseEntity<?> getProbResult(@RequestParam Long testProbId){
         return testService.getProbResult(testProbId);
+    }
+
+    /*
+     * 시험 정보 수정
+     *  */
+    @PostMapping("/name")
+    public ResponseEntity<?> updateTestName(@RequestBody TestNameUpdateRequestDto updateRequestDto){
+        return testService.updateTestName(updateRequestDto);
     }
 
 

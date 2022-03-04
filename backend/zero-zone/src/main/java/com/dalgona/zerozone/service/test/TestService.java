@@ -166,4 +166,18 @@ public class TestService {
         return response.success(responseDto, "해당 문제의 채점 결과입니다.", HttpStatus.OK);
     }
 
+    // 시험 이름 수정
+    @Transactional
+    public ResponseEntity<?> updateTestName(TestNameUpdateRequestDto updateRequestDto){
+        Long testId = updateRequestDto.getTestId();
+        String newTestName = updateRequestDto.getNewTestName();
+
+        // 시험 조회
+        Optional<Test> test = testRepository.findById(testId);
+        if(!test.isPresent()) return response.fail("존재하지 않는 시험입니다.", HttpStatus.BAD_REQUEST);
+        test.get().updateTestName(newTestName);
+
+        return response.success("테스트 이름을 수정했습니다.");
+    }
+
 }
