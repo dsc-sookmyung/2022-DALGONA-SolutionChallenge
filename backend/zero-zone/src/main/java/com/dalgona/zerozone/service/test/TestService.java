@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -171,13 +172,27 @@ public class TestService {
     public ResponseEntity<?> updateTestName(TestNameUpdateRequestDto updateRequestDto){
         Long testId = updateRequestDto.getTestId();
         String newTestName = updateRequestDto.getNewTestName();
-
         // 시험 조회
         Optional<Test> test = testRepository.findById(testId);
         if(!test.isPresent()) return response.fail("존재하지 않는 시험입니다.", HttpStatus.BAD_REQUEST);
         test.get().updateTestName(newTestName);
-
         return response.success("테스트 이름을 수정했습니다.");
+    }
+    
+    // 시험 삭제
+    @Transactional
+    public ResponseEntity<?> deleteTest(Long testId){
+        // 시험 조회
+        Optional<Test> test = testRepository.findById(testId);
+        if(!test.isPresent()) return response.fail("존재하지 않는 시험입니다.", HttpStatus.BAD_REQUEST);
+        // 관련 문제 모두 삭제
+        List<TestProbs> testProbsList = test.get().getTestProbs();
+        for(TestProbs testProb:testProbsList){
+            testProbsRepository.delete(testProb);
+        }
+        // 시험 삭제
+        testRepository.delete(test.get());
+        return response.success("테스트를 삭제했습니다.");
     }
 
 }

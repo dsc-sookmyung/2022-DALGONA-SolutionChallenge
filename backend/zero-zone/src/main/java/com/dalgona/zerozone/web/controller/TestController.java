@@ -126,6 +126,9 @@ public class TestController {
         return testService.updateTestName(updateRequestDto);
     }
 
-
+    @DeleteMapping
+    public ResponseEntity<?> deleteTest(@RequestParam Long testId){
+        return testService.deleteTest(testId);
+    }
 
 }
