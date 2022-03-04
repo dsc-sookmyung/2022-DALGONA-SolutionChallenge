@@ -1,10 +1,7 @@
 package com.dalgona.zerozone.service.recent;
 
-import com.dalgona.zerozone.domain.content.letter.Letter;
 import com.dalgona.zerozone.domain.content.letter.LetterRepository;
-import com.dalgona.zerozone.domain.content.sentence.Sentence;
 import com.dalgona.zerozone.domain.content.sentence.SentenceRepository;
-import com.dalgona.zerozone.domain.content.word.Word;
 import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.recent.*;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
@@ -12,7 +9,6 @@ import com.dalgona.zerozone.domain.speaking.SpeakingProbRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
 import com.dalgona.zerozone.web.dto.Response;
-import com.dalgona.zerozone.web.dto.recent.RecentProbRequest;
 import com.dalgona.zerozone.web.dto.recent.RecentRequestDto;
 import com.dalgona.zerozone.web.dto.recent.RecentSpeakingProbResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -57,30 +53,12 @@ public class RecentSpeakingService {
         recentSpeaking = recentSpeakingRepository.findByUser(user.get());
 
         // 여기부터 반복  
-        List<RecentProbRequest> recentProbRequestList = requestDto.getRecentProbRequestList();
-        // 3. 요청한 발음 연습 문제 조회
-        for(RecentProbRequest recentProbRequest:recentProbRequestList) {
-            if (recentProbRequest.getType().compareTo("letter") == 0) {
-                Optional<Letter> letter = letterRepository.findById(recentProbRequest.getId());
-                if (!letter.isPresent())
-                    return response.fail("요청한 글자가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-                speakingProb = speakingProbRepository.findByTypeAndLetter("letter", letter.get());
-            }
-            else if (recentProbRequest.getType().compareTo("word") == 0) {
-                Optional<Word> word = wordRepository.findById(recentProbRequest.getId());
-                if (!word.isPresent())
-                    return response.fail("요청한 단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-                speakingProb = speakingProbRepository.findByTypeAndWord("word", word.get());
-            } else if (recentProbRequest.getType().compareTo("sentence") == 0) {
-                Optional<Sentence> sentence = sentenceRepository.findById(recentProbRequest.getId());
-                if (!sentence.isPresent())
-                    return response.fail("요청한 문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-                speakingProb = speakingProbRepository.findByTypeAndSentence("sentence", sentence.get());
-            } else {
-                return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
-            }
-
-            // 발음 연습 문제로 등록되지 않은 경우 처리
+        List<Long> recentProbIdRequestList = requestDto.getRecentProbIdRequestList();
+        if(recentProbIdRequestList == null)
+            return response.fail("요청 데이터가 잘못되었습니다.", HttpStatus.BAD_REQUEST);
+        for(Long recentProbRequestId:recentProbIdRequestList) {
+            // 3. 요청한 발음 연습 문제 조회
+            speakingProb = speakingProbRepository.findById(recentProbRequestId);
             if(!speakingProb.isPresent())
                 return response.fail("해당 문제가 발음 연습 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
 

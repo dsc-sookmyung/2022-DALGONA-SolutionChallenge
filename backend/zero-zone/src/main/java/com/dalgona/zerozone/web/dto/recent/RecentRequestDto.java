@@ -9,6 +9,6 @@ import java.util.List;
 @NoArgsConstructor
 public class RecentRequestDto {
 
-    List<RecentProbRequest> recentProbRequestList;
+    List<Long> recentProbIdRequestList;
 
 }

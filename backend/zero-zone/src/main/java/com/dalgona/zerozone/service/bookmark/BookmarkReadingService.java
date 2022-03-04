@@ -4,9 +4,7 @@ import com.dalgona.zerozone.domain.bookmark.BookmarkReading;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProbRepository;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingRepository;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProb;
-import com.dalgona.zerozone.domain.content.sentence.Sentence;
 import com.dalgona.zerozone.domain.content.sentence.SentenceRepository;
-import com.dalgona.zerozone.domain.content.word.Word;
 import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.reading.ReadingProb;
 import com.dalgona.zerozone.domain.reading.ReadingProbRepository;
@@ -14,7 +12,6 @@ import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.bookmark.BookmarkReadingProbResponseDto;
-import com.dalgona.zerozone.web.dto.bookmark.BookmarkRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,7 +39,7 @@ public class BookmarkReadingService {
 
     // 구화 북마크에 추가
     @Transactional
-    public ResponseEntity<?> addReadingBookmark(String email, BookmarkRequestDto requestDto){
+    public ResponseEntity<?> addReadingBookmark(String email, Long readingProbId){
         // 필요한 변수 : 회원, 회원의 북마크, 북마크 요청한 구화 연습 문제, 연습 문제를 담을 중간 엔티티
         Optional<User> user = userRepository.findByEmail(email);
         Optional<BookmarkReading> bookmarkReading;
@@ -56,24 +53,8 @@ public class BookmarkReadingService {
         // 2. 유저의 구화 북마크 조회
         bookmarkReading = bookmarkReadingRepository.findByUser(user.get());
 
-        // 3. 요청한 구화 연습 문제 조회
-        if(requestDto.getType().compareTo("word")==0){
-            Optional<Word> word = wordRepository.findById(requestDto.getId());
-            if(!word.isPresent())
-                return response.fail("요청한 단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            readingProb = readingProbRepository.findByTypeAndWord("word", word.get());
-        }
-        else if(requestDto.getType().compareTo("sentence")==0){
-            Optional<Sentence> sentence = sentenceRepository.findById(requestDto.getId());
-            if(!sentence.isPresent())
-                return response.fail("요청한 문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            readingProb = readingProbRepository.findByTypeAndSentence("sentence", sentence.get());
-        }
-        else {
-            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
-        }
-
-        // 구화 연습 문제로 등록되지 않은 경우 처리
+        // 3. 발음 연습 문제 조회
+        readingProb = readingProbRepository.findById(readingProbId);
         if(!readingProb.isPresent())
             return response.fail("해당 문제가 구화 연습 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
 
@@ -119,7 +100,7 @@ public class BookmarkReadingService {
 
     // 구화 북마크 해제
     @Transactional
-    public ResponseEntity<?> deleteReadingBookmarkProb(String email, BookmarkRequestDto requestDto){
+    public ResponseEntity<?> deleteReadingBookmarkProb(String email, Long readingProbId){
 
         // 필요한 변수 : 회원, 회원의 북마크, 북마크 요청한 구화 연습 문제, 연습 문제를 담을 중간 엔티티
         Optional<User> user = userRepository.findByEmail(email);
@@ -135,25 +116,8 @@ public class BookmarkReadingService {
         bookmarkReading = bookmarkReadingRepository.findByUser(user.get());
         if(!bookmarkReading.isPresent())
             return response.fail("해당 회원의 구화 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-
-        // 3. 요청한 구화 연습 문제 조회
-        if(requestDto.getType().compareTo("word")==0){
-            Optional<Word> word = wordRepository.findById(requestDto.getId());
-            if(!word.isPresent())
-                return response.fail("요청한 단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            readingProb = readingProbRepository.findByTypeAndWord("word", word.get());
-        }
-        else if(requestDto.getType().compareTo("sentence")==0){
-            Optional<Sentence> sentence = sentenceRepository.findById(requestDto.getId());
-            if(!sentence.isPresent())
-                return response.fail("요청한 문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            readingProb = readingProbRepository.findByTypeAndSentence("sentence", sentence.get());
-        }
-        else {
-            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
-        }
-
-        // 구화 연습 문제로 등록되지 않은 경우 처리
+        // 3. 발음 연습 문제 조회
+        readingProb = readingProbRepository.findById(readingProbId);
         if(!readingProb.isPresent())
             return response.fail("해당 문제가 구화 연습 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
 
