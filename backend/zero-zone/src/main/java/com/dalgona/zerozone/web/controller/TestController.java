@@ -55,17 +55,17 @@ public class TestController {
     // 매개변수 : 이메일, (테스트이름, 총 문제 개수)
     @PostMapping("/word")
     public ResponseEntity<?> createWordTest(
-            @QueryStringArgResolver TestCreateRequestDto testCreateRequestDto,
-            @RequestParam String email
+            @RequestParam String email,
+            @RequestBody TestCreateRequestDto testCreateRequestDto
             ){
         return testCreateService.createWordTest(testCreateRequestDto, email);
     }
 
     // 문장 시험
-    @PostMapping("/sentence")
+    @PostMapping(value = "/sentence", produces = "application/json; charset=utf8")
     public ResponseEntity<?> createSentenceTest(
-            @QueryStringArgResolver TestCreateRequestDto testCreateRequestDto,
-            @RequestParam String email
+            @RequestParam String email,
+            @RequestBody TestCreateRequestDto testCreateRequestDto
     ){
         return testCreateService.createSentenceTest(testCreateRequestDto, email);
     }
@@ -73,8 +73,8 @@ public class TestController {
     // 단어+문장 시험
     @PostMapping("/random")
     public ResponseEntity<?> createRandomTest(
-            @QueryStringArgResolver TestCreateRequestDto testCreateRequestDto,
-            @RequestParam String email
+            @RequestParam String email,
+            @RequestBody TestCreateRequestDto testCreateRequestDto
     ){
         return testCreateService.createWordAndSentenceTest(testCreateRequestDto, email);
     }
@@ -82,8 +82,8 @@ public class TestController {
     // 북마크된 문항 시험
     @PostMapping("/bookmark")
     public ResponseEntity<?> createBookmarkTest(
-            @QueryStringArgResolver TestCreateRequestDto testCreateRequestDto,
-            @RequestParam String email
+            @RequestParam String email,
+            @RequestBody TestCreateRequestDto testCreateRequestDto
     ){
         return testCreateService.createBookmarkTest(testCreateRequestDto, email);
     }
