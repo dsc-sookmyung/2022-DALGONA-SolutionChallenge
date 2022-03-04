@@ -1,18 +1,14 @@
 package com.dalgona.zerozone.service.bookmark;
 
 import com.dalgona.zerozone.domain.bookmark.*;
-import com.dalgona.zerozone.domain.content.letter.Letter;
 import com.dalgona.zerozone.domain.content.letter.LetterRepository;
-import com.dalgona.zerozone.domain.content.sentence.Sentence;
 import com.dalgona.zerozone.domain.content.sentence.SentenceRepository;
-import com.dalgona.zerozone.domain.content.word.Word;
 import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.dalgona.zerozone.domain.speaking.SpeakingProbRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
 import com.dalgona.zerozone.web.dto.Response;
-import com.dalgona.zerozone.web.dto.bookmark.BookmarkRequestDto;
 import com.dalgona.zerozone.web.dto.bookmark.BookmarkSpeakingProbResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,15 +30,12 @@ public class BookmarkSpeakingService {
     private final BookmarkSpeakingRepository bookmarkSpeakingRepository;
     private final SpeakingProbRepository speakingProbRepository;
     private final BookmarkSpeakingProbRepository bookmarkSpeakingProbRepository;
-    private final LetterRepository letterRepository;
-    private final WordRepository wordRepository;
-    private final SentenceRepository sentenceRepository;
     private final UserRepository userRepository;
     private final Response response;
 
     // 발음 북마크에 추가
     @Transactional
-    public ResponseEntity<?> addSpeakingBookmark(String email, BookmarkRequestDto requestDto){
+    public ResponseEntity<?> addSpeakingBookmark(String email, Long speakingProbId){
         // 필요한 변수 : 회원, 회원의 북마크, 북마크 요청한 발음 연습 문제, 연습 문제를 담을 중간 엔티티
         Optional<User> user = userRepository.findByEmail(email);
         Optional<BookmarkSpeaking> bookmarkSpeaking;
@@ -58,30 +51,8 @@ public class BookmarkSpeakingService {
         if(!bookmarkSpeaking.isPresent())
             return response.fail("해당 회원의 발음 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 
-        // 3. 요청한 발음 연습 문제 조회
-        if(requestDto.getType().compareTo("letter")==0){
-            Optional<Letter> letter = letterRepository.findById(requestDto.getId());
-            if(!letter.isPresent())
-                return response.fail("요청한 글자가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            speakingProb = speakingProbRepository.findByTypeAndLetter("letter", letter.get());
-        }
-        else if(requestDto.getType().compareTo("word")==0){
-            Optional<Word> word = wordRepository.findById(requestDto.getId());
-            if(!word.isPresent())
-                return response.fail("요청한 단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            speakingProb = speakingProbRepository.findByTypeAndWord("word", word.get());
-        }
-        else if(requestDto.getType().compareTo("sentence")==0){
-            Optional<Sentence> sentence = sentenceRepository.findById(requestDto.getId());
-            if(!sentence.isPresent())
-                return response.fail("요청한 문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            speakingProb = speakingProbRepository.findByTypeAndSentence("sentence", sentence.get());
-        }
-        else {
-            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
-        }
-        
-        // 발음 연습 문제로 등록되지 않은 경우 처리
+        // 3. 발음 연습 문제 조회
+        speakingProb = speakingProbRepository.findById(speakingProbId);
         if(!speakingProb.isPresent())
             return response.fail("해당 문제가 발음 연습 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
 
@@ -127,14 +98,13 @@ public class BookmarkSpeakingService {
 
     // 발음 북마크 해제
     @Transactional
-    public ResponseEntity<?> deleteSpeakingBookmarkProb(String email, BookmarkRequestDto requestDto){
+    public ResponseEntity<?> deleteSpeakingBookmarkProb(String email, Long speakingProbId){
 
         // 필요한 변수 : 회원, 회원의 북마크, 북마크 요청한 발음 연습 문제, 연습 문제를 담을 중간 엔티티
         Optional<User> user = userRepository.findByEmail(email);
         Optional<BookmarkSpeaking> bookmarkSpeaking;
         Optional<SpeakingProb> speakingProb;
         Optional<BookmarkSpeakingProb> totalSpeakingProb;
-        List<BookmarkSpeakingProb> bookmarkSpeakingProbList;
 
         // 1. 유저 조회
         if(!user.isPresent())
@@ -144,30 +114,8 @@ public class BookmarkSpeakingService {
         if(!bookmarkSpeaking.isPresent())
             return response.fail("해당 회원의 발음 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 
-        // 3. 요청한 발음 연습 문제 조회
-        if(requestDto.getType().compareTo("letter")==0){
-            Optional<Letter> letter = letterRepository.findById(requestDto.getId());
-            if(!letter.isPresent())
-                return response.fail("요청한 글자가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            speakingProb = speakingProbRepository.findByTypeAndLetter("letter", letter.get());
-        }
-        else if(requestDto.getType().compareTo("word")==0){
-            Optional<Word> word = wordRepository.findById(requestDto.getId());
-            if(!word.isPresent())
-                return response.fail("요청한 단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            speakingProb = speakingProbRepository.findByTypeAndWord("word", word.get());
-        }
-        else if(requestDto.getType().compareTo("sentence")==0){
-            Optional<Sentence> sentence = sentenceRepository.findById(requestDto.getId());
-            if(!sentence.isPresent())
-                return response.fail("요청한 문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-            speakingProb = speakingProbRepository.findByTypeAndSentence("sentence", sentence.get());
-        }
-        else {
-            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
-        }
-
-        // 발음 연습 문제로 등록되지 않은 경우 처리
+        // 3. 발음 연습 문제 조회
+        speakingProb = speakingProbRepository.findById(speakingProbId);
         if(!speakingProb.isPresent())
             return response.fail("해당 문제가 발음 연습 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
 

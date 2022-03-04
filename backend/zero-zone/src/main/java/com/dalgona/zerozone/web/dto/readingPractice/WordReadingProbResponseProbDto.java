@@ -1,7 +1,6 @@
 package com.dalgona.zerozone.web.dto.readingPractice;
 
 import com.dalgona.zerozone.domain.reading.ReadingProb;
-import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

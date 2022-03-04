@@ -2,7 +2,6 @@ package com.dalgona.zerozone.domain.test;
 
 import com.dalgona.zerozone.domain.reading.ReadingProb;
 import com.dalgona.zerozone.web.dto.test.TestResult;
-import com.dalgona.zerozone.web.dto.test.TestResultUpdateDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

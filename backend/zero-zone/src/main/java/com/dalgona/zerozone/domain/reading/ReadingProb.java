@@ -3,6 +3,7 @@ package com.dalgona.zerozone.domain.reading;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProb;
 import com.dalgona.zerozone.domain.content.sentence.Sentence;
 import com.dalgona.zerozone.domain.content.word.Word;
+import com.dalgona.zerozone.domain.recent.RecentReadingProb;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,5 +42,8 @@ public class ReadingProb {
 
     @OneToMany(mappedBy = "readingProb")
     private List<BookmarkReadingProb> bookmarkReadingList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "readingProb")
+    private List<RecentReadingProb> recentReadingList = new ArrayList<>();
 
 }

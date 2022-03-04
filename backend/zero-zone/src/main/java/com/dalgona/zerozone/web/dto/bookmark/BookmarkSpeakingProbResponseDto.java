@@ -1,6 +1,5 @@
 package com.dalgona.zerozone.web.dto.bookmark;
 
-import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProb;
 import com.dalgona.zerozone.domain.bookmark.BookmarkSpeakingProb;
 import com.dalgona.zerozone.domain.content.letter.Letter;
 import com.dalgona.zerozone.domain.content.sentence.Sentence;
@@ -19,27 +18,6 @@ public class BookmarkSpeakingProbResponseDto {
     String type;
     String content;
     Long id;
-
-    @Builder
-    public BookmarkSpeakingProbResponseDto(Letter letter){
-        this.type = "Letter";
-        this.content = letter.getLetter();
-        this.id = letter.getId();
-    }
-
-    @Builder
-    public BookmarkSpeakingProbResponseDto(Word word){
-        this.type = "Word";
-        this.content = word.getWord();
-        this.id = word.getId();
-    }
-
-    @Builder
-    public BookmarkSpeakingProbResponseDto(Sentence sentence){
-        this.type = "Sentence";
-        this.content = sentence.getSentence();
-        this.id = sentence.getId();
-    }
 
     public static BookmarkSpeakingProbResponseDto of(BookmarkSpeakingProb bookmarkSpeakingProb){
         // 글자

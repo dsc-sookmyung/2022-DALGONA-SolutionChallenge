@@ -4,13 +4,10 @@ import com.dalgona.zerozone.domain.customAnnotation.QueryStringArgResolver;
 import com.dalgona.zerozone.service.test.TestCreateService;
 import com.dalgona.zerozone.service.test.TestService;
 import com.dalgona.zerozone.web.dto.test.TestCreateRequestDto;
-import com.dalgona.zerozone.web.dto.test.TestResult;
 import com.dalgona.zerozone.web.dto.test.TestResultUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController

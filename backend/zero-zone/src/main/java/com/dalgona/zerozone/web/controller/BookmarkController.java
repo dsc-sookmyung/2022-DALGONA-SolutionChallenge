@@ -1,9 +1,7 @@
 package com.dalgona.zerozone.web.controller;
 
-import com.dalgona.zerozone.domain.customAnnotation.QueryStringArgResolver;
 import com.dalgona.zerozone.service.bookmark.BookmarkReadingService;
 import com.dalgona.zerozone.service.bookmark.BookmarkSpeakingService;
-import com.dalgona.zerozone.web.dto.bookmark.BookmarkRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +17,8 @@ public class BookmarkController {
     // 구화 연습 북마크에 추가
     // 매개변수 : 타입(단어, 문장), 일련번호
     @PostMapping("/reading")
-    public ResponseEntity<?> addReadingBookmark(@RequestParam String email, @QueryStringArgResolver BookmarkRequestDto requestDto){
-        return bookmarkReadingService.addReadingBookmark(email, requestDto);
+    public ResponseEntity<?> addReadingBookmark(@RequestParam String email, @RequestParam Long readingProbId){
+        return bookmarkReadingService.addReadingBookmark(email, readingProbId);
     }
 
     // 구화 연습 북마크 조회
@@ -31,16 +29,15 @@ public class BookmarkController {
 
     // 구화 연습 북마크 해제
     @DeleteMapping("/reading")
-    public ResponseEntity<?> deleteReadingBookmarkProb(@RequestParam String email, @QueryStringArgResolver BookmarkRequestDto requestDto){
-        return bookmarkReadingService.deleteReadingBookmarkProb(email, requestDto);
+    public ResponseEntity<?> deleteReadingBookmarkProb(@RequestParam String email, @RequestParam Long readingProbId){
+        return bookmarkReadingService.deleteReadingBookmarkProb(email, readingProbId);
     }
-
 
     // 발음 연습 북마크에 추가
     // 매개변수 : 타입(단어, 문장), 일련번호
     @PostMapping("/speaking")
-    public ResponseEntity<?> addSpeakingBookmark(@RequestParam String email, @QueryStringArgResolver BookmarkRequestDto requestDto){
-        return bookmarkSpeakingService.addSpeakingBookmark(email, requestDto);
+    public ResponseEntity<?> addSpeakingBookmark(@RequestParam String email, @RequestParam Long speakingProbId){
+        return bookmarkSpeakingService.addSpeakingBookmark(email, speakingProbId);
     }
 
     // 발음 연습 북마크 조회
@@ -51,8 +48,8 @@ public class BookmarkController {
 
     // 발음 연습 북마크 해제
     @DeleteMapping("/speaking")
-    public ResponseEntity<?> deleteSpeakingBookmarkProb(@RequestParam String email, @QueryStringArgResolver BookmarkRequestDto requestDto){
-        return bookmarkSpeakingService.deleteSpeakingBookmarkProb(email, requestDto);
+    public ResponseEntity<?> deleteSpeakingBookmarkProb(@RequestParam String email, @RequestParam Long speakingProbId){
+        return bookmarkSpeakingService.deleteSpeakingBookmarkProb(email, speakingProbId);
     }
 
 
