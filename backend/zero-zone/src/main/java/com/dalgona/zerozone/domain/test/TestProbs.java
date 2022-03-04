@@ -1,6 +1,9 @@
 package com.dalgona.zerozone.domain.test;
 
 import com.dalgona.zerozone.domain.reading.ReadingProb;
+import com.dalgona.zerozone.web.dto.test.TestResult;
+import com.dalgona.zerozone.web.dto.test.TestResultUpdateDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +22,7 @@ public class TestProbs {
     private Long id;
 
     @Column
-    private int index;
+    private int idx;
 
     @Column
     private boolean useHint;
@@ -27,6 +30,7 @@ public class TestProbs {
     @Column
     private boolean isCorrect;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "TEST_ID")
     private Test test;
@@ -36,12 +40,18 @@ public class TestProbs {
     private ReadingProb readingProb;
 
     @Builder
-    public TestProbs(int index, boolean useHint, boolean isCorrect, Test test, ReadingProb readingProb){
-        this.index = index;
+    public TestProbs(int idx, boolean useHint, boolean isCorrect, Test test, ReadingProb readingProb){
+        this.idx = idx;
         this.useHint = useHint;
         this.isCorrect = isCorrect;
         this.test = test;
         this.readingProb = readingProb;
+    }
+
+    public TestProbs updateResult(TestResult testResult){
+        this.useHint = testResult.isUsedHint();
+        this.isCorrect = testResult.isCorrect();
+        return this;
     }
 
 }
