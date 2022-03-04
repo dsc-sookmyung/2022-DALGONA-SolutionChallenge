@@ -4,6 +4,8 @@ import com.dalgona.zerozone.domain.bookmark.BookmarkSpeakingProb;
 import com.dalgona.zerozone.domain.content.letter.Letter;
 import com.dalgona.zerozone.domain.content.sentence.Sentence;
 import com.dalgona.zerozone.domain.content.word.Word;
+import com.dalgona.zerozone.domain.recent.RecentReadingProb;
+import com.dalgona.zerozone.domain.recent.RecentSpeakingProb;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,5 +45,8 @@ public class SpeakingProb {
 
     @OneToMany(mappedBy = "speakingProb")
     private List<BookmarkSpeakingProb> bookmarkSpeakingProbList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "speakingProb")
+    private List<RecentSpeakingProb> recentSpeakingList = new ArrayList<>();
 
 }

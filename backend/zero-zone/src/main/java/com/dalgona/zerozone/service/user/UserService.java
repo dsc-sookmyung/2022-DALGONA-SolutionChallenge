@@ -5,7 +5,12 @@ import com.dalgona.zerozone.domain.bookmark.BookmarkReading;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingRepository;
 import com.dalgona.zerozone.domain.bookmark.BookmarkSpeaking;
 import com.dalgona.zerozone.domain.bookmark.BookmarkSpeakingRepository;
+import com.dalgona.zerozone.domain.recent.RecentReading;
+import com.dalgona.zerozone.domain.recent.RecentReadingRepository;
+import com.dalgona.zerozone.domain.recent.RecentSpeaking;
+import com.dalgona.zerozone.domain.recent.RecentSpeakingRepository;
 import com.dalgona.zerozone.domain.user.*;
+import com.dalgona.zerozone.service.recent.RecentReadingService;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.user.UserInfoResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserLoginRequestDto;
@@ -28,6 +33,8 @@ public class UserService {
     private final UserEmailAuthRepository userEmailAuthRepository;
     private final BookmarkReadingRepository bookmarkReadingRepository;
     private final BookmarkSpeakingRepository bookmarkSpeakingRepository;
+    private final RecentReadingRepository recentReadingRepository;
+    private final RecentSpeakingRepository recentSpeakingRepository;
 
     private final PasswordEncoder pwdEncorder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -54,6 +61,12 @@ public class UserService {
         bookmarkReadingRepository.save(bookmarkReading);
         BookmarkSpeaking bookmarkSpeaking = new BookmarkSpeaking(user);
         bookmarkSpeakingRepository.save(bookmarkSpeaking);
+
+        // 최근학습 생성
+        RecentReading recentReading = new RecentReading(user);
+        recentReadingRepository.save(recentReading);
+        RecentSpeaking recentSpeaking = new RecentSpeaking(user);
+        recentSpeakingRepository.save(recentSpeaking);
 
         return response.success("회원가입에 성공했습니다.");
     }
