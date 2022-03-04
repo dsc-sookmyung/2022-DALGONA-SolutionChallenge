@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter/services.dart';
 
 class WordPracticeWrong extends StatefulWidget {
   final answer;
@@ -33,6 +34,7 @@ class _WordPracticeWrongState extends State<WordPracticeWrong> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return GestureDetector(
         onTap: () {
           //FocusManager.instance.primaryFocus?.unfocus();

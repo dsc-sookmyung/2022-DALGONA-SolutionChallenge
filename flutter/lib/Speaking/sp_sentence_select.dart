@@ -104,7 +104,7 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
           )),
     ));
   }
-  
+
   Widget _MyListView(){
     return ListView.builder(
       itemCount: currentPage==pageTotal? sentenceList.length%10: 10,

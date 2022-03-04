@@ -5,6 +5,7 @@ import 'lr_wordpractice_correct.dart';
 import 'lr_wordpractice_wrong.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
+import 'package:flutter/services.dart';
 
 class WordPracticePage extends StatefulWidget {
   const WordPracticePage({Key? key}) : super(key: key);
@@ -39,6 +40,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return GestureDetector(
         onTap: () {
           //FocusManager.instance.primaryFocus?.unfocus();
