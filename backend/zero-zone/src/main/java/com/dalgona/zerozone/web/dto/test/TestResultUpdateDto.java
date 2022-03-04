@@ -10,4 +10,5 @@ import java.util.List;
 public class TestResultUpdateDto {
     Long testId;
     List<TestResult> testResultList;
+    int correctCount;
 }

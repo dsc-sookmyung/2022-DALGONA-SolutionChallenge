@@ -91,7 +91,9 @@ public class TestService {
         Optional<Test> test = testRepository.findById(testId);
         if(!test.isPresent())
             return response.fail("존재하지 않는 시험입니다.", HttpStatus.BAD_REQUEST);
-        // 채점 정보 업데이트
+        // 맞은 개수 업데이트
+        test.get().updateCorrectCount(testResultUpdateDto.getCorrectCount());
+        // 문제별 채점 정보 업데이트
         List<TestProbs> testProbsList = test.get().getTestProbs();  // 등록된 시험의 문제 리스트
         List<TestResult> testResultList = testResultUpdateDto.getTestResultList();  // 채점 정보
         if(testResultList.size() != test.get().getTestProbs().size())
