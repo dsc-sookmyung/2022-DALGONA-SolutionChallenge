@@ -45,8 +45,6 @@ public class TestCreateService {
         String testName = testCreateRequestDto.getTestName();
         int probsCount = testCreateRequestDto.getProbsCount();
 
-        System.out.println("testName = " + testName); // 한글 깨짐
-
         // 문제 개수 유효성 검사
         if(probsCount < 1)
             return response.fail("요청 문제 개수는 1개 이상이어야 합니다.", HttpStatus.BAD_REQUEST);
@@ -97,7 +95,7 @@ public class TestCreateService {
         if(probsCount < 1)
             return response.fail("요청 문제 개수는 1개 이상이어야 합니다.", HttpStatus.BAD_REQUEST);
         if(readingProbList.size() < probsCount)
-            return response.fail("요청 문제 개수는 1개 이상이어야 합니다.", HttpStatus.BAD_REQUEST);
+            return response.fail("요청한 문제 개수가 연습에 등록된 문제 개수보다 많습니다.", HttpStatus.BAD_REQUEST);
 
         // 유저 조회
         if(!user.isPresent())
