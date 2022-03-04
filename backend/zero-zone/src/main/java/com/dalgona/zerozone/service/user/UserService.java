@@ -10,7 +10,6 @@ import com.dalgona.zerozone.domain.recent.RecentReadingRepository;
 import com.dalgona.zerozone.domain.recent.RecentSpeaking;
 import com.dalgona.zerozone.domain.recent.RecentSpeakingRepository;
 import com.dalgona.zerozone.domain.user.*;
-import com.dalgona.zerozone.service.recent.RecentReadingService;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.user.UserInfoResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserLoginRequestDto;

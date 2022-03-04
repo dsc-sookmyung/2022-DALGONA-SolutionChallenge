@@ -30,9 +30,6 @@ public class BookmarkSpeakingService {
     private final BookmarkSpeakingRepository bookmarkSpeakingRepository;
     private final SpeakingProbRepository speakingProbRepository;
     private final BookmarkSpeakingProbRepository bookmarkSpeakingProbRepository;
-    private final LetterRepository letterRepository;
-    private final WordRepository wordRepository;
-    private final SentenceRepository sentenceRepository;
     private final UserRepository userRepository;
     private final Response response;
 
@@ -108,7 +105,6 @@ public class BookmarkSpeakingService {
         Optional<BookmarkSpeaking> bookmarkSpeaking;
         Optional<SpeakingProb> speakingProb;
         Optional<BookmarkSpeakingProb> totalSpeakingProb;
-        List<BookmarkSpeakingProb> bookmarkSpeakingProbList;
 
         // 1. 유저 조회
         if(!user.isPresent())

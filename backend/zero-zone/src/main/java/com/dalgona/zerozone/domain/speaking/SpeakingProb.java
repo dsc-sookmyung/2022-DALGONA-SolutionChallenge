@@ -4,7 +4,6 @@ import com.dalgona.zerozone.domain.bookmark.BookmarkSpeakingProb;
 import com.dalgona.zerozone.domain.content.letter.Letter;
 import com.dalgona.zerozone.domain.content.sentence.Sentence;
 import com.dalgona.zerozone.domain.content.word.Word;
-import com.dalgona.zerozone.domain.recent.RecentReadingProb;
 import com.dalgona.zerozone.domain.recent.RecentSpeakingProb;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

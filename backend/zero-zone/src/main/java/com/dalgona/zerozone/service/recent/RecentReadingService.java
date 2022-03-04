@@ -31,8 +31,6 @@ public class RecentReadingService {
     private final RecentReadingRepository recentReadingRepository;
     private final RecentReadingProbRepository recentReadingProbRepository;
     private final ReadingProbRepository readingProbRepository;
-    private final WordRepository wordRepository;
-    private final SentenceRepository sentenceRepository;
     private final Response response;
 
     // 구화 연습 최근 학습에 추가

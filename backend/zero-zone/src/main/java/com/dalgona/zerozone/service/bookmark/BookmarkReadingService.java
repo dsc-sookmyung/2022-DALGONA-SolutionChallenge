@@ -32,8 +32,6 @@ public class BookmarkReadingService {
     private final BookmarkReadingRepository bookmarkReadingRepository;
     private final ReadingProbRepository readingProbRepository;
     private final BookmarkReadingProbRepository bookmarkReadingProbRepository;
-    private final WordRepository wordRepository;
-    private final SentenceRepository sentenceRepository;
     private final UserRepository userRepository;
     private final Response response;
 

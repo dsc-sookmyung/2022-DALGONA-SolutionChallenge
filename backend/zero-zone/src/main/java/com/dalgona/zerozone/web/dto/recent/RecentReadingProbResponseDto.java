@@ -1,8 +1,6 @@
 package com.dalgona.zerozone.web.dto.recent;
 
-import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProb;
 import com.dalgona.zerozone.domain.recent.RecentReadingProb;
-import com.dalgona.zerozone.web.dto.bookmark.BookmarkReadingProbResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

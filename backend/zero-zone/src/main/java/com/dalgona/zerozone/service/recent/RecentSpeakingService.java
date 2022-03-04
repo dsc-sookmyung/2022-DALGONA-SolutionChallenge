@@ -32,9 +32,6 @@ public class RecentSpeakingService {
     private final RecentSpeakingRepository recentSpeakingRepository;
     private final RecentSpeakingProbRepository recentSpeakingProbRepository;
     private final SpeakingProbRepository speakingProbRepository;
-    private final LetterRepository letterRepository;
-    private final WordRepository wordRepository;
-    private final SentenceRepository sentenceRepository;
     private final Response response;
 
     // 발음 연습 최근 학습에 추가

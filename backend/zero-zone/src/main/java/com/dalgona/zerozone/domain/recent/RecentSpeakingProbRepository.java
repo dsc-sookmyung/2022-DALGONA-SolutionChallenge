@@ -1,6 +1,5 @@
 package com.dalgona.zerozone.domain.recent;
 
-import com.dalgona.zerozone.domain.reading.ReadingProb;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
