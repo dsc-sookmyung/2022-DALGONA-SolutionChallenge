@@ -4,13 +4,11 @@ import com.dalgona.zerozone.domain.customAnnotation.QueryStringArgResolver;
 import com.dalgona.zerozone.service.test.TestCreateService;
 import com.dalgona.zerozone.service.test.TestService;
 import com.dalgona.zerozone.web.dto.test.TestCreateRequestDto;
-import com.dalgona.zerozone.web.dto.test.TestResult;
+import com.dalgona.zerozone.web.dto.test.TestNameUpdateRequestDto;
 import com.dalgona.zerozone.web.dto.test.TestResultUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -57,17 +55,17 @@ public class TestController {
     // 매개변수 : 이메일, (테스트이름, 총 문제 개수)
     @PostMapping("/word")
     public ResponseEntity<?> createWordTest(
-            @QueryStringArgResolver TestCreateRequestDto testCreateRequestDto,
-            @RequestParam String email
+            @RequestParam String email,
+            @RequestBody TestCreateRequestDto testCreateRequestDto
             ){
         return testCreateService.createWordTest(testCreateRequestDto, email);
     }
 
     // 문장 시험
-    @PostMapping("/sentence")
+    @PostMapping(value = "/sentence", produces = "application/json; charset=utf8")
     public ResponseEntity<?> createSentenceTest(
-            @QueryStringArgResolver TestCreateRequestDto testCreateRequestDto,
-            @RequestParam String email
+            @RequestParam String email,
+            @RequestBody TestCreateRequestDto testCreateRequestDto
     ){
         return testCreateService.createSentenceTest(testCreateRequestDto, email);
     }
@@ -75,8 +73,8 @@ public class TestController {
     // 단어+문장 시험
     @PostMapping("/random")
     public ResponseEntity<?> createRandomTest(
-            @QueryStringArgResolver TestCreateRequestDto testCreateRequestDto,
-            @RequestParam String email
+            @RequestParam String email,
+            @RequestBody TestCreateRequestDto testCreateRequestDto
     ){
         return testCreateService.createWordAndSentenceTest(testCreateRequestDto, email);
     }
@@ -84,8 +82,8 @@ public class TestController {
     // 북마크된 문항 시험
     @PostMapping("/bookmark")
     public ResponseEntity<?> createBookmarkTest(
-            @QueryStringArgResolver TestCreateRequestDto testCreateRequestDto,
-            @RequestParam String email
+            @RequestParam String email,
+            @RequestBody TestCreateRequestDto testCreateRequestDto
     ){
         return testCreateService.createBookmarkTest(testCreateRequestDto, email);
     }
@@ -120,6 +118,17 @@ public class TestController {
         return testService.getProbResult(testProbId);
     }
 
+    /*
+     * 시험 정보 수정
+     *  */
+    @PostMapping("/name")
+    public ResponseEntity<?> updateTestName(@RequestBody TestNameUpdateRequestDto updateRequestDto){
+        return testService.updateTestName(updateRequestDto);
+    }
 
+    @DeleteMapping
+    public ResponseEntity<?> deleteTest(@RequestParam Long testId){
+        return testService.deleteTest(testId);
+    }
 
 }

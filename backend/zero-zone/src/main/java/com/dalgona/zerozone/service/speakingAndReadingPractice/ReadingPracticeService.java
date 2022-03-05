@@ -9,7 +9,6 @@ import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.reading.ReadingProb;
 import com.dalgona.zerozone.domain.reading.ReadingProbRepository;
 import com.dalgona.zerozone.web.dto.Response;
-import com.dalgona.zerozone.web.dto.comparator.ContentComparator;
 import com.dalgona.zerozone.web.dto.content.SentenceRequestDto;
 import com.dalgona.zerozone.web.dto.content.WordRequestDto;
 import com.dalgona.zerozone.web.dto.readingPractice.SentenceReadingProbResponseProbDto;

@@ -18,20 +18,6 @@ public class BookmarkReadingProbResponseDto {
     String content;
     Long id;
 
-    @Builder
-    public BookmarkReadingProbResponseDto(Word word){
-        this.type = "Word";
-        this.content = word.getWord();
-        this.id = word.getId();
-    }
-
-    @Builder
-    public BookmarkReadingProbResponseDto(Sentence sentence){
-        this.type = "Sentence";
-        this.content = sentence.getSentence();
-        this.id = sentence.getId();
-    }
-
     public static BookmarkReadingProbResponseDto of(BookmarkReadingProb bookmarkReadingProb){
         // 단어
         if(bookmarkReadingProb.getReadingProb().getType().compareTo("word")==0){
