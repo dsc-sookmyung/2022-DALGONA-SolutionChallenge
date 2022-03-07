@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:zerozone/Login/privacypolicy.dart';
 import 'login.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
@@ -12,6 +15,27 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
 
   bool _isChecked = false;
+
+  void signUp(String email, name, pass) async {
+
+    var url = Uri.http('localhost:8080', '/user');
+
+    final data = jsonEncode({'email': email, 'name': name, 'password': pass});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {

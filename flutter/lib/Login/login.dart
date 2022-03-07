@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import '../tabbar_mainview.dart';
 import 'signup.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   final formKey = new GlobalKey<FormState>();
 
   late String _email;
@@ -19,6 +25,8 @@ class _LoginPageState extends State<LoginPage> {
     if (form!.validate()) {
       form.save();
       print('Form is valid Email: $_email, password: $_password');
+
+      signIn(_email, _password);
 
       Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) => tabBarMainPage()),);
@@ -125,12 +133,31 @@ class _LoginPageState extends State<LoginPage> {
                 height: 40,
               ),
 
-
-
             ],
           ),
         ),
       ),
     );
+  }
+
+  void signIn(String email, pass) async {
+
+    var url = Uri.http('localhost:8080', '/user/login');
+
+    final data = jsonEncode({'email': email, 'password': pass});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
   }
 }

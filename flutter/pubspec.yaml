@@ -39,6 +39,8 @@ dependencies:
   avatar_glow: ^2.0.2
   video_player:
   camera:
+  http: ^0.13.4
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_test:
