@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:camera/camera.dart';
+// import 'package:tflite/tflite.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +13,28 @@ class ReadingVideo extends StatefulWidget {
 }
 
 class _ReadingVideoState extends State<ReadingVideo> {
+  List? _outputs;
+
+  // void initState(){
+  //   super.initState();
+  //   loadModel().then((value){
+  //     setState(() {
+  //
+  //     });
+  //   });
+  // }
+  
+//   loadModel() async{
+//     await Tflite.loadModel(
+//       model: "assets/model.tflite",
+//       labels: "assets/label.txt"
+//     ).then((value){
+//       setState(() {
+//
+//     });
+//   });
+// }
+
   double _videoSpeed = 1.0;
   late VideoPlayerController _controller;
   File? _video;
@@ -22,9 +45,29 @@ class _ReadingVideoState extends State<ReadingVideo> {
     _controller=VideoPlayerController.file(_video!)..initialize().then((_) =>{
       setState((){}),
       _controller.play(),
-    _controller.setLooping(true)
+      _controller.setLooping(true)
     });
+    // await lipreading(File(video!.path));
   }
+
+  // Future lipreading(File video) async{
+  //   print("asdasddas$video");
+  //   var recognitions = await Tflite.detectObjectOnFrame(
+  //       bytesList: video.planes.map((plane) {return plane.bytes;}).toList(),// required
+  //       model: "SSDMobileNet",
+  //       imageHeight: video.height,
+  //       imageWidth: video.width,
+  //       imageMean: 127.5,   // defaults to 127.5
+  //       imageStd: 127.5,    // defaults to 127.5
+  //       rotation: 90,       // defaults to 90, Android only
+  //       // numResults: 2,      // defaults to 5
+  //       threshold: 0.1,     // defaults to 0.1
+  //       asynch: true        // defaults to true
+  //   );
+  //   setState(() {
+  //     _outputs=recognitions;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -171,6 +214,9 @@ class _ReadingVideoState extends State<ReadingVideo> {
                         color: Color(0xff97D5FE),
                       ),
                     )),
+                if(_outputs!=null)...{
+                  Text(_outputs![0]['label'].toString())
+                }
               ],
             ),
           }
