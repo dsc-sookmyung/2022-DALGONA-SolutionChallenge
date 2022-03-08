@@ -2,18 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
+import 'package:bubble/bubble.dart';
+import 'package:flutter/services.dart';
 
-class WordPracticeWrong extends StatefulWidget {
-  final answer;
-  const WordPracticeWrong({Key? key, required this.answer}) : super(key: key);
+class SentencePracticePage extends StatefulWidget {
+  const SentencePracticePage({Key? key}) : super(key: key);
 
   @override
-  _WordPracticeWrongState createState() => _WordPracticeWrongState();
+  _SentencePracticePageState createState() => _SentencePracticePageState();
 }
 
-class _WordPracticeWrongState extends State<WordPracticeWrong> {
+class _SentencePracticePageState extends State<SentencePracticePage> {
   bool _isStared = false;
   bool _isHint = false;
+  bool _isCorrect = true; //정답 맞췄는지
+  bool _enterAnswer=true; //확인  / 재도전, 답보기
+  bool _isInit = true;  //textfield
+  bool _seeAnswer = false;  //정답보기
+  String color = '0xff97D5FE';
+
+  final myController = TextEditingController();
 
   double _videoSpeed = 1.0;
 
@@ -33,6 +41,7 @@ class _WordPracticeWrongState extends State<WordPracticeWrong> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return GestureDetector(
         onTap: () {
           //FocusManager.instance.primaryFocus?.unfocus();
@@ -214,7 +223,7 @@ class _WordPracticeWrongState extends State<WordPracticeWrong> {
                         Text(
                           '당신의 답은...',
                           style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600),
+                              fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xff333333)),
                         ),
                         Padding(padding: EdgeInsets.only(left: 120.0)),
                         InkWell(
@@ -238,78 +247,58 @@ class _WordPracticeWrongState extends State<WordPracticeWrong> {
                     Padding(padding: EdgeInsets.all(2.0)),
                     Container(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _isHint
-                              ? Container(
-                              width: 300,
-                              height: 40,
-                              color: Color(0xff97D5FE),
-                              child: Center(
-                                child: Text("ㅇㄴㅎㅅㅇ",
-                                    style: TextStyle(
-                                        color: Color(0xff333333),
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w600)),
-                              ))
+                              ? Bubble(
+                            color: Color(0xff97D5FE),
+                            // stick: true,
+                            nip: BubbleNip.rightTop,
+                            margin: BubbleEdges.only(
+                                top: 2.0,
+                                bottom: 3.0,
+                                right: 3.0,
+                                left: 3.0),
+                            child: Text('nice to meet you',
+                                style: TextStyle(
+                                    color: Color(0xff333333),
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600)),
+                          )
                               : Container(),
                         ],
                       ),
                     ),
                     Container(
-                      // height: 50.0,
+                      child: Text('_ _ _ _  _ _  _ _ _ _  _ _ _', style: TextStyle(fontSize: 30, color: Color(0xff333333))),
+                    ),
+                    Padding(padding: EdgeInsets.all(5.0)),
+                    Container(
                       margin:
                       EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
-                      child: Column(
+                      child: Column(  //textfield
                         //crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextField(
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                            enabled: false,
-                            decoration: InputDecoration(
-                              labelText: widget.answer,
-                              contentPadding:
-                              EdgeInsets.symmetric(horizontal: 10),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xffEA8135), width: 2.0),
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                            ),
-                          )
+                          _isInit
+                              ? _initTextField()
+                              : _isCorrect
+                              ? _correctTextField()
+                              : _errorTextField()
                         ],
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(10.0)),
-                    Column(children: [
-                      Text('정답은', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0),)
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    Column(children: [  // 확인 버튼
+                      if (!_seeAnswer) ...{
+                        if (_enterAnswer) _Answer() else _reAnswer()
+                      } else ...{
+                        if (_isCorrect) _Correct()
+                        else _Wrong()
+                      }
                     ]),
-                    Padding(padding: EdgeInsets.all(5.0)),
-                    Column(children: [
-                      Container(
-                          width: 300,
-                          height: 50,
-                          color: Color(0xff97D5FE),
-                          child: Center(
-                            child: Text("hello",
-                                style: TextStyle(
-                                    color: Color(0xff333333),
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w600)),
-                          ))
-                    ]),
-                    Padding(padding: EdgeInsets.all(5.0)),
-                    Column(children: [
-                      Text('입니다', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0),)
-                    ]),
-                    Padding(padding: EdgeInsets.all(50.0)),
-                    Container(
+                    // Spacer(),
+                    Container(    //다음 버튼
                       alignment: AlignmentDirectional.centerEnd,
                       padding: EdgeInsets.only(right: 10.0),
                       child: Column(
@@ -321,6 +310,8 @@ class _WordPracticeWrongState extends State<WordPracticeWrong> {
                                 primary: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
+                                  side: BorderSide(
+                                      color: Color(0xff97D5FE), width: 1.0),
                                 ),
                                 minimumSize: Size(100, 40),
                               ),
@@ -339,7 +330,170 @@ class _WordPracticeWrongState extends State<WordPracticeWrong> {
                 ))));
   }
 
+  Widget _initTextField() {
+    //기본 텍스트필드
+    return (TextField(
+      enabled: true,
+      controller: myController,
+      style: TextStyle(
+        fontSize: 20.0,
+      ),
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(width: 2, color: Color(0xff97D5FE)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(width: 2, color: Color(0xff97D5FE)),
+        ),
+      ),
+    ));
+  }
+
+  Widget _errorTextField() {
+    //답이 틀렸을 경우
+    return (TextField(
+        enabled: false,
+        style: TextStyle(
+          fontSize: 20.0,
+        ),
+        decoration: InputDecoration(
+          // labelText: myController.text,
+          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xffEA8135), width: 2.0),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        )));
+  }
+
+  Widget _correctTextField() {
+    return (TextField(
+        enabled: false,
+        style: TextStyle(
+          fontSize: 20.0,
+        ),
+        decoration: InputDecoration(
+          // labelText: myController.text,
+          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff60D642), width: 2.0),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        )));
+  }
+
+  Widget _Answer() {
+    //답 입력하기 전
+    return (ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xff97D5FE),
+          minimumSize: Size(90, 40),
+        ),
+        onPressed: () {
+          FocusScope.of(context).unfocus();
+          if (myController.text == 'hello') { //정답
+            setState(() {
+              _isCorrect = true;
+              _seeAnswer = true;
+              _isInit=false;
+            });
+          } else if (myController.text == '') {
+            Fluttertoast.showToast(
+              msg: '답을 적어주세요',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              backgroundColor: Colors.grey,
+            );
+          } else {
+            //오답
+            setState(() {
+              _isInit=false;
+              _isCorrect = false;
+              _enterAnswer=false;
+            });
+          }
+        },
+        child: Text(
+          '확인',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        )));
+  }
+
+  Widget _reAnswer() {
+    //답이 틀렸을 경우
+    return (Column(
+      children: [
+        Text('다시 한 번 생각해보세요!',
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+        Padding(padding: EdgeInsets.all(5.0)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xff97D5FE),
+                  minimumSize: Size(90, 40),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+                onPressed: () {
+                  setState(() {
+                    // _isCorrect = true;
+                    _seeAnswer = false;
+                    _isInit = true;
+                    _enterAnswer=true;
+                  });
+                },
+                child: Text(
+                  '재도전',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                )),
+            Padding(padding: EdgeInsets.all(5.0)),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xffFFFFFF),
+                  minimumSize: Size(90, 40),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  side: BorderSide(color: Color(0xff97D5FE), width: 1.0),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _seeAnswer = true;
+                    _isCorrect = false;
+                    _isInit = false;
+                  });
+                },
+                child: Text(
+                  '답 보기',
+                  style: TextStyle(
+                    color: Color(0xff97D5FE),
+                    fontSize: 18,
+                  ),
+                )),
+          ],
+        )
+      ],
+    ));
+  }
+
   void _pressedStar() {
+    FocusScope.of(context).unfocus();
     setState(() {
       if (_isStared) {
         _isStared = false;
@@ -356,5 +510,66 @@ class _WordPracticeWrongState extends State<WordPracticeWrong> {
       else
         _isHint = true;
     });
+  }
+
+  Widget _Correct() {
+    return (Column(children: [
+      Padding(padding: EdgeInsets.all(8.0)),
+      Column(children: [
+        Text(
+          '정답이에요!',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16.0),
+        )
+      ]),
+      Padding(padding: EdgeInsets.all(5.0)),
+      Column(children: [
+        Container(
+            width: 300,
+            height: 50,
+            color: Color(0xff97D5FE),
+            child: Center(
+              child: Text("hello",
+                  style: TextStyle(
+                      color: Color(0xff333333),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w600)),
+            ))
+      ]),
+    ]));
+  }
+
+  Widget _Wrong() {
+    return (Column(
+      children: [
+        Padding(padding: EdgeInsets.all(8.0)),
+        Column(children: [
+          Text(
+            '정답은',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0),
+          )
+        ]),
+        Padding(padding: EdgeInsets.all(5.0)),
+        Column(children: [
+          Container(
+              width: 300,
+              height: 50,
+              color: Color(0xff97D5FE),
+              child: Center(
+                child: Text("hello",
+                    style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600)),
+              ))
+        ]),
+        Padding(padding: EdgeInsets.all(5.0)),
+        Column(children: [
+          Text(
+            '입니다',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0),
+          )
+        ]),
+      ],
+    ));
   }
 }

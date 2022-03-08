@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'lr_sentencepractice.dart';
 
 class LrModeSentencePage extends StatelessWidget {
   const LrModeSentencePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -38,7 +41,10 @@ class LrModeSentencePage extends StatelessWidget {
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: (){
-                      //
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage())
+                      );
                     }
                 ),
                 height: 40,
@@ -55,7 +61,10 @@ class LrModeSentencePage extends StatelessWidget {
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: (){
-                      //
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage())
+                      );
                     }
                 ),
                 height: 40,
@@ -71,7 +80,10 @@ class LrModeSentencePage extends StatelessWidget {
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: (){
-                      //
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage())
+                      );
                     }
                 ),
                 height: 40,
@@ -88,7 +100,10 @@ class LrModeSentencePage extends StatelessWidget {
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: (){
-                      //
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage())
+                      );
                     }
                 ),
                 height: 40,
@@ -104,7 +119,10 @@ class LrModeSentencePage extends StatelessWidget {
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: (){
-                      //
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage())
+                      );
                     }
                 ),
                 height: 40,
