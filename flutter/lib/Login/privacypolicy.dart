@@ -43,19 +43,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                   'a',
                 ),
               ),
-              Row(
-                children: <Widget>[
-                  Checkbox(
-                    value: _isChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        _isChecked = !_isChecked;
-                      });
-                    },
-                  ),
-                  Text('개인정보 이용에 동의합니다.'),
-                ],
-              )
+
             ],
           ),
         ),
