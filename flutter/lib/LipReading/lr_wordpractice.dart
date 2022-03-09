@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'lr_wordpractice_correct.dart';
-import 'lr_wordpractice_wrong.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
+import 'package:flutter/services.dart';
 
 class WordPracticePage extends StatefulWidget {
   const WordPracticePage({Key? key}) : super(key: key);
@@ -16,7 +15,10 @@ class WordPracticePage extends StatefulWidget {
 class _WordPracticePageState extends State<WordPracticePage> {
   bool _isStared = false;
   bool _isHint = false;
-  bool _isCorrect = true;
+  bool _isCorrect = true; //정답 맞췄는지
+  bool _enterAnswer=true; //확인  / 재도전, 답보기
+  bool _isInit = true;  //textfield
+  bool _seeAnswer = false;  //정답보기
   String color = '0xff97D5FE';
 
   final myController = TextEditingController();
@@ -39,6 +41,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return GestureDetector(
         onTap: () {
           //FocusManager.instance.primaryFocus?.unfocus();
@@ -248,29 +251,20 @@ class _WordPracticePageState extends State<WordPracticePage> {
                         children: [
                           _isHint
                               ? Bubble(
-                            color: Color(0xff97D5FE),
-                            // stick: true,
-                            nip: BubbleNip.rightTop,
-                            margin: BubbleEdges.only(top: 2.0, bottom: 3.0, right: 3.0, left: 3.0),
-                            child: Text('hello', style: TextStyle(
-                                                color: Color(0xff333333),
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.w600)),
-                          )
-                          // Container(
-                          //         decoration: BoxDecoration(
-                          //           borderRadius: BorderRadius.circular(10),
-                          //           color: Color(0xff97D5FE),
-                          //         ),
-                          //         width: 300,
-                          //         height: 40,
-                          //         child: Center(
-                          //           child: Text("hello",
-                          //               style: TextStyle(
-                          //                   color: Colors.black,
-                          //                   fontSize: 20.0,
-                          //                   fontWeight: FontWeight.w600)),
-                          //         ))
+                                  color: Color(0xff97D5FE),
+                                  // stick: true,
+                                  nip: BubbleNip.rightTop,
+                                  margin: BubbleEdges.only(
+                                      top: 2.0,
+                                      bottom: 3.0,
+                                      right: 3.0,
+                                      left: 3.0),
+                                  child: Text('hello',
+                                      style: TextStyle(
+                                          color: Color(0xff333333),
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w600)),
+                                )
                               : Container(),
                         ],
                       ),
@@ -278,18 +272,29 @@ class _WordPracticePageState extends State<WordPracticePage> {
                     Container(
                       margin:
                           EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
-                      child: Column(
+                      child: Column(  //textfield
                         //crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _isCorrect ? _initTextField() : _errorTextField()
+                          _isInit
+                              ? _initTextField()
+                              : _isCorrect
+                                  ? _correctTextField()
+                                  : _errorTextField()
                         ],
                       ),
                     ),
                     Padding(padding: EdgeInsets.all(8.0)),
-                    Column(children: [_isCorrect ? _Answer() : _reAnswer()]),
-                    Padding(padding: EdgeInsets.all(60.0)),
-                    Container(
+                    Column(children: [  // 확인 버튼
+                      if (!_seeAnswer) ...{
+                        if (_enterAnswer) _Answer() else _reAnswer()
+                      } else ...{
+                        if (_isCorrect) _Correct()
+                        else _Wrong()
+                      }
+                    ]),
+                    // Spacer(),
+                    Container(    //다음 버튼
                       alignment: AlignmentDirectional.centerEnd,
                       padding: EdgeInsets.only(right: 10.0),
                       child: Column(
@@ -321,7 +326,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
                 ))));
   }
 
-  Widget _initTextField() {   //기본 텍스트필드
+  Widget _initTextField() {
+    //기본 텍스트필드
     return (TextField(
       enabled: true,
       controller: myController,
@@ -342,13 +348,15 @@ class _WordPracticePageState extends State<WordPracticePage> {
     ));
   }
 
-  Widget _errorTextField() {    //답이 틀렸을 경우
+  Widget _errorTextField() {
+    //답이 틀렸을 경우
     return (TextField(
         enabled: false,
         style: TextStyle(
           fontSize: 20.0,
         ),
         decoration: InputDecoration(
+          // labelText: myController.text,
           contentPadding: EdgeInsets.symmetric(horizontal: 10),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -360,19 +368,40 @@ class _WordPracticePageState extends State<WordPracticePage> {
         )));
   }
 
-  Widget _Answer() {    //답 입력하기 전
+  Widget _correctTextField() {
+    return (TextField(
+        enabled: false,
+        style: TextStyle(
+          fontSize: 20.0,
+        ),
+        decoration: InputDecoration(
+          // labelText: myController.text,
+          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff60D642), width: 2.0),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        )));
+  }
+
+  Widget _Answer() {
+    //답 입력하기 전
     return (ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Color(0xff97D5FE),
           minimumSize: Size(90, 40),
         ),
         onPressed: () {
-          if (myController.text == 'hello') {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        WordPracticeCorrect(answer: myController.text)));
+          FocusScope.of(context).unfocus();
+          if (myController.text == 'hello') { //정답
+            setState(() {
+              _isCorrect = true;
+              _seeAnswer = true;
+              _isInit=false;
+            });
           } else if (myController.text == '') {
             Fluttertoast.showToast(
               msg: '답을 적어주세요',
@@ -381,8 +410,11 @@ class _WordPracticePageState extends State<WordPracticePage> {
               backgroundColor: Colors.grey,
             );
           } else {
+            //오답
             setState(() {
+              _isInit=false;
               _isCorrect = false;
+              _enterAnswer=false;
             });
           }
         },
@@ -395,7 +427,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
         )));
   }
 
-  Widget _reAnswer() {      //답이 틀렸을 경우
+  Widget _reAnswer() {
+    //답이 틀렸을 경우
     return (Column(
       children: [
         Text('다시 한 번 생각해보세요!',
@@ -413,7 +446,10 @@ class _WordPracticePageState extends State<WordPracticePage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _isCorrect = true;
+                    // _isCorrect = true;
+                    _seeAnswer = false;
+                    _isInit = true;
+                    _enterAnswer=true;
                   });
                 },
                 child: Text(
@@ -433,11 +469,11 @@ class _WordPracticePageState extends State<WordPracticePage> {
                   side: BorderSide(color: Color(0xff97D5FE), width: 1.0),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              WordPracticeWrong(answer: myController.text)));
+                  setState(() {
+                    _seeAnswer = true;
+                    _isCorrect = false;
+                    _isInit = false;
+                  });
                 },
                 child: Text(
                   '답 보기',
@@ -453,6 +489,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
   }
 
   void _pressedStar() {
+    FocusScope.of(context).unfocus();
     setState(() {
       if (_isStared) {
         _isStared = false;
@@ -469,5 +506,66 @@ class _WordPracticePageState extends State<WordPracticePage> {
       else
         _isHint = true;
     });
+  }
+
+  Widget _Correct() {
+    return (Column(children: [
+      Padding(padding: EdgeInsets.all(8.0)),
+      Column(children: [
+        Text(
+          '정답이에요!',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16.0),
+        )
+      ]),
+      Padding(padding: EdgeInsets.all(5.0)),
+      Column(children: [
+        Container(
+            width: 300,
+            height: 50,
+            color: Color(0xff97D5FE),
+            child: Center(
+              child: Text("hello",
+                  style: TextStyle(
+                      color: Color(0xff333333),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w600)),
+            ))
+      ]),
+    ]));
+  }
+
+  Widget _Wrong() {
+    return (Column(
+      children: [
+        Padding(padding: EdgeInsets.all(8.0)),
+        Column(children: [
+          Text(
+            '정답은',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0),
+          )
+        ]),
+        Padding(padding: EdgeInsets.all(5.0)),
+        Column(children: [
+          Container(
+              width: 300,
+              height: 50,
+              color: Color(0xff97D5FE),
+              child: Center(
+                child: Text("hello",
+                    style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600)),
+              ))
+        ]),
+        Padding(padding: EdgeInsets.all(5.0)),
+        Column(children: [
+          Text(
+            '입니다',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0),
+          )
+        ]),
+      ],
+    ));
   }
 }

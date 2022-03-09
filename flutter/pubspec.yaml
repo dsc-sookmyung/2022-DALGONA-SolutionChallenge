@@ -37,10 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   speech_to_text: ^5.4.3
   avatar_glow: ^2.0.2
-  video_player:
   camera:
-  http: ^0.13.4
-  shared_preferences: ^2.0.13
+  image_picker: ^0.8.4+10
+  video_player: ^2.2.19
+#  tflite: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +67,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/
+#    - assets/label.txt
+#    - assets/model.tflite
   #   - images/a_dot_ham.jpeg
 
   # An images asset can refer to one or more resolution-specific "variants", see
