@@ -36,6 +36,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _email = new TextEditingController();
   final TextEditingController _name = new TextEditingController();
   final TextEditingController _pass = new TextEditingController();
+  final TextEditingController _authCode = new TextEditingController();
 
   late String _emailAuthCode;
 
@@ -123,6 +124,27 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
   }
+
+  checkAuthCode(String email, authCode) async {
+
+  var url = Uri.http('localhost:8080', '/email/code/verify');
+
+  final data = jsonEncode({'email': email, 'authCode': authCode});
+
+  var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
+
+  // print(url);
+  print(response.statusCode);
+
+  if (response.statusCode == 200) {
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+  }
+  else {
+  print('error : ${response.reasonPhrase}');
+  }
+
+}
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +237,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         hintText: '인증번호를 입력하세요.'
                     ),
                     validator: (value) => value!.isEmpty ? '인증 코드를 입력하세요' : null,
-                    onSaved: (value) => _emailAuthCode = value!,
+                    controller: _authCode,
                   ),
                   height: 40,
                   width: 240,
@@ -232,7 +254,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffFFFFFF)),
                     ),
                     onPressed: (){
-
+                      checkAuthCode(_email.text, _authCode.text);
                     },
                   ),
                   width: 70,
