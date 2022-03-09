@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:zerozone/Login/privacypolicy.dart';
 import 'login.dart';
@@ -12,9 +14,94 @@ class SignUpPage extends StatefulWidget {
   _SignUpPageState createState() => _SignUpPageState();
 }
 
+class emailCheck {
+
+  late final Bool data;
+
+  emailCheck({required this.data});
+
+  factory emailCheck.fromJson(Map<dynamic, dynamic> json) {
+    return emailCheck(
+      data: json['data'] as Bool,
+    );
+  }
+}
+
 class _SignUpPageState extends State<SignUpPage> {
 
+  final formKey = new GlobalKey<FormState>();
+
   bool _isChecked = false;
+
+  final TextEditingController _email = new TextEditingController();
+  final TextEditingController _name = new TextEditingController();
+  final TextEditingController _pass = new TextEditingController();
+
+  late String _emailAuthCode;
+
+  void validateAndSignUp() {
+    signUp(_email.text, _name.text, _pass.text);
+  }
+
+  Future<void> emailAuth(String email) async {
+
+    var url = Uri.http('localhost:8080', 'email/code/send');
+    final data = jsonEncode({'email': email});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"});
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+
+  existEmail(String email) async {
+
+    Uri.encodeComponent(email);
+
+    Map<String, String> _queryParameters = <String, String>{
+      'email': email,
+    };
+    Uri.encodeComponent(email);
+    var url = Uri.http('localhost:8080', '/user/email', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json"});
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+
+      bool data = body["data"];
+
+      print("data: " + data.toString());
+
+      if(!data){
+        print("중복 체크에 성공하셨습니다.");
+
+        emailAuth(email);
+
+      }
+
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
 
   void signUp(String email, name, pass) async {
 
@@ -32,7 +119,7 @@ class _SignUpPageState extends State<SignUpPage> {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
     }
     else {
-      print(response.reasonPhrase);
+      print('error : ${response.reasonPhrase}');
     }
 
   }
@@ -79,10 +166,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                         hintText: '이메일을 입력하세요.'
                     ),
-                    // cursorHeight: 25,
-                    // style: TextStyle(
-                    //   height: 1.0
-                    // ),
+                    validator: (value) => value!.isEmpty ? 'Email can\'t be empty' : null,
+                    controller: _email,
                   ),
                   height: 40,
                   width: 240,
@@ -99,7 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffFFFFFF)),
                     ),
                     onPressed: (){
-
+                      existEmail(_email.text);
                     },
                   ),
                   width: 70,
@@ -129,6 +214,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                         hintText: '인증번호를 입력하세요.'
                     ),
+                    validator: (value) => value!.isEmpty ? '인증 코드를 입력하세요' : null,
+                    onSaved: (value) => _emailAuthCode = value!,
                   ),
                   height: 40,
                   width: 240,
@@ -173,6 +260,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                     hintText: '이름을 입력하세요.'
                 ),
+                validator: (value) => value!.isEmpty ? 'Name can\'t be empty' : null,
+                controller: _name,
               ),
               height: 40,
             ),
@@ -198,6 +287,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                     hintText: '비밀번호를 입력하세요.'
                 ),
+                validator: (value) => value!.isEmpty ? 'Password can\'t be empty' : null,
+                controller: _pass,
               ),
               height: 40,
             ),
@@ -261,6 +352,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   style: new TextStyle(fontSize: 20.0, color: Color(0xffFFFFFF), ),
                 ),
                 onPressed: (){
+                  validateAndSignUp();
                   //비밀번호 확인도 여기서 확인해 주어야 함.
                 },
               ),
