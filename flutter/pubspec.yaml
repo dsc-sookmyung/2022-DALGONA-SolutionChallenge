@@ -38,6 +38,7 @@ dependencies:
   speech_to_text: ^5.4.3
   avatar_glow: ^2.0.2
   camera:
+  http:
   image_picker: ^0.8.4+10
   video_player: ^2.2.19
 #  tflite: ^1.1.2

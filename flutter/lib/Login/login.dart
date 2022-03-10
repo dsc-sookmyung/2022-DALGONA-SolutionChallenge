@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../tabbar_mainview.dart';
+import 'findpassword.dart';
 import 'signup.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,19 +13,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final formKey = new GlobalKey<FormState>();
+
+  final _formKey = new GlobalKey<FormState>();
 
   late String _email;
   late String _password;
 
   void validateAndSave() {
-    final form = formKey.currentState;
+    final form = _formKey.currentState;
     if (form!.validate()) {
       form.save();
       print('Form is valid Email: $_email, password: $_password');
 
-      Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => tabBarMainPage()),);
+      signIn(_email, _password);
 
     } else {
       print('Form is invalid Email: $_email, password: $_password');
@@ -29,7 +33,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void forgotPassword(){
-    print('forgot password is clicked! ');
+    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => findPasswordPage()),);
   }
 
   void signUp(){
@@ -45,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.all(30),
 
         child: new Form(
-          key: formKey,
+          key: _formKey,
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -125,12 +130,46 @@ class _LoginPageState extends State<LoginPage> {
                 height: 40,
               ),
 
-
-
             ],
           ),
         ),
       ),
     );
+  }
+
+  void signIn(String email, pass) async {
+
+    var url = Uri.http('localhost:8080', '/user/login');
+
+    final data = jsonEncode({'email': email, 'password': pass});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+
+      String data = body["result"];
+
+      ///!! 일단 result 값으로 지정해 놓음. 후에 서버와 논의하여 data값 설정하기.
+      print("data: " + data.toString());
+
+      if(data != "fail"){
+        print("로그인에 성공하셨습니다.");
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => tabBarMainPage()),);
+      }
+
+
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
   }
 }
