@@ -27,21 +27,40 @@ class MyPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 50.0, left: 40.0, right: 40.0, bottom: 50.0),
+              margin: EdgeInsets.only(top: 120.0, left: 40.0, right: 40.0, bottom: 80.0),
               //padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0, bottom: 10.0),
               alignment: Alignment.center,
-              height: 350,
+              height: 180,
               decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: Color(0xff5AA9DD),
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Color(0xffE3F2FD),
+                      Color(0xffBBDEFB),
+                      Color(0xff90CAF9),
+                    ],
+                    stops: [0.2, 0.5, 0.9, ],
                 ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                // border: Border.all(
+                //   width: 2,
+                //   color: Color(0xff5AA9DD),
+                // ),
                 borderRadius: BorderRadius.all(Radius.circular(15.0))
               ),
               child: Column(
                 children: <Widget>[
                   Container(
                     alignment: Alignment.centerRight,
+                    margin: EdgeInsets.only(bottom: 30.0),
                     child: IconButton(
                       onPressed: (){
                         Navigator.push(
@@ -53,25 +72,25 @@ class MyPage extends StatelessWidget {
                     ),
                     height: 20,
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 40.0, bottom: 30.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        width: 2.0,
-                        color: Color(0xff333333)
-                      )
-                    ),
-                    // child: Image.network(
-                    //   "https://user-images.githubusercontent.com/61380136/152644132-fdcaff3b-d192-4513-853c-fb4f1516bdea.png",
-                    //
-                    // ),
-                    height: 140,
-                    // width: 150,
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.only(top: 40.0, bottom: 30.0),
+                  //   decoration: BoxDecoration(
+                  //     shape: BoxShape.circle,
+                  //     border: Border.all(
+                  //       width: 2.0,
+                  //       color: Color(0xff333333)
+                  //     )
+                  //   ),
+                  //   // child: Image.network(
+                  //   //   "https://user-images.githubusercontent.com/61380136/152644132-fdcaff3b-d192-4513-853c-fb4f1516bdea.png",
+                  //   //
+                  //   // ),
+                  //   height: 140,
+                  //   // width: 150,
+                  // ),
                   Text(
                     "김도은",
-                    style: TextStyle(fontSize: 24, height: 1.8, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 32, height: 1.8, fontWeight: FontWeight.w700),
                   ),
                   Text(
                     "doeun536@gmail.com",
