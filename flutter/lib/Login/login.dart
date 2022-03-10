@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../tabbar_mainview.dart';
+import 'findpassword.dart';
 import 'signup.dart';
 
 import 'package:http/http.dart' as http;
@@ -26,16 +27,14 @@ class _LoginPageState extends State<LoginPage> {
 
       signIn(_email, _password);
 
-      Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => tabBarMainPage()),);
-
     } else {
       print('Form is invalid Email: $_email, password: $_password');
     }
   }
 
   void forgotPassword(){
-    print('forgot password is clicked! ');
+    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => findPasswordPage()),);
   }
 
   void signUp(){
@@ -152,6 +151,21 @@ class _LoginPageState extends State<LoginPage> {
     if (response.statusCode == 200) {
       print('Response status: ${response.statusCode}');
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+
+      String data = body["result"];
+
+      ///!! 일단 result 값으로 지정해 놓음. 후에 서버와 논의하여 data값 설정하기.
+      print("data: " + data.toString());
+
+      if(data != "fail"){
+        print("로그인에 성공하셨습니다.");
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => tabBarMainPage()),);
+      }
+
+
     }
     else {
       print(response.reasonPhrase);
