@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'lr_practiceview.dart';
 import 'lr_readvideo.dart';
+import 'lr_testview.dart';
 import 'package:flutter/services.dart';
 
 class lrselectModeMainPage extends StatelessWidget {
@@ -83,7 +84,10 @@ class lrselectModeMainPage extends StatelessWidget {
                           fontWeight: FontWeight.w500),
                     ),
                     onPressed: () {
-                      //
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => lrTestModePage()));
                     }),
                 height: 40,
               ),

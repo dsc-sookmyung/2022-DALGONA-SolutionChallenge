@@ -43,7 +43,7 @@ class LrModeSentencePage extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage())
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '인사하기'))
                       );
                     }
                 ),
@@ -63,7 +63,7 @@ class LrModeSentencePage extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage())
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '날짜와 시간 말하기'))
                       );
                     }
                 ),
@@ -82,7 +82,7 @@ class LrModeSentencePage extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage())
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '날씨 말하기'))
                       );
                     }
                 ),
@@ -102,7 +102,7 @@ class LrModeSentencePage extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage())
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '부탁 요청하기'))
                       );
                     }
                 ),
@@ -115,13 +115,13 @@ class LrModeSentencePage extends StatelessWidget {
                 child: new RaisedButton(
                     color: Color(0xffD8EFFF),
                     child: new Text(
-                      '기분 표하기',
+                      '기분 표현하기',
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage())
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '기분 표현하기'))
                       );
                     }
                 ),

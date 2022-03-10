@@ -5,14 +5,14 @@ import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
 
-class WordPracticePage extends StatefulWidget {
-  const WordPracticePage({Key? key}) : super(key: key);
+class WordTestPage extends StatefulWidget {
+  const WordTestPage({Key? key}) : super(key: key);
 
   @override
-  _WordPracticePageState createState() => _WordPracticePageState();
+  _WordTestPageState createState() => _WordTestPageState();
 }
 
-class _WordPracticePageState extends State<WordPracticePage> {
+class _WordTestPageState extends State<WordTestPage> {
   bool _isStared = false;
   bool _isHint = false;
   bool _isCorrect = true; //정답 맞췄는지
@@ -115,7 +115,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size.zero,
                                   padding:
-                                      EdgeInsets.only(right: 5.0, left: 5.0),
+                                  EdgeInsets.only(right: 5.0, left: 5.0),
                                   primary: Color(0xffC8E8FF),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -163,28 +163,28 @@ class _WordPracticePageState extends State<WordPracticePage> {
                         Padding(padding: EdgeInsets.only(right: 130.0)),
                         Container(
                             child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              if (_videoSpeed > 0.25) {
-                                _videoSpeed -= 0.25;
-                              }
-                            });
-                            _controller.setPlaybackSpeed(_videoSpeed);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xffC8E8FF),
-                            minimumSize: Size(40, 35),
-                            padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.remove,
-                            size: 20,
-                            color: Color(0xff97D5FE),
-                          ),
-                        )),
+                              onPressed: () {
+                                setState(() {
+                                  if (_videoSpeed > 0.25) {
+                                    _videoSpeed -= 0.25;
+                                  }
+                                });
+                                _controller.setPlaybackSpeed(_videoSpeed);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xffC8E8FF),
+                                minimumSize: Size(40, 35),
+                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.remove,
+                                size: 20,
+                                color: Color(0xff97D5FE),
+                              ),
+                            )),
                         Padding(padding: EdgeInsets.only(right: 8.0)),
                         Container(
                           child: Text('$_videoSpeed'),
@@ -192,28 +192,28 @@ class _WordPracticePageState extends State<WordPracticePage> {
                         ),
                         Container(
                             child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              if (_videoSpeed < 1.5) {
-                                _videoSpeed += 0.25;
-                              }
-                            });
-                            _controller.setPlaybackSpeed(_videoSpeed);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xffC8E8FF),
-                            minimumSize: Size(40, 35),
-                            padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.add,
-                            size: 20,
-                            color: Color(0xff97D5FE),
-                          ),
-                        )),
+                              onPressed: () {
+                                setState(() {
+                                  if (_videoSpeed < 1.5) {
+                                    _videoSpeed += 0.25;
+                                  }
+                                });
+                                _controller.setPlaybackSpeed(_videoSpeed);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xffC8E8FF),
+                                minimumSize: Size(40, 35),
+                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                size: 20,
+                                color: Color(0xff97D5FE),
+                              ),
+                            )),
                       ],
                     ),
                     Padding(padding: EdgeInsets.all(2.0)),
@@ -232,15 +232,15 @@ class _WordPracticePageState extends State<WordPracticePage> {
                           },
                           child: _isHint
                               ? new Text(
-                                  '힌트 닫기',
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 15),
-                                )
+                            '힌트 닫기',
+                            style: TextStyle(
+                                color: Colors.grey, fontSize: 15),
+                          )
                               : new Text(
-                                  "힌트 보기",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 15),
-                                ),
+                            "힌트 보기",
+                            style: TextStyle(
+                                color: Colors.grey, fontSize: 15),
+                          ),
                         ),
                       ],
                     ),
@@ -251,27 +251,27 @@ class _WordPracticePageState extends State<WordPracticePage> {
                         children: [
                           _isHint
                               ? Bubble(
-                                  color: Color(0xff97D5FE),
-                                  // stick: true,
-                                  nip: BubbleNip.rightTop,
-                                  margin: BubbleEdges.only(
-                                      top: 2.0,
-                                      bottom: 3.0,
-                                      right: 3.0,
-                                      left: 3.0),
-                                  child: Text('hello',
-                                      style: TextStyle(
-                                          color: Color(0xff333333),
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w600)),
-                                )
+                            color: Color(0xff97D5FE),
+                            // stick: true,
+                            nip: BubbleNip.rightTop,
+                            margin: BubbleEdges.only(
+                                top: 2.0,
+                                bottom: 3.0,
+                                right: 3.0,
+                                left: 3.0),
+                            child: Text('hello',
+                                style: TextStyle(
+                                    color: Color(0xff333333),
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600)),
+                          )
                               : Container(),
                         ],
                       ),
                     ),
                     Container(
                       margin:
-                          EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
+                      EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
                       child: Column(  //textfield
                         //crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -279,8 +279,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
                           _isInit
                               ? _initTextField()
                               : _isCorrect
-                                  ? _correctTextField()
-                                  : _errorTextField()
+                              ? _correctTextField()
+                              : _errorTextField()
                         ],
                       ),
                     ),
