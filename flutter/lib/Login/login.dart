@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../tabbar_mainview.dart';
+import 'findpassword.dart';
 import 'signup.dart';
 
 import 'package:http/http.dart' as http;
@@ -32,7 +33,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void forgotPassword(){
-    print('forgot password is clicked! ');
+    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => findPasswordPage()),);
   }
 
   void signUp(){
