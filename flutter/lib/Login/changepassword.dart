@@ -2,19 +2,18 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'changepassword.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class findPasswordPage extends StatefulWidget {
-  const findPasswordPage({Key? key}) : super(key: key);
+class changePasswordPage extends StatefulWidget {
+  const changePasswordPage({Key? key}) : super(key: key);
 
   @override
-  State<findPasswordPage> createState() => _findPasswordPageState();
+  State<changePasswordPage> createState() => _changePasswordPageState();
 }
 
-class _findPasswordPageState extends State<findPasswordPage> {
+class _changePasswordPageState extends State<changePasswordPage> {
 
   final _formKey = new GlobalKey<FormState>();
 
@@ -58,15 +57,9 @@ class _findPasswordPageState extends State<findPasswordPage> {
 
       var body = jsonDecode(response.body);
 
-      String data = body["result"];
+      bool data = body["data"];
 
-      print("result: " + data.toString());
-
-      if(data == "success"){
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => changePasswordPage()));
-
-      }
+      print("data: " + data.toString());
     }
     else {
       print('error : ${response.reasonPhrase}');
@@ -104,11 +97,11 @@ class _findPasswordPageState extends State<findPasswordPage> {
     print(response.statusCode);
 
     if (response.statusCode == 200) {
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
     }
     else {
-    print('error : ${response.reasonPhrase}');
+      print('error : ${response.reasonPhrase}');
     }
   }
 
@@ -125,72 +118,25 @@ class _findPasswordPageState extends State<findPasswordPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top:120.0, bottom: 70.0),
+                  margin: EdgeInsets.only(top:80.0, bottom: 50.0),
                   child: Center(
                     child: Text(
-                      '비밀번호 찾기',
+                      '비밀번호 변경',
                       style: new TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Color(0xff5AA9DD) ),
                     ),
                   ),
-                ),
-
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(bottom: 10.0),
-                  child: Text(
-                    '이메일',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only( right: 20.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xff97D5FE), width: 2.0),
-                            ),
-                            hintText: '이메일을 입력하세요.'
-                        ),
-                        validator: (value) => value!.isEmpty ? '이메일을 입력해 주세요.' : null,
-                        controller: _email,
-                      ),
-                      height: 40,
-                      width: 240,
-                    ),
-                    Container(
-                      child: RaisedButton(
-                        color: Color(0xff97D5FE),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Text(
-                          '인 증',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffFFFFFF)),
-                        ),
-                        onPressed: (){
-                          emailAuth(_email.text);
-                        },
-                      ),
-                      width: 70,
-                    )
-                  ],
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
                   child: Text(
-                    '인증번호',
+                    '변경할 비밀번호',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Container(
                   child: TextFormField(
+                    obscureText: true,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
@@ -198,7 +144,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Color(0xff97D5FE), width: 2.0),
                         ),
-                        hintText: '인증번호를 입력하세요.'
+                        hintText: '변경할 비밀번호를 입력하세요.'
                     ),
                     validator: (value) => value!.isEmpty ? '인증번호를 입력해 주세요.' : null,
                     controller: _emailAuthCode,
@@ -207,15 +153,42 @@ class _findPasswordPageState extends State<findPasswordPage> {
                   width: 240,
                 ),
                 Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
+                  child: Text(
+                    '비밀번호 확인',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                Container(
+                  child: TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xff97D5FE), width: 2.0),
+                        ),
+                        hintText: '변경할 비밀번호를 다시 입력하세요.'
+                    ),
+                    validator: (value) => value!.isEmpty ? '인증번호를 입력해 주세요.' : null,
+                    controller: _emailAuthCode,
+                  ),
+                  height: 40,
+                  width: 240,
+                ),
+
+                Container(
                   margin: EdgeInsets.only(top:70.0, bottom: 10.0),
                   child: new RaisedButton(
                     color: Color(0xff97D5FE),
                     child: new Text(
-                      '인증번호 확인',
+                      '저    장',
                       style: new TextStyle(fontSize: 18.0, color: Color(0xffFFFFFF), ),
                     ),
                     onPressed: (){
-                      checkAuthCode(_email.text, _emailAuthCode.text);
+                      //
                     },
                   ),
                   height: 40,
