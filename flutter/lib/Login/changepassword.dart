@@ -17,55 +17,9 @@ class _changePasswordPageState extends State<changePasswordPage> {
 
   final _formKey = new GlobalKey<FormState>();
 
-  final TextEditingController _email = new TextEditingController();
-  final TextEditingController _emailAuthCode = new TextEditingController();
+  final TextEditingController _pass = new TextEditingController();
+  final TextEditingController _checkPass = new TextEditingController();
 
-  Future<void> emailAuth(String email) async {
-
-    var url = Uri.http('localhost:8080', 'email/code/pwd/send');
-    final data = jsonEncode({'email': email});
-
-    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"});
-
-    print(url);
-    print('Response status: ${response.statusCode}');
-
-    if (response.statusCode == 200) {
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-
-      var body = jsonDecode(response.body);
-    }
-    else {
-      print('error : ${response.reasonPhrase}');
-    }
-
-  }
-
-  checkAuthCode(String email, authCode) async {
-
-    var url = Uri.http('localhost:8080', '/email/code/pwd/verify');
-
-    final data = jsonEncode({'email': email, 'authCode': authCode});
-
-    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
-
-    // print(url);
-    print(response.statusCode);
-
-    if (response.statusCode == 200) {
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-
-      var body = jsonDecode(response.body);
-
-      bool data = body["data"];
-
-      print("data: " + data.toString());
-    }
-    else {
-      print('error : ${response.reasonPhrase}');
-    }
-
-  }
 
   sendPassword(String email) async {
     var url = Uri.http('localhost:8080', '/email/pwd');
@@ -97,8 +51,13 @@ class _changePasswordPageState extends State<changePasswordPage> {
     print(response.statusCode);
 
     if (response.statusCode == 200) {
-      print('Response status: ${response.statusCode}');
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+
+      bool data = body["data"];
+
+      print("data: " + data.toString());
     }
     else {
       print('error : ${response.reasonPhrase}');
@@ -146,8 +105,8 @@ class _changePasswordPageState extends State<changePasswordPage> {
                         ),
                         hintText: '변경할 비밀번호를 입력하세요.'
                     ),
-                    validator: (value) => value!.isEmpty ? '인증번호를 입력해 주세요.' : null,
-                    controller: _emailAuthCode,
+                    validator: (value) => value!.isEmpty ? '변경할 비밀번호를 입력해 주세요.' : null,
+                    controller: _pass,
                   ),
                   height: 40,
                   width: 240,
@@ -172,8 +131,8 @@ class _changePasswordPageState extends State<changePasswordPage> {
                         ),
                         hintText: '변경할 비밀번호를 다시 입력하세요.'
                     ),
-                    validator: (value) => value!.isEmpty ? '인증번호를 입력해 주세요.' : null,
-                    controller: _emailAuthCode,
+                    validator: (value) => value!.isEmpty ? '비밀번호를 다시 확인해 주세요.' : null,
+                    controller: _checkPass,
                   ),
                   height: 40,
                   width: 240,
