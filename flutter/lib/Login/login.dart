@@ -6,8 +6,6 @@ import 'signup.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -15,13 +13,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  final formKey = new GlobalKey<FormState>();
+  final _formKey = new GlobalKey<FormState>();
 
   late String _email;
   late String _password;
 
   void validateAndSave() {
-    final form = formKey.currentState;
+    final form = _formKey.currentState;
     if (form!.validate()) {
       form.save();
       print('Form is valid Email: $_email, password: $_password');
@@ -53,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.all(30),
 
         child: new Form(
-          key: formKey,
+          key: _formKey,
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
