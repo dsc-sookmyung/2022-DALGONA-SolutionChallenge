@@ -4,9 +4,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 
 class SentencePracticePage extends StatefulWidget {
-  const SentencePracticePage({Key? key}) : super(key: key);
+  const SentencePracticePage({Key? key, required situation}) : super(key: key);
 
   @override
   _SentencePracticePageState createState() => _SentencePracticePageState();
@@ -41,7 +42,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return GestureDetector(
         onTap: () {
           //FocusManager.instance.primaryFocus?.unfocus();
@@ -50,7 +51,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         child: Scaffold(
             appBar: AppBar(
               title: Text(
-                "단어",
+                "문장",
                 style: TextStyle(
                     color: Color(0xff333333),
                     fontSize: 24,
@@ -288,7 +289,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                         ],
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(8.0)),
+                    Padding(padding: EdgeInsets.all(3.0)),
                     Column(children: [  // 확인 버튼
                       if (!_seeAnswer) ...{
                         if (_enterAnswer) _Answer() else _reAnswer()
@@ -297,7 +298,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                         else _Wrong()
                       }
                     ]),
-                    // Spacer(),
+                    Padding(padding: EdgeInsets.all(15.0)),
                     Container(    //다음 버튼
                       alignment: AlignmentDirectional.centerEnd,
                       padding: EdgeInsets.only(right: 10.0),
@@ -338,8 +339,10 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
       style: TextStyle(
         fontSize: 20.0,
       ),
+      keyboardType: TextInputType.multiline, //입력시 가로가 길 때 줄바꿈되서 보여줌
+      maxLines: null, //제한 없음
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+        contentPadding: EdgeInsets.symmetric(horizontal: 10),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           borderSide: BorderSide(width: 2, color: Color(0xff97D5FE)),
@@ -400,7 +403,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         ),
         onPressed: () {
           FocusScope.of(context).unfocus();
-          if (myController.text == 'hello') { //정답
+          if (myController.text == 'nice to meet you') { //정답
             setState(() {
               _isCorrect = true;
               _seeAnswer = true;
@@ -528,7 +531,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
             height: 50,
             color: Color(0xff97D5FE),
             child: Center(
-              child: Text("hello",
+              child: Text("nice to meet you",
                   style: TextStyle(
                       color: Color(0xff333333),
                       fontSize: 20.0,
@@ -555,7 +558,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
               height: 50,
               color: Color(0xff97D5FE),
               child: Center(
-                child: Text("hello",
+                child: Text("nice to meet you",
                     style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 20.0,
