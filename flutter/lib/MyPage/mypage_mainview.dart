@@ -27,7 +27,7 @@ class MyPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 120.0, left: 40.0, right: 40.0, bottom: 80.0),
+              margin: EdgeInsets.only(top: 100.0, left: 40.0, right: 40.0, bottom: 80.0),
               //padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0, bottom: 10.0),
               alignment: Alignment.center,
               height: 180,
