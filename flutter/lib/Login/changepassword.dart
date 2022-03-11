@@ -52,15 +52,13 @@ class _changePasswordPageState extends State<changePasswordPage> {
       var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
 
       print(response.statusCode);
+      print("pass: ${pass}");
+      print("data: ${data}");
 
       if (response.statusCode == 200) {
         print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
         var body = jsonDecode(response.body);
-
-        bool data = body["data"];
-
-        print("data: " + data.toString());
 
         Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);

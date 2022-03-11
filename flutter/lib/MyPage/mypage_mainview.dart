@@ -15,19 +15,29 @@ class MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '마이 페이지',
-          style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
-        ),
-        backgroundColor: Color(0xffC8E8FF),
-
-      ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     '마이 페이지',
+      //     style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
+      //   ),
+      //   backgroundColor: Color(0xffC8E8FF),
+      //
+      // ),
       body: Container(
+        decoration: BoxDecoration(
+          color: Color(0xffe9f5ff),
+        ),
         child: Column(
           children: <Widget>[
+            // Container(
+            //   margin: EdgeInsets.only(top: 80.0),
+            //   child: Text(
+            //     '마이 페이지',
+            //     style: new TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Color(0xff5AA9DD) ),
+            //   )
+            // ),
             Container(
-              margin: EdgeInsets.only(top: 100.0, left: 40.0, right: 40.0, bottom: 80.0),
+              margin: EdgeInsets.only(top: 200.0, left: 40.0, right: 40.0, bottom: 80.0),
               //padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0, bottom: 10.0),
               alignment: Alignment.center,
               height: 180,
