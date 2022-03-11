@@ -18,7 +18,7 @@ class _ModifyInformationPageState extends State<ModifyInformationPage> {
     var url = Uri.http('localhost:8080', '/user/name');
     final data = jsonEncode({'name': name});
 
-    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"});
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTUzMzYsImV4cCI6MTY0NTQ5NzEzNn0.CPWbREin7Kr7ldbXBIaBc6v3S5W2PF1bBTISQNJu63U" });
 
     print(url);
     print('Response status: ${response.statusCode}');
