@@ -336,13 +336,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: EdgeInsets.only(bottom: 15.0),
                 child: TextFormField(
                   obscureText: true,
-                  //validator 수정해야 함.
                   validator: (value) {
-                    if (value != _pass.text) {
-                      return "비밀번호가 일치하지 않습니다.";
-                    }
-                    else if(value!.isEmpty){
+                    if (value!.isEmpty) {
                       return "비밀번호가 확인되지 않았습니다.";
+                    }
+                    else if(value  != _pass.text){
+                      return "비밀번호가 일치하지 않습니다.";
                     }
                     return null;
                   },

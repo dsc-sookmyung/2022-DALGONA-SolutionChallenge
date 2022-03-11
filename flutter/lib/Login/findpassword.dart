@@ -64,7 +64,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
 
       if(data == "success"){
         Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => changePasswordPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => changePasswordPage(email: _email.text)));
 
       }
     }
