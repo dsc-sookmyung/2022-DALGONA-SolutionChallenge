@@ -155,8 +155,9 @@ public class UserService {
         if (!isExistMethod(email)) {
             return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
         }
+        String encodedPwd = pwdEncorder.encode(password);
         User findUser = userRepository.findByEmail(email).get();
-        findUser.updatePassword(password);
+        findUser.updatePassword(encodedPwd);
         return response.success("회원 비밀번호 수정에 성공했습니다.");
     }
 
@@ -171,8 +172,9 @@ public class UserService {
         if(user.isPresent()){
             // 인증되었다면 비밀번호 수정
             if(user.get().isAuthPwdStatus()){
+                String encodedPwd = pwdEncorder.encode(password);
                 User findUser = userRepository.findByEmail(email).get();
-                findUser.updatePassword(password);
+                findUser.updatePassword(encodedPwd);
                 return response.success("회원 비밀번호 수정에 성공했습니다.");
             }
         }

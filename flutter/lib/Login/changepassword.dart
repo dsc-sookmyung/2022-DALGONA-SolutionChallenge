@@ -7,7 +7,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class changePasswordPage extends StatefulWidget {
-  const changePasswordPage({Key? key}) : super(key: key);
+
+  final String email;
+  const changePasswordPage({Key? key, required this.email}) : super(key: key);
 
   @override
   State<changePasswordPage> createState() => _changePasswordPageState();
@@ -15,52 +17,56 @@ class changePasswordPage extends StatefulWidget {
 
 class _changePasswordPageState extends State<changePasswordPage> {
 
-  final _formKey = new GlobalKey<FormState>();
+  final _formKey2 = new GlobalKey<FormState>();
 
   final TextEditingController _pass = new TextEditingController();
   final TextEditingController _checkPass = new TextEditingController();
 
 
-  sendPassword(String email) async {
-    var url = Uri.http('localhost:8080', '/email/pwd');
+  // sendPassword(String email) async {
+  //   var url = Uri.http('localhost:8080', '/email/pwd');
+  //
+  //   final data = jsonEncode({'email': email});
+  //
+  //   var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json"} );
+  //
+  //   // print(url);
+  //   print(response.statusCode);
+  //
+  //   if (response.statusCode == 200) {
+  //     print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+  //   }
+  //   else {
+  //     print('error : ${response.reasonPhrase}');
+  //   }
+  // }
 
-    final data = jsonEncode({'email': email});
+  changePassword(String pass) async {
+    if(_formKey2.currentState!.validate()){
+      var url = Uri.http('localhost:8080', '/user/password/lost');
 
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json"} );
+      print(widget.email);
 
-    // print(url);
-    print(response.statusCode);
+      final data = jsonEncode({'email': widget.email, 'password': pass});
 
-    if (response.statusCode == 200) {
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-    }
-    else {
-      print('error : ${response.reasonPhrase}');
-    }
-  }
+      var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
 
-  changePassword(String email, pass) async {
+      print(response.statusCode);
+      print("pass: ${pass}");
+      print("data: ${data}");
 
-    var url = Uri.http('localhost:8080', '/user/password/lost');
+      if (response.statusCode == 200) {
+        print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
-    final data = jsonEncode({'email': email, 'password': pass});
+        var body = jsonDecode(response.body);
 
-    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
 
-    // print(url);
-    print(response.statusCode);
-
-    if (response.statusCode == 200) {
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-
-      var body = jsonDecode(response.body);
-
-      bool data = body["data"];
-
-      print("data: " + data.toString());
-    }
-    else {
-      print('error : ${response.reasonPhrase}');
+      }
+      else {
+        print('error : ${response.reasonPhrase}');
+      }
     }
   }
 
@@ -71,8 +77,8 @@ class _changePasswordPageState extends State<changePasswordPage> {
     return new Scaffold(
       body: new Container(
         padding: EdgeInsets.all(30),
-        key: _formKey,
         child: new Form(
+            key: _formKey2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -131,7 +137,15 @@ class _changePasswordPageState extends State<changePasswordPage> {
                         ),
                         hintText: '변경할 비밀번호를 다시 입력하세요.'
                     ),
-                    validator: (value) => value!.isEmpty ? '비밀번호를 다시 확인해 주세요.' : null,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "비밀번호가 확인되지 않았습니다.";
+                      }
+                      else if(value  != _pass.text){
+                        return "비밀번호가 일치하지 않습니다.";
+                      }
+                      return null;
+                    },
                     controller: _checkPass,
                   ),
                   height: 40,
@@ -147,7 +161,7 @@ class _changePasswordPageState extends State<changePasswordPage> {
                       style: new TextStyle(fontSize: 18.0, color: Color(0xffFFFFFF), ),
                     ),
                     onPressed: (){
-                      //
+                      changePassword(_pass.text);
                     },
                   ),
                   height: 40,
