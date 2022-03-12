@@ -156,7 +156,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                         counterText: '',
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: '최대 50',
+                        hintText: '최대 60',
                         hintStyle: TextStyle(fontSize: 15.0),
                         contentPadding: EdgeInsets.symmetric(horizontal: 5),
                         enabledBorder: OutlineInputBorder(
@@ -173,7 +173,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                   ),
                   Padding(padding: EdgeInsets.all(5.0)),
                   Text(
-                    '분',
+                    '초',
                     style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 17.0,
