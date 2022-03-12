@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
+import 'dart:async';
 
 class WordTestPage extends StatefulWidget {
   const WordTestPage({Key? key}) : super(key: key);
@@ -297,10 +298,12 @@ class _WordTestPageState extends State<WordTestPage> {
                     Container(    //다음 버튼
                       alignment: AlignmentDirectional.centerEnd,
                       padding: EdgeInsets.only(right: 10.0),
-                      child: Column(
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         //mainAxisAlignment: MainAxisAlignment.end,
                         children: [
+                          Text('34/50', style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),),
+
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.white,
