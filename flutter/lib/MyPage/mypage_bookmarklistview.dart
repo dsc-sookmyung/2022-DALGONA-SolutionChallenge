@@ -18,6 +18,9 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
   final List<String> lr_bookmarkList = <String>["lr_word", "Bm", 'C', 'D', 'E', 'F', 'G', 'practice', 'lipreading', 'bookmarklist'];
   final List<String> sp_bookmarkList = <String>["sp_word", "Bm", 'C', 'D', 'E', 'F', 'G', 'practice'];
 
+  final int _numPages = 10;
+  final int _currentPage = 0;
+
   Future<void> speakingBookmarkInfo() async {
 
     //TO DO 사용자 정보 받아오기 성공할 경우 받아온 이메일로 조회할 수 있도록 재설정
@@ -163,7 +166,7 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
                                         Container(
                                           child: IconButton(
                                             onPressed: (){
-                                              print('click');
+                                              print('click: ${index}');
                                               },
                                             icon: Icon(Icons.play_arrow_rounded),
                                           )
@@ -199,7 +202,7 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
                                             Container(
                                                 child: IconButton(
                                                   onPressed: (){
-                                                    print('click');
+                                                    print('click: ${index}');
                                                   },
                                                   icon: Icon(Icons.play_arrow_rounded),
                                                 )
@@ -214,6 +217,8 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
                           ),
                         ])
                     )
+
+
                   ])
               ),
             ]),
