@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Login/login.dart';
 
@@ -7,10 +8,47 @@ import 'mypage_bookmarklistview.dart';
 import 'mypage_studylistview.dart';
 import 'mypage_editinformationview.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class MyPage extends StatelessWidget {
-
+class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
+
+  @override
+  _MyPageState createState() => _MyPageState();
+}
+
+class _MyPageState extends State<MyPage> {
+
+  // const MyPage({Key? key}) : super(key: key);
+  final String _name = "김도은";
+  final String _email = "doeun536@gmail.com";
+
+  Future<void> userInfo() async {
+
+    var url = Uri.http('localhost:8080', '/user/info');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTY5NDEsImV4cCI6MTY0NTQ5ODc0MX0.g5kqasAyvzWZ_ZkENa6UaXf6_qyiYarmu6xn12CbW7U" });
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  @override
+  void initState() {
+    userInfo();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,11 +137,11 @@ class MyPage extends StatelessWidget {
                   //   // width: 150,
                   // ),
                   Text(
-                    "김도은",
+                    "${_name}",
                     style: TextStyle(fontSize: 32, height: 1.8, fontWeight: FontWeight.w700),
                   ),
                   Text(
-                    "doeun536@gmail.com",
+                    "${_email}",
                     style: TextStyle(fontSize: 14, height: 1.8, fontWeight: FontWeight.w200),
                   )
                 ],
@@ -113,7 +151,7 @@ class MyPage extends StatelessWidget {
               child: RaisedButton(
                 child: new Text(
                   "학습 목록",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
                   Navigator.push(
@@ -133,7 +171,7 @@ class MyPage extends StatelessWidget {
               child: RaisedButton(
                 child: new Text(
                   "책갈피 목록",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
                   Navigator.push(
