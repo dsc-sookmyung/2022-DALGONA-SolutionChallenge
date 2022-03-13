@@ -1,9 +1,12 @@
 package com.dalgona.zerozone.web.dto.user;
 
+import com.dalgona.zerozone.domain.user.Authority;
 import com.dalgona.zerozone.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor

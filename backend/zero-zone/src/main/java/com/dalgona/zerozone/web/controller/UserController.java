@@ -1,22 +1,20 @@
 package com.dalgona.zerozone.web.controller;
 
-import com.dalgona.zerozone.config.security.JwtTokenProvider;
 import com.dalgona.zerozone.service.user.UserService;
 import com.dalgona.zerozone.web.dto.user.UserLoginRequestDto;
 import com.dalgona.zerozone.web.dto.user.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
 public class UserController {
 
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
 
     // 회원가입
     @PostMapping("/user")
@@ -38,15 +36,12 @@ public class UserController {
 
     // 내 정보 조회
     @GetMapping("/user/info")
+    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<?> info(HttpServletRequest request) {
-        String token = userService.getToken(request);
-        // 토큰이 유효하지 않으면 실패 응답
-        if (!userService.isValidToken(token)) {
-            return userService.getResponseOfUnvalidateToken();
-        }
-        // 토큰이 유효하면 내 정보 조회 요청
-        return userService.getMyInfo(token);
+        return userService.getMyInfo();
     }
+
+    /*
 
     // 이름 수정
     @PostMapping("/user/name")
@@ -80,6 +75,8 @@ public class UserController {
                 passwordChangeRequestDto.get("password"));
     }
 
+
+     */
 
 
 }
