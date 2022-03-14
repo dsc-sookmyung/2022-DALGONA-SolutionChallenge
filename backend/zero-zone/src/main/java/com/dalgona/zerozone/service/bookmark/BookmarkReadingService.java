@@ -10,6 +10,7 @@ import com.dalgona.zerozone.domain.reading.ReadingProb;
 import com.dalgona.zerozone.domain.reading.ReadingProbRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
+import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.bookmark.BookmarkReadingProbResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -35,21 +36,24 @@ public class BookmarkReadingService {
     private final UserRepository userRepository;
     private final Response response;
 
+    // 토큰으로부터 이메일 읽어오기
+    private User getCurrentUser(){
+        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
+    }
+
     // 구화 북마크에 추가
     @Transactional
-    public ResponseEntity<?> addReadingBookmark(String email, Long readingProbId){
-        // 필요한 변수 : 회원, 회원의 북마크, 북마크 요청한 구화 연습 문제, 연습 문제를 담을 중간 엔티티
-        Optional<User> user = userRepository.findByEmail(email);
+    public ResponseEntity<?> addReadingBookmark(Long readingProbId){
+        // 필요한 변수 : 회원의 북마크, 북마크 요청한 구화 연습 문제, 연습 문제를 담을 중간 엔티티
         Optional<BookmarkReading> bookmarkReading;
         Optional<ReadingProb> readingProb;
         BookmarkReadingProb totalReadingProb;
         List<BookmarkReadingProb> bookmarkReadingProbList;
 
         // 1. 유저 조회
-        if(!user.isPresent())
-            return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
         // 2. 유저의 구화 북마크 조회
-        bookmarkReading = bookmarkReadingRepository.findByUser(user.get());
+        bookmarkReading = bookmarkReadingRepository.findByUser(user);
 
         // 3. 발음 연습 문제 조회
         readingProb = readingProbRepository.findById(readingProbId);
@@ -75,15 +79,14 @@ public class BookmarkReadingService {
     // 구화 북마크 조회
     // 페이징 처리 해야함
     @Transactional
-    public ResponseEntity<?> getReadingBookmark(String email, int page){
+    public ResponseEntity<?> getReadingBookmark(int page){
         // 0. 요청 페이지 유효성 검사
         if(page<1)
             return response.fail("잘못된 페이지 요청입니다. 1 이상의 페이지를 조회해주세요.", HttpStatus.BAD_REQUEST);
         // 1. 유저 조회
-        Optional<User> user = userRepository.findByEmail(email);
-        if(!user.isPresent()) return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
         // 2. 유저의 구화 북마크 조회
-        Optional<BookmarkReading> bookmarkReading = bookmarkReadingRepository.findByUser(user.get());
+        Optional<BookmarkReading> bookmarkReading = bookmarkReadingRepository.findByUser(user);
         if(!bookmarkReading.isPresent()) return response.fail("해당 회원의 구화 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // 3. 해당 북마크에 저장된 문제 리스트 조회
         Pageable paging = PageRequest.of(page-1,10, Sort.by(Sort.Direction.DESC, "id"));
@@ -98,20 +101,18 @@ public class BookmarkReadingService {
 
     // 구화 북마크 해제
     @Transactional
-    public ResponseEntity<?> deleteReadingBookmarkProb(String email, Long readingProbId){
+    public ResponseEntity<?> deleteReadingBookmarkProb(Long readingProbId){
 
         // 필요한 변수 : 회원, 회원의 북마크, 북마크 요청한 구화 연습 문제, 연습 문제를 담을 중간 엔티티
-        Optional<User> user = userRepository.findByEmail(email);
         Optional<BookmarkReading> bookmarkReading;
         Optional<ReadingProb> readingProb;
         Optional<BookmarkReadingProb> totalReadingProb;
         List<BookmarkReadingProb> bookmarkReadingProbList;
 
         // 1. 유저 조회
-        if(!user.isPresent())
-            return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
         // 2. 유저의 구화 북마크 조회
-        bookmarkReading = bookmarkReadingRepository.findByUser(user.get());
+        bookmarkReading = bookmarkReadingRepository.findByUser(user);
         if(!bookmarkReading.isPresent())
             return response.fail("해당 회원의 구화 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // 3. 발음 연습 문제 조회
