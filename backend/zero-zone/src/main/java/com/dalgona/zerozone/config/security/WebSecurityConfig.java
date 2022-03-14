@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    /*
     // Security 무시하기
     public void configure(WebSecurity web) throws Exception{
         web.ignoring().antMatchers("/h2-console/**")
@@ -76,5 +77,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/recent/**");
     }
 
+     */
 
 }

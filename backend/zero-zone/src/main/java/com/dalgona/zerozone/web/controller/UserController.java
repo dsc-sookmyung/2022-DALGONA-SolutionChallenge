@@ -37,7 +37,6 @@ public class UserController {
 
     // 내 정보 조회
     @GetMapping("/user/info")
-    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<?> info(HttpServletRequest request) {
         return userService.getMyInfo();
     }
