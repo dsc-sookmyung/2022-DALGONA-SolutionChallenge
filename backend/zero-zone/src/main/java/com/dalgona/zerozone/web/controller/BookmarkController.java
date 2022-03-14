@@ -17,39 +17,39 @@ public class BookmarkController {
     // 구화 연습 북마크에 추가
     // 매개변수 : 타입(단어, 문장), 일련번호
     @PostMapping("/reading")
-    public ResponseEntity<?> addReadingBookmark(@RequestParam String email, @RequestParam Long readingProbId){
-        return bookmarkReadingService.addReadingBookmark(email, readingProbId);
+    public ResponseEntity<?> addReadingBookmark(@RequestParam Long readingProbId){
+        return bookmarkReadingService.addReadingBookmark(readingProbId);
     }
 
     // 구화 연습 북마크 조회
     @GetMapping("/reading")
-    public ResponseEntity<?> getReadingBookmark(@RequestParam String email, @RequestParam(required = false, defaultValue = "1", value = "page") int page){
-        return bookmarkReadingService.getReadingBookmark(email, page);
+    public ResponseEntity<?> getReadingBookmark(@RequestParam(required = false, defaultValue = "1", value = "page") int page){
+        return bookmarkReadingService.getReadingBookmark(page);
     }
 
     // 구화 연습 북마크 해제
     @DeleteMapping("/reading")
-    public ResponseEntity<?> deleteReadingBookmarkProb(@RequestParam String email, @RequestParam Long readingProbId){
-        return bookmarkReadingService.deleteReadingBookmarkProb(email, readingProbId);
+    public ResponseEntity<?> deleteReadingBookmarkProb(@RequestParam Long readingProbId){
+        return bookmarkReadingService.deleteReadingBookmarkProb(readingProbId);
     }
 
     // 발음 연습 북마크에 추가
     // 매개변수 : 타입(단어, 문장), 일련번호
     @PostMapping("/speaking")
-    public ResponseEntity<?> addSpeakingBookmark(@RequestParam String email, @RequestParam Long speakingProbId){
-        return bookmarkSpeakingService.addSpeakingBookmark(email, speakingProbId);
+    public ResponseEntity<?> addSpeakingBookmark(@RequestParam Long speakingProbId){
+        return bookmarkSpeakingService.addSpeakingBookmark(speakingProbId);
     }
 
     // 발음 연습 북마크 조회
     @GetMapping("/speaking")
-    public ResponseEntity<?> getSpeakingBookmark(@RequestParam String email, @RequestParam(required = false, defaultValue = "1", value = "page") int page){
-        return bookmarkSpeakingService.getSpeakingBookmark(email, page);
+    public ResponseEntity<?> getSpeakingBookmark(@RequestParam(required = false, defaultValue = "1", value = "page") int page){
+        return bookmarkSpeakingService.getSpeakingBookmark(page);
     }
 
     // 발음 연습 북마크 해제
     @DeleteMapping("/speaking")
-    public ResponseEntity<?> deleteSpeakingBookmarkProb(@RequestParam String email, @RequestParam Long speakingProbId){
-        return bookmarkSpeakingService.deleteSpeakingBookmarkProb(email, speakingProbId);
+    public ResponseEntity<?> deleteSpeakingBookmarkProb(@RequestParam Long speakingProbId){
+        return bookmarkSpeakingService.deleteSpeakingBookmarkProb(speakingProbId);
     }
 
 

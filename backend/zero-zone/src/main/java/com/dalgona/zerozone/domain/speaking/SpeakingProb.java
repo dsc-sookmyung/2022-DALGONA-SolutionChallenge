@@ -30,6 +30,9 @@ public class SpeakingProb {
     @Column
     private String url;
 
+    @Column(length = 100)
+    private String hint;
+
     @OneToOne
     @JoinColumn(name = "LETTER_ID")
     private Letter letter;

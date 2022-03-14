@@ -34,6 +34,7 @@ public class listService {
     @Transactional
     public ResponseEntity<?> getOnset(){
         List<Onset> onsetList = onsetRepository.findAll();
+        if(onsetList.size()==0) return response.fail("DB에 데이터가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // 첫번째 null은 제거
         onsetList.remove(0);
         // 초성의 ID 오름차순으로 정렬
@@ -46,6 +47,7 @@ public class listService {
     public ResponseEntity<?> getNucleus(NucleusRequestDto onsetData){
         // 글자 테이블에서 해당 초성을 가진 글자와 조인해서 가져오기
         List<Letter> letters = letterRepository.findAllByOnset(onsetData.toEntity());
+        if(letters.size()==0) return response.fail("DB에 데이터가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // 중성만 추출
         List<Nucleus> nucleusList = new ArrayList<>();
         for(Letter letter:letters){
@@ -65,6 +67,7 @@ public class listService {
         // 글자 테이블에서 해당 초성과 중성을 가진 글자와 조인해서 가져오기
         List<Letter> letters = letterRepository.findAllByOnsetAndNucleus(
                 onsetAndNucleusData.toEntityOnset(), onsetAndNucleusData.toEntityNucleus());
+        if(letters.size()==0) return response.fail("DB에 데이터가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // Dto로 바꾸기
         List<LetterResponseDto> letterResponseDtoList = new ArrayList<>();
         for(Letter letter:letters){
@@ -79,6 +82,7 @@ public class listService {
     public ResponseEntity<?> getWords(WordRequestDto onsetData){
         // 단어 테이블에서 해당 초성으로 시작하는 모든 단어 가져오기
         List<Word> wordList = wordRepository.findAllByOnset(onsetData.toEntity());
+        if(wordList.size()==0) return response.fail("DB에 데이터가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // Dto로 변경
         List<WordResponseDto> wordResponseDtoList = new ArrayList<>();
         for(Word word:wordList){
@@ -92,6 +96,7 @@ public class listService {
     // 상황 조회
     public ResponseEntity<?> getSituations() {
         List<Situation> situationList = situationRepository.findAll();
+        if(situationList.size()==0) return response.fail("DB에 데이터가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // 첫번째 null은 제거
         situationList.remove(0);
         // 상황의 ID 오름차순으로 정렬
@@ -102,6 +107,7 @@ public class listService {
     // 문장 조회 : 상황에 따라 달라짐
     public ResponseEntity getSentences(SentenceRequestDto sentenceRequestDto){
         List<Sentence> sentenceList = sentenceRepository.findAllBySituation(sentenceRequestDto.toEntity());
+        if(sentenceList.size()==0) return response.fail("DB에 데이터가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // Dto로 변경
         List<SentenceResponseDto> sentenceResponseDtoList = new ArrayList<>();
         for(Sentence sentence:sentenceList){

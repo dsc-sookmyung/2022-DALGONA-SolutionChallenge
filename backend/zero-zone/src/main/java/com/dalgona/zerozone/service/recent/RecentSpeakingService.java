@@ -8,6 +8,7 @@ import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.dalgona.zerozone.domain.speaking.SpeakingProbRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
+import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.recent.RecentRequestDto;
 import com.dalgona.zerozone.web.dto.recent.RecentSpeakingProbResponseDto;
@@ -34,20 +35,23 @@ public class RecentSpeakingService {
     private final SpeakingProbRepository speakingProbRepository;
     private final Response response;
 
+    // 토큰으로부터 이메일 읽어오기
+    private User getCurrentUser(){
+        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
+    }
+
     // 발음 연습 최근 학습에 추가
     @Transactional
-    public ResponseEntity<?> addSpeakingRecent(String email, RecentRequestDto requestDto){
-        Optional<User> user = userRepository.findByEmail(email);
+    public ResponseEntity<?> addSpeakingRecent(RecentRequestDto requestDto){
         Optional<RecentSpeaking> recentSpeaking;
         Optional<SpeakingProb> speakingProb;
         RecentSpeakingProb totalSpeakingProb;
         List<RecentSpeakingProb> recentSpeakingProbList;
 
         // 1. 유저 조회
-        if(!user.isPresent())
-            return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
         // 2. 유저의 발음 최근학습 조회
-        recentSpeaking = recentSpeakingRepository.findByUser(user.get());
+        recentSpeaking = recentSpeakingRepository.findByUser(user);
 
         // 여기부터 반복  
         List<Long> recentProbIdRequestList = requestDto.getRecentProbIdRequestList();
@@ -87,18 +91,16 @@ public class RecentSpeakingService {
 
     // 발음 연습 최근 학습 리스트 조회
     @Transactional
-    public ResponseEntity<?> getSpeakingRecent(String email, int page){
+    public ResponseEntity<?> getSpeakingRecent(int page){
         // 0. 요청 페이지 유효성 검사
         if(page<1)
             return response.fail("잘못된 페이지 요청입니다. 1 이상의 페이지를 조회해주세요.", HttpStatus.BAD_REQUEST);
         // 변수 선언
-        Optional<User> user = userRepository.findByEmail(email);
         Optional<RecentSpeaking> recentSpeaking;
         // 1. 유저 조회
-        if(!user.isPresent())
-            return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
         // 2. 유저의 발음 최근학습 조회
-        recentSpeaking = recentSpeakingRepository.findByUser(user.get());
+        recentSpeaking = recentSpeakingRepository.findByUser(user);
         if(!recentSpeaking.isPresent())
             return response.fail("해당 회원의 발음 최근학습이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // 3. 해당 북마크에 저장된 문제 리스트 조회

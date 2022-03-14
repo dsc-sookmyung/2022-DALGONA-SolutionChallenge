@@ -8,6 +8,7 @@ import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.dalgona.zerozone.domain.speaking.SpeakingProbRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
+import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.bookmark.BookmarkSpeakingProbResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -33,21 +34,24 @@ public class BookmarkSpeakingService {
     private final UserRepository userRepository;
     private final Response response;
 
+    // 토큰으로부터 이메일 읽어오기
+    private User getCurrentUser(){
+        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
+    }
+
     // 발음 북마크에 추가
     @Transactional
-    public ResponseEntity<?> addSpeakingBookmark(String email, Long speakingProbId){
-        // 필요한 변수 : 회원, 회원의 북마크, 북마크 요청한 발음 연습 문제, 연습 문제를 담을 중간 엔티티
-        Optional<User> user = userRepository.findByEmail(email);
+    public ResponseEntity<?> addSpeakingBookmark(Long speakingProbId){
+        // 필요한 변수 : 회원의 북마크, 북마크 요청한 발음 연습 문제, 연습 문제를 담을 중간 엔티티
         Optional<BookmarkSpeaking> bookmarkSpeaking;
         Optional<SpeakingProb> speakingProb;
         BookmarkSpeakingProb totalSpeakingProb;
         List<BookmarkSpeakingProb> bookmarkSpeakingProbList;
 
         // 1. 유저 조회
-        if(!user.isPresent())
-            return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
         // 2. 유저의 발음 북마크 조회
-        bookmarkSpeaking = bookmarkSpeakingRepository.findByUser(user.get());
+        bookmarkSpeaking = bookmarkSpeakingRepository.findByUser(user);
         if(!bookmarkSpeaking.isPresent())
             return response.fail("해당 회원의 발음 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 
@@ -75,15 +79,14 @@ public class BookmarkSpeakingService {
     // 발음 북마크 조회
     // 페이징 처리 해야함
     @Transactional
-    public ResponseEntity<?> getSpeakingBookmark(String email, int page){
+    public ResponseEntity<?> getSpeakingBookmark(int page){
         // 0. 요청 페이지 유효성 검사
         if(page<1)
             return response.fail("잘못된 페이지 요청입니다. 1 이상의 페이지를 조회해주세요.", HttpStatus.BAD_REQUEST);
         // 1. 유저 조회
-        Optional<User> user = userRepository.findByEmail(email);
-        if(!user.isPresent()) return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
         // 2. 유저의 발음 북마크 조회
-        Optional<BookmarkSpeaking> bookmarkSpeaking = bookmarkSpeakingRepository.findByUser(user.get());
+        Optional<BookmarkSpeaking> bookmarkSpeaking = bookmarkSpeakingRepository.findByUser(user);
         if(!bookmarkSpeaking.isPresent()) return response.fail("해당 회원의 발음 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // 3. 해당 북마크에 저장된 문제 리스트 조회
         Pageable paging = PageRequest.of(page-1,10, Sort.by(Sort.Direction.DESC, "id"));
@@ -98,19 +101,17 @@ public class BookmarkSpeakingService {
 
     // 발음 북마크 해제
     @Transactional
-    public ResponseEntity<?> deleteSpeakingBookmarkProb(String email, Long speakingProbId){
+    public ResponseEntity<?> deleteSpeakingBookmarkProb(Long speakingProbId){
 
-        // 필요한 변수 : 회원, 회원의 북마크, 북마크 요청한 발음 연습 문제, 연습 문제를 담을 중간 엔티티
-        Optional<User> user = userRepository.findByEmail(email);
+        // 필요한 변수 : 회원의 북마크, 북마크 요청한 발음 연습 문제, 연습 문제를 담을 중간 엔티티
         Optional<BookmarkSpeaking> bookmarkSpeaking;
         Optional<SpeakingProb> speakingProb;
         Optional<BookmarkSpeakingProb> totalSpeakingProb;
 
         // 1. 유저 조회
-        if(!user.isPresent())
-            return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
         // 2. 유저의 발음 북마크 조회
-        bookmarkSpeaking = bookmarkSpeakingRepository.findByUser(user.get());
+        bookmarkSpeaking = bookmarkSpeakingRepository.findByUser(user);
         if(!bookmarkSpeaking.isPresent())
             return response.fail("해당 회원의 발음 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 

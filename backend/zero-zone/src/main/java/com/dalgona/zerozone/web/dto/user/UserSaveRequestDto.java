@@ -1,9 +1,12 @@
 package com.dalgona.zerozone.web.dto.user;
 
+import com.dalgona.zerozone.domain.user.Authority;
 import com.dalgona.zerozone.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -20,11 +23,12 @@ public class UserSaveRequestDto {
         this.name=name;
     }
 
-    public User toEntity(){
+    public User toEntity(Set<Authority> authorities){
         return User.builder()
                 .email(email)
                 .password(password)
                 .name(name)
+                .authorities(authorities)
                 .build();
     }
 

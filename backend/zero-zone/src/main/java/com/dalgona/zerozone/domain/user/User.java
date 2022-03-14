@@ -8,19 +8,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder
+@Builder
 @Entity
 public class User{
 
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     @Column(length = 100, nullable = false, unique = true)
     private String email;
@@ -31,19 +31,25 @@ public class User{
     @Column(length = 300, nullable = false)
     private String name;
 
-    @Column
-    private String role;
-
     @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Test> tests = new ArrayList<>();
+
+    @Column(name = "refresh_token_value")
+    private String refreshTokenValue;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities = new HashSet<>();
 
     @Builder
     public User(String email, String password, String name){
         this.email=email;
         this.password=password;
         this.name=name;
-        this.role="ROLE_USER";
     }
 
     public User updateName(String name){
@@ -56,5 +62,12 @@ public class User{
         return this;
     }
 
+    public User updateAuthorities(Set<Authority> authorities){
+        this.authorities = authorities;
+        return this;
+    }
 
+    public void updateRefreshTokenValue(String refreshToken) {
+        this.refreshTokenValue = refreshToken;
+    }
 }
