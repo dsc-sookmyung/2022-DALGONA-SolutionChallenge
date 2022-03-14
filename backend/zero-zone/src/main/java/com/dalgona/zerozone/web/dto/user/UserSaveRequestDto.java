@@ -23,11 +23,12 @@ public class UserSaveRequestDto {
         this.name=name;
     }
 
-    public User toEntity(){
+    public User toEntity(Set<Authority> authorities){
         return User.builder()
                 .email(email)
                 .password(password)
                 .name(name)
+                .authorities(authorities)
                 .build();
     }
 

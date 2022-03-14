@@ -53,6 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/email").permitAll()
+                .antMatchers("/email/**").permitAll()
+                .antMatchers("/user/password/lost").permitAll()
 
                 .anyRequest().authenticated()
 
@@ -73,5 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/bookmark/**")
                 .antMatchers("/recent/**");
     }
+
 
 }

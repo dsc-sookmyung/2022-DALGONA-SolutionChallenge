@@ -80,9 +80,6 @@ public class JwtTokenProvider implements InitializingBean {
 
     public boolean validateToken(String token) {
         try {
-            System.out.println("this.key = " + this.key);
-            System.out.println("this.secret  = " + this.secret );
-
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {

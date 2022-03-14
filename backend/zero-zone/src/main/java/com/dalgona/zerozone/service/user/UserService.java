@@ -28,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -62,7 +63,9 @@ public class UserService {
         userSaveRequestDTO.encodePwd(encodedPwd);
 
         // DB 저장
-        User user = userRepository.save(userSaveRequestDTO.toEntity());
+        Authority authority = Authority.builder().authorityName("ROLE_USER").build();
+
+        User user = userRepository.save(userSaveRequestDTO.toEntity(Collections.singleton(authority)));
 
         // 북마크 생성
         BookmarkReading bookmarkReading = new BookmarkReading(user);
@@ -129,61 +132,42 @@ public class UserService {
             return false;
     }
 
+    private User getCurrentUser(){
+        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
+    }
+
     // 내 정보 조회
     @Transactional
     public ResponseEntity<?> getMyInfo(){
-        User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
+        User user = getCurrentUser();
         UserInfoResponseDto info = new UserInfoResponseDto(user.getName(), user.getEmail());
         return response.success(info, "내 정보 조회에 성공했습니다.", HttpStatus.OK);
     }
 
-    /*
-
     // 이름 수정
     @Transactional
-    public ResponseEntity<?> updateMyName(String token, String name){
-        String email = jwtTokenProvider.getUserPk(token);
-        if (!isExistMethod(email)) {
-            return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
-        }
-        User findUser = userRepository.findByEmail(email).get();
-        findUser.updateName(name);
+    public ResponseEntity<?> updateMyName(String newName){
+        User user = getCurrentUser();
+        user.updateName(newName);
         return response.success("회원 이름 수정에 성공했습니다.");
-    }
-
-    // 비밀번호 수정
-    @Transactional
-    public ResponseEntity<?> updateMyPassword(String token, String password){
-        String email = jwtTokenProvider.getUserPk(token);
-        if (!isExistMethod(email)) {
-            return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
-        }
-        String encodedPwd = pwdEncorder.encode(password);
-        User findUser = userRepository.findByEmail(email).get();
-        findUser.updatePassword(encodedPwd);
-        return response.success("회원 비밀번호 수정에 성공했습니다.");
     }
 
     // 비번 분실시 비밀번호 수정
     @Transactional
-    public ResponseEntity<?> updateMyPasswordIfLost(String email, String password){
-        if (!isExistMethod(email)) {
-            return response.fail("가입되지 않은 E-MAIL 입니다.", HttpStatus.BAD_REQUEST);
-        }
-        Optional<UserEmailAuth> user = userEmailAuthRepository.findByEmail(email);
+    public ResponseEntity<?> updateMyPasswordIfLost(String email, String newPassword){
+        Optional<UserEmailAuth> findUser = userEmailAuthRepository.findByEmail(email);
         // 인증된 이메일인지 확인
-        if(user.isPresent()){
+        if(findUser.isPresent()){
             // 인증되었다면 비밀번호 수정
-            if(user.get().isAuthPwdStatus()){
-                String encodedPwd = pwdEncorder.encode(password);
-                User findUser = userRepository.findByEmail(email).get();
-                findUser.updatePassword(encodedPwd);
+            if(findUser.get().isAuthPwdStatus()){
+                String encodedPwd = pwdEncorder.encode(newPassword);
+                Optional<User> user = userRepository.findByEmail(email);
+                if(!user.isPresent()) return response.fail("존재하지 않는 이메일입니다.", HttpStatus.BAD_REQUEST);
+                user.get().updatePassword(encodedPwd);
                 return response.success("회원 비밀번호 수정에 성공했습니다.");
             }
         }
         return response.fail("인증되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST);
     }
-
-     */
 
 }
