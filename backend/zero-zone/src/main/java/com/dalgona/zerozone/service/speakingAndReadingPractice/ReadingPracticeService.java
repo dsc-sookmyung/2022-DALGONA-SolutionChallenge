@@ -8,11 +8,14 @@ import com.dalgona.zerozone.domain.content.word.Word;
 import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.reading.ReadingProb;
 import com.dalgona.zerozone.domain.reading.ReadingProbRepository;
+import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.content.SentenceRequestDto;
 import com.dalgona.zerozone.web.dto.content.WordRequestDto;
 import com.dalgona.zerozone.web.dto.readingPractice.SentenceReadingProbResponseProbDto;
 import com.dalgona.zerozone.web.dto.readingPractice.WordReadingProbResponseProbDto;
+import com.dalgona.zerozone.web.dto.speakingPractice.SentenceSpeakingProbResponseDto;
+import com.dalgona.zerozone.web.dto.speakingPractice.WordSpeakingProbResponseProbDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +65,7 @@ public class ReadingPracticeService {
             return response.fail("구화 연습에 등록된 단어를 찾지 못했습니다.", HttpStatus.BAD_REQUEST);
         // 조회 성공
         WordReadingProbResponseProbDto wordResponseDto = new WordReadingProbResponseProbDto(readingProb.get());
-        return response.success(wordResponseDto, "구화 단어 연습 조회에 성공했습니다.", HttpStatus.OK);
+        return response.success(wordResponseDto, "랜덤 구화 단어 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
 
     // 문장 랜덤 조회
@@ -94,7 +97,29 @@ public class ReadingPracticeService {
             return response.fail("구화 연습에 등록된 문장을 찾지 못했습니다.", HttpStatus.BAD_REQUEST);
         // 조회 성공
         SentenceReadingProbResponseProbDto sentenceResponseDto = new SentenceReadingProbResponseProbDto(readingProb.get());
-        return response.success(sentenceResponseDto, "구화 문장 연습 조회에 성공했습니다.", HttpStatus.OK);
+        return response.success(sentenceResponseDto, "랜덤 구화 문장 연습 조회에 성공했습니다.", HttpStatus.OK);
+    }
+    
+    // 단어 조회
+    @Transactional
+    public ResponseEntity<?> getReadingPracticeWordProb(Long id){
+        Optional<Word> word = wordRepository.findById(id);
+        if(!word.isPresent()) return response.fail("단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        Optional<ReadingProb> readingProb = readingProbRepository.findByTypeAndWord("word", word.get());
+        if(!readingProb.isPresent()) return response.fail("단어가 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
+        WordReadingProbResponseProbDto wordResponseDto = new WordReadingProbResponseProbDto(readingProb.get());
+        return response.success(wordResponseDto, "구화 단어 연습 조회에 성공했습니다.", HttpStatus.OK);
+    }
+    
+    // 문장 조회
+    @Transactional
+    public ResponseEntity<?> getReadingPracticeSentenceProb(Long id){
+        Optional<Sentence> sentence = sentenceRepository.findById(id);
+        if(!sentence.isPresent()) return response.fail("문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        Optional<ReadingProb> readingProb = readingProbRepository.findByTypeAndSentence("sentence", sentence.get());
+        if(!readingProb.isPresent()) return response.fail("문장이 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
+        SentenceReadingProbResponseProbDto sentenceReadingProbResponseDto = new SentenceReadingProbResponseProbDto(readingProb.get());
+        return response.success(sentenceReadingProbResponseDto, "발음 문장 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
     
 }
