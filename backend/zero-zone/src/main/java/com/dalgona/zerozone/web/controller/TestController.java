@@ -24,26 +24,26 @@ public class TestController {
 
     // 단어 시험
     @GetMapping("/word")
-    public ResponseEntity<?> getWordTestSettingInfo(@RequestParam String email){
-        return testService.getWordTestSettingInfo(email);
+    public ResponseEntity<?> getWordTestSettingInfo(){
+        return testService.getWordTestSettingInfo();
     }
 
     // 문장 시험
     @GetMapping("/sentence")
-    public ResponseEntity<?> getSentenceTestSettingInfo(@RequestParam String email){
-        return testService.getSentenceTestSettingInfo(email);
+    public ResponseEntity<?> getSentenceTestSettingInfo(){
+        return testService.getSentenceTestSettingInfo();
     }
 
     // 단어+문장 시험
     @GetMapping("/random")
-    public ResponseEntity<?> getRandomTestSettingInfo(@RequestParam String email){
-        return testService.getRandomTestSettingInfo(email);
+    public ResponseEntity<?> getRandomTestSettingInfo(){
+        return testService.getRandomTestSettingInfo();
     }
 
     // 북마크된 문항 시험
     @GetMapping("/bookmark")
-    public ResponseEntity<?> getBookmarkTestSettingInfo(@RequestParam String email){
-        return testService.getBookmarkTestSettingInfo(email);
+    public ResponseEntity<?> getBookmarkTestSettingInfo(){
+        return testService.getBookmarkTestSettingInfo();
     }
 
 
@@ -55,37 +55,33 @@ public class TestController {
     // 매개변수 : 이메일, (테스트이름, 총 문제 개수)
     @PostMapping("/word")
     public ResponseEntity<?> createWordTest(
-            @RequestParam String email,
             @RequestBody TestCreateRequestDto testCreateRequestDto
             ){
-        return testCreateService.createWordTest(testCreateRequestDto, email);
+        return testCreateService.createWordTest(testCreateRequestDto);
     }
 
     // 문장 시험
     @PostMapping(value = "/sentence", produces = "application/json; charset=utf8")
     public ResponseEntity<?> createSentenceTest(
-            @RequestParam String email,
             @RequestBody TestCreateRequestDto testCreateRequestDto
     ){
-        return testCreateService.createSentenceTest(testCreateRequestDto, email);
+        return testCreateService.createSentenceTest(testCreateRequestDto);
     }
 
     // 단어+문장 시험
     @PostMapping("/random")
     public ResponseEntity<?> createRandomTest(
-            @RequestParam String email,
             @RequestBody TestCreateRequestDto testCreateRequestDto
     ){
-        return testCreateService.createWordAndSentenceTest(testCreateRequestDto, email);
+        return testCreateService.createWordAndSentenceTest(testCreateRequestDto);
     }
     
     // 북마크된 문항 시험
     @PostMapping("/bookmark")
     public ResponseEntity<?> createBookmarkTest(
-            @RequestParam String email,
             @RequestBody TestCreateRequestDto testCreateRequestDto
     ){
-        return testCreateService.createBookmarkTest(testCreateRequestDto, email);
+        return testCreateService.createBookmarkTest(testCreateRequestDto);
     }
 
     /*
@@ -102,8 +98,8 @@ public class TestController {
 
     // 회원의 시험 목록 조회
     @GetMapping("/list")
-    public ResponseEntity<?> getTestListByUser(@RequestParam String email, @RequestParam(required = false, defaultValue = "1", value = "page")  int page){
-        return testService.getTestListByUser(email, page);
+    public ResponseEntity<?> getTestListByUser(@RequestParam(required = false, defaultValue = "1", value = "page")  int page){
+        return testService.getTestListByUser(page);
     }
 
     // 시험의 문제 목록 조회

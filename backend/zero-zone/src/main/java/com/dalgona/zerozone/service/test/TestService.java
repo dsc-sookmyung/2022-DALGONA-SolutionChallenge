@@ -8,6 +8,7 @@ import com.dalgona.zerozone.domain.test.TestProbsRepository;
 import com.dalgona.zerozone.domain.test.TestRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
+import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.test.*;
 import lombok.RequiredArgsConstructor;
@@ -35,13 +36,17 @@ public class TestService {
     private final BookmarkReadingRepository bookmarkReadingRepository;
     private final Response response;
 
+    // 토큰으로부터 이메일 읽어오기
+    private User getCurrentUser(){
+        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
+    }
+
     // 단어 시험 정보 조회
     @Transactional
-    public ResponseEntity<?> getWordTestSettingInfo(String email){
+    public ResponseEntity<?> getWordTestSettingInfo(){
         // 반환 데이터 : 해당 유저의 총 테스트 개수, 연습 가능한 단어의 개수
-        Optional<User> user = userRepository.findByEmail(email);
-        if(!user.isPresent()) return response.fail("존재하지 않는 회원입니다.", HttpStatus.BAD_REQUEST);
-        int totalTestCount = user.get().getTests().size();
+        User user = getCurrentUser();
+        int totalTestCount = user.getTests().size();
         int wordCount = readingProbRepository.findAllByType("word").size();
         TestSettingInfoResponseDto responseDto = new TestSettingInfoResponseDto(totalTestCount, wordCount);
         return response.success(responseDto,"단어 시험 설정 정보 조회에 성공했습니다.", HttpStatus.OK);
@@ -49,11 +54,10 @@ public class TestService {
     
     // 문장 시험 정보 조회
     @Transactional
-    public ResponseEntity<?> getSentenceTestSettingInfo(String email){
+    public ResponseEntity<?> getSentenceTestSettingInfo(){
         // 반환 데이터 : 해당 유저의 총 테스트 개수, 연습 가능한 문장의 개수
-        Optional<User> user = userRepository.findByEmail(email);
-        if(!user.isPresent()) return response.fail("존재하지 않는 회원입니다.", HttpStatus.BAD_REQUEST);
-        int totalTestCount = user.get().getTests().size();
+        User user = getCurrentUser();
+        int totalTestCount = user.getTests().size();
         int sentenceCount = readingProbRepository.findAllByType("sentence").size();
         TestSettingInfoResponseDto responseDto = new TestSettingInfoResponseDto(totalTestCount, sentenceCount);
         return response.success(responseDto,"문장 시험 설정 정보 조회에 성공했습니다.", HttpStatus.OK);
@@ -61,11 +65,10 @@ public class TestService {
 
     // 단어_문장 시험 정보 조회
     @Transactional
-    public ResponseEntity<?> getRandomTestSettingInfo(String email){
+    public ResponseEntity<?> getRandomTestSettingInfo(){
         // 반환 데이터 : 해당 유저의 총 테스트 개수, 연습 가능한 단어+문장의 개수
-        Optional<User> user = userRepository.findByEmail(email);
-        if(!user.isPresent()) return response.fail("존재하지 않는 회원입니다.", HttpStatus.BAD_REQUEST);
-        int totalTestCount = user.get().getTests().size();
+        User user = getCurrentUser();
+        int totalTestCount = user.getTests().size();
         int wordCount = readingProbRepository.findAllByType("word").size();
         int sentenceCount = readingProbRepository.findAllByType("sentence").size();
         TestSettingInfoResponseDto responseDto = new TestSettingInfoResponseDto(totalTestCount, wordCount+sentenceCount);
@@ -74,12 +77,11 @@ public class TestService {
 
     // 북마크 시험 정보 조회
     @Transactional
-    public ResponseEntity<?> getBookmarkTestSettingInfo(String email){
+    public ResponseEntity<?> getBookmarkTestSettingInfo(){
         // 반환 데이터 : 해당 유저의 총 테스트 개수, 북마크된 단어+문장의 개수
-        Optional<User> user = userRepository.findByEmail(email);
-        if(!user.isPresent()) return response.fail("존재하지 않는 회원입니다.", HttpStatus.BAD_REQUEST);
-        int totalTestCount = user.get().getTests().size();
-        int totalCount = bookmarkReadingRepository.findByUser(user.get()).get().getBookmarkReadingList().size();
+        User user = getCurrentUser();
+        int totalTestCount = user.getTests().size();
+        int totalCount = bookmarkReadingRepository.findByUser(user).get().getBookmarkReadingList().size();
         TestSettingInfoResponseDto responseDto = new TestSettingInfoResponseDto(totalTestCount, totalCount);
         return response.success(responseDto,"북마크 시험 설정 정보 조회에 성공했습니다.", HttpStatus.OK);
     }
@@ -111,16 +113,15 @@ public class TestService {
 
     // 유저별로 시험 리스트 조회 : 페이징 처리
     @Transactional
-    public ResponseEntity<?> getTestListByUser(String email, int page){
+    public ResponseEntity<?> getTestListByUser(int page){
         // 요청 페이지 유효성 검사
         if(page<1)
             return response.fail("잘못된 페이지 요청입니다. 1 이상의 페이지를 조회해주세요.", HttpStatus.BAD_REQUEST);
         // 회원 조회
-        Optional<User> user = userRepository.findByEmail(email);
-        if(!user.isPresent()) return response.fail("존재하지 않는 회원입니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
         // 회원의 시험 리스트 조회
         Pageable paging = PageRequest.of(page-1,10, Sort.by(Sort.Direction.DESC, "id"));
-        Page<Test> testList = testRepository.findAllByUser(user.get(), paging);
+        Page<Test> testList = testRepository.findAllByUser(user, paging);
         // dto로 변환
         Page<TestListByUserResponseDto> testListByUserResponseDtos
                 = testList.map(TestListByUserResponseDto::of);
