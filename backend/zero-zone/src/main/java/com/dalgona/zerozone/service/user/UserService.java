@@ -13,23 +13,28 @@ import com.dalgona.zerozone.jwt.JwtAuthenticationFilter;
 import com.dalgona.zerozone.jwt.JwtTokenProvider;
 import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
+import com.dalgona.zerozone.web.dto.token.TokensResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserInfoResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserLoginRequestDto;
 import com.dalgona.zerozone.web.dto.user.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -45,6 +50,7 @@ public class UserService {
     private final PasswordEncoder pwdEncorder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final UserDetailsService userDetailsService;
     private final Response response;
 
     // 회원가입
@@ -107,18 +113,16 @@ public class UserService {
             return response.fail("잘못된 비밀번호입니다.", HttpStatus.BAD_REQUEST);
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userLoginRequestDTO.getEmail(), userLoginRequestDTO.getPassword());
-
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String token = jwtTokenProvider.createToken(authentication);
+        String accessToken = jwtTokenProvider.createAccessToken(findMember.getEmail(), findMember.getAuthorities());
+        String refreshTokenValue = UUID.randomUUID().toString().replace("-", "");
+        findMember.updateRefreshTokenValue(refreshTokenValue);
+        String refreshToken = jwtTokenProvider.createRefreshToken(refreshTokenValue);
+        TokensResponseDto tokens = new TokensResponseDto(accessToken, refreshToken);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtAuthenticationFilter.AUTHORIZATION_HEADER, "Bearer " + token);
+        httpHeaders.add(JwtAuthenticationFilter.AUTHORIZATION_HEADER, "Bearer " + accessToken);
 
-        return response.success(token, "로그인에 성공했습니다.", HttpStatus.OK);
+        return response.success(tokens, "로그인에 성공했습니다.", HttpStatus.OK);
     }
 
     // 인증된 이메일인지 확인
@@ -133,6 +137,7 @@ public class UserService {
     }
 
     private User getCurrentUser(){
+        System.out.println("getCurrentUser");
         return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
     }
 
@@ -170,4 +175,30 @@ public class UserService {
         return response.fail("인증되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST);
     }
 
+    // 인증토큰 재발급
+    public ResponseEntity<?> reissueAccessToken(String userEmail, String givenRefreshToken, HttpServletRequest request) {
+        Optional<User> user = userRepository.findByEmail(userEmail);
+        if(!user.isPresent()) return response.fail("존재하지 않는 이메일입니다.", HttpStatus.BAD_REQUEST);
+        User findUser = user.get();
+
+        String requiredValue = findUser.getRefreshTokenValue();
+        if (!jwtTokenProvider.validateToken(givenRefreshToken, request))
+            return response.fail("리프레시 토큰이 유효하지 않습니다. 다시 로그인해주세요.", HttpStatus.BAD_REQUEST);
+
+        // 새로운 토큰을 받기 위한 Authentication 객체
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(findUser.getEmail(), null);
+
+        // 인증 토큰 재발급
+        String accessToken = jwtTokenProvider.createAccessToken(findUser.getEmail(), findUser.getAuthorities());
+        String refreshTokenValue = UUID.randomUUID().toString().replace("-", "");
+        findUser.updateRefreshTokenValue(refreshTokenValue);
+        String refreshToken = jwtTokenProvider.createRefreshToken(refreshTokenValue);
+        TokensResponseDto tokens = new TokensResponseDto(accessToken, refreshToken);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtAuthenticationFilter.AUTHORIZATION_HEADER, "Bearer " + accessToken);
+
+        return response.success(tokens, "인증 토큰을 재발급했습니다.", HttpStatus.OK);
+    }
 }

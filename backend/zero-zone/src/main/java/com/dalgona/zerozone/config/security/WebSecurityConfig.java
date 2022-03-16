@@ -5,8 +5,8 @@ import com.dalgona.zerozone.jwt.JwtAuthenticationEntryPoint;
 import com.dalgona.zerozone.jwt.JwtSecurityConfig;
 import com.dalgona.zerozone.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -36,6 +36,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -55,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/email").permitAll()
                 .antMatchers("/email/**").permitAll()
                 .antMatchers("/user/password/lost").permitAll()
+                .antMatchers("/token/reissue/accessToken").permitAll()
 
                 .anyRequest().authenticated()
 

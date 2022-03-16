@@ -52,5 +52,12 @@ public class UserController {
     public ResponseEntity<?> lostPassword(HttpServletRequest request, @RequestBody Map<String, String> passwordChangeRequestDto) {
         return userService.updateMyPasswordIfLost(passwordChangeRequestDto.get("email"), passwordChangeRequestDto.get("password"));
     }
-    
+
+    // 인증 토큰 만료시 리프레시 토큰으로 재발급
+    @PostMapping("/token/reissue/accessToken")
+    public ResponseEntity<?> reissueAccessToken(@RequestBody Map<String, String> requestDto, HttpServletRequest request){
+        String userEmail = requestDto.get("email");
+        String refreshToken = requestDto.get("refreshToken");
+        return userService.reissueAccessToken(userEmail, refreshToken, request);
+    }
 }
