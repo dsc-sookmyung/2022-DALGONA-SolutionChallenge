@@ -20,17 +20,21 @@ class lrselectModeMainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "구화 연습",
-            style: TextStyle(
-                color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
-          ),
-          centerTitle: true,
-          backgroundColor: Color(0xffC8E8FF),
-        ),
+        // appBar: AppBar(
+        //   title: Text(
+        //     "구화 연습",
+        //     style: TextStyle(
+        //         color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
+        //   ),
+        //   centerTitle: true,
+        //   backgroundColor: Color(0xffC8E8FF),
+        // ),
         body: new Container(
-          margin: EdgeInsets.only(top: 130.0),
+          decoration: BoxDecoration(
+          color: Color(0xffe9f5ff),
+          ),
+          padding: EdgeInsets.only(top: 200.0),
+          // margin: EdgeInsets.only(top: 130.0),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             //mainAxisAlignment: MainAxisAlignment.center,

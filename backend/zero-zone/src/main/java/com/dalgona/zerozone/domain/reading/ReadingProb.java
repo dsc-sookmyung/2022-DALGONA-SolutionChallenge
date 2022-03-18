@@ -29,7 +29,7 @@ public class ReadingProb {
     @Column
     private String url;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String hint;
 
     @OneToOne

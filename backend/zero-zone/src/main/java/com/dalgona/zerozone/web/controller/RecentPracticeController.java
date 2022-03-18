@@ -17,26 +17,26 @@ public class RecentPracticeController {
 
     // 구화 연습 최근 학습에 추가
     @PostMapping("/reading")
-    public ResponseEntity<?> addReadingRecent(@RequestParam String email, @RequestBody RecentRequestDto requestDto){
-        return recentReadingService.addReadingRecent(email, requestDto);
+    public ResponseEntity<?> addReadingRecent(@RequestBody RecentRequestDto requestDto){
+        return recentReadingService.addReadingRecent(requestDto);
     }
 
     // 구화 연습 최근 학습 리스트 조회
     @GetMapping("/reading")
-    public ResponseEntity<?> getReadingRecent(@RequestParam String email, @RequestParam int page){
-        return recentReadingService.getReadingRecent(email, page);
+    public ResponseEntity<?> getReadingRecent(@RequestParam int page){
+        return recentReadingService.getReadingRecent(page);
     }
 
     // 발음 연습 최근 학습에 추가
     @PostMapping("/speaking")
-    public ResponseEntity<?> addSpeakingRecent(@RequestParam String email, @RequestBody RecentRequestDto requestDto){
-        return recentSpeakingService.addSpeakingRecent(email, requestDto);
+    public ResponseEntity<?> addSpeakingRecent(@RequestBody RecentRequestDto requestDto){
+        return recentSpeakingService.addSpeakingRecent(requestDto);
     }
 
     // 발음 연습 최근 학습 리스트 조회
     @GetMapping("/speaking")
-    public ResponseEntity<?> getSpeakingRecent(@RequestParam String email, @RequestParam int page){
-        return recentSpeakingService.getSpeakingRecent(email, page);
+    public ResponseEntity<?> getSpeakingRecent(@RequestParam int page){
+        return recentSpeakingService.getSpeakingRecent(page);
     }
 
 }

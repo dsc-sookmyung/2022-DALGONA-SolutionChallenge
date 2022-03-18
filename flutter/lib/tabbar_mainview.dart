@@ -65,7 +65,7 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
           Tab(
             icon: _seletedIndex == 0 ? Icon(Icons.face, color: Color(0xff5AA9DD)) : Icon(Icons.face_outlined, color: Color(0xff5AA9DD)),
             child: Text(
-              '읽기',
+              '구화',
               style: TextStyle(color: Color(0xff5AA9DD), fontSize: 11),
             ),
           ),

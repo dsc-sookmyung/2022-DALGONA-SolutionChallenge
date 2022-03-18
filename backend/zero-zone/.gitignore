@@ -39,3 +39,4 @@ out/
 ### mine ###
 email.properties
 application.properties
+application.yml

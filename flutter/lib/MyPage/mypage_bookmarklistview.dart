@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 class BookMarkListPage extends StatefulWidget {
   const BookMarkListPage({Key? key}) : super(key: key);
 
@@ -14,6 +17,68 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
 
   final List<String> lr_bookmarkList = <String>["lr_word", "Bm", 'C', 'D', 'E', 'F', 'G', 'practice', 'lipreading', 'bookmarklist'];
   final List<String> sp_bookmarkList = <String>["sp_word", "Bm", 'C', 'D', 'E', 'F', 'G', 'practice'];
+
+  final int _numPages = 10;
+  final int _currentPage = 0;
+
+  Future<void> speakingBookmarkInfo() async {
+
+    //TO DO 사용자 정보 받아오기 성공할 경우 받아온 이메일로 조회할 수 있도록 재설정
+    Map<String, String> _queryParameters = <String, String>{
+      'email': "ksa8023@naver.com",
+    };
+
+    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTY5NDEsImV4cCI6MTY0NTQ5ODc0MX0.g5kqasAyvzWZ_ZkENa6UaXf6_qyiYarmu6xn12CbW7U" });
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  Future<void> readingBookmarkInfo() async {
+
+    //TO DO 사용자 정보 받아오기 성공할 경우 받아온 이메일로 조회할 수 있도록 재설정
+    Map<String, String> _queryParameters = <String, String>{
+      'email': "ksa8023@naver.com",
+    };
+
+    var url = Uri.http('localhost:8080', '/bookmark/reading', _queryParameters);
+
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTY5NDEsImV4cCI6MTY0NTQ5ODc0MX0.g5kqasAyvzWZ_ZkENa6UaXf6_qyiYarmu6xn12CbW7U" });
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  @override
+  void initState() {
+    speakingBookmarkInfo();
+    readingBookmarkInfo();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +166,7 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
                                         Container(
                                           child: IconButton(
                                             onPressed: (){
-                                              print('click');
+                                              print('click: ${index}');
                                               },
                                             icon: Icon(Icons.play_arrow_rounded),
                                           )
@@ -137,7 +202,7 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
                                             Container(
                                                 child: IconButton(
                                                   onPressed: (){
-                                                    print('click');
+                                                    print('click: ${index}');
                                                   },
                                                   icon: Icon(Icons.play_arrow_rounded),
                                                 )
@@ -152,6 +217,8 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
                           ),
                         ])
                     )
+
+
                   ])
               ),
             ]),

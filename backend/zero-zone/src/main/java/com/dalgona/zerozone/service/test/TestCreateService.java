@@ -11,6 +11,7 @@ import com.dalgona.zerozone.domain.test.TestProbsRepository;
 import com.dalgona.zerozone.domain.test.TestRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
+import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.readingPractice.ReadingProbResponseDto;
 import com.dalgona.zerozone.web.dto.test.TestCreateRequestDto;
@@ -34,13 +35,15 @@ public class TestCreateService {
     private final BookmarkReadingRepository bookmarkReadingRepository;
     private final Response response;
 
-    // 문제 : 날짜 등록 안됨, 테스트이름 인코딩
+    // 토큰으로부터 이메일 읽어오기
+    private User getCurrentUser(){
+        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
+    }
 
     // 단어 시험 생성
     // 필요한 정보 : 유저, 테스트이름, 문제개수
     @Transactional
-    public ResponseEntity<?> createWordTest(TestCreateRequestDto testCreateRequestDto, String email){
-        Optional<User> user = userRepository.findByEmail(email);
+    public ResponseEntity<?> createWordTest(TestCreateRequestDto testCreateRequestDto){
         List<ReadingProb> readingProbList = readingProbRepository.findAllByType("word");
         String testName = testCreateRequestDto.getTestName();
         int probsCount = testCreateRequestDto.getProbsCount();
@@ -52,11 +55,10 @@ public class TestCreateService {
             return response.fail("요청한 문제 개수가 연습에 등록된 문제 개수보다 많습니다.", HttpStatus.BAD_REQUEST);
 
         // 유저 조회
-        if(!user.isPresent())
-            return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
 
         // 시험 데이터 생성
-        Test test = new Test(testName, probsCount, 0, user.get());
+        Test test = new Test(testName, probsCount, 0, user);
         Test newTest = testRepository.save(test);
 
         // 구화 단어 연습 문제 가져와서 특정 개수만큼 랜덤으로 추출
@@ -85,8 +87,7 @@ public class TestCreateService {
 
     // 문장 시험 생성
     @Transactional
-    public ResponseEntity<?> createSentenceTest(TestCreateRequestDto testCreateRequestDto, String email){
-        Optional<User> user = userRepository.findByEmail(email);
+    public ResponseEntity<?> createSentenceTest(TestCreateRequestDto testCreateRequestDto){
         List<ReadingProb> readingProbList = readingProbRepository.findAllByType("sentence");
         String testName = testCreateRequestDto.getTestName();
         int probsCount = testCreateRequestDto.getProbsCount();
@@ -98,11 +99,10 @@ public class TestCreateService {
             return response.fail("요청한 문제 개수가 연습에 등록된 문제 개수보다 많습니다.", HttpStatus.BAD_REQUEST);
 
         // 유저 조회
-        if(!user.isPresent())
-            return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
 
         // 시험 데이터 생성
-        Test test = new Test(testName, probsCount, 0, user.get());
+        Test test = new Test(testName, probsCount, 0, user);
         Test newTest = testRepository.save(test);
 
         // 구화 단어 연습 문제 가져와서 특정 개수만큼 랜덤으로 추출
@@ -131,8 +131,7 @@ public class TestCreateService {
 
     // 단어+문장 시험 생성
     @Transactional
-    public ResponseEntity<?> createWordAndSentenceTest(TestCreateRequestDto testCreateRequestDto, String email){
-        Optional<User> user = userRepository.findByEmail(email);
+    public ResponseEntity<?> createWordAndSentenceTest(TestCreateRequestDto testCreateRequestDto){
         List<ReadingProb> readingWordProbList =
                 readingProbRepository.findAllByType("word");
         List<ReadingProb> readingSentenceProbList =
@@ -151,11 +150,10 @@ public class TestCreateService {
             return response.fail("요청한 문제 개수가 연습에 등록된 문제 개수보다 많습니다.", HttpStatus.BAD_REQUEST);
 
         // 유저 조회
-        if(!user.isPresent())
-            return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        User user = getCurrentUser();
 
         // 시험 데이터 생성
-        Test test = new Test(testName, probsCount, 0, user.get());
+        Test test = new Test(testName, probsCount, 0, user);
         Test newTest = testRepository.save(test);
 
         // 구화 연습 문제 가져와서 특정 개수만큼 랜덤으로 추출
@@ -224,15 +222,13 @@ public class TestCreateService {
 
     // 북마크 시험 생성
     @Transactional
-    public ResponseEntity<?> createBookmarkTest(TestCreateRequestDto testCreateRequestDto, String email){
-        Optional<User> user = userRepository.findByEmail(email);
+    public ResponseEntity<?> createBookmarkTest(TestCreateRequestDto testCreateRequestDto){
         String testName = testCreateRequestDto.getTestName();
         int probsCount = testCreateRequestDto.getProbsCount();
 
         // 유저 조회
-        if(!user.isPresent())
-            return response.fail("해당 회원이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        Optional<BookmarkReading> bookmarkReading = bookmarkReadingRepository.findByUser(user.get());
+        User user = getCurrentUser();
+        Optional<BookmarkReading> bookmarkReading = bookmarkReadingRepository.findByUser(user);
         if(!bookmarkReading.isPresent())
             return response.fail("해당 회원의 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 
@@ -251,7 +247,7 @@ public class TestCreateService {
         }
 
         // 시험 데이터 생성
-        Test test = new Test(testName, probsCount, 0, user.get());
+        Test test = new Test(testName, probsCount, 0, user);
         Test newTest = testRepository.save(test);
 
         // 구화 단어 연습 문제 가져와서 특정 개수만큼 랜덤으로 추출
