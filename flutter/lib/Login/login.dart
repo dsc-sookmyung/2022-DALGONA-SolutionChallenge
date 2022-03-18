@@ -6,6 +6,11 @@ import 'signup.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:provider/provider.dart';
+
+var authToken = '';
+var name = "";
+var email = "";
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,6 +23,8 @@ class _LoginPageState extends State<LoginPage> {
 
   late String _email;
   late String _password;
+
+
 
   void validateAndSave() {
     final form = _formKey.currentState;
@@ -44,6 +51,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // final authToken = Provider.of<AccessToken>(context);
+
     return new Scaffold(
 
       body: new Container(
@@ -154,13 +164,17 @@ class _LoginPageState extends State<LoginPage> {
 
       var body = jsonDecode(response.body);
 
-      String data = body["result"];
+      dynamic data = body["data"];
+      String token = data["accessToken"];
 
       ///!! 일단 result 값으로 지정해 놓음. 후에 서버와 논의하여 data값 설정하기.
-      print("data: " + data.toString());
+      print("token: " + token.toString());
 
       if(data != "fail"){
         print("로그인에 성공하셨습니다.");
+        authToken = token;
+
+        userInfo();
         Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context) => tabBarMainPage()),);
       }
@@ -169,6 +183,32 @@ class _LoginPageState extends State<LoginPage> {
     }
     else {
       print(response.reasonPhrase);
+    }
+
+  }
+
+  void userInfo() async {
+
+    var url = Uri.http('localhost:8080', '/user/info');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+    print("Bearer ${authToken}");
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      var data = body["data"];
+      email = data["name"].toString();
+      name = data["email"].toString();
+
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
     }
 
   }
