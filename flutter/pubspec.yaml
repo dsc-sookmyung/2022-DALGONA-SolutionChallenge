@@ -41,6 +41,7 @@ dependencies:
   http:
   image_picker: ^0.8.4+10
   video_player: ^2.2.19
+  provider: ^6.0.2
 #  number_paginator: ^0.0.2
 #  tflite: ^1.1.2
 

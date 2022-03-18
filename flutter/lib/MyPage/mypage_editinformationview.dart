@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:zerozone/Login/login.dart';
+
 class ModifyInformationPage extends StatefulWidget {
   const ModifyInformationPage({Key? key}) : super(key: key);
 
@@ -13,12 +16,14 @@ class _ModifyInformationPageState extends State<ModifyInformationPage> {
 
   final TextEditingController _name = new TextEditingController();
 
-  Future<void> changeName(String name) async {
+  Future<void> changeName(String editName) async {
 
     var url = Uri.http('localhost:8080', '/user/name');
-    final data = jsonEncode({'name': name});
+    final data = jsonEncode({'name': editName});
 
-    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTUzMzYsImV4cCI6MTY0NTQ5NzEzNn0.CPWbREin7Kr7ldbXBIaBc6v3S5W2PF1bBTISQNJu63U" });
+    name = editName;
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
     print(url);
     print('Response status: ${response.statusCode}');
@@ -27,7 +32,7 @@ class _ModifyInformationPageState extends State<ModifyInformationPage> {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
       var body = jsonDecode(response.body);
-      Navigator.pop(context);
+      Navigator.pop(context, editName);
     }
     else {
       print('error : ${response.reasonPhrase}');

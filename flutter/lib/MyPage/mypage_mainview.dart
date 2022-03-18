@@ -11,6 +11,7 @@ import 'mypage_editinformationview.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+
 class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
 
@@ -21,28 +22,31 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
 
   // const MyPage({Key? key}) : super(key: key);
-  final String _name = "김도은";
-  final String _email = "doeun536@gmail.com";
 
-  Future<void> userInfo() async {
+  void userInfo() async {
 
     var url = Uri.http('localhost:8080', '/user/info');
 
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTY5NDEsImV4cCI6MTY0NTQ5ODc0MX0.g5kqasAyvzWZ_ZkENa6UaXf6_qyiYarmu6xn12CbW7U" });
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
     print(url);
-    print('Response status: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
-      var body = jsonDecode(response.body);
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      var data = body["data"];
+      email = data["name"].toString();
+      name = data["email"].toString();
+
     }
     else {
       print('error : ${response.reasonPhrase}');
     }
 
   }
+
 
   @override
   void initState() {
@@ -67,13 +71,6 @@ class _MyPageState extends State<MyPage> {
         ),
         child: Column(
           children: <Widget>[
-            // Container(
-            //   margin: EdgeInsets.only(top: 80.0),
-            //   child: Text(
-            //     '마이 페이지',
-            //     style: new TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Color(0xff5AA9DD) ),
-            //   )
-            // ),
             Container(
               margin: EdgeInsets.only(top: 200.0, left: 40.0, right: 40.0, bottom: 80.0),
               //padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0, bottom: 10.0),
@@ -113,7 +110,10 @@ class _MyPageState extends State<MyPage> {
                       onPressed: (){
                         Navigator.push(
                             context, MaterialPageRoute(builder: (_) => ModifyInformationPage())
-                        );
+                        ).then((value) {
+                          print("here");
+                          _update(value);
+                        });
                       },
                       icon: Icon(Icons.edit),
                       iconSize: 20,
@@ -137,11 +137,11 @@ class _MyPageState extends State<MyPage> {
                   //   // width: 150,
                   // ),
                   Text(
-                    "${_name}",
+                    "${name}",
                     style: TextStyle(fontSize: 32, height: 1.8, fontWeight: FontWeight.w700),
                   ),
                   Text(
-                    "${_email}",
+                    "${email}",
                     style: TextStyle(fontSize: 14, height: 1.8, fontWeight: FontWeight.w200),
                   )
                 ],
@@ -194,24 +194,25 @@ class _MyPageState extends State<MyPage> {
                 children: <Widget>[
                   TextButton(
                     onPressed: (){
-                      Navigator.pop(context);
+                      //Navigator.pop(context);
                       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
+                      
                     },
                     child: Text(
                       '로그아웃',
                       style: TextStyle(fontSize: 12, decoration: TextDecoration.underline),
                     ),
                   ),
-                  TextButton(
-                    onPressed: (){
-                      Navigator.pop(context);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
-                    },
-                    child: Text(
-                      '회원탈퇴',
-                      style: TextStyle(fontSize: 12, decoration: TextDecoration.underline),
-                    ),
-                  ),
+                  // TextButton(
+                  //   onPressed: (){
+                  //     Navigator.pop(context);
+                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
+                  //   },
+                  //   child: Text(
+                  //     '회원탈퇴',
+                  //     style: TextStyle(fontSize: 12, decoration: TextDecoration.underline),
+                  //   ),
+                  // ),
                 ],
               )
             )
@@ -219,5 +220,11 @@ class _MyPageState extends State<MyPage> {
         ),
       ),
     );
+
   }
+
+  void _update(String value) { setState(() {
+    name = value;
+  }); }
+
 }
