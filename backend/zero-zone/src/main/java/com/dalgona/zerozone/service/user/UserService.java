@@ -70,8 +70,11 @@ public class UserService {
 
         // DB 저장
         Authority authority = Authority.builder().authorityName("ROLE_USER").build();
+        System.out.println("authority 생성");
 
         User user = userRepository.save(userSaveRequestDTO.toEntity(Collections.singleton(authority)));
+        System.out.println("user 생성");
+
 
         // 북마크 생성
         BookmarkReading bookmarkReading = new BookmarkReading(user);
@@ -145,7 +148,7 @@ public class UserService {
     @Transactional
     public ResponseEntity<?> getMyInfo(){
         User user = getCurrentUser();
-        UserInfoResponseDto info = new UserInfoResponseDto(user.getName(), user.getEmail());
+        UserInfoResponseDto info = new UserInfoResponseDto(user.getEmail(), user.getName());
         return response.success(info, "내 정보 조회에 성공했습니다.", HttpStatus.OK);
     }
 
