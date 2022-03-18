@@ -10,7 +10,12 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SpLetterPracticePage extends StatefulWidget {
 
-  const SpLetterPracticePage({Key? key}) : super(key: key);
+  final String consonant;
+  final int consonantIndex;
+  final String vowel;
+  final int vowelIndex;
+
+  const SpLetterPracticePage({Key? key, required this.consonant, required this.consonantIndex, required this.vowel, required this.vowelIndex}) : super(key: key);
 
   @override
   _SpLetterPracticePageState createState() => _SpLetterPracticePageState();
@@ -46,7 +51,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
   @override
   void initState() {
     _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      'https://user-images.githubusercontent.com/44363187/159072414-a97097b5-5eac-4850-987b-fb755d0fe06d.mp4',
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);

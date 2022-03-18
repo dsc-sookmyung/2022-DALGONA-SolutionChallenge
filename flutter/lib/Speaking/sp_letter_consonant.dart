@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:zerozone/Login/login.dart';
 
 import 'sp_letter_vowel.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ChooseConsonantPage extends StatefulWidget {
   const ChooseConsonantPage({Key? key}) : super(key: key);
@@ -18,6 +22,50 @@ class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => ChooseVowelPage(consonant: gridItem, consonantIndex: index,))
     );
+  }
+
+  void consonantInfo() async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'onsetId': '1',
+      'onset': 'ㄱ',
+      'nucleusId': '1',
+      'nucleus': 'ㅏ'
+    };
+    Uri.encodeComponent(email);
+
+    var url = Uri.http('localhost:8080', '/speaking/list/letter/coda', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      for(dynamic i in data){
+        dynamic dd = i["coda"];
+        print(i);
+        consonantList.add(dd);
+        print("dd: ${dd}");
+      }
+
+      print(consonantList);
+
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

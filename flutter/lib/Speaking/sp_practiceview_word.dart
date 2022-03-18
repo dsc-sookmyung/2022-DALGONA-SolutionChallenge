@@ -34,7 +34,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
   @override
   void initState() {
     _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      'https://user-images.githubusercontent.com/44363187/159072414-a97097b5-5eac-4850-987b-fb755d0fe06d.mp4',
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
@@ -92,14 +92,14 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                           Text(
                             "다음 글자를 발음해 보세요!",
                             style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w600),
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           IconButton(
                             onPressed: _pressedStar,
                             icon: (_isStared
                                 ? Icon(Icons.star)
                                 : Icon(Icons.star_border)),
-                            iconSize: 23,
+                            iconSize: 25,
                             color: Colors.amber,
                           ),
                         ],
@@ -110,6 +110,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                           Column(
                             children: [
                               Container(
+                                margin: EdgeInsets.only(bottom: 10.0),
                                 child: FutureBuilder(
                                   future: _initializeVideoPlayerFuture,
                                   builder: (context, snapshot) {
@@ -123,7 +124,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                                     }
                                   },
                                 ),
-                                height: 130,
+                                height: 210,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -225,6 +226,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                         ],
                       ),
                       Container(
+                        margin: EdgeInsets.only(top: 15.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Color(0xffC8E8FF),
@@ -240,34 +242,34 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                           )
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 30.0),
+                        margin: EdgeInsets.only(top: 30.0, bottom: 15.0),
                         child: Row(
                           children: [
                             Text(
                               "다음과 같이 발음하고 있습니다.",
                               style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w600),
+                                  fontSize: 16, fontWeight: FontWeight.w600),
                             ),
                           ],
                         )
                       ),
 
-                      Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Color(0xffC8E8FF),
-                          ),
-                          margin: EdgeInsets.only(top: 10.0, bottom:15.0),
-                          height: 130,
-                          child: Center(
-                            child: Text(
-                              'camera',
-                              style: TextStyle(
-                                fontSize: 38, fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          )
-                      ),
+                      // Container(
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(5),
+                      //       color: Color(0xffC8E8FF),
+                      //     ),
+                      //     margin: EdgeInsets.only(top: 10.0, bottom:15.0),
+                      //     height: 130,
+                      //     child: Center(
+                      //       child: Text(
+                      //         'camera',
+                      //         style: TextStyle(
+                      //           fontSize: 38, fontWeight: FontWeight.w600,
+                      //         ),
+                      //       ),
+                      //     )
+                      // ),
 
                       Column(
                         children: [
