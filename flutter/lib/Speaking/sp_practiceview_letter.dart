@@ -10,12 +10,10 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SpLetterPracticePage extends StatefulWidget {
 
-  final String consonant;
-  final int consonantIndex;
-  final String vowel;
-  final int vowelIndex;
+  final String letter;
+  final int letterId;
 
-  const SpLetterPracticePage({Key? key, required this.consonant, required this.consonantIndex, required this.vowel, required this.vowelIndex}) : super(key: key);
+  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId}) : super(key: key);
 
   @override
   _SpLetterPracticePageState createState() => _SpLetterPracticePageState();
@@ -41,17 +39,16 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
   late Future<void> _initializeVideoPlayerFuture;
 
   bool _cameraInitialized = false;
-  late CameraController _cameraController;
-  late Future<void>
-  _initializeControllerFuture; //Future to wait until camera initializes
-  int selectedCamera = 0;
+  //late CameraController _cameraController;
+  //late Future<void>_initializeControllerFuture; //Future to wait until camera initializes
+  //int selectedCamera = 0;
 
 
 
   @override
   void initState() {
     _controller = VideoPlayerController.network(
-      'https://user-images.githubusercontent.com/44363187/159072414-a97097b5-5eac-4850-987b-fb755d0fe06d.mp4',
+      'https://user-images.githubusercontent.com/69200763/159079717-b3c81f63-5bb7-4ff6-b9f4-ecfc5ff6bf93.mp4',
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
@@ -78,7 +75,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
     // if(_cameraController != null){
     //   _cameraController?.dispose();
     // }
-    _cameraController.dispose();
+    //_cameraController.dispose();
 
     super.dispose();
   }
@@ -261,7 +258,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
                           height: 160,
                           child: Center(
                             child: Text(
-                              '$_practiceText',
+                              '${widget.letter}',
                               style: TextStyle(
                                 fontSize: 50, fontWeight: FontWeight.w700,
                               ),

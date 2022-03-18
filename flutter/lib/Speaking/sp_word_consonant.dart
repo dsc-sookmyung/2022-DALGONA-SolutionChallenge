@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'sp_practiceview_word.dart';
+import 'sp_word_select.dart';
 
 class ChooseWordConsonantPage extends StatefulWidget {
   const ChooseWordConsonantPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
   getGridViewSelectedItem(BuildContext context, String gridItem, int index){
     Navigator.of(context).pop();
     Navigator.push(
-        context, MaterialPageRoute(builder: (_) => SpWordPracticePage())
+        context, MaterialPageRoute(builder: (_) => WordSelectPage())
     );
   }
 

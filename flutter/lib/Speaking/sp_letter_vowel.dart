@@ -18,16 +18,19 @@ class ChooseVowelPage extends StatefulWidget {
 
 class _ChooseVowelPageState extends State<ChooseVowelPage> {
 
+  int letterId = 0;
+  String letter = 'ㄱ';
+
   List<String> vowelList = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ'];
 
-  getGridViewSelectedItem(BuildContext context, String gridItem, int index){
-
-    Navigator.of(context).pop();
-    Navigator.of(context).pop();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(consonant: widget.consonant, consonantIndex: widget.consonantIndex, vowel: gridItem, vowelIndex: index,))
-    );
-  }
+  // getGridViewSelectedItem(BuildContext context, String gridItem, int index){
+  //
+  //   Navigator.of(context).pop();
+  //   Navigator.of(context).pop();
+  //   Navigator.push(
+  //       context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId))
+  //   );
+  // }
 
   void letterInfo(String gridItem, int index) async {
 
@@ -51,6 +54,19 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
 
       dynamic data = body["data"];
 
+      for(dynamic i in data){
+        letterId = i["letterId"];
+        letter = i["letter"];
+        print("letter id: ${letterId}");
+        print("letter: ${letter}");
+        break;
+      }
+
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId))
+      );
 
     }
     else {
@@ -97,7 +113,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
 
                     onTap: (){
                       letterInfo(data, index+1);
-                      getGridViewSelectedItem(context, data, index);
+                      // getGridViewSelectedItem(context, data, index);
                       },
                     child: Container(
 
