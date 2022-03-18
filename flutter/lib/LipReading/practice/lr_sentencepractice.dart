@@ -42,6 +42,8 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
 
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return GestureDetector(
         onTap: () {
@@ -63,6 +65,8 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
             ),
             body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
+                child: SizedBox(
+                height: height-height/8,
                 child: Column(
                   children: [
                     Row(
@@ -298,7 +302,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                         else _Wrong()
                       }
                     ]),
-                    Padding(padding: EdgeInsets.all(15.0)),
+                    Spacer(),
                     Container(    //다음 버튼
                       alignment: AlignmentDirectional.centerEnd,
                       padding: EdgeInsets.only(right: 10.0),
@@ -314,21 +318,21 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                                   side: BorderSide(
                                       color: Color(0xff97D5FE), width: 1.0),
                                 ),
-                                minimumSize: Size(100, 40),
+                                minimumSize: Size(80, 40),
                               ),
                               onPressed: () {},
                               child: Text(
                                 '다음',
                                 style: TextStyle(
                                   color: Color(0xff97D5FE),
-                                  fontSize: 18,
+                                  fontSize: 16,
                                 ),
                               ))
                         ],
                       ),
                     ),
                   ],
-                ))));
+                )))));
   }
 
   Widget _initTextField() {
@@ -399,7 +403,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     return (ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Color(0xff97D5FE),
-          minimumSize: Size(90, 40),
+          minimumSize: Size(80, 40),
         ),
         onPressed: () {
           FocusScope.of(context).unfocus();
@@ -429,7 +433,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
           '확인',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 18,
+            fontSize: 16,
           ),
         )));
   }

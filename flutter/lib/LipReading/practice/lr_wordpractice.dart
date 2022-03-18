@@ -4,16 +4,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
-import 'dart:async';
 
-class WordTestPage extends StatefulWidget {
-  const WordTestPage({Key? key}) : super(key: key);
+class WordPracticePage extends StatefulWidget {
+  const WordPracticePage({Key? key}) : super(key: key);
 
   @override
-  _WordTestPageState createState() => _WordTestPageState();
+  _WordPracticePageState createState() => _WordPracticePageState();
 }
 
-class _WordTestPageState extends State<WordTestPage> {
+class _WordPracticePageState extends State<WordPracticePage> {
   bool _isStared = false;
   bool _isHint = false;
   bool _isCorrect = true; //정답 맞췄는지
@@ -42,7 +41,9 @@ class _WordTestPageState extends State<WordTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return GestureDetector(
         onTap: () {
           //FocusManager.instance.primaryFocus?.unfocus();
@@ -63,6 +64,8 @@ class _WordTestPageState extends State<WordTestPage> {
             ),
             body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
+              child: SizedBox(
+                height: height-height/8,
                 child: Column(
                   children: [
                     Row(
@@ -116,7 +119,7 @@ class _WordTestPageState extends State<WordTestPage> {
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size.zero,
                                   padding:
-                                  EdgeInsets.only(right: 5.0, left: 5.0),
+                                      EdgeInsets.only(right: 5.0, left: 5.0),
                                   primary: Color(0xffC8E8FF),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -164,28 +167,28 @@ class _WordTestPageState extends State<WordTestPage> {
                         Padding(padding: EdgeInsets.only(right: 130.0)),
                         Container(
                             child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (_videoSpeed > 0.25) {
-                                    _videoSpeed -= 0.25;
-                                  }
-                                });
-                                _controller.setPlaybackSpeed(_videoSpeed);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Color(0xffC8E8FF),
-                                minimumSize: Size(40, 35),
-                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              ),
-                              child: Icon(
-                                Icons.remove,
-                                size: 20,
-                                color: Color(0xff97D5FE),
-                              ),
-                            )),
+                          onPressed: () {
+                            setState(() {
+                              if (_videoSpeed > 0.25) {
+                                _videoSpeed -= 0.25;
+                              }
+                            });
+                            _controller.setPlaybackSpeed(_videoSpeed);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xffC8E8FF),
+                            minimumSize: Size(40, 35),
+                            padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.remove,
+                            size: 20,
+                            color: Color(0xff97D5FE),
+                          ),
+                        )),
                         Padding(padding: EdgeInsets.only(right: 8.0)),
                         Container(
                           child: Text('$_videoSpeed'),
@@ -193,28 +196,28 @@ class _WordTestPageState extends State<WordTestPage> {
                         ),
                         Container(
                             child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (_videoSpeed < 1.5) {
-                                    _videoSpeed += 0.25;
-                                  }
-                                });
-                                _controller.setPlaybackSpeed(_videoSpeed);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Color(0xffC8E8FF),
-                                minimumSize: Size(40, 35),
-                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              ),
-                              child: Icon(
-                                Icons.add,
-                                size: 20,
-                                color: Color(0xff97D5FE),
-                              ),
-                            )),
+                          onPressed: () {
+                            setState(() {
+                              if (_videoSpeed < 1.5) {
+                                _videoSpeed += 0.25;
+                              }
+                            });
+                            _controller.setPlaybackSpeed(_videoSpeed);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xffC8E8FF),
+                            minimumSize: Size(40, 35),
+                            padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            size: 20,
+                            color: Color(0xff97D5FE),
+                          ),
+                        )),
                       ],
                     ),
                     Padding(padding: EdgeInsets.all(2.0)),
@@ -233,15 +236,15 @@ class _WordTestPageState extends State<WordTestPage> {
                           },
                           child: _isHint
                               ? new Text(
-                            '힌트 닫기',
-                            style: TextStyle(
-                                color: Colors.grey, fontSize: 15),
-                          )
+                                  '힌트 닫기',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 15),
+                                )
                               : new Text(
-                            "힌트 보기",
-                            style: TextStyle(
-                                color: Colors.grey, fontSize: 15),
-                          ),
+                                  "힌트 보기",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 15),
+                                ),
                         ),
                       ],
                     ),
@@ -252,27 +255,27 @@ class _WordTestPageState extends State<WordTestPage> {
                         children: [
                           _isHint
                               ? Bubble(
-                            color: Color(0xff97D5FE),
-                            // stick: true,
-                            nip: BubbleNip.rightTop,
-                            margin: BubbleEdges.only(
-                                top: 2.0,
-                                bottom: 3.0,
-                                right: 3.0,
-                                left: 3.0),
-                            child: Text('hello',
-                                style: TextStyle(
-                                    color: Color(0xff333333),
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w600)),
-                          )
+                                  color: Color(0xff97D5FE),
+                                  // stick: true,
+                                  nip: BubbleNip.rightTop,
+                                  margin: BubbleEdges.only(
+                                      top: 2.0,
+                                      bottom: 3.0,
+                                      right: 3.0,
+                                      left: 3.0),
+                                  child: Text('hello',
+                                      style: TextStyle(
+                                          color: Color(0xff333333),
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w600)),
+                                )
                               : Container(),
                         ],
                       ),
                     ),
                     Container(
                       margin:
-                      EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
+                          EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
                       child: Column(  //textfield
                         //crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -280,8 +283,8 @@ class _WordTestPageState extends State<WordTestPage> {
                           _isInit
                               ? _initTextField()
                               : _isCorrect
-                              ? _correctTextField()
-                              : _errorTextField()
+                                  ? _correctTextField()
+                                  : _errorTextField()
                         ],
                       ),
                     ),
@@ -294,16 +297,14 @@ class _WordTestPageState extends State<WordTestPage> {
                         else _Wrong()
                       }
                     ]),
-                    Padding(padding: EdgeInsets.all(8.0)),
+                    Spacer(),
                     Container(    //다음 버튼
                       alignment: AlignmentDirectional.centerEnd,
                       padding: EdgeInsets.only(right: 10.0),
-                      child: Row(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         //mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('34/50', style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),),
-
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.white,
@@ -312,21 +313,21 @@ class _WordTestPageState extends State<WordTestPage> {
                                   side: BorderSide(
                                       color: Color(0xff97D5FE), width: 1.0),
                                 ),
-                                minimumSize: Size(100, 40),
+                                minimumSize: Size(80, 40),
                               ),
                               onPressed: () {},
                               child: Text(
                                 '다음',
                                 style: TextStyle(
                                   color: Color(0xff97D5FE),
-                                  fontSize: 18,
+                                  fontSize: 16,
                                 ),
                               ))
                         ],
                       ),
                     ),
                   ],
-                ))));
+                )))));
   }
 
   Widget _initTextField() {
@@ -395,7 +396,7 @@ class _WordTestPageState extends State<WordTestPage> {
     return (ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Color(0xff97D5FE),
-          minimumSize: Size(90, 40),
+          minimumSize: Size(80, 40),
         ),
         onPressed: () {
           FocusScope.of(context).unfocus();
@@ -425,7 +426,7 @@ class _WordTestPageState extends State<WordTestPage> {
           '확인',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 18,
+            fontSize: 16,
           ),
         )));
   }

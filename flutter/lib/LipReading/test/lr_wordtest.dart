@@ -4,21 +4,24 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
+import 'dart:async';
 
-class WordPracticePage extends StatefulWidget {
-  const WordPracticePage({Key? key}) : super(key: key);
+class WordTestPage extends StatefulWidget {
+  final int num;
+  final int time;
+  const WordTestPage({Key? key, required this.num, required this.time}) : super(key: key);
 
   @override
-  _WordPracticePageState createState() => _WordPracticePageState();
+  _WordTestPageState createState() => _WordTestPageState();
 }
 
-class _WordPracticePageState extends State<WordPracticePage> {
+class _WordTestPageState extends State<WordTestPage> {
   bool _isStared = false;
   bool _isHint = false;
   bool _isCorrect = true; //정답 맞췄는지
-  bool _enterAnswer=true; //확인  / 재도전, 답보기
-  bool _isInit = true;  //textfield
-  bool _seeAnswer = false;  //정답보기
+  bool _enterAnswer = true; //확인  // 재도전, 답보기
+  bool _isInit = true; //textfield
+  bool _seeAnswer = false; //정답보기
   String color = '0xff97D5FE';
 
   final myController = TextEditingController();
@@ -28,20 +31,30 @@ class _WordPracticePageState extends State<WordPracticePage> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
 
+  late var _time = widget.time;
+  late Timer _timer;
+
   void initState() {
     _controller = VideoPlayerController.network(
       'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    super.initState();
 
-    //usingCamera();
+    _start();
+    super.initState();
+  }
+
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return GestureDetector(
         onTap: () {
           //FocusManager.instance.primaryFocus?.unfocus();
@@ -50,10 +63,10 @@ class _WordPracticePageState extends State<WordPracticePage> {
         child: Scaffold(
             appBar: AppBar(
               title: Text(
-                "단어",
+                '남은 시간: $_time 초',
                 style: TextStyle(
                     color: Color(0xff333333),
-                    fontSize: 24,
+                    fontSize: 25,
                     fontWeight: FontWeight.w800),
               ),
               centerTitle: true,
@@ -62,7 +75,9 @@ class _WordPracticePageState extends State<WordPracticePage> {
             ),
             body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Column(
+                child: SizedBox(
+                  height: height-height/8,
+                  child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -272,7 +287,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
                     Container(
                       margin:
                           EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
-                      child: Column(  //textfield
+                      child: Column(
+                        //textfield
                         //crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -285,45 +301,53 @@ class _WordPracticePageState extends State<WordPracticePage> {
                       ),
                     ),
                     Padding(padding: EdgeInsets.all(3.0)),
-                    Column(children: [  // 확인 버튼
+                    Column(children: [
+                      // 확인 버튼
                       if (!_seeAnswer) ...{
                         if (_enterAnswer) _Answer() else _reAnswer()
                       } else ...{
-                        if (_isCorrect) _Correct()
-                        else _Wrong()
+                        if (_isCorrect) _Correct() else _Wrong()
                       }
                     ]),
-                    Padding(padding: EdgeInsets.all(8.0)),
-                    Container(    //다음 버튼
-                      alignment: AlignmentDirectional.centerEnd,
-                      padding: EdgeInsets.only(right: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        //mainAxisAlignment: MainAxisAlignment.end,
+                    Spacer(),
+                    Row(
+                        // crossAxisAlignment: CrossAxisAlignment.,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  side: BorderSide(
-                                      color: Color(0xff97D5FE), width: 1.0),
-                                ),
-                                minimumSize: Size(100, 40),
-                              ),
-                              onPressed: () {},
-                              child: Text(
-                                '다음',
+                          Container(
+                            child:
+                              Text(
+                                '1/${widget.num}',
                                 style: TextStyle(
-                                  color: Color(0xff97D5FE),
-                                  fontSize: 18,
-                                ),
-                              ))
+                                    fontSize: 20.0, color: Color(0xff333333)),
+                              ),
+                          ),
+                          Padding(padding: EdgeInsets.only(right:width/6)),
+                          Container(
+                            child:
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      side: BorderSide(
+                                          color: Color(0xff97D5FE), width: 1.0),
+                                    ),
+                                    minimumSize: Size(80, 40),
+                                  ),
+                                  onPressed: () {},
+                                  child: Text(
+                                    '다음',
+                                    style: TextStyle(
+                                      color: Color(0xff97D5FE),
+                                      fontSize: 16.0,
+                                    ),
+                                  )),
+                          ),
                         ],
                       ),
-                    ),
                   ],
-                ))));
+                )))));
   }
 
   Widget _initTextField() {
@@ -392,15 +416,17 @@ class _WordPracticePageState extends State<WordPracticePage> {
     return (ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Color(0xff97D5FE),
-          minimumSize: Size(90, 40),
+          minimumSize: Size(80, 40),
         ),
         onPressed: () {
           FocusScope.of(context).unfocus();
-          if (myController.text == 'hello') { //정답
+          if (myController.text == 'hello') {
+            //정답
             setState(() {
               _isCorrect = true;
               _seeAnswer = true;
-              _isInit=false;
+              _isInit = false;
+              _timer.cancel();
             });
           } else if (myController.text == '') {
             Fluttertoast.showToast(
@@ -412,9 +438,9 @@ class _WordPracticePageState extends State<WordPracticePage> {
           } else {
             //오답
             setState(() {
-              _isInit=false;
+              _isInit = false;
               _isCorrect = false;
-              _enterAnswer=false;
+              _enterAnswer = false;
             });
           }
         },
@@ -422,7 +448,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
           '확인',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 18,
+            fontSize: 16,
           ),
         )));
   }
@@ -449,7 +475,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                     // _isCorrect = true;
                     _seeAnswer = false;
                     _isInit = true;
-                    _enterAnswer=true;
+                    _enterAnswer = true;
                   });
                 },
                 child: Text(
@@ -473,6 +499,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                     _seeAnswer = true;
                     _isCorrect = false;
                     _isInit = false;
+                    _timer.cancel();
                   });
                 },
                 child: Text(
@@ -567,5 +594,23 @@ class _WordPracticePageState extends State<WordPracticePage> {
         ]),
       ],
     ));
+  }
+
+  void _start() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _time--;
+
+        if (_time == 0) {
+          _timer.cancel();
+
+          setState(() {
+            _seeAnswer = true;
+            _isCorrect = false;
+            _isInit = false;
+          });
+        }
+      });
+    });
   }
 }
