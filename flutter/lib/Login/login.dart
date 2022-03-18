@@ -203,8 +203,8 @@ class _LoginPageState extends State<LoginPage> {
       var body = jsonDecode(utf8.decode(response.bodyBytes));
 
       var data = body["data"];
-      email = data["name"].toString();
-      name = data["email"].toString();
+      email = data["email"].toString();
+      name = data["name"].toString();
 
     }
     else {
