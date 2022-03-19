@@ -19,19 +19,17 @@ import com.dalgona.zerozone.web.dto.user.UserLoginRequestDto;
 import com.dalgona.zerozone.web.dto.user.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,8 +47,6 @@ public class UserService {
 
     private final PasswordEncoder pwdEncorder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final UserDetailsService userDetailsService;
     private final Response response;
 
     // 회원가입
@@ -129,14 +125,26 @@ public class UserService {
         Optional<UserEmailAuth> findUser = userEmailAuthRepository.findByEmail(email);
         if(!findUser.isPresent())
             return false;
-        else if(findUser.get().isAuthStatus())
+        LocalDateTime validTime = findUser.get().getAuthValidTime();
+        if(validTime.isAfter(LocalDateTime.now()))
+            return true;
+        else
+            return false;
+    }
+
+    // 비밀번호 인증된 이메일인지 확인
+    public boolean isAuthedPwd(String email){
+        Optional<UserEmailAuth> findUser = userEmailAuthRepository.findByEmail(email);
+        if(!findUser.isPresent())
+            return false;
+        LocalDateTime validTime = findUser.get().getAuthPwdValidTime();
+        if(validTime.isAfter(LocalDateTime.now()))
             return true;
         else
             return false;
     }
 
     private User getCurrentUser(){
-        System.out.println("getCurrentUser");
         return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
     }
 
@@ -163,7 +171,7 @@ public class UserService {
         // 인증된 이메일인지 확인
         if(findUser.isPresent()){
             // 인증되었다면 비밀번호 수정
-            if(findUser.get().isAuthPwdStatus()){
+            if(isAuthedPwd(findUser.get().getEmail())){
                 String encodedPwd = pwdEncorder.encode(newPassword);
                 Optional<User> user = userRepository.findByEmail(email);
                 if(!user.isPresent()) return response.fail("존재하지 않는 이메일입니다.", HttpStatus.BAD_REQUEST);
