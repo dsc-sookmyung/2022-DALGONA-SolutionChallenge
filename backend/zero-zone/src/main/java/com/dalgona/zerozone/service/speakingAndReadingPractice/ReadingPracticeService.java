@@ -22,9 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -47,24 +45,20 @@ public class ReadingPracticeService {
             return response.fail("등록된 단어가 없습니다", HttpStatus.BAD_REQUEST);
         }
         // 단어 리스트에서 랜덤으로 아이디 조회하여 구화 연습 테이블에 등록된 단어 찾기
-        // 무한 루프에 빠질 위험 : 만약 단어는 여러개 선택됬는데 하나도 등록이 안됬다면
-        // 조회된 단어의 세배수만큼만 탐색하고 없다면 실패 반환
-        Optional<ReadingProb> readingProb = null;
-        for (int i = 3 * (wordList.size()); i>0; i--){
-            // 랜덤으로 하나 선택 : 0을 포함하므로, 선택 범위는 0 이상 리스트의 길이 미만
-            int index = random.nextInt(wordList.size());
-            Word word = wordList.get(index);
-            // 선택한 단어로 구화 연습 문제 조회
-            readingProb = readingProbRepository.findByTypeAndWord("word", word);
-            // 선택한 단어가 구화 연습 테이블에 존재하지 않는다면 다시 뽑기
-            if (!readingProb.isPresent()) continue;
-            break;
+        List<ReadingProb> readingProbList = new ArrayList<>();
+        for(Word word : wordList) {
+            Optional<ReadingProb> findProb = readingProbRepository.findByWord(word);
+            if(!findProb.isPresent()) continue;
+            readingProbList.add(findProb.get());
         }
-        // 랜덤으로 조회하지 못했다면
-        if (!readingProb.isPresent())
-            return response.fail("구화 연습에 등록된 단어를 찾지 못했습니다.", HttpStatus.BAD_REQUEST);
+        if(readingProbList.size()==0){
+            return response.fail("등록된 문장이 없습니다", HttpStatus.BAD_REQUEST);
+        }
+        // 랜덤으로 하나 뽑기
+        Collections.shuffle(readingProbList);
+        ReadingProb readingProb = readingProbList.get(0);
         // 조회 성공
-        WordReadingProbResponseProbDto wordResponseDto = new WordReadingProbResponseProbDto(readingProb.get());
+        WordReadingProbResponseProbDto wordResponseDto = new WordReadingProbResponseProbDto(readingProb);
         return response.success(wordResponseDto, "랜덤 구화 단어 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
 
@@ -76,27 +70,23 @@ public class ReadingPracticeService {
         List<Sentence> sentenceList = sentenceRepository.findAllBySituation(situation);
         // 등록된 문장이 하나도 없다면
         if(sentenceList.size()==0){
-            return response.fail("등록된 문장이 없습니다", HttpStatus.BAD_REQUEST);
+            return response.fail("상황에 맞는 문장이 없습니다", HttpStatus.BAD_REQUEST);
         }
         // 문장 리스트에서 랜덤으로 아이디 조회하여 구화 연습 테이블에 등록된 문장 찾기
-        // 무한 루프에 빠질 위험 : 만약 문장이 여러개 선택됬는데 하나도 등록이 안됬다면
-        // 조회된 문장의 세배수만큼만 탐색하고 없다면 실패 반환
-        Optional<ReadingProb> readingProb = null;
-        for (int i = 3 * (sentenceList.size()); i>0; i--){
-            // 랜덤으로 하나 선택 : 0을 포함하므로, 선택 범위는 0 이상 리스트의 길이 미만
-            int index = random.nextInt(sentenceList.size());
-            Sentence sentence = sentenceList.get(index);
-            // 선택한 문장으로 구화 연습 문제 조회
-            readingProb = readingProbRepository.findByTypeAndSentence("sentence", sentence);
-            // 선택한 문장이 구화 연습 테이블에 존재하지 않는다면 다시 뽑기
-            if (!readingProb.isPresent()) continue;
-            break;
+        List<ReadingProb> readingProbList = new ArrayList<>();
+        for(Sentence sentence : sentenceList) {
+            Optional<ReadingProb> findProb = readingProbRepository.findBySentence(sentence);
+            if(!findProb.isPresent()) continue;
+            readingProbList.add(findProb.get());
         }
-        // 랜덤으로 조회하지 못했다면
-        if (!readingProb.isPresent())
-            return response.fail("구화 연습에 등록된 문장을 찾지 못했습니다.", HttpStatus.BAD_REQUEST);
+        if(readingProbList.size()==0){
+            return response.fail("등록된 문장이 없습니다", HttpStatus.BAD_REQUEST);
+        }
+        // 랜덤으로 하나 뽑기
+        Collections.shuffle(readingProbList);
+        ReadingProb readingProb = readingProbList.get(0);
         // 조회 성공
-        SentenceReadingProbResponseProbDto sentenceResponseDto = new SentenceReadingProbResponseProbDto(readingProb.get());
+        SentenceReadingProbResponseProbDto sentenceResponseDto = new SentenceReadingProbResponseProbDto(readingProb);
         return response.success(sentenceResponseDto, "랜덤 구화 문장 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
     

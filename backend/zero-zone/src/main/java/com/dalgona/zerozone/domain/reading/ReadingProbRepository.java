@@ -12,5 +12,6 @@ public interface ReadingProbRepository extends JpaRepository<ReadingProb, Long> 
     Optional<ReadingProb> findByTypeAndWord(String type, Word word);
     Optional<ReadingProb> findByTypeAndSentence(String type, Sentence sentence);
     List<ReadingProb> findAllByType(String type);
-
+    Optional<ReadingProb> findBySentence(Sentence sentence);
+    Optional<ReadingProb> findByWord(Word word);
 }

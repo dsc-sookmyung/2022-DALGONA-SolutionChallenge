@@ -70,11 +70,7 @@ public class UserService {
 
         // DB 저장
         Authority authority = Authority.builder().authorityName("ROLE_USER").build();
-        System.out.println("authority 생성");
-
         User user = userRepository.save(userSaveRequestDTO.toEntity(Collections.singleton(authority)));
-        System.out.println("user 생성");
-
 
         // 북마크 생성
         BookmarkReading bookmarkReading = new BookmarkReading(user);
