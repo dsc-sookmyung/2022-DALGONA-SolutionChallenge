@@ -16,7 +16,7 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
   getGridViewSelectedItem(BuildContext context, String gridItem, int index){
     Navigator.of(context).pop();
     Navigator.push(
-        context, MaterialPageRoute(builder: (_) => WordSelectPage())
+        context, MaterialPageRoute(builder: (_) => WordSelectPage(consonant: gridItem,))
     );
   }
 
