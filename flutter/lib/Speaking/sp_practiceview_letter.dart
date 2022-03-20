@@ -7,13 +7,21 @@ import 'package:camera/camera.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:zerozone/Login/login.dart';
+
 
 class SpLetterPracticePage extends StatefulWidget {
 
   final String letter;
   final int letterId;
 
-  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId}) : super(key: key);
+  final String url;
+  final String type;
+
+  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId, required this.url, required this.type}) : super(key: key);
 
   @override
   _SpLetterPracticePageState createState() => _SpLetterPracticePageState();
@@ -43,12 +51,39 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
   //late Future<void>_initializeControllerFuture; //Future to wait until camera initializes
   //int selectedCamera = 0;
 
+  void letterBookmark(int probId) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'speakingProbId': probId.toString(),
+    };
+
+    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print("북마크에 등록되었습니다.");
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
 
 
   @override
   void initState() {
+    print("practice letter page url: ${widget.url}");
     _controller = VideoPlayerController.network(
-      'https://user-images.githubusercontent.com/69200763/159079717-b3c81f63-5bb7-4ff6-b9f4-ecfc5ff6bf93.mp4',
+      "${widget.url}",
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);

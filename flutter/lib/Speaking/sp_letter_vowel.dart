@@ -62,10 +62,45 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
         break;
       }
 
+      urlInfo(letter, letterId);
+
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  void urlInfo(String letter, int letterId) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'id' : letterId.toString(),
+    };
+
+    var url = Uri.http('localhost:8080', '/speaking/practice/letter', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+
+      print("url : ${url}");
+      print("type : ${type}");
+
+
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId))
+          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type))
       );
 
     }
