@@ -16,6 +16,7 @@ import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.token.TokensResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserInfoResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserLoginRequestDto;
+import com.dalgona.zerozone.web.dto.user.UserLoginResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -112,12 +113,12 @@ public class UserService {
         String refreshTokenValue = UUID.randomUUID().toString().replace("-", "");
         findMember.updateRefreshTokenValue(refreshTokenValue);
         String refreshToken = jwtTokenProvider.createRefreshToken(refreshTokenValue);
-        TokensResponseDto tokens = new TokensResponseDto(accessToken, refreshToken);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtAuthenticationFilter.AUTHORIZATION_HEADER, "Bearer " + accessToken);
+        UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto(accessToken, refreshToken, findMember.getEmail());
 
-        return response.success(tokens, "로그인에 성공했습니다.", HttpStatus.OK);
+        return response.success(userLoginResponseDto, "로그인에 성공했습니다.", HttpStatus.OK);
     }
 
     // 인증된 이메일인지 확인

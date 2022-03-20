@@ -42,7 +42,7 @@ public class ReadingPracticeService {
         List<Word> wordList = wordRepository.findAllByOnset(onset);
         // 등록된 단어가 하나도 없다면
         if(wordList.size()==0){
-            return response.fail("등록된 단어가 없습니다", HttpStatus.BAD_REQUEST);
+            return response.fail("초성에 맞는 단어가 없습니다", HttpStatus.BAD_REQUEST);
         }
         // 단어 리스트에서 랜덤으로 아이디 조회하여 구화 연습 테이블에 등록된 단어 찾기
         List<ReadingProb> readingProbList = new ArrayList<>();
@@ -52,7 +52,7 @@ public class ReadingPracticeService {
             readingProbList.add(findProb.get());
         }
         if(readingProbList.size()==0){
-            return response.fail("등록된 문장이 없습니다", HttpStatus.BAD_REQUEST);
+            return response.fail("단어가 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
         }
         // 랜덤으로 하나 뽑기
         Collections.shuffle(readingProbList);
@@ -80,7 +80,7 @@ public class ReadingPracticeService {
             readingProbList.add(findProb.get());
         }
         if(readingProbList.size()==0){
-            return response.fail("등록된 문장이 없습니다", HttpStatus.BAD_REQUEST);
+            return response.fail("구화 연습으로 등록된 문장이 없습니다", HttpStatus.BAD_REQUEST);
         }
         // 랜덤으로 하나 뽑기
         Collections.shuffle(readingProbList);
