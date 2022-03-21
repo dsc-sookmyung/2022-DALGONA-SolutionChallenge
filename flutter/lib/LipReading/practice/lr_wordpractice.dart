@@ -5,6 +5,9 @@ import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 class WordPracticePage extends StatefulWidget {
   const WordPracticePage({Key? key}) : super(key: key);
 
@@ -37,6 +40,30 @@ class _WordPracticePageState extends State<WordPracticePage> {
     super.initState();
 
     //usingCamera();
+  }
+
+  void radomWord(int onsetId, onset) async {
+    Map<String, int> _queryParameters = <String, int>{
+      'onsetId': onsetId,
+      'onset': onset
+    };
+    // Uri.encodeComponent(wordId);
+    var url = Uri.http('10.0.2.2:8080', '/reading/practice/word/random', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json"});
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+
+      bool data = body["data"];
+
+      print("data: " + data.toString());
+    }
   }
 
   @override
