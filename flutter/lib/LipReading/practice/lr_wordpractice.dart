@@ -9,7 +9,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class WordPracticePage extends StatefulWidget {
-  const WordPracticePage({Key? key}) : super(key: key);
+  final int id;
+  final String onset;
+  const WordPracticePage({Key? key, required this.onset, required this.id}) : super(key: key);
 
   @override
   _WordPracticePageState createState() => _WordPracticePageState();
@@ -37,24 +39,26 @@ class _WordPracticePageState extends State<WordPracticePage> {
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    super.initState();
+    _randomWord((widget.id).toString(), widget.onset);
 
+    super.initState();
     //usingCamera();
   }
+  var response;
 
-  void radomWord(int onsetId, onset) async {
-    Map<String, int> _queryParameters = <String, int>{
+  void _randomWord(String onsetId, String onset) async {
+    Map<String, String> _queryParameters = <String, String>{
       'onsetId': onsetId,
-      'onset': onset
+      // 'onset': onset
     };
-    // Uri.encodeComponent(wordId);
+    Uri.encodeComponent(onsetId);
     var url = Uri.http('10.0.2.2:8080', '/reading/practice/word/random', _queryParameters);
 
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json"});
-
+    response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $"});
     print(url);
-    print('Response status: ${response.statusCode}');
 
+    print('Response status: ${response.statusCode}');
+    print(jsonDecode(response.body));
     if (response.statusCode == 200) {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 

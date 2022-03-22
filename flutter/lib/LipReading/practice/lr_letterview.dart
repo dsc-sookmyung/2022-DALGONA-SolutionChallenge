@@ -14,7 +14,9 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
   List<String> consonantList = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 
   getGridViewSelectedItem(BuildContext context, String gridItem, int index){
-    //
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => WordPracticePage(onset: gridItem, id: index+1,))
+    );
   }
 
   @override
@@ -38,10 +40,6 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
 
                     onTap: (){
                       getGridViewSelectedItem(context, data, index);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context)=> WordPracticePage())
-                      );
                     },
                     child: Container(
 
