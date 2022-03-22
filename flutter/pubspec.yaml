@@ -41,7 +41,7 @@ dependencies:
   http:
   image_picker: ^0.8.4+10
   video_player: ^2.2.19
-  provider: ^6.0.2
+  fluttericon: ^2.0.0
 #  number_paginator: ^0.0.2
 #  tflite: ^1.1.2
 
@@ -73,7 +73,10 @@ flutter:
 #    - assets/label.txt
 #    - assets/model.tflite
   #   - images/a_dot_ham.jpeg
-
+  fonts:
+    - family: CustomIcons
+      fonts:
+        - asset: fonts/CustomIcons.ttf
   # An images asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

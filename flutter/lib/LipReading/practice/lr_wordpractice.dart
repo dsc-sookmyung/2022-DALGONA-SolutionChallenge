@@ -4,16 +4,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/services.dart';
 
-class SentencePracticePage extends StatefulWidget {
-  const SentencePracticePage({Key? key, required situation}) : super(key: key);
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class WordPracticePage extends StatefulWidget {
+  const WordPracticePage({Key? key}) : super(key: key);
 
   @override
-  _SentencePracticePageState createState() => _SentencePracticePageState();
+  _WordPracticePageState createState() => _WordPracticePageState();
 }
 
-class _SentencePracticePageState extends State<SentencePracticePage> {
+class _WordPracticePageState extends State<WordPracticePage> {
   bool _isStared = false;
   bool _isHint = false;
   bool _isCorrect = true; //정답 맞췄는지
@@ -40,8 +42,34 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     //usingCamera();
   }
 
+  void radomWord(int onsetId, onset) async {
+    Map<String, int> _queryParameters = <String, int>{
+      'onsetId': onsetId,
+      'onset': onset
+    };
+    // Uri.encodeComponent(wordId);
+    var url = Uri.http('10.0.2.2:8080', '/reading/practice/word/random', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json"});
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+
+      bool data = body["data"];
+
+      print("data: " + data.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return GestureDetector(
         onTap: () {
@@ -51,7 +79,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         child: Scaffold(
             appBar: AppBar(
               title: Text(
-                "문장",
+                "단어",
                 style: TextStyle(
                     color: Color(0xff333333),
                     fontSize: 24,
@@ -63,6 +91,8 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
             ),
             body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
+              child: SizedBox(
+                height: height-height/8,
                 child: Column(
                   children: [
                     Row(
@@ -116,7 +146,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size.zero,
                                   padding:
-                                  EdgeInsets.only(right: 5.0, left: 5.0),
+                                      EdgeInsets.only(right: 5.0, left: 5.0),
                                   primary: Color(0xffC8E8FF),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -164,28 +194,28 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                         Padding(padding: EdgeInsets.only(right: 130.0)),
                         Container(
                             child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (_videoSpeed > 0.25) {
-                                    _videoSpeed -= 0.25;
-                                  }
-                                });
-                                _controller.setPlaybackSpeed(_videoSpeed);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Color(0xffC8E8FF),
-                                minimumSize: Size(40, 35),
-                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              ),
-                              child: Icon(
-                                Icons.remove,
-                                size: 20,
-                                color: Color(0xff97D5FE),
-                              ),
-                            )),
+                          onPressed: () {
+                            setState(() {
+                              if (_videoSpeed > 0.25) {
+                                _videoSpeed -= 0.25;
+                              }
+                            });
+                            _controller.setPlaybackSpeed(_videoSpeed);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xffC8E8FF),
+                            minimumSize: Size(40, 35),
+                            padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.remove,
+                            size: 20,
+                            color: Color(0xff97D5FE),
+                          ),
+                        )),
                         Padding(padding: EdgeInsets.only(right: 8.0)),
                         Container(
                           child: Text('$_videoSpeed'),
@@ -193,28 +223,28 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                         ),
                         Container(
                             child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (_videoSpeed < 1.5) {
-                                    _videoSpeed += 0.25;
-                                  }
-                                });
-                                _controller.setPlaybackSpeed(_videoSpeed);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Color(0xffC8E8FF),
-                                minimumSize: Size(40, 35),
-                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              ),
-                              child: Icon(
-                                Icons.add,
-                                size: 20,
-                                color: Color(0xff97D5FE),
-                              ),
-                            )),
+                          onPressed: () {
+                            setState(() {
+                              if (_videoSpeed < 1.5) {
+                                _videoSpeed += 0.25;
+                              }
+                            });
+                            _controller.setPlaybackSpeed(_videoSpeed);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xffC8E8FF),
+                            minimumSize: Size(40, 35),
+                            padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            size: 20,
+                            color: Color(0xff97D5FE),
+                          ),
+                        )),
                       ],
                     ),
                     Padding(padding: EdgeInsets.all(2.0)),
@@ -224,7 +254,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                         Text(
                           '당신의 답은...',
                           style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xff333333)),
+                              fontSize: 15, fontWeight: FontWeight.w600),
                         ),
                         Padding(padding: EdgeInsets.only(left: 120.0)),
                         InkWell(
@@ -233,15 +263,15 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                           },
                           child: _isHint
                               ? new Text(
-                            '힌트 닫기',
-                            style: TextStyle(
-                                color: Colors.grey, fontSize: 15),
-                          )
+                                  '힌트 닫기',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 15),
+                                )
                               : new Text(
-                            "힌트 보기",
-                            style: TextStyle(
-                                color: Colors.grey, fontSize: 15),
-                          ),
+                                  "힌트 보기",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 15),
+                                ),
                         ),
                       ],
                     ),
@@ -252,31 +282,27 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                         children: [
                           _isHint
                               ? Bubble(
-                            color: Color(0xff97D5FE),
-                            // stick: true,
-                            nip: BubbleNip.rightTop,
-                            margin: BubbleEdges.only(
-                                top: 2.0,
-                                bottom: 3.0,
-                                right: 3.0,
-                                left: 3.0),
-                            child: Text('nice to meet you',
-                                style: TextStyle(
-                                    color: Color(0xff333333),
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w600)),
-                          )
+                                  color: Color(0xff97D5FE),
+                                  // stick: true,
+                                  nip: BubbleNip.rightTop,
+                                  margin: BubbleEdges.only(
+                                      top: 2.0,
+                                      bottom: 3.0,
+                                      right: 3.0,
+                                      left: 3.0),
+                                  child: Text('hello',
+                                      style: TextStyle(
+                                          color: Color(0xff333333),
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w600)),
+                                )
                               : Container(),
                         ],
                       ),
                     ),
                     Container(
-                      child: Text('_ _ _ _  _ _  _ _ _ _  _ _ _', style: TextStyle(fontSize: 30, color: Color(0xff333333))),
-                    ),
-                    Padding(padding: EdgeInsets.all(5.0)),
-                    Container(
                       margin:
-                      EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
+                          EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
                       child: Column(  //textfield
                         //crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -284,8 +310,8 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                           _isInit
                               ? _initTextField()
                               : _isCorrect
-                              ? _correctTextField()
-                              : _errorTextField()
+                                  ? _correctTextField()
+                                  : _errorTextField()
                         ],
                       ),
                     ),
@@ -298,7 +324,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                         else _Wrong()
                       }
                     ]),
-                    Padding(padding: EdgeInsets.all(15.0)),
+                    Spacer(),
                     Container(    //다음 버튼
                       alignment: AlignmentDirectional.centerEnd,
                       padding: EdgeInsets.only(right: 10.0),
@@ -314,21 +340,21 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                                   side: BorderSide(
                                       color: Color(0xff97D5FE), width: 1.0),
                                 ),
-                                minimumSize: Size(100, 40),
+                                minimumSize: Size(80, 40),
                               ),
                               onPressed: () {},
                               child: Text(
                                 '다음',
                                 style: TextStyle(
                                   color: Color(0xff97D5FE),
-                                  fontSize: 18,
+                                  fontSize: 16,
                                 ),
                               ))
                         ],
                       ),
                     ),
                   ],
-                ))));
+                )))));
   }
 
   Widget _initTextField() {
@@ -339,8 +365,6 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
       style: TextStyle(
         fontSize: 20.0,
       ),
-      keyboardType: TextInputType.multiline, //입력시 가로가 길 때 줄바꿈되서 보여줌
-      maxLines: null, //제한 없음
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 10),
         enabledBorder: OutlineInputBorder(
@@ -399,11 +423,11 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     return (ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Color(0xff97D5FE),
-          minimumSize: Size(90, 40),
+          minimumSize: Size(80, 40),
         ),
         onPressed: () {
           FocusScope.of(context).unfocus();
-          if (myController.text == 'nice to meet you') { //정답
+          if (myController.text == 'hello') { //정답
             setState(() {
               _isCorrect = true;
               _seeAnswer = true;
@@ -429,7 +453,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
           '확인',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 18,
+            fontSize: 16,
           ),
         )));
   }
@@ -531,7 +555,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
             height: 50,
             color: Color(0xff97D5FE),
             child: Center(
-              child: Text("nice to meet you",
+              child: Text("hello",
                   style: TextStyle(
                       color: Color(0xff333333),
                       fontSize: 20.0,
@@ -558,7 +582,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
               height: 50,
               color: Color(0xff97D5FE),
               child: Center(
-                child: Text("nice to meet you",
+                child: Text("hello",
                     style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 20.0,

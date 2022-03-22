@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'lr_practiceview.dart';
+import 'practice/lr_practiceview.dart';
 import 'lr_readvideo.dart';
-import 'lr_testview.dart';
+import 'test/lr_testview.dart';
 import 'package:flutter/services.dart';
+import 'lr_reviewmode.dart';
 
 class lrselectModeMainPage extends StatelessWidget {
   const lrselectModeMainPage({Key? key}) : super(key: key);
@@ -92,6 +93,31 @@ class lrselectModeMainPage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (_) => lrTestModePage()));
+                    }),
+                height: 40,
+              ),
+              Container(
+                padding: EdgeInsets.only(
+                    left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
+                margin: EdgeInsets.only(
+                    left: 0.0, top: 20.0, right: 0.0, bottom: 0.0),
+                child: new RaisedButton(
+                    color: Color(0xffC8E8FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: new Text(
+                      '기록 보기',
+                      style: new TextStyle(
+                          fontSize: 20.0,
+                          color: Color(0xff333333),
+                          fontWeight: FontWeight.w500),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ReviewModePage()));
                     }),
                 height: 40,
               ),
