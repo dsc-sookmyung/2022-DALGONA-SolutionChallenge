@@ -9,7 +9,16 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 
 class SpWordPracticePage extends StatefulWidget {
-  //const SpLetterPracticePage({Key? key}) : super(key: key);
+
+  // final String probId;
+  // final String type;
+  // final String wordId;
+  // final String word;
+  // final String url;
+
+  // required this.probId, required this.type, required this.wordId, required this.word, required this.url
+
+  const SpWordPracticePage({Key? key,}) : super(key: key);
   @override
   _SpWordPracticePageState createState() => _SpWordPracticePageState();
 }

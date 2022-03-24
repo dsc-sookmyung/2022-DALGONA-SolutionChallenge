@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:zerozone/Speaking/sp_word_consonant.dart';
 import 'dart:convert';
 
 import 'sp_practiceview_word.dart';
@@ -8,16 +9,15 @@ import 'sp_practiceview_word.dart';
 class WordSelectPage extends StatefulWidget {
 
   final String consonant;
+  final List<WordList> wordList;
 
-  const WordSelectPage({Key? key, required this.consonant}) : super(key: key);
+  const WordSelectPage({Key? key, required this.consonant, required this.wordList}) : super(key: key);
 
   @override
   State<WordSelectPage> createState() => _WordSelectPageState();
 }
 
 class _WordSelectPageState extends State<WordSelectPage> {
-
-  final List<String> wordList = <String>["가다", "가자미", '거미', '고목', '구리', '고무', '고차원', '고리'];
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +57,17 @@ class _WordSelectPageState extends State<WordSelectPage> {
             ),
             Container(
               width: 300,
+                // decoration: BoxDecoration(
+                //   border: Border.all(
+                //     width: 2,
+                //     color: Colors.grey,
+                //   ),
+                //   borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                // ),
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: wordList.length,
+                    itemCount: widget.wordList.length,
                     itemBuilder: (context, idx){
                       return GestureDetector(
                         onTap: (){
@@ -73,7 +80,7 @@ class _WordSelectPageState extends State<WordSelectPage> {
                           height: 48,
                           alignment: Alignment.center,
                           child: Text(
-                            wordList[idx],
+                            widget.wordList[idx].word,
                             style: TextStyle(fontSize: 15),
                           ),
                           decoration: BoxDecoration(
