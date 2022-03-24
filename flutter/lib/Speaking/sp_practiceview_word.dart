@@ -9,7 +9,16 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 
 class SpWordPracticePage extends StatefulWidget {
-  //const SpLetterPracticePage({Key? key}) : super(key: key);
+
+  final int probId;
+  final String type;
+  // final String wordId;
+  final String word;
+  final String url;
+
+  // required this.probId, required this.type, required this.wordId, required this.word, required this.url
+
+  const SpWordPracticePage({Key? key, required this.probId, required this.type, required this.word, required this.url}) : super(key: key);
   @override
   _SpWordPracticePageState createState() => _SpWordPracticePageState();
 }
@@ -22,7 +31,6 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
   late stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = '.';
-  String _practiceText ='단어';
 
   double _confidence = 1.0;
   double _videoSpeed = 1.0;
@@ -34,8 +42,15 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
   @override
   void initState() {
     _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      '${widget.url}',
     );
+
+    //..initialize().then((_) {
+    //       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+    //       setState(() {});
+    //     })
+
+    print("widget url: ${widget.url}");
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
     super.initState();
@@ -92,14 +107,14 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                           Text(
                             "다음 글자를 발음해 보세요!",
                             style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w600),
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           IconButton(
                             onPressed: _pressedStar,
                             icon: (_isStared
                                 ? Icon(Icons.star)
                                 : Icon(Icons.star_border)),
-                            iconSize: 23,
+                            iconSize: 25,
                             color: Colors.amber,
                           ),
                         ],
@@ -110,6 +125,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                           Column(
                             children: [
                               Container(
+                                margin: EdgeInsets.only(bottom: 10.0),
                                 child: FutureBuilder(
                                   future: _initializeVideoPlayerFuture,
                                   builder: (context, snapshot) {
@@ -123,7 +139,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                                     }
                                   },
                                 ),
-                                height: 130,
+                                height: 210,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -225,6 +241,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                         ],
                       ),
                       Container(
+                        margin: EdgeInsets.only(top: 15.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Color(0xffC8E8FF),
@@ -232,7 +249,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                           height: 70,
                           child: Center(
                             child: Text(
-                              '$_practiceText',
+                              '${widget.word}',
                               style: TextStyle(
                                 fontSize: 38, fontWeight: FontWeight.w600,
                               ),
@@ -240,34 +257,34 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                           )
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 30.0),
+                        margin: EdgeInsets.only(top: 30.0, bottom: 15.0),
                         child: Row(
                           children: [
                             Text(
                               "다음과 같이 발음하고 있습니다.",
                               style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w600),
+                                  fontSize: 16, fontWeight: FontWeight.w600),
                             ),
                           ],
                         )
                       ),
 
-                      Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Color(0xffC8E8FF),
-                          ),
-                          margin: EdgeInsets.only(top: 10.0, bottom:15.0),
-                          height: 130,
-                          child: Center(
-                            child: Text(
-                              'camera',
-                              style: TextStyle(
-                                fontSize: 38, fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          )
-                      ),
+                      // Container(
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(5),
+                      //       color: Color(0xffC8E8FF),
+                      //     ),
+                      //     margin: EdgeInsets.only(top: 10.0, bottom:15.0),
+                      //     height: 130,
+                      //     child: Center(
+                      //       child: Text(
+                      //         'camera',
+                      //         style: TextStyle(
+                      //           fontSize: 38, fontWeight: FontWeight.w600,
+                      //         ),
+                      //       ),
+                      //     )
+                      // ),
 
                       Column(
                         children: [

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:zerozone/Login/login.dart';
 import 'sp_practiceview_letter.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ChooseVowelPage extends StatefulWidget {
 
   final String consonant;
   final int consonantIndex;
+
   const ChooseVowelPage({Key? key, required this.consonant, required this.consonantIndex }) : super(key: key);
 
   @override
@@ -13,15 +18,96 @@ class ChooseVowelPage extends StatefulWidget {
 
 class _ChooseVowelPageState extends State<ChooseVowelPage> {
 
+  int letterId = 0;
+  String letter = 'ㄱ';
+
   List<String> vowelList = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ'];
 
-  getGridViewSelectedItem(BuildContext context, String gridItem){
+  // getGridViewSelectedItem(BuildContext context, String gridItem, int index){
+  //
+  //   Navigator.of(context).pop();
+  //   Navigator.of(context).pop();
+  //   Navigator.push(
+  //       context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId))
+  //   );
+  // }
 
-    Navigator.of(context).pop();
-    Navigator.of(context).pop();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (_) => SpLetterPracticePage())
-    );
+  void letterInfo(String gridItem, int index) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'onsetId': widget.consonantIndex.toString(),
+      'onset': widget.consonant,
+      'nucleusId': index.toString(),
+      'nucleus': gridItem
+    };
+
+    var url = Uri.http('localhost:8080', '/speaking/list/letter/coda', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      for(dynamic i in data){
+        letterId = i["letterId"];
+        letter = i["letter"];
+        print("letter id: ${letterId}");
+        print("letter: ${letter}");
+        break;
+      }
+
+      urlInfo(letter, letterId);
+
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  void urlInfo(String letter, int letterId) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'id' : letterId.toString(),
+    };
+
+    var url = Uri.http('localhost:8080', '/speaking/practice/letter', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+
+      print("url : ${url}");
+      print("type : ${type}");
+
+
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type))
+      );
+
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
   }
 
   @override
@@ -60,7 +146,10 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
                 crossAxisCount: 3,
                   children: vowelList.asMap().map((index,data) => MapEntry(index, GestureDetector(
 
-                    onTap: (){getGridViewSelectedItem(context, data);},
+                    onTap: (){
+                      letterInfo(data, index+1);
+                      // getGridViewSelectedItem(context, data, index);
+                      },
                     child: Container(
 
                         margin:EdgeInsets.symmetric(vertical: 15, horizontal: 15),
