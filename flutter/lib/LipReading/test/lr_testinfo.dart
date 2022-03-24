@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'lr_wordtest.dart';
+import 'lr_sentencetest.dart';
 
 class lrTestInfoPage extends StatefulWidget {
-  const lrTestInfoPage({Key? key}) : super(key: key);
+  final String ver;
+  const lrTestInfoPage({Key? key, required this.ver}) : super(key: key);
   @override
   _lrTestInfoPageState createState() => _lrTestInfoPageState();
 }
@@ -23,7 +26,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
     child: Scaffold(
       appBar: AppBar(
         title: Text(
-          "시험 보기",
+          '${widget.ver}',
           style: TextStyle(
               color: Color(0xff333333),
               fontSize: 24,
@@ -194,6 +197,18 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                   ),
                   onPressed: () {
                     FocusScope.of(context).unfocus();
+                    if(widget.ver=='단어 시험'){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => WordTestPage(num: int.parse(myController2.text), time: int.parse(myController3.text))));
+                    }
+                    else if(widget.ver=='문장 시험'){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => SentenceTestPage(num: int.parse(myController2.text), time: int.parse(myController3.text))));
+                    }
                   },
                   child: Padding(
                     padding: EdgeInsets.only(

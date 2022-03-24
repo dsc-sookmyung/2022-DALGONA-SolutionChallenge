@@ -53,7 +53,7 @@ class lrTestModePage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => lrTestInfoPage()));
+                            builder: (_) => lrTestInfoPage(ver: '단어 시험')));
                   }),
               height: 40,
             ),
@@ -76,7 +76,7 @@ class lrTestModePage extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => lrTestInfoPage())
+                        context, MaterialPageRoute(builder: (_) => lrTestInfoPage(ver: '문장 시험'))
                     );
                   }),
               height: 40,
@@ -100,7 +100,7 @@ class lrTestModePage extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => lrTestInfoPage())
+                        context, MaterialPageRoute(builder: (_) => lrTestInfoPage(ver:'랜덤 시험'))
                     );
                   }),
               height: 40,
