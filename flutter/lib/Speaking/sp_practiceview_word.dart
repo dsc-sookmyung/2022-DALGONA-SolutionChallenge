@@ -10,15 +10,15 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SpWordPracticePage extends StatefulWidget {
 
-  // final String probId;
-  // final String type;
+  final int probId;
+  final String type;
   // final String wordId;
-  // final String word;
-  // final String url;
+  final String word;
+  final String url;
 
   // required this.probId, required this.type, required this.wordId, required this.word, required this.url
 
-  const SpWordPracticePage({Key? key,}) : super(key: key);
+  const SpWordPracticePage({Key? key, required this.probId, required this.type, required this.word, required this.url}) : super(key: key);
   @override
   _SpWordPracticePageState createState() => _SpWordPracticePageState();
 }
@@ -31,7 +31,6 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
   late stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = '.';
-  String _practiceText ='단어';
 
   double _confidence = 1.0;
   double _videoSpeed = 1.0;
@@ -43,8 +42,15 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
   @override
   void initState() {
     _controller = VideoPlayerController.network(
-      'https://user-images.githubusercontent.com/44363187/159072414-a97097b5-5eac-4850-987b-fb755d0fe06d.mp4',
+      '${widget.url}',
     );
+
+    //..initialize().then((_) {
+    //       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+    //       setState(() {});
+    //     })
+
+    print("widget url: ${widget.url}");
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
     super.initState();
@@ -243,7 +249,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                           height: 70,
                           child: Center(
                             child: Text(
-                              '$_practiceText',
+                              '${widget.word}',
                               style: TextStyle(
                                 fontSize: 38, fontWeight: FontWeight.w600,
                               ),

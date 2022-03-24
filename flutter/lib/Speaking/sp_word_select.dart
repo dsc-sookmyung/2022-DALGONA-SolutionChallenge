@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Speaking/sp_word_consonant.dart';
 import 'dart:convert';
 
@@ -18,6 +19,45 @@ class WordSelectPage extends StatefulWidget {
 }
 
 class _WordSelectPageState extends State<WordSelectPage> {
+
+  Future<void> urlInfo(String letter, int index) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'id' : index.toString(),
+    };
+
+    var url = Uri.http('localhost:8080', '/speaking/practice/word', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+
+      print("url : ${url}");
+      print("type : ${type}");
+
+
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: letter,))
+      );
+
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +111,8 @@ class _WordSelectPageState extends State<WordSelectPage> {
                     itemBuilder: (context, idx){
                       return GestureDetector(
                         onTap: (){
-                          Navigator.of(context).pop();
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (_) => SpWordPracticePage())
-                          );
+                          urlInfo(widget.wordList[idx].word, widget.wordList[idx].index);
+
                         },
                         child: Container(
                           height: 48,
