@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Speaking/sp_select_situation.dart';
 import 'package:zerozone/Speaking/sp_word_consonant.dart';
 import 'dart:convert';
 
-import 'sp_practiceview_word.dart';
+import 'sp_practiceview_sentence.dart';
 
-class WordSelectPage extends StatefulWidget {
+class SentenceSelectPage extends StatefulWidget {
 
-  final String consonant;
-  final List<WordList> wordList;
+  final List<SentenceList> sentenceList;
+  final String situation;
 
-  const WordSelectPage({Key? key, required this.consonant, required this.wordList}) : super(key: key);
+  const SentenceSelectPage({Key? key, required this.sentenceList, required this.situation}) : super(key: key);
 
   @override
-  State<WordSelectPage> createState() => _WordSelectPageState();
+  State<SentenceSelectPage> createState() => _SentenceSelectPageState();
 }
 
-class _WordSelectPageState extends State<WordSelectPage> {
+
+class _SentenceSelectPageState extends State<SentenceSelectPage> {
 
   Future<void> urlInfo(String letter, int index) async {
 
@@ -26,7 +28,7 @@ class _WordSelectPageState extends State<WordSelectPage> {
       'id' : index.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/speaking/practice/word', _queryParameters);
+    var url = Uri.http('localhost:8080', '/speaking/practice/sentence', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -49,7 +51,7 @@ class _WordSelectPageState extends State<WordSelectPage> {
 
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: letter,))
+          context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: letter,))
       );
 
     }
@@ -64,7 +66,7 @@ class _WordSelectPageState extends State<WordSelectPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '말하기 연습 - 단어',
+          '말하기 연습 - 문장',
           style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
         ),
         backgroundColor: Color(0xffC8E8FF),
@@ -72,15 +74,15 @@ class _WordSelectPageState extends State<WordSelectPage> {
       ),
 
       body: new Container(
-         margin: EdgeInsets.only(top: 60.0, left: 30.0, right: 30.0),
-         padding: EdgeInsets.only(left: 10.0, right: 10.0),
+        margin: EdgeInsets.only(top: 40.0, left: 30.0, right: 30.0),
+        padding: EdgeInsets.only(left: 10.0, right: 10.0),
 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
 
           children: [
             Container(
-              margin: EdgeInsets.only(bottom: 40.0),
+              margin: EdgeInsets.only(bottom: 30.0),
               decoration: BoxDecoration(
                   border: Border.all(
                     width: 2,
@@ -91,34 +93,27 @@ class _WordSelectPageState extends State<WordSelectPage> {
               height: 50,
               alignment: Alignment.center,
               child: Text(
-                '선택한 자음: ${widget.consonant}',
+                '${widget.situation}',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
               ),
             ),
             Container(
-              width: 300,
-                // decoration: BoxDecoration(
-                //   border: Border.all(
-                //     width: 2,
-                //     color: Colors.grey,
-                //   ),
-                //   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                // ),
+                width: 300,
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: widget.wordList.length,
+                    itemCount: widget.sentenceList.length,
                     itemBuilder: (context, idx){
                       return GestureDetector(
                         onTap: (){
-                          urlInfo(widget.wordList[idx].word, widget.wordList[idx].index);
+                          urlInfo(widget.sentenceList[idx].word, widget.sentenceList[idx].index);
 
                         },
                         child: Container(
                           height: 48,
                           alignment: Alignment.center,
                           child: Text(
-                            widget.wordList[idx].word,
+                            widget.sentenceList[idx].word,
                             style: TextStyle(fontSize: 15),
                           ),
                           decoration: BoxDecoration(
