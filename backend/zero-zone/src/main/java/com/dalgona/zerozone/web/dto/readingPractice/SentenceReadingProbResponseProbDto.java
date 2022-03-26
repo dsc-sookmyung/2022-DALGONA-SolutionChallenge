@@ -15,6 +15,7 @@ public class SentenceReadingProbResponseProbDto {
     String sentence;
     String url;
     String hint;
+    String spacingInfo;
 
     @Builder
     public SentenceReadingProbResponseProbDto(ReadingProb readingProb){
@@ -24,6 +25,7 @@ public class SentenceReadingProbResponseProbDto {
         this.sentence = readingProb.getSentence().getSentence();
         this.url = readingProb.getUrl();
         this.hint = readingProb.getHint();
+        this.spacingInfo = readingProb.getSpacing_info();
     }
 
 }
