@@ -4,16 +4,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
-import 'dart:async';
+import 'package:flutter/services.dart';
 
-class WordTestPage extends StatefulWidget {
-  const WordTestPage({Key? key}) : super(key: key);
+class SentencePracticePage extends StatefulWidget {
+  const SentencePracticePage({Key? key, required situation}) : super(key: key);
 
   @override
-  _WordTestPageState createState() => _WordTestPageState();
+  _SentencePracticePageState createState() => _SentencePracticePageState();
 }
 
-class _WordTestPageState extends State<WordTestPage> {
+class _SentencePracticePageState extends State<SentencePracticePage> {
   bool _isStared = false;
   bool _isHint = false;
   bool _isCorrect = true; //정답 맞췄는지
@@ -42,7 +42,9 @@ class _WordTestPageState extends State<WordTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return GestureDetector(
         onTap: () {
           //FocusManager.instance.primaryFocus?.unfocus();
@@ -51,7 +53,7 @@ class _WordTestPageState extends State<WordTestPage> {
         child: Scaffold(
             appBar: AppBar(
               title: Text(
-                "단어",
+                "문장",
                 style: TextStyle(
                     color: Color(0xff333333),
                     fontSize: 24,
@@ -63,6 +65,8 @@ class _WordTestPageState extends State<WordTestPage> {
             ),
             body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
+                child: SizedBox(
+                height: height-height/8,
                 child: Column(
                   children: [
                     Row(
@@ -224,7 +228,7 @@ class _WordTestPageState extends State<WordTestPage> {
                         Text(
                           '당신의 답은...',
                           style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600),
+                              fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xff333333)),
                         ),
                         Padding(padding: EdgeInsets.only(left: 120.0)),
                         InkWell(
@@ -260,7 +264,7 @@ class _WordTestPageState extends State<WordTestPage> {
                                 bottom: 3.0,
                                 right: 3.0,
                                 left: 3.0),
-                            child: Text('hello',
+                            child: Text('nice to meet you',
                                 style: TextStyle(
                                     color: Color(0xff333333),
                                     fontSize: 20.0,
@@ -270,6 +274,10 @@ class _WordTestPageState extends State<WordTestPage> {
                         ],
                       ),
                     ),
+                    Container(
+                      child: Text('_ _ _ _  _ _  _ _ _ _  _ _ _', style: TextStyle(fontSize: 30, color: Color(0xff333333))),
+                    ),
+                    Padding(padding: EdgeInsets.all(5.0)),
                     Container(
                       margin:
                       EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
@@ -294,16 +302,14 @@ class _WordTestPageState extends State<WordTestPage> {
                         else _Wrong()
                       }
                     ]),
-                    Padding(padding: EdgeInsets.all(8.0)),
+                    Spacer(),
                     Container(    //다음 버튼
                       alignment: AlignmentDirectional.centerEnd,
                       padding: EdgeInsets.only(right: 10.0),
-                      child: Row(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         //mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('34/50', style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),),
-
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.white,
@@ -312,21 +318,21 @@ class _WordTestPageState extends State<WordTestPage> {
                                   side: BorderSide(
                                       color: Color(0xff97D5FE), width: 1.0),
                                 ),
-                                minimumSize: Size(100, 40),
+                                minimumSize: Size(80, 40),
                               ),
                               onPressed: () {},
                               child: Text(
                                 '다음',
                                 style: TextStyle(
                                   color: Color(0xff97D5FE),
-                                  fontSize: 18,
+                                  fontSize: 16,
                                 ),
                               ))
                         ],
                       ),
                     ),
                   ],
-                ))));
+                )))));
   }
 
   Widget _initTextField() {
@@ -337,6 +343,8 @@ class _WordTestPageState extends State<WordTestPage> {
       style: TextStyle(
         fontSize: 20.0,
       ),
+      keyboardType: TextInputType.multiline, //입력시 가로가 길 때 줄바꿈되서 보여줌
+      maxLines: null, //제한 없음
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 10),
         enabledBorder: OutlineInputBorder(
@@ -395,11 +403,11 @@ class _WordTestPageState extends State<WordTestPage> {
     return (ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Color(0xff97D5FE),
-          minimumSize: Size(90, 40),
+          minimumSize: Size(80, 40),
         ),
         onPressed: () {
           FocusScope.of(context).unfocus();
-          if (myController.text == 'hello') { //정답
+          if (myController.text == 'nice to meet you') { //정답
             setState(() {
               _isCorrect = true;
               _seeAnswer = true;
@@ -425,7 +433,7 @@ class _WordTestPageState extends State<WordTestPage> {
           '확인',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 18,
+            fontSize: 16,
           ),
         )));
   }
@@ -527,7 +535,7 @@ class _WordTestPageState extends State<WordTestPage> {
             height: 50,
             color: Color(0xff97D5FE),
             child: Center(
-              child: Text("hello",
+              child: Text("nice to meet you",
                   style: TextStyle(
                       color: Color(0xff333333),
                       fontSize: 20.0,
@@ -554,7 +562,7 @@ class _WordTestPageState extends State<WordTestPage> {
               height: 50,
               color: Color(0xff97D5FE),
               child: Center(
-                child: Text("hello",
+                child: Text("nice to meet you",
                     style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 20.0,

@@ -51,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Future<void> emailAuth(String email) async {
 
-    var url = Uri.http('localhost:8080', 'email/code/send');
+    var url = Uri.http('10.0.2.2:8080', 'email/code/send');
     final data = jsonEncode({'email': email});
 
     var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"});
@@ -79,7 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
       'email': email,
     };
     Uri.encodeComponent(email);
-    var url = Uri.http('localhost:8080', '/user/email', _queryParameters);
+    var url = Uri.http('10.0.2.2:8080', '/user/email', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json"});
 
@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void signUp(String email, name, pass) async {
 
-    var url = Uri.http('localhost:8080', '/user');
+    var url = Uri.http('10.0.2.2:8080', '/user');
 
     final data = jsonEncode({'email': email, 'name': name, 'password': pass});
 
@@ -132,7 +132,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   checkAuthCode(String email, authCode) async {
 
-  var url = Uri.http('localhost:8080', '/email/code/verify');
+  var url = Uri.http('10.0.2.2:8080', '/email/code/verify');
 
   final data = jsonEncode({'email': email, 'authCode': authCode});
 
@@ -153,7 +153,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GestureDetector(
+        onTap: () {
+      //FocusManager.instance.primaryFocus?.unfocus();
+      FocusScope.of(context).unfocus();
+    },
+    child:Scaffold(
       //resizeToAvoidBottomInset : false,
       body:SingleChildScrollView(
       child: Container(
@@ -194,6 +199,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Color(0xff97D5FE), width: 2.0),
                           ),
+                          // hintStyle: ,
                           hintText: '이메일을 입력하세요.'
                       ),
                       validator: (value) => value!.isEmpty ? '이메일을 입력해 주세요.' : null,
@@ -215,6 +221,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       onPressed: (){
                         existEmail(_email.text);
+                        FocusScope.of(context).unfocus();
                       },
                     ),
                     width: 70,
@@ -263,6 +270,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       onPressed: (){
                         checkAuthCode(_email.text, _authCode.text);
+                        FocusScope.of(context).unfocus();
                       },
                     ),
                     width: 70,
@@ -421,6 +429,6 @@ class _SignUpPageState extends State<SignUpPage> {
         )
       ),
       )
-    );
+    ));
   }
 }
