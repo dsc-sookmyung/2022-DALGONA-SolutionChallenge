@@ -33,4 +33,22 @@ public class SpeakingPracticeController {
         return speakingPracticeService.getSpeakingPracticeSentenceProb(id);
     }
 
+    // 글자 랜덤 조회
+    @GetMapping("/letter/random")
+    public ResponseEntity<?> getRandomLetter(){
+        return speakingPracticeService.getRandomSpeakingPracticeLetterProb();
+    }
+
+    // 단어 랜덤 조회
+    @GetMapping("/word/random")
+    public ResponseEntity<?> getRandomWord(){
+        return speakingPracticeService.getRandomSpeakingPracticeWordProb();
+    }
+
+    // 문장 랜덤 조회
+    @GetMapping("/sentence/random")
+    public ResponseEntity<?> getRandomSentence(){
+        return speakingPracticeService.getRandomSpeakingPracticeSentenceProb();
+    }
+
 }

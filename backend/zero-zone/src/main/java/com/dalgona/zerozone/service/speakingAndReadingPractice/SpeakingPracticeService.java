@@ -9,6 +9,9 @@ import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.dalgona.zerozone.domain.speaking.SpeakingProbRepository;
 import com.dalgona.zerozone.web.dto.Response;
+import com.dalgona.zerozone.web.dto.content.LetterResponseDto;
+import com.dalgona.zerozone.web.dto.content.SentenceResponseDto;
+import com.dalgona.zerozone.web.dto.content.WordResponseDto;
 import com.dalgona.zerozone.web.dto.speakingPractice.LetterSpeakingProbResponseDto;
 import com.dalgona.zerozone.web.dto.speakingPractice.SentenceSpeakingProbResponseDto;
 import com.dalgona.zerozone.web.dto.speakingPractice.WordSpeakingProbResponseProbDto;
@@ -18,7 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
@@ -64,4 +69,42 @@ public class SpeakingPracticeService {
         return response.success(sentenceSpeakingProbResponseDto, "발음 문장 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
 
+    // 글자 랜덤 조회
+    public ResponseEntity<?> getRandomSpeakingPracticeLetterProb() {
+        List<Letter> letters = letterRepository.findAll();
+        int len = letters.size();
+        if(len==0) return response.fail("글자가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        Random random = new Random();
+        Letter randomLetter = letters.get(random.nextInt(len));
+        Optional<SpeakingProb> letter = speakingProbRepository.findByTypeAndLetter("letter", randomLetter);
+        if(!letter.isPresent()) return response.fail("글자가 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
+        LetterSpeakingProbResponseDto letterResponseDto = new LetterSpeakingProbResponseDto(letter.get());
+        return response.success(letterResponseDto, "글자 랜덤 조회에 성공했습니다.", HttpStatus.OK);
+    }
+
+    // 단어 랜덤 조회
+    public ResponseEntity<?> getRandomSpeakingPracticeWordProb() {
+        List<Word> words = wordRepository.findAll();
+        int len = words.size();
+        if(len==0) return response.fail("단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        Random random = new Random();
+        Word randomWord = words.get(random.nextInt(len));
+        Optional<SpeakingProb> word = speakingProbRepository.findByTypeAndWord("word", randomWord);
+        if(!word.isPresent()) response.fail("단어가 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
+        WordSpeakingProbResponseProbDto wordResponseDto = new WordSpeakingProbResponseProbDto(word.get());
+        return response.success(wordResponseDto, "단어 랜덤 조회에 성공했습니다.", HttpStatus.OK);
+    }
+
+    // 문장 랜덤 조회
+    public ResponseEntity<?> getRandomSpeakingPracticeSentenceProb() {
+        List<Sentence> sentences = sentenceRepository.findAll();
+        int len = sentences.size();
+        if(len==0) return response.fail("문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        Random random = new Random();
+        Sentence randomSentence = sentences.get(random.nextInt(len));
+        Optional<SpeakingProb> sentence = speakingProbRepository.findByTypeAndSentence("sentence", randomSentence);
+        if(!sentence.isPresent()) response.fail("문장이 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
+        SentenceSpeakingProbResponseDto sentenceResponseDto = new SentenceSpeakingProbResponseDto(sentence.get());
+        return response.success(sentenceResponseDto, "문장 랜덤 조회에 성공했습니다.", HttpStatus.OK);
+    }
 }

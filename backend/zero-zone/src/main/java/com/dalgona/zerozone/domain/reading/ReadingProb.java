@@ -32,6 +32,9 @@ public class ReadingProb {
     @Column(length = 100)
     private String hint;
 
+    @Column(length = 100)
+    private String spacing_info;
+
     @OneToOne
     @JoinColumn(name = "WORD_ID")
     private Word word;

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -24,43 +25,38 @@ public class UserEmailAuth {
     private String authCode;
 
     @Column
-    private boolean authStatus;
+    private LocalDateTime authValidTime;
 
     @Column
     private String authPwdCode;
 
     @Column
-    private boolean authPwdStatus;
+    private LocalDateTime authPwdValidTime;
 
     @Builder
-    public UserEmailAuth(String email, String authCode, boolean authStatus){
+    public UserEmailAuth(String email, String authCode, LocalDateTime authValidTime){
         this.email=email;
         this.authCode=authCode;
-        this.authStatus=authStatus;
+        this.authValidTime = authValidTime;
     }
-
 
     public UserEmailAuth updateCode(String authCode){
         this.authCode=authCode;
-        this.authStatus=false;
         return this;
     }
 
-    public UserEmailAuth updateAuthStatus(boolean authStatus){
-        this.authStatus=authStatus;
+    public UserEmailAuth updateAuthValidTime(LocalDateTime authValidTime){
+        this.authValidTime = authValidTime;
         return this;
     }
 
     public UserEmailAuth updatePwdCode(String authPwdCode){
         this.authPwdCode=authPwdCode;
-        this.authPwdStatus=false;
         return this;
     }
 
-    public UserEmailAuth updateAuthPwdStatus(boolean authPwdStatus){
-        this.authPwdStatus=authPwdStatus;
-        return this;
+    public void updateAuthPwdValidTime(LocalDateTime validTime) {
+        this.authPwdValidTime = validTime;
     }
-
 
 }
