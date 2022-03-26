@@ -16,22 +16,21 @@ import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.token.TokensResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserInfoResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserLoginRequestDto;
+import com.dalgona.zerozone.web.dto.user.UserLoginResponseDto;
 import com.dalgona.zerozone.web.dto.user.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,8 +48,6 @@ public class UserService {
 
     private final PasswordEncoder pwdEncorder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final UserDetailsService userDetailsService;
     private final Response response;
 
     // 회원가입
@@ -70,11 +67,7 @@ public class UserService {
 
         // DB 저장
         Authority authority = Authority.builder().authorityName("ROLE_USER").build();
-        System.out.println("authority 생성");
-
         User user = userRepository.save(userSaveRequestDTO.toEntity(Collections.singleton(authority)));
-        System.out.println("user 생성");
-
 
         // 북마크 생성
         BookmarkReading bookmarkReading = new BookmarkReading(user);
@@ -120,12 +113,12 @@ public class UserService {
         String refreshTokenValue = UUID.randomUUID().toString().replace("-", "");
         findMember.updateRefreshTokenValue(refreshTokenValue);
         String refreshToken = jwtTokenProvider.createRefreshToken(refreshTokenValue);
-        TokensResponseDto tokens = new TokensResponseDto(accessToken, refreshToken);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtAuthenticationFilter.AUTHORIZATION_HEADER, "Bearer " + accessToken);
+        UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto(accessToken, refreshToken, findMember.getEmail());
 
-        return response.success(tokens, "로그인에 성공했습니다.", HttpStatus.OK);
+        return response.success(userLoginResponseDto, "로그인에 성공했습니다.", HttpStatus.OK);
     }
 
     // 인증된 이메일인지 확인
@@ -133,14 +126,26 @@ public class UserService {
         Optional<UserEmailAuth> findUser = userEmailAuthRepository.findByEmail(email);
         if(!findUser.isPresent())
             return false;
-        else if(findUser.get().isAuthStatus())
+        LocalDateTime validTime = findUser.get().getAuthValidTime();
+        if(validTime.isAfter(LocalDateTime.now()))
+            return true;
+        else
+            return false;
+    }
+
+    // 비밀번호 인증된 이메일인지 확인
+    public boolean isAuthedPwd(String email){
+        Optional<UserEmailAuth> findUser = userEmailAuthRepository.findByEmail(email);
+        if(!findUser.isPresent())
+            return false;
+        LocalDateTime validTime = findUser.get().getAuthPwdValidTime();
+        if(validTime.isAfter(LocalDateTime.now()))
             return true;
         else
             return false;
     }
 
     private User getCurrentUser(){
-        System.out.println("getCurrentUser");
         return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
     }
 
@@ -167,7 +172,7 @@ public class UserService {
         // 인증된 이메일인지 확인
         if(findUser.isPresent()){
             // 인증되었다면 비밀번호 수정
-            if(findUser.get().isAuthPwdStatus()){
+            if(isAuthedPwd(findUser.get().getEmail())){
                 String encodedPwd = pwdEncorder.encode(newPassword);
                 Optional<User> user = userRepository.findByEmail(email);
                 if(!user.isPresent()) return response.fail("존재하지 않는 이메일입니다.", HttpStatus.BAD_REQUEST);

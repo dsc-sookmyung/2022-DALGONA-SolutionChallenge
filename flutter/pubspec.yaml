@@ -40,7 +40,7 @@ dependencies:
   camera:
   http:
   image_picker: ^0.8.4+10
-  video_player: ^2.2.19
+  video_player: ^2.3.0
   fluttericon: ^2.0.0
 #  number_paginator: ^0.0.2
 #  tflite: ^1.1.2
