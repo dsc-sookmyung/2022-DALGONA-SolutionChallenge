@@ -14,7 +14,11 @@ import 'package:zerozone/Login/login.dart';
 class SentencePracticePage extends StatefulWidget {
   final String situation;
   final int id;
-  const SentencePracticePage({Key? key, required this.id, required this.situation}) : super(key: key);
+  final String space;
+  final String sentence;
+  final String hint;
+  final String url;
+  const SentencePracticePage({Key? key, required this.id, required this.situation, required this.sentence, required this.space, required this.hint, required this.url}) : super(key: key);
 
   @override
   _SentencePracticePageState createState() => _SentencePracticePageState();
@@ -36,22 +40,25 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
 
-  void initState() {
+  var data;
+  late String _space;
+  late var _sentence=widget.sentence;
+  late var _hint=widget.hint;
+  late var _url=widget.url;
+
+  void initState(){
     _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      _url,
     );
+    setState(() {
+      _space=widget.space;
+    });
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _randomsentence((widget.id).toString(), widget.situation);
     super.initState();
 
     //usingCamera();
   }
-
-  var data;
-  String _space="";
-  var _sentence;
-  var _sentenceId;
 
   void _randomsentence(String situationId, String situation) async {
     Map<String, String> _queryParameters = <String, String>{
@@ -73,8 +80,10 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
       data=body["data"];
       print(data);
       _sentence=data['sentence'];
+      _hint=data['hint'];
+      _url=data['url'];
 
-      var repeat=data['hint'].split("");
+      var repeat=data['spacing_info'].split("");
       for(int i=0;i<repeat.length;i++){
         _space += "_ " * int.parse(repeat[i]);
         _space += " ";
@@ -309,7 +318,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                                 bottom: 3.0,
                                 right: 3.0,
                                 left: 3.0),
-                            child: Text("",
+                            child: Text(_hint,
                                 style: TextStyle(
                                     color: Color(0xff333333),
                                     fontSize: 20.0,
