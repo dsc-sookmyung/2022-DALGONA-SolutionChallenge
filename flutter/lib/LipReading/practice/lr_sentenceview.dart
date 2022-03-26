@@ -43,7 +43,7 @@ class LrModeSentencePage extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '인사하기'))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:1, situation: '인사하기'))
                       );
                     }
                 ),
@@ -63,7 +63,7 @@ class LrModeSentencePage extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '날짜와 시간 말하기'))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:2,situation: '날짜와 시간 말하기'))
                       );
                     }
                 ),
@@ -82,7 +82,7 @@ class LrModeSentencePage extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '날씨 말하기'))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:3, situation: '날씨 말하기'))
                       );
                     }
                 ),
@@ -102,7 +102,7 @@ class LrModeSentencePage extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '부탁 요청하기'))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:4, situation: '부탁 요청하기'))
                       );
                     }
                 ),
@@ -121,7 +121,7 @@ class LrModeSentencePage extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '기분 표현하기'))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:5, situation: '기분 표현하기'))
                       );
                     }
                 ),

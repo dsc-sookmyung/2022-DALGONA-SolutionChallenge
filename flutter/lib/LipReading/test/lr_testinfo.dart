@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:zerozone/Login/login.dart';
 import 'lr_wordtest.dart';
 import 'lr_sentencetest.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class lrTestInfoPage extends StatefulWidget {
   final String ver;
@@ -14,6 +18,47 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   final myController1 = TextEditingController();
   final myController2 = TextEditingController();
   final myController3 = TextEditingController();
+
+  var res;
+
+  void _wordTest(String title, String count) async {
+    var url = Uri.http('10.0.2.2:8080', '/reading/test/word');
+
+    final data = jsonEncode({'testname': title, 'probsCount': count});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      var body=jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
+  void _sentenceTest(String title, String count) async {
+    var url = Uri.http('10.0.2.2:8080', '/reading/test/sentence');
+
+    final data = jsonEncode({'testname': title, 'probsCount': count});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,12 +243,14 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                   onPressed: () {
                     FocusScope.of(context).unfocus();
                     if(widget.ver=='단어 시험'){
+                      _wordTest(myController1.text, myController2.text);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => WordTestPage(num: int.parse(myController2.text), time: int.parse(myController3.text))));
+                              builder: (_) => WordTestPage(num: int.parse(myController2.text), time: int.parse(myController3.text), data: res)));
                     }
                     else if(widget.ver=='문장 시험'){
+                      _sentenceTest(myController1.text, myController2.text);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

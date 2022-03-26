@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:zerozone/Login/login.dart';
+
 class WordPracticePage extends StatefulWidget {
   final int id;
   final String onset;
@@ -20,7 +22,7 @@ class WordPracticePage extends StatefulWidget {
 class _WordPracticePageState extends State<WordPracticePage> {
   bool _isStared = false;
   bool _isHint = false;
-  bool _isCorrect = true; //정답 맞췄는지
+  bool _isCorrect = false; //정답 맞췄는지
   bool _enterAnswer=true; //확인  / 재도전, 답보기
   bool _isInit = true;  //textfield
   bool _seeAnswer = false;  //정답보기
@@ -44,29 +46,32 @@ class _WordPracticePageState extends State<WordPracticePage> {
     super.initState();
     //usingCamera();
   }
-  var response;
-
+  var data;
+  var _hint;
+  var _word;
+  var _wordId;
   void _randomWord(String onsetId, String onset) async {
     Map<String, String> _queryParameters = <String, String>{
       'onsetId': onsetId,
-      // 'onset': onset
+      'onset': onset
     };
     Uri.encodeComponent(onsetId);
     var url = Uri.http('10.0.2.2:8080', '/reading/practice/word/random', _queryParameters);
 
-    response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $"});
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);
-
+    // print("Bearer $authToken");
     print('Response status: ${response.statusCode}');
-    print(jsonDecode(response.body));
+
     if (response.statusCode == 200) {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
-      var body = jsonDecode(response.body);
-
-      bool data = body["data"];
-
-      print("data: " + data.toString());
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+      data=body["data"];
+      print(data);
+      _hint=data['hint'];
+      _word=data['word'];
+      _wordId=data['wordId'];
     }
   }
 
@@ -294,7 +299,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                       bottom: 3.0,
                                       right: 3.0,
                                       left: 3.0),
-                                  child: Text('hello',
+                                  child: Text(_hint,
                                       style: TextStyle(
                                           color: Color(0xff333333),
                                           fontSize: 20.0,
@@ -346,7 +351,12 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                 ),
                                 minimumSize: Size(80, 40),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                if(_isCorrect)
+                                  _next();
+                                else
+                                  _showDialog();
+                              },
                               child: Text(
                                 '다음',
                                 style: TextStyle(
@@ -431,7 +441,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
         ),
         onPressed: () {
           FocusScope.of(context).unfocus();
-          if (myController.text == 'hello') { //정답
+          if (myController.text == _word) { //정답
             setState(() {
               _isCorrect = true;
               _seeAnswer = true;
@@ -559,7 +569,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
             height: 50,
             color: Color(0xff97D5FE),
             child: Center(
-              child: Text("hello",
+              child: Text(_word,
                   style: TextStyle(
                       color: Color(0xff333333),
                       fontSize: 20.0,
@@ -586,7 +596,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
               height: 50,
               color: Color(0xff97D5FE),
               child: Center(
-                child: Text("hello",
+                child: Text(_word,
                     style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 20.0,
@@ -602,5 +612,47 @@ class _WordPracticePageState extends State<WordPracticePage> {
         ]),
       ],
     ));
+  }
+
+  void _showDialog(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: new Text("Notice", style: TextStyle(color: Color(0xff333333)),),
+            content:new Text("다음 문제로 넘어가시겠어요?", style: TextStyle(color: Color(0xff333333))),
+            actions: [
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff97D5FE),
+                    minimumSize: Size(80, 40),
+                  ),
+                  onPressed: (){
+                    _next();
+                    Navigator.of(context).pop();
+                  }, child: Text("확인", style: TextStyle(color: Colors.white),)),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff97D5FE),
+                    minimumSize: Size(80, 40),
+                  ),
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  }, child: Text("취소", style: TextStyle(color: Colors.white)))
+            ],
+          );
+        }
+    );
+  }
+
+  void _next(){
+    setState(() {
+      _randomWord((widget.id).toString(), widget.onset);
+      _seeAnswer = false;
+      _isInit = true;
+      _enterAnswer=true;
+      _isCorrect=false;
+      myController.text="";
+    });
   }
 }

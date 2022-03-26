@@ -6,8 +6,15 @@ import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:zerozone/Login/login.dart';
+
 class SentencePracticePage extends StatefulWidget {
-  const SentencePracticePage({Key? key, required situation}) : super(key: key);
+  final String situation;
+  final int id;
+  const SentencePracticePage({Key? key, required this.id, required this.situation}) : super(key: key);
 
   @override
   _SentencePracticePageState createState() => _SentencePracticePageState();
@@ -16,7 +23,7 @@ class SentencePracticePage extends StatefulWidget {
 class _SentencePracticePageState extends State<SentencePracticePage> {
   bool _isStared = false;
   bool _isHint = false;
-  bool _isCorrect = true; //정답 맞췄는지
+  bool _isCorrect = false; //정답 맞췄는지
   bool _enterAnswer=true; //확인  / 재도전, 답보기
   bool _isInit = true;  //textfield
   bool _seeAnswer = false;  //정답보기
@@ -35,9 +42,47 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
+    _randomsentence((widget.id).toString(), widget.situation);
     super.initState();
 
     //usingCamera();
+  }
+
+  var data;
+  String _space="";
+  var _sentence;
+  var _sentenceId;
+
+  void _randomsentence(String situationId, String situation) async {
+    Map<String, String> _queryParameters = <String, String>{
+      'situationId': situationId,
+      'situation': situation
+    };
+    // Uri.encodeComponent(situationId);
+    var url = Uri.http('10.0.2.2:8080', '/reading/practice/sentence/random', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
+    print(url);
+    // print("Bearer $authToken");
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+      data=body["data"];
+      print(data);
+      _sentence=data['sentence'];
+
+      var repeat=data['hint'].split("");
+      for(int i=0;i<repeat.length;i++){
+        _space += "_ " * int.parse(repeat[i]);
+        _space += " ";
+      }
+      setState(() {
+        _space;
+      });
+    }
   }
 
   @override
@@ -264,7 +309,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                                 bottom: 3.0,
                                 right: 3.0,
                                 left: 3.0),
-                            child: Text('nice to meet you',
+                            child: Text("",
                                 style: TextStyle(
                                     color: Color(0xff333333),
                                     fontSize: 20.0,
@@ -275,7 +320,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                       ),
                     ),
                     Container(
-                      child: Text('_ _ _ _  _ _  _ _ _ _  _ _ _', style: TextStyle(fontSize: 30, color: Color(0xff333333))),
+                      child: Text(_space, style: TextStyle(fontSize: 24, color: Color(0xff333333))),
                     ),
                     Padding(padding: EdgeInsets.all(5.0)),
                     Container(
@@ -320,7 +365,13 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                                 ),
                                 minimumSize: Size(80, 40),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                if(_isCorrect){
+                                  _next();
+                                }
+                                else
+                                  _showDialog();
+                              },
                               child: Text(
                                 '다음',
                                 style: TextStyle(
@@ -407,7 +458,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         ),
         onPressed: () {
           FocusScope.of(context).unfocus();
-          if (myController.text == 'nice to meet you') { //정답
+          if (myController.text == _sentence) { //정답
             setState(() {
               _isCorrect = true;
               _seeAnswer = true;
@@ -531,14 +582,14 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
       Padding(padding: EdgeInsets.all(5.0)),
       Column(children: [
         Container(
-            width: 300,
+            width: 330,
             height: 50,
             color: Color(0xff97D5FE),
             child: Center(
-              child: Text("nice to meet you",
+              child: Text(_sentence,
                   style: TextStyle(
                       color: Color(0xff333333),
-                      fontSize: 20.0,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.w600)),
             ))
       ]),
@@ -558,14 +609,14 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         Padding(padding: EdgeInsets.all(5.0)),
         Column(children: [
           Container(
-              width: 300,
+              width: 330,
               height: 50,
               color: Color(0xff97D5FE),
               child: Center(
-                child: Text("nice to meet you",
+                child: Text(_sentence,
                     style: TextStyle(
                         color: Color(0xff333333),
-                        fontSize: 20.0,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w600)),
               ))
         ]),
@@ -578,5 +629,48 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         ]),
       ],
     ));
+  }
+
+  void _showDialog(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: new Text("Notice", style: TextStyle(color: Color(0xff333333)),),
+          content:new Text("다음 문제로 넘어가시겠어요?", style: TextStyle(color: Color(0xff333333))),
+          actions: [
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xff97D5FE),
+                  minimumSize: Size(80, 40),
+                ),
+                onPressed: (){
+              _next();
+              Navigator.of(context).pop();
+            }, child: Text("확인", style: TextStyle(color: Colors.white),)),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xff97D5FE),
+                  minimumSize: Size(80, 40),
+                ),
+                onPressed: (){
+              Navigator.of(context).pop();
+            }, child: Text("취소", style: TextStyle(color: Colors.white)))
+          ],
+        );
+      }
+    );
+  }
+
+  void _next(){
+    setState(() {
+      _space="";
+      _randomsentence((widget.id).toString(), widget.situation);
+      _seeAnswer = false;
+      _isInit = true;
+      _enterAnswer=true;
+      _isCorrect=false;
+      myController.text="";
+    });
   }
 }

@@ -9,7 +9,8 @@ import 'dart:async';
 class WordTestPage extends StatefulWidget {
   final int num;
   final int time;
-  const WordTestPage({Key? key, required this.num, required this.time}) : super(key: key);
+  final Map data;
+  const WordTestPage({Key? key, required this.num, required this.time, required this.data}) : super(key: key);
 
   @override
   _WordTestPageState createState() => _WordTestPageState();
@@ -33,6 +34,12 @@ class _WordTestPageState extends State<WordTestPage> {
 
   late var _time = widget.time;
   late Timer _timer;
+  late var body=widget.data['data'];
+  late var testinfo=body['readingProbResponseDtoList'];
+  var pro_num=1;
+
+  late var _hint=testinfo[pro_num]['hint'];
+  late var _ans=testinfo[pro_num]['content'];
 
   void initState() {
     _controller = VideoPlayerController.network(
@@ -274,7 +281,7 @@ class _WordTestPageState extends State<WordTestPage> {
                                       bottom: 3.0,
                                       right: 3.0,
                                       left: 3.0),
-                                  child: Text('hello',
+                                  child: Text(_hint,
                                       style: TextStyle(
                                           color: Color(0xff333333),
                                           fontSize: 20.0,
@@ -317,7 +324,7 @@ class _WordTestPageState extends State<WordTestPage> {
                           Container(
                             child:
                               Text(
-                                '1/${widget.num}',
+                                '$pro_num/${widget.num}',
                                 style: TextStyle(
                                     fontSize: 20.0, color: Color(0xff333333)),
                               ),
@@ -335,7 +342,11 @@ class _WordTestPageState extends State<WordTestPage> {
                                     ),
                                     minimumSize: Size(80, 40),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {
+                                      pro_num+=1;
+                                    });
+                                  },
                                   child: Text(
                                     '다음',
                                     style: TextStyle(
@@ -420,7 +431,7 @@ class _WordTestPageState extends State<WordTestPage> {
         ),
         onPressed: () {
           FocusScope.of(context).unfocus();
-          if (myController.text == 'hello') {
+          if (myController.text == _ans) {
             //정답
             setState(() {
               _isCorrect = true;
@@ -551,7 +562,7 @@ class _WordTestPageState extends State<WordTestPage> {
             height: 50,
             color: Color(0xff97D5FE),
             child: Center(
-              child: Text("hello",
+              child: Text(_ans,
                   style: TextStyle(
                       color: Color(0xff333333),
                       fontSize: 20.0,
@@ -578,7 +589,7 @@ class _WordTestPageState extends State<WordTestPage> {
               height: 50,
               color: Color(0xff97D5FE),
               child: Center(
-                child: Text("hello",
+                child: Text(_ans,
                     style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 20.0,
