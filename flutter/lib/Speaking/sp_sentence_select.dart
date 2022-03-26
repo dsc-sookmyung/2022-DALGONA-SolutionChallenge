@@ -146,17 +146,6 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
               height: 500,//*((sentenceList.length-1)%10+1).toDouble(),
               child: _MyListView()
             ),
-            // Container(child: _sentenceBuild(10*(currentPage-1))),
-            // Container(child: _sentenceBuild(1 + 10*(currentPage-1))),
-            // Container(child: _sentenceBuild(2 + 10*(currentPage-1))),
-            // Container(child: _sentenceBuild(3 + 10*(currentPage-1))),
-            // Container(child: _sentenceBuild(4 + 10*(currentPage-1))),
-            // Container(child: _sentenceBuild(5 + 10*(currentPage-1))),
-            // Container(child: _sentenceBuild(6 + 10*(currentPage-1))),
-            // Container(child: _sentenceBuild(7 + 10*(currentPage-1))),
-            // Container(child: _sentenceBuild(8 + 10*(currentPage-1))),
-            // Container(child: _sentenceBuild(9 + 10*(currentPage-1))),
-        // Padding(padding: EdgeInsets.all(5.0)),
         Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
