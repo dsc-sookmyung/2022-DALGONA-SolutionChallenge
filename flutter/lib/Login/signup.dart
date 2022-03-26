@@ -51,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Future<void> emailAuth(String email) async {
 
-    var url = Uri.http('10.0.2.2:8080', 'email/code/send');
+    var url = Uri.http('localhost:8080', 'email/code/send');
     final data = jsonEncode({'email': email});
 
     var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"});
@@ -79,7 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
       'email': email,
     };
     Uri.encodeComponent(email);
-    var url = Uri.http('10.0.2.2:8080', '/user/email', _queryParameters);
+    var url = Uri.http('localhost:8080', '/user/email', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json"});
 
@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void signUp(String email, name, pass) async {
 
-    var url = Uri.http('10.0.2.2:8080', '/user');
+    var url = Uri.http('localhost:8080', '/user');
 
     final data = jsonEncode({'email': email, 'name': name, 'password': pass});
 
@@ -132,7 +132,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   checkAuthCode(String email, authCode) async {
 
-  var url = Uri.http('10.0.2.2:8080', '/email/code/verify');
+  var url = Uri.http('localhost:8080', '/email/code/verify');
 
   final data = jsonEncode({'email': email, 'authCode': authCode});
 
@@ -366,32 +366,32 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 height: 40,
               ),
-              Row(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Checkbox(
-                    value: _isChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        _isChecked = !_isChecked;
-                      });
-                    },
-                  ),
-                  TextButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage()),);
-                      },
-                      child: Text(
-                        '개인정보 이용정책',
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      )
-                  ),
-                  Text('에 동의합니다.'),
-                ],
-              ),
+              // Row(
+              //   //mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Checkbox(
+              //       value: _isChecked,
+              //       onChanged: (value) {
+              //         setState(() {
+              //           _isChecked = !_isChecked;
+              //         });
+              //       },
+              //     ),
+              //     TextButton(
+              //         onPressed: (){
+              //           Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage()),);
+              //         },
+              //         child: Text(
+              //           '개인정보 이용정책',
+              //           style: TextStyle(fontWeight: FontWeight.w600),
+              //         )
+              //     ),
+              //     Text('에 동의합니다.'),
+              //   ],
+              // ),
 
               Container(
-                margin: EdgeInsets.only(top:10.0, bottom: 10.0),
+                margin: EdgeInsets.only(top:30.0, bottom: 10.0),
                 child: new RaisedButton(
                   color: Color(0xff97D5FE),
                   child: new Text(
