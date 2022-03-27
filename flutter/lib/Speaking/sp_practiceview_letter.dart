@@ -22,7 +22,9 @@ class SpLetterPracticePage extends StatefulWidget {
   final String url;
   final String type;
 
-  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId, required this.url, required this.type}) : super(key: key);
+  final int probId;
+
+  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId, required this.url, required this.type, required this.probId}) : super(key: key);
 
   @override
   _SpLetterPracticePageState createState() => _SpLetterPracticePageState();

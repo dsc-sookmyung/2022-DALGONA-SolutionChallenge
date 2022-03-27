@@ -94,6 +94,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
 
       String url = data["url"];
       String type = data["type"];
+      int probId = data["probId"];
 
       print("url : ${url}");
       print("type : ${type}");
@@ -102,7 +103,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type))
+          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type, probId: probId,))
       );
 
     }
