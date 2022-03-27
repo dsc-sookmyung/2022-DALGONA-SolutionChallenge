@@ -111,7 +111,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
     else if(response.statusCode == 401){
       await RefreshToken(context);
       if(check == true){
-        letterBookmark(probId);
+        deleteLetterBookmark(probId);
         check = false;
       }
     }

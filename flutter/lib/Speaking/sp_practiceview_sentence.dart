@@ -7,6 +7,12 @@ import 'package:video_player/video_player.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
+
 
 class SpSentencePracticePage extends StatefulWidget {
 
@@ -37,6 +43,74 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
 
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
+
+  void sentenceBookmark(int probId) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'speakingProbId': probId.toString(),
+    };
+
+    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+
+    var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print("북마크에 등록되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        sentenceBookmark(probId);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  void deleteSentenceBookmark(int probId) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'speakingProbId': probId.toString(),
+    };
+
+    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+
+    var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print("북마크가 해제되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        deleteSentenceBookmark(probId);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
 
 
   @override
@@ -339,8 +413,10 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
     setState(() {
       if (_isStared) {
         _isStared = false;
+        deleteSentenceBookmark(widget.probId);
       } else {
         _isStared = true;
+        sentenceBookmark(widget.probId);
       }
     });
   }
