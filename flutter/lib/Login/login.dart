@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 var authToken = '';
+var refreshToken = '';
 var name = "";
 var email = "";
 
@@ -165,6 +166,7 @@ class _LoginPageState extends State<LoginPage> {
 
       dynamic data = body["data"];
       String token = data["accessToken"];
+      refreshToken = data["refreshToken"];
 
       ///!! 일단 result 값으로 지정해 놓음. 후에 서버와 논의하여 data값 설정하기.
       print("token: " + token.toString());
