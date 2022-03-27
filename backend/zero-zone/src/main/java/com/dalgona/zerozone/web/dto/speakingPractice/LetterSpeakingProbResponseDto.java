@@ -14,14 +14,16 @@ public class LetterSpeakingProbResponseDto {
     Long letterId;
     String letter;
     String url;
+    boolean isBookmarked;
 
     @Builder
-    public LetterSpeakingProbResponseDto(SpeakingProb speakingProb){
+    public LetterSpeakingProbResponseDto(SpeakingProb speakingProb, boolean isBookmarked){
         this.probId = speakingProb.getId();
         this.type = "letter";
         this.letterId = speakingProb.getLetter().getId();
         this.letter = speakingProb.getLetter().getLetter();
         this.url = speakingProb.getUrl();
+        this.isBookmarked = isBookmarked;
     }
 
 }
