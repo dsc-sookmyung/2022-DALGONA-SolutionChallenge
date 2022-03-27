@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 
 class ModifyInformationPage extends StatefulWidget {
   const ModifyInformationPage({Key? key}) : super(key: key);
@@ -33,6 +34,13 @@ class _ModifyInformationPageState extends State<ModifyInformationPage> {
 
       var body = jsonDecode(response.body);
       Navigator.pop(context, editName);
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        changeName(editName);
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');

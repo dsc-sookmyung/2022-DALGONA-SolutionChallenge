@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:zerozone/Login/refreshToken.dart';
+
 class BookMarkListPage extends StatefulWidget {
   const BookMarkListPage({Key? key}) : super(key: key);
 
@@ -41,6 +43,13 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
 
       var body = jsonDecode(response.body);
     }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        speakingBookmarkInfo();
+        check = false;
+      }
+    }
     else {
       print('error : ${response.reasonPhrase}');
     }
@@ -66,6 +75,13 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
       var body = jsonDecode(response.body);
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        readingBookmarkInfo();
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 
 import 'sp_word_select.dart';
 import 'sp_practiceview_word.dart';
@@ -70,6 +71,13 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
       );
 
     }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        letterInfo(gridItem, index);
+        check = false;
+      }
+    }
     else {
       print('error : ${response.reasonPhrase}');
     }
@@ -101,8 +109,13 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
       print("url : ${url}");
       print("type : ${type}");
 
-
-
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        urlInfo(letter, letterId);
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');
