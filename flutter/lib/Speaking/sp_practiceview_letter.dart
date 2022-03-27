@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 
 
 class SpLetterPracticePage extends StatefulWidget {
@@ -37,7 +38,6 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
   late stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = '.';
-  String _practiceText ='가';
   String _pronounceTip = '혀를 입천장에 붙였다 떼면서 발음하세요.';
 
   double _confidence = 1.0;
@@ -71,6 +71,13 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
       dynamic data = body["data"];
 
       print("북마크에 등록되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        letterBookmark(probId);
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');
