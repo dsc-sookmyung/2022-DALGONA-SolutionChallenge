@@ -16,9 +16,10 @@ public class SentenceReadingProbResponseProbDto {
     String url;
     String hint;
     String spacingInfo;
+    boolean isBookmarked;
 
     @Builder
-    public SentenceReadingProbResponseProbDto(ReadingProb readingProb){
+    public SentenceReadingProbResponseProbDto(ReadingProb readingProb, boolean isBookmarked){
         this.probId = readingProb.getId();
         this.type = "sentence";
         this.sentenceId = readingProb.getSentence().getId();
@@ -26,6 +27,7 @@ public class SentenceReadingProbResponseProbDto {
         this.url = readingProb.getUrl();
         this.hint = readingProb.getHint();
         this.spacingInfo = readingProb.getSpacing_info();
+        this.isBookmarked = isBookmarked;
     }
 
 }
