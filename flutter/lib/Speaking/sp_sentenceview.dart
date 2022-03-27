@@ -1,8 +1,66 @@
 import 'package:flutter/material.dart';
 import 'sp_select_situation.dart';
 
-class SelectModeSentencePage extends StatelessWidget {
+import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
+
+import 'sp_practiceview_sentence.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class SelectModeSentencePage extends StatefulWidget {
   const SelectModeSentencePage({Key? key}) : super(key: key);
+
+  @override
+  _SelectModeSentencePageState createState() => _SelectModeSentencePageState();
+}
+
+class _SelectModeSentencePageState extends State<SelectModeSentencePage> {
+
+  Future<void> randomUrlInfo() async {
+
+
+    var url = Uri.http('localhost:8080', '/speaking/practice/sentence/random');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      String sentence = data["sentence"];
+
+      print("url : ${url}");
+      print("type : ${type}");
+
+
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: sentence))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        randomUrlInfo();
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +122,7 @@ class SelectModeSentencePage extends StatelessWidget {
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    //
+                    randomUrlInfo();
                   }
               ),
               height: 40,

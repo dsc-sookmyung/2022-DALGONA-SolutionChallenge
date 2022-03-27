@@ -1,9 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 
 import 'sp_letter_consonant.dart';
+import 'sp_practiceview_letter.dart';
 
-class SelectModeLetterPage extends StatelessWidget {
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class SelectModeLetterPage extends StatefulWidget {
   const SelectModeLetterPage({Key? key}) : super(key: key);
+
+  @override
+  _SelectModeLetterPageState createState() => _SelectModeLetterPageState();
+}
+
+class _SelectModeLetterPageState extends State<SelectModeLetterPage> {
+
+  Future<void> randomUrlInfo() async {
+
+
+    var url = Uri.http('localhost:8080', '/speaking/practice/letter/random');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      String letter = data["letter"];
+      int letterId = data["letterId"];
+
+      print("url : ${url}");
+      print("type : ${type}");
+
+
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(url: url, type: type, probId: probId, letter: letter, letterId: letterId,))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        randomUrlInfo();
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +121,7 @@ class SelectModeLetterPage extends StatelessWidget {
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    //
+                    randomUrlInfo();
                   }
               ),
               height: 40,

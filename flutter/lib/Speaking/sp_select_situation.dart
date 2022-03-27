@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 import 'sp_select_sentence.dart';
 
 import 'package:http/http.dart' as http;
@@ -57,6 +58,13 @@ class _SelectSituationPageState extends State<SelectSituationPage> {
           context, MaterialPageRoute(builder: (_) => SentenceSelectPage(sentenceList: sentenceList, situation: situation,))
       );
 
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        getSentence(situationId, situation);
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');
