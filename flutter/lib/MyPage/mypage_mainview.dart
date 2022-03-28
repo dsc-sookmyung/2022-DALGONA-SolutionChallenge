@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 import '../Login/login.dart';
 
 import 'mypage_bookmarklistview.dart';
@@ -40,6 +41,13 @@ class _MyPageState extends State<MyPage> {
       email = data["email"].toString();
       name = data["name"].toString();
 
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        userInfo();
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');

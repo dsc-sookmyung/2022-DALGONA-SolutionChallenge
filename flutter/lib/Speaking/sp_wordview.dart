@@ -1,9 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 
 import 'sp_word_consonant.dart';
+import 'sp_practiceview_word.dart';
 
-class SelectModeWordPage extends StatelessWidget {
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class SelectModeWordPage extends StatefulWidget {
   const SelectModeWordPage({Key? key}) : super(key: key);
+
+  @override
+  _SelectModeWordPageState createState() => _SelectModeWordPageState();
+}
+
+class _SelectModeWordPageState extends State<SelectModeWordPage> {
+
+  Future<void> randomUrlInfo() async {
+
+
+    var url = Uri.http('localhost:8080', '/speaking/practice/word/random');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      String word = data["word"];
+
+      print("url : ${url}");
+      print("type : ${type}");
+
+
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: word))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        randomUrlInfo();
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +120,7 @@ class SelectModeWordPage extends StatelessWidget {
                     style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    //
+                    randomUrlInfo();
                   }
               ),
               height: 40,

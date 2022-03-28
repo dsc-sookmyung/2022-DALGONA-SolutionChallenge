@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 
 
 class SpLetterPracticePage extends StatefulWidget {
@@ -21,7 +22,9 @@ class SpLetterPracticePage extends StatefulWidget {
   final String url;
   final String type;
 
-  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId, required this.url, required this.type}) : super(key: key);
+  final int probId;
+
+  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId, required this.url, required this.type, required this.probId}) : super(key: key);
 
   @override
   _SpLetterPracticePageState createState() => _SpLetterPracticePageState();
@@ -37,7 +40,6 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
   late stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = '.';
-  String _practiceText ='가';
   String _pronounceTip = '혀를 입천장에 붙였다 떼면서 발음하세요.';
 
   double _confidence = 1.0;
@@ -59,7 +61,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
 
     var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
 
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+    var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
     print(url);
 
@@ -71,6 +73,47 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
       dynamic data = body["data"];
 
       print("북마크에 등록되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        letterBookmark(probId);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  void deleteLetterBookmark(int probId) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'speakingProbId': probId.toString(),
+    };
+
+    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+
+    var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print("북마크가 해제되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        deleteLetterBookmark(probId);
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');
@@ -418,8 +461,10 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
     setState(() {
       if (_isStared) {
         _isStared = false;
+        deleteLetterBookmark(widget.probId);
       } else {
         _isStared = true;
+        letterBookmark(widget.probId);
       }
     });
   }

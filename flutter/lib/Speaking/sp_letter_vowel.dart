@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 import 'sp_practiceview_letter.dart';
 
 import 'package:http/http.dart' as http;
@@ -23,14 +24,6 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
 
   List<String> vowelList = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ'];
 
-  // getGridViewSelectedItem(BuildContext context, String gridItem, int index){
-  //
-  //   Navigator.of(context).pop();
-  //   Navigator.of(context).pop();
-  //   Navigator.push(
-  //       context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId))
-  //   );
-  // }
 
   void letterInfo(String gridItem, int index) async {
 
@@ -46,6 +39,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
     print(url);
+    print("response: ${response.statusCode}");
 
     if (response.statusCode == 200) {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
@@ -65,6 +59,13 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
       urlInfo(letter, letterId);
 
     }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        letterInfo(gridItem, index);
+        check = false;
+      }
+    }
     else {
       print('error : ${response.reasonPhrase}');
     }
@@ -82,6 +83,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
     print(url);
+    print("response: ${response.statusCode}");
 
     if (response.statusCode == 200) {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
@@ -92,6 +94,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
 
       String url = data["url"];
       String type = data["type"];
+      int probId = data["probId"];
 
       print("url : ${url}");
       print("type : ${type}");
@@ -100,9 +103,16 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type))
+          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type, probId: probId,))
       );
 
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        urlInfo(letter, letterId);
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');
