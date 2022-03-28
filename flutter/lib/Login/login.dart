@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void signIn(String email, pass) async {
 
-    var url = Uri.http('localhost:8080', '/user/login');
+    var url = Uri.http('10.0.2.2:8080', '/user/login');
 
     final data = jsonEncode({'email': email, 'password': pass});
 
@@ -178,6 +178,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => tabBarMainPage()),);
       }
     }
+
     else {
       print(response.reasonPhrase);
     }

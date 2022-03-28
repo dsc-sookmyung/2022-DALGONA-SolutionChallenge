@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 
 class lrTestModePage extends StatefulWidget {
   const lrTestModePage({Key? key}) : super(key: key);
@@ -34,6 +35,13 @@ class _lrTestModePageState extends State<lrTestModePage> {
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       var data=body['data'];
       totalProbCnt=data['totalProbCount'];
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _Cnt(ver);
+        check = false;
+      }
     }
   }
 

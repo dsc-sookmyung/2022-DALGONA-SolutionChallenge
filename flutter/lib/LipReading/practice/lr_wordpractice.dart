@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 
 class WordPracticePage extends StatefulWidget {
@@ -41,12 +41,11 @@ class _WordPracticePageState extends State<WordPracticePage> {
   var data;
   late var _hint=widget.hint;
   late var _word=widget.word;
-  late var _url;
+  late var _url=widget.url;
 
   void initState() {
-    _url=widget.url;
     _controller = VideoPlayerController.network(
-      _url
+        _url
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
@@ -74,9 +73,21 @@ class _WordPracticePageState extends State<WordPracticePage> {
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       data=body["data"];
       print(data);
-      _hint=data['hint'];
-      _word=data['word'];
-      _url=data['url'];
+      setState(() {
+        _hint=data['hint'];
+        _word=data['word'];
+        _url=data['url'];
+        _controller = VideoPlayerController.network(
+            _url
+        );
+      });
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _randomWord(onsetId,onset);
+        check = false;
+      }
     }
   }
 

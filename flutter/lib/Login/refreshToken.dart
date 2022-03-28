@@ -10,7 +10,7 @@ import 'package:zerozone/Login/login.dart';
 bool check = false;
 
 Future<void> RefreshToken(BuildContext context) async {
-  var url = Uri.http('localhost:8080', '/token/reissue/accessToken');
+  var url = Uri.http('10.0.2.2:8080', '/token/reissue/accessToken');
 
   final data = jsonEncode({'email': email, 'refreshToken': refreshToken});
 
