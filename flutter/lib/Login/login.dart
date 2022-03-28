@@ -24,8 +24,6 @@ class _LoginPageState extends State<LoginPage> {
   late String _email;
   late String _password;
 
-
-
   void validateAndSave() {
     final form = _formKey.currentState;
     if (form!.validate()) {
@@ -188,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void userInfo() async {
 
-    var url = Uri.http('localhost:8080', '/user/info');
+    var url = Uri.http('10.0.2.2:8080', '/user/info');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 

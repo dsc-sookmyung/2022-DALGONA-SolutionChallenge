@@ -2,8 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'lr_sentencepractice.dart';
 
-class LrModeSentencePage extends StatelessWidget {
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:zerozone/Login/login.dart';
+
+class LrModeSentencePage extends StatefulWidget {
   const LrModeSentencePage({Key? key}) : super(key: key);
+
+  @override
+  _LrModeSentencePageState createState() => _LrModeSentencePageState();
+}
+
+class _LrModeSentencePageState extends State<LrModeSentencePage> {
+  var data;
+  late String _space;
+  late var _sentence;
+  late var _hint;
+  late var _url;
+
+  _randomsentence(String situationId, String situation) async{
+    _space="";
+    Map<String, String> _queryParameters = <String, String>{
+      'situationId': situationId,
+      'situation': situation
+    };
+    // Uri.encodeComponent(situationId);
+    var url = Uri.http('10.0.2.2:8080', '/reading/practice/sentence/random', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
+    print(url);
+    // print("Bearer $authToken");
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+      data=body["data"];
+      // print(data);
+
+      var repeat=data['spacingInfo'].split("");
+      for(int i=0;i<repeat.length;i++){
+        _space += "_ " * int.parse(repeat[i]);
+        _space += " ";
+      }
+      setState(() {
+        _space;
+        _sentence=data['sentence'];
+        _hint=data['hint'];
+        _url=data['url'];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +91,12 @@ class LrModeSentencePage extends StatelessWidget {
                       '인사하기',
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
-                    onPressed: (){
+                    onPressed: () async{
+                      await _randomsentence('1', '인사하기');
+                      // print('확인: '+_sentence+' '+_space+' '+_hint+' '+_url);
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '인사하기'))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:1, situation: '인사하기', sentence: _sentence,space: _space,hint: _hint,url: _url,))
                       );
                     }
                 ),
@@ -60,10 +113,11 @@ class LrModeSentencePage extends StatelessWidget {
                       '날짜와 시간 말하기',
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
-                    onPressed: (){
+                    onPressed: () async{
+                      await _randomsentence('2', '날짜와 시간 말하기');
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '날짜와 시간 말하기'))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:2,situation: '날짜와 시간 말하기', sentence: _sentence,space: _space,hint: _hint,url: _url,))
                       );
                     }
                 ),
@@ -79,10 +133,11 @@ class LrModeSentencePage extends StatelessWidget {
                       '날씨 말하기',
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
-                    onPressed: (){
+                    onPressed: () async{
+                      await _randomsentence('3', '날씨 말하기');
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '날씨 말하기'))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:3, situation: '날씨 말하기', sentence: _sentence,space: _space,hint: _hint,url: _url,))
                       );
                     }
                 ),
@@ -99,10 +154,11 @@ class LrModeSentencePage extends StatelessWidget {
                       '부탁 요청하기',
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
-                    onPressed: (){
+                    onPressed: () async{
+                      await _randomsentence('4', '부탁 요청하기');
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '부탁 요청하기'))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:4, situation: '부탁 요청하기', sentence: _sentence,space: _space,hint: _hint,url: _url,))
                       );
                     }
                 ),
@@ -118,10 +174,11 @@ class LrModeSentencePage extends StatelessWidget {
                       '기분 표현하기',
                       style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
-                    onPressed: (){
+                    onPressed: () async{
+                      await _randomsentence('5', '기분 표현하기');
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(situation: '기분 표현하기'))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:5, situation: '기분 표현하기', sentence: _sentence,space: _space,hint: _hint,url: _url,))
                       );
                     }
                 ),

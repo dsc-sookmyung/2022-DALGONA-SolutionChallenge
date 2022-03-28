@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:zerozone/Login/login.dart';
 import 'lr_wordtest.dart';
 import 'lr_sentencetest.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class lrTestInfoPage extends StatefulWidget {
   final String ver;
-  const lrTestInfoPage({Key? key, required this.ver}) : super(key: key);
+  final int cnt;
+  const lrTestInfoPage({Key? key, required this.ver, required this.cnt}) : super(key: key);
   @override
   _lrTestInfoPageState createState() => _lrTestInfoPageState();
 }
@@ -14,6 +20,53 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   final myController1 = TextEditingController();
   final myController2 = TextEditingController();
   final myController3 = TextEditingController();
+
+  var res;
+  late var totalProbCnt=widget.cnt;
+
+  void initState(){
+    super.initState();
+  }
+
+  _wordTest(String title, String count) async {
+    var url = Uri.http('10.0.2.2:8080', '/reading/test/word');
+
+    final data = jsonEncode({'testName': title, 'probsCount': count});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      var body=jsonDecode(utf8.decode(response.bodyBytes));
+      res=body;
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
+  _sentenceTest(String title, String count) async {
+    var url = Uri.http('10.0.2.2:8080', '/reading/test/sentence');
+
+    final data = jsonEncode({'testname': title, 'probsCount': count});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +151,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                   Expanded(
                     child: TextField(
                       keyboardType: TextInputType.number,
-                      maxLength: 2,
+                      maxLength: 3,
                       controller: myController2,
                       style: TextStyle(
                         fontSize: 17.0,
@@ -108,7 +161,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                         counterText: '',
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: '최대 50',
+                        hintText: '최대 $totalProbCnt',
                         hintStyle: TextStyle(fontSize: 15.0),
                         contentPadding: EdgeInsets.symmetric(horizontal: 5),
                         enabledBorder: OutlineInputBorder(
@@ -195,19 +248,57 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                     ),
                     // minimumSize: Size(100, 40),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    if(widget.ver=='단어 시험'){
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => WordTestPage(num: int.parse(myController2.text), time: int.parse(myController3.text))));
+                    if(myController1.text==''){
+                      Fluttertoast.showToast(
+                        msg: '테스트 이름을 적어주세요',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        backgroundColor: Colors.grey,
+                      );
                     }
-                    else if(widget.ver=='문장 시험'){
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => SentenceTestPage(num: int.parse(myController2.text), time: int.parse(myController3.text))));
+                    else if(int.parse(myController2.text)>totalProbCnt) {
+                      Fluttertoast.showToast(
+                        msg: '문제의 개수가 너무 많습니다',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        backgroundColor: Colors.grey,
+                      );
+                    }
+                    else if(int.parse(myController3.text)>60){
+                      Fluttertoast.showToast(
+                        msg: '응시 시간이 너무 깁니다',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        backgroundColor: Colors.grey,
+                      );
+                    }
+                    else {
+                      if (widget.ver == '단어') {
+                        await _wordTest(myController1.text, myController2.text);
+                        print(res);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    WordTestPage(title: myController1.text,
+                                        num: int.parse(myController2.text),
+                                        time: int.parse(myController3.text),
+                                        data: res)));
+                      }
+                      else if (widget.ver == '문장') {
+                        await _sentenceTest(myController1.text, myController2.text);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    SentenceTestPage(
+                                        title: myController1.text,
+                                        num: int.parse(myController2.text),
+                                        time: int.parse(myController3.text),
+                                        data: res)));
+                      }
                     }
                   },
                   child: Padding(

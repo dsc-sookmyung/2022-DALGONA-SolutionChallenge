@@ -2,8 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'lr_testinfo.dart';
 
-class lrTestModePage extends StatelessWidget {
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:zerozone/Login/login.dart';
+
+class lrTestModePage extends StatefulWidget {
   const lrTestModePage({Key? key}) : super(key: key);
+
+  @override
+  _lrTestModePageState createState() => _lrTestModePageState();
+}
+
+class _lrTestModePageState extends State<lrTestModePage> {
+  late var totalProbCnt;
+
+  _Cnt(String ver) async{
+    var url;
+    if(ver=='단어')
+      url = Uri.http('10.0.2.2:8080', '/reading/test/word');
+    else if(ver=='문장')
+      url = Uri.http('10.0.2.2:8080', '/reading/test/sentence');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+      var data=body['data'];
+      totalProbCnt=data['totalProbCount'];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +81,12 @@ class lrTestModePage extends StatelessWidget {
                         color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
-                  onPressed: () {
+                  onPressed: () async{
+                    await _Cnt('단어');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => lrTestInfoPage(ver: '단어 시험')));
+                            builder: (_) => lrTestInfoPage(ver: '단어', cnt: totalProbCnt)));
                   }),
               height: 40,
             ),
@@ -74,9 +107,10 @@ class lrTestModePage extends StatelessWidget {
                         color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
-                  onPressed: () {
+                  onPressed: () async{
+                    await _Cnt('문장');
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => lrTestInfoPage(ver: '문장 시험'))
+                        context, MaterialPageRoute(builder: (_) => lrTestInfoPage(ver: '문장', cnt: totalProbCnt,))
                     );
                   }),
               height: 40,
@@ -98,10 +132,10 @@ class lrTestModePage extends StatelessWidget {
                         color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => lrTestInfoPage(ver:'랜덤 시험'))
-                    );
+                  onPressed: () async{
+                    // Navigator.push(
+                    //     context, MaterialPageRoute(builder: (_) => lrTestInfoPage(ver:'랜덤', cnt: totalProbCnt,))
+                    // );
                   }),
               height: 40,
             ),
