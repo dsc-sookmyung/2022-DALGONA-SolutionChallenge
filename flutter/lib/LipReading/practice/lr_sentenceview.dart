@@ -4,7 +4,7 @@ import 'lr_sentencepractice.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 
 class LrModeSentencePage extends StatefulWidget {
@@ -53,6 +53,13 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
         _hint=data['hint'];
         _url=data['url'];
       });
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _randomsentence(situationId,situation);
+        check = false;
+      }
     }
   }
 

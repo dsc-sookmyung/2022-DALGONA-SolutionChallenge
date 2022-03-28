@@ -6,6 +6,11 @@ import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'lr_testresult.dart';
+import 'package:zerozone/Login/refreshToken.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:zerozone/Login/login.dart';
 
 class WordTestPage extends StatefulWidget {
   final int num;
@@ -36,8 +41,7 @@ class _WordTestPageState extends State<WordTestPage> {
   late Future<void> _initializeVideoPlayerFuture;
 
   var _correct_num=0;
-  List<bool> _usedHint=[];
-  List<bool> _correct=[];
+  var testResult=<Map>[];
 
   var _totalTime=0;
   late var _time = widget.time;
@@ -59,6 +63,33 @@ class _WordTestPageState extends State<WordTestPage> {
     _controller.setLooping(true);
     _start();
     super.initState();
+  }
+
+  _score(int testId, var list, int correctCnt) async{
+    var url = Uri.http('10.0.2.2:8080', '/reading/test/result');
+
+    final data = jsonEncode({'testId': testId, 'testResultList': list, 'correctCount': correctCnt});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      var body=jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _score(testId, list, correctCnt);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
   }
 
   void dispose() {
@@ -352,9 +383,10 @@ class _WordTestPageState extends State<WordTestPage> {
                                     ),
                                     minimumSize: Size(80, 40),
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async{
                                     _check();
                                     if(pro_num==widget.num){
+                                      await _score(body['id'], testResult,_correct_num);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -688,6 +720,7 @@ class _WordTestPageState extends State<WordTestPage> {
       _isCorrect=false;
       myController.text="";
       _isHint=false;
+      _clickHint=false;
       pro_num+=1;
       _ans=testinfo[pro_num-1]['content'];
       _url=testinfo[pro_num-1]['url'];
@@ -698,9 +731,11 @@ class _WordTestPageState extends State<WordTestPage> {
   }
 
   void _check(){
+    bool hint, correct;
     _clickHint?
-      _usedHint.add(true): _usedHint.add(false);
+        hint=true:hint=false;
     _isCorrect?
-        _correct.add(true): _correct.add(false);
+        correct=true:correct=false;
+    testResult.add({'usedHint': hint, 'correct': correct});
   }
 }

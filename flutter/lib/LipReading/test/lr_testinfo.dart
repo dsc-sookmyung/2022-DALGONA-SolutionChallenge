@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:zerozone/Login/refreshToken.dart';
 
 class lrTestInfoPage extends StatefulWidget {
   final String ver;
@@ -44,6 +45,13 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
       var body=jsonDecode(utf8.decode(response.bodyBytes));
       res=body;
     }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _wordTest(title, count);
+        check = false;
+      }
+    }
     else {
       print('error : ${response.reasonPhrase}');
     }
@@ -52,7 +60,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   _sentenceTest(String title, String count) async {
     var url = Uri.http('10.0.2.2:8080', '/reading/test/sentence');
 
-    final data = jsonEncode({'testname': title, 'probsCount': count});
+    final data = jsonEncode({'testName': title, 'probsCount': count});
 
     var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
 
@@ -62,6 +70,15 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
     if (response.statusCode == 200) {
       print('Response status: ${response.statusCode}');
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      var body=jsonDecode(utf8.decode(response.bodyBytes));
+      res=body;
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _sentenceTest(title, count);
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');
@@ -282,13 +299,15 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (_) =>
-                                    WordTestPage(title: myController1.text,
+                                    WordTestPage(
+                                        title: myController1.text,
                                         num: int.parse(myController2.text),
                                         time: int.parse(myController3.text),
                                         data: res)));
                       }
                       else if (widget.ver == '문장') {
                         await _sentenceTest(myController1.text, myController2.text);
+                        print(res);
                         Navigator.push(
                             context,
                             MaterialPageRoute(

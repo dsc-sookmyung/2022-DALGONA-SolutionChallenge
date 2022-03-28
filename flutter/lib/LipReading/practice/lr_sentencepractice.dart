@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 
 class SentencePracticePage extends StatefulWidget {
@@ -93,6 +93,13 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
       setState(() {
         _space;
       });
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _randomsentence(situationId, situation);
+        check = false;
+      }
     }
   }
 

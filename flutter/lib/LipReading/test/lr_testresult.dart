@@ -9,6 +9,7 @@ import 'lr_testview.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:zerozone/Login/refreshToken.dart';
 
 class lrTestResultPage extends StatefulWidget {
   final String title;
@@ -71,6 +72,7 @@ class _lrTestResultPageState extends State<lrTestResultPage> {
                     Container(
                       margin: EdgeInsets.only(left: 30.0, right: 30.0),
                       child: TextField(
+                        enabled: false,
                         maxLength: 15,
                         controller: myController1,
                         style: TextStyle(
@@ -110,6 +112,7 @@ class _lrTestResultPageState extends State<lrTestResultPage> {
                         Padding(padding: EdgeInsets.all(15.0)),
                         Expanded(
                           child: TextField(
+                            enabled: false,
                             keyboardType: TextInputType.number,
                             maxLength: 3,
                             controller: myController2,
@@ -160,6 +163,7 @@ class _lrTestResultPageState extends State<lrTestResultPage> {
                         Padding(padding: EdgeInsets.all(15.0)),
                         Flexible(
                           child: TextField(
+                            enabled: false,
                             keyboardType: TextInputType.number,
                             maxLength: 2,
                             controller: myController3,

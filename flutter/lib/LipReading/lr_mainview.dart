@@ -3,11 +3,21 @@ import 'practice/lr_practiceview.dart';
 import 'lr_readvideo.dart';
 import 'test/lr_testview.dart';
 import 'package:flutter/services.dart';
-import 'lr_reviewmode.dart';
+import 'testReview/lr_reviewmode.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/Login/login.dart';
+import 'testReview/lr_reviewmode.dart';
 
-class lrselectModeMainPage extends StatelessWidget {
+class lrselectModeMainPage extends StatefulWidget {
   const lrselectModeMainPage({Key? key}) : super(key: key);
 
+  @override
+  _lrselectModeMainPageState createState() => _lrselectModeMainPageState();
+}
+
+class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   void letterBtnSelected() {
     print('button is clicked! ');
   }
@@ -15,7 +25,56 @@ class lrselectModeMainPage extends StatelessWidget {
   void sentenceBtnSelected() {
     //
   }
+  late List _dateList=[];
+  late List _testName=[];
+  late List _correctCnt=[];
+  late List _testId=[];
+  late int totalPage;
+  late int totalElement;
 
+  Future<void> _TestList() async {
+    _dateList.clear();
+    _testName.clear();
+    _correctCnt.clear();
+    _testId.clear();
+
+    var url = Uri.http('10.0.2.2:8080', '/reading/test/list');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+      var _data=body['data'];
+      var _list=_data['content'];
+      totalPage=_data['totalPages'];
+      totalElement=_data['totalElements'];
+      for(int i=0;i<_list.length;i++){
+        DateTime date=DateTime.parse(_list[i]['date']);
+        var day=(date.toString()).split(' ');
+        _dateList.add(day[0]);
+        _testName.add(_list[i]['testName']);
+        _correctCnt.add(_list[i]['correctCount']);
+        _testId.add(_list[i]['testId']);
+      }
+      print(_testId);
+      print('저장 완료');
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _TestList();
+        check = false;
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -107,45 +166,46 @@ class lrselectModeMainPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: new Text(
-                      '기록 보기',
+                      '시험 기록 보기',
                       style: new TextStyle(
                           fontSize: 20.0,
                           color: Color(0xff333333),
                           fontWeight: FontWeight.w500),
                     ),
-                    onPressed: () {
+                    onPressed: () async{
+                      await _TestList();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => ReviewModePage()));
+                              builder: (_) => ReviewModePage2(totalPage: totalPage, totalElement: totalElement, testId: _testId,testName: _testName,correctCount: _correctCnt,date: _dateList,)));
                     }),
                 height: 40,
               ),
-              Container(
-                padding: EdgeInsets.only(
-                    left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
-                margin: EdgeInsets.only(
-                    left: 0.0, top: 20.0, right: 0.0, bottom: 0.0),
-                child: new RaisedButton(
-                    color: Color(0xffC8E8FF),
-                    child: new Text(
-                      '영상으로 연습하기',
-                      style: new TextStyle(
-                          fontSize: 20.0,
-                          color: Color(0xff333333),
-                          fontWeight: FontWeight.w500),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => ReadingVideo()));
-                    }),
-                height: 40,
-              ),
+              // Container(
+              //   padding: EdgeInsets.only(
+              //       left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
+              //   margin: EdgeInsets.only(
+              //       left: 0.0, top: 20.0, right: 0.0, bottom: 0.0),
+              //   child: new RaisedButton(
+              //       color: Color(0xffC8E8FF),
+              //       child: new Text(
+              //         '영상으로 연습하기',
+              //         style: new TextStyle(
+              //             fontSize: 20.0,
+              //             color: Color(0xff333333),
+              //             fontWeight: FontWeight.w500),
+              //       ),
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(10),
+              //       ),
+              //       onPressed: () {
+              //         Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //                 builder: (_) => ReadingVideo()));
+              //       }),
+              //   height: 40,
+              // ),
             ],
           ),
         ));
