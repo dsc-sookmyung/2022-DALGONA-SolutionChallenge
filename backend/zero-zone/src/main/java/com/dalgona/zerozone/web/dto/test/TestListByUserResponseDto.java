@@ -13,12 +13,14 @@ public class TestListByUserResponseDto {
     Long testId;
     String testName;
     int correctCount;
+    int probCount;
     LocalDateTime date;
 
     public TestListByUserResponseDto(Test test){
         this.testId = test.getId();
         this.testName = test.getTestName();
         this.correctCount = test.getCorrectCount();
+        this.probCount = test.getProbsCount();
         this.date = test.getModifiedDate();
     }
 
