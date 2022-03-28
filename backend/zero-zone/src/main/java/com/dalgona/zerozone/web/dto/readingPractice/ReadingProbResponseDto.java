@@ -15,6 +15,7 @@ public class ReadingProbResponseDto {
     String content;
     String url;
     String hint;
+    String spacingInfo;
 
     @Builder
     public ReadingProbResponseDto(ReadingProb readingProb){
@@ -32,6 +33,7 @@ public class ReadingProbResponseDto {
             return;
         this.url = readingProb.getUrl();
         this.hint = readingProb.getHint();
+        this.spacingInfo = readingProb.getSpacing_info();
     }
 
 }
