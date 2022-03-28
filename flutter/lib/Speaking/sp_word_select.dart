@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Speaking/sp_word_consonant.dart';
 import 'dart:convert';
 
@@ -52,6 +53,13 @@ class _WordSelectPageState extends State<WordSelectPage> {
           context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: letter,))
       );
 
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        urlInfo(letter, index);
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');

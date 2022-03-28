@@ -14,13 +14,15 @@ public class SentenceSpeakingProbResponseDto {
     Long sentenceId;
     String sentence;
     String url;
+    boolean isBookmarked;
 
     @Builder
-    public SentenceSpeakingProbResponseDto(SpeakingProb speakingProb){
+    public SentenceSpeakingProbResponseDto(SpeakingProb speakingProb, boolean isBookmarked){
         this.probId = speakingProb.getId();
         this.type = "sentence";
         this.sentenceId = speakingProb.getSentence().getId();
         this.sentence = speakingProb.getSentence().getSentence();
         this.url = speakingProb.getUrl();
+        this.isBookmarked = isBookmarked();
     }
 }

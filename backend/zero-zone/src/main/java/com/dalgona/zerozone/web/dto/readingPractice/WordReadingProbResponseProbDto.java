@@ -15,15 +15,17 @@ public class WordReadingProbResponseProbDto {
     String word;
     String url;
     String hint;
+    boolean isBookmarked;
 
     @Builder
-    public WordReadingProbResponseProbDto(ReadingProb readingProb){
+    public WordReadingProbResponseProbDto(ReadingProb readingProb, boolean isBookmarked){
         this.probId = readingProb.getId();
         this.type = "word";
         this.wordId = readingProb.getWord().getId();
         this.word = readingProb.getWord().getWord();
         this.url = readingProb.getUrl();
         this.hint = readingProb.getHint();
+        this.isBookmarked = isBookmarked;
     }
 
 }

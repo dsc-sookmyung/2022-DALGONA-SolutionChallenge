@@ -1,5 +1,9 @@
 package com.dalgona.zerozone.service.speakingAndReadingPractice;
 
+import com.dalgona.zerozone.domain.bookmark.BookmarkReading;
+import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProb;
+import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProbRepository;
+import com.dalgona.zerozone.domain.bookmark.BookmarkReadingRepository;
 import com.dalgona.zerozone.domain.content.letter.Onset;
 import com.dalgona.zerozone.domain.content.sentence.Sentence;
 import com.dalgona.zerozone.domain.content.sentence.SentenceRepository;
@@ -9,6 +13,9 @@ import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.reading.ReadingProb;
 import com.dalgona.zerozone.domain.reading.ReadingProbRepository;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
+import com.dalgona.zerozone.domain.user.User;
+import com.dalgona.zerozone.domain.user.UserRepository;
+import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.content.SentenceRequestDto;
 import com.dalgona.zerozone.web.dto.content.WordRequestDto;
@@ -28,11 +35,19 @@ import java.util.*;
 @Service
 public class ReadingPracticeService {
 
+    private final UserRepository userRepository;
     private final ReadingProbRepository readingProbRepository;
     private final WordRepository wordRepository;
     private final SentenceRepository sentenceRepository;
+    private final BookmarkReadingRepository bookmarkReadingRepository;
+    private final BookmarkReadingProbRepository bookmarkReadingProbRepository;
     private final Response response;
     Random random = new Random(System.currentTimeMillis());
+
+    // 토큰으로부터 이메일 읽어오기
+    private User getCurrentUser(){
+        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
+    }
 
     // 단어 랜덤 조회
     @Transactional
@@ -57,8 +72,21 @@ public class ReadingPracticeService {
         // 랜덤으로 하나 뽑기
         Collections.shuffle(readingProbList);
         ReadingProb readingProb = readingProbList.get(0);
+
+        // 북마크 여부 확인하기
+        boolean isBookmarked = false;
+        Optional<BookmarkReading> bookmark = bookmarkReadingRepository.findByUser(getCurrentUser());
+        if(!bookmark.isPresent()) return response.fail("해당 회원의 북마크가 없습니다.", HttpStatus.BAD_REQUEST);
+        List<BookmarkReadingProb> bookmarkReadingProbList = bookmarkReadingProbRepository.findAllByBookmarkReading(bookmark);
+        for(BookmarkReadingProb bookmarkReadingProb:bookmarkReadingProbList){
+            if(bookmarkReadingProb.getReadingProb().equals(readingProb)){
+                isBookmarked = true;
+                break;
+            }
+        }
+
         // 조회 성공
-        WordReadingProbResponseProbDto wordResponseDto = new WordReadingProbResponseProbDto(readingProb);
+        WordReadingProbResponseProbDto wordResponseDto = new WordReadingProbResponseProbDto(readingProb, isBookmarked);
         return response.success(wordResponseDto, "랜덤 구화 단어 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
 
@@ -85,8 +113,21 @@ public class ReadingPracticeService {
         // 랜덤으로 하나 뽑기
         Collections.shuffle(readingProbList);
         ReadingProb readingProb = readingProbList.get(0);
+
+        // 북마크 여부 확인하기
+        boolean isBookmarked = false;
+        Optional<BookmarkReading> bookmark = bookmarkReadingRepository.findByUser(getCurrentUser());
+        if(!bookmark.isPresent()) return response.fail("해당 회원의 북마크가 없습니다.", HttpStatus.BAD_REQUEST);
+        List<BookmarkReadingProb> bookmarkReadingProbList = bookmarkReadingProbRepository.findAllByBookmarkReading(bookmark);
+        for(BookmarkReadingProb bookmarkReadingProb:bookmarkReadingProbList){
+            if(bookmarkReadingProb.getReadingProb().equals(readingProb)){
+                isBookmarked = true;
+                break;
+            }
+        }
+
         // 조회 성공
-        SentenceReadingProbResponseProbDto sentenceResponseDto = new SentenceReadingProbResponseProbDto(readingProb);
+        SentenceReadingProbResponseProbDto sentenceResponseDto = new SentenceReadingProbResponseProbDto(readingProb, isBookmarked);
         return response.success(sentenceResponseDto, "랜덤 구화 문장 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
     
@@ -97,7 +138,20 @@ public class ReadingPracticeService {
         if(!word.isPresent()) return response.fail("단어가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         Optional<ReadingProb> readingProb = readingProbRepository.findByTypeAndWord("word", word.get());
         if(!readingProb.isPresent()) return response.fail("단어가 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
-        WordReadingProbResponseProbDto wordResponseDto = new WordReadingProbResponseProbDto(readingProb.get());
+
+        // 북마크 여부 확인하기
+        boolean isBookmarked = false;
+        Optional<BookmarkReading> bookmark = bookmarkReadingRepository.findByUser(getCurrentUser());
+        if(!bookmark.isPresent()) return response.fail("해당 회원의 북마크가 없습니다.", HttpStatus.BAD_REQUEST);
+        List<BookmarkReadingProb> bookmarkReadingProbList = bookmarkReadingProbRepository.findAllByBookmarkReading(bookmark);
+        for(BookmarkReadingProb bookmarkReadingProb:bookmarkReadingProbList){
+            if(bookmarkReadingProb.getReadingProb().equals(readingProb.get())){
+                isBookmarked = true;
+                break;
+            }
+        }
+
+        WordReadingProbResponseProbDto wordResponseDto = new WordReadingProbResponseProbDto(readingProb.get(), isBookmarked);
         return response.success(wordResponseDto, "구화 단어 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
     
@@ -108,7 +162,20 @@ public class ReadingPracticeService {
         if(!sentence.isPresent()) return response.fail("문장이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         Optional<ReadingProb> readingProb = readingProbRepository.findByTypeAndSentence("sentence", sentence.get());
         if(!readingProb.isPresent()) return response.fail("문장이 문제로 등록되지 않았습니다.", HttpStatus.BAD_REQUEST);
-        SentenceReadingProbResponseProbDto sentenceReadingProbResponseDto = new SentenceReadingProbResponseProbDto(readingProb.get());
+
+        // 북마크 여부 확인하기
+        boolean isBookmarked = false;
+        Optional<BookmarkReading> bookmark = bookmarkReadingRepository.findByUser(getCurrentUser());
+        if(!bookmark.isPresent()) return response.fail("해당 회원의 북마크가 없습니다.", HttpStatus.BAD_REQUEST);
+        List<BookmarkReadingProb> bookmarkReadingProbList = bookmarkReadingProbRepository.findAllByBookmarkReading(bookmark);
+        for(BookmarkReadingProb bookmarkReadingProb:bookmarkReadingProbList){
+            if(bookmarkReadingProb.getReadingProb().equals(readingProb.get())){
+                isBookmarked = true;
+                break;
+            }
+        }
+
+        SentenceReadingProbResponseProbDto sentenceReadingProbResponseDto = new SentenceReadingProbResponseProbDto(readingProb.get(), isBookmarked);
         return response.success(sentenceReadingProbResponseDto, "발음 문장 연습 조회에 성공했습니다.", HttpStatus.OK);
     }
     

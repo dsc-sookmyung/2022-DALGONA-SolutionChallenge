@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Speaking/sp_select_situation.dart';
 import 'package:zerozone/Speaking/sp_word_consonant.dart';
 import 'dart:convert';
@@ -54,6 +55,13 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
           context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: letter,))
       );
 
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        urlInfo(letter, index);
+        check = false;
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');
