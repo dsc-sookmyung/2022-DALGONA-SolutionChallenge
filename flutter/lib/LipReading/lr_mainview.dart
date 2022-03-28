@@ -29,6 +29,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   late List _testName=[];
   late List _correctCnt=[];
   late List _testId=[];
+  late List _probCount=[];
   late int totalPage;
   late int totalElement;
 
@@ -37,6 +38,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
     _testName.clear();
     _correctCnt.clear();
     _testId.clear();
+    _probCount.clear();
 
     var url = Uri.http('10.0.2.2:8080', '/reading/test/list');
 
@@ -58,6 +60,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
         _testName.add(_list[i]['testName']);
         _correctCnt.add(_list[i]['correctCount']);
         _testId.add(_list[i]['testId']);
+        _probCount.add(_list[i]['probCount']);
       }
       print(_testId);
       print('저장 완료');
@@ -166,7 +169,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: new Text(
-                      '시험 기록 보기',
+                      '시험 목록 보기',
                       style: new TextStyle(
                           fontSize: 20.0,
                           color: Color(0xff333333),
@@ -177,7 +180,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => ReviewModePage2(totalPage: totalPage, totalElement: totalElement, testId: _testId,testName: _testName,correctCount: _correctCnt,date: _dateList,)));
+                              builder: (_) => ReviewModePage(totalPage: totalPage, totalElement: totalElement, testId: _testId,testName: _testName,correctCount: _correctCnt,probCount:_probCount,date: _dateList,)));
                     }),
                 height: 40,
               ),

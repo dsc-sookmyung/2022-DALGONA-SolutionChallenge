@@ -7,20 +7,21 @@ import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 
-class ReviewModePage2 extends StatefulWidget {
+class ReviewModePage extends StatefulWidget {
   final List testId;
   final List testName;
   final List correctCount;
+  final List probCount;
   final List date;
   final int totalPage;
   final int totalElement;
-  const ReviewModePage2({Key? key, required this.totalPage, required this.totalElement, required this.testId, required this.testName, required this.correctCount, required this.date});
+  const ReviewModePage({Key? key, required this.totalPage, required this.totalElement, required this.testId, required this.testName, required this.correctCount, required this.probCount, required this.date});
 
   @override
-  _ReviewModePage2State createState() => _ReviewModePage2State();
+  _ReviewModePageState createState() => _ReviewModePageState();
 }
 
-class _ReviewModePage2State extends State<ReviewModePage2> {
+class _ReviewModePageState extends State<ReviewModePage> {
   onPageChanged(int pageNumber) {
     setState(() {
       pageInit = pageNumber;
@@ -31,6 +32,7 @@ class _ReviewModePage2State extends State<ReviewModePage2> {
   late List _testName=widget.testName;
   late List _testId=widget.testId;
   late List _correctCount=widget.correctCount;
+  late List _probCount=widget.probCount;
 
   late int pageTotal=widget.totalPage;
   int pageInit = 1;
@@ -54,6 +56,7 @@ class _ReviewModePage2State extends State<ReviewModePage2> {
     _testName.clear();
     _correctCount.clear();
     _testId.clear();
+    _probCount.clear();
 
     Map<String, String> _queryParameters = <String, String>{
       'page': page.toString()
@@ -77,6 +80,7 @@ class _ReviewModePage2State extends State<ReviewModePage2> {
           _testName.add(_list[i]['testName']);
           _correctCount.add(_list[i]['correctCount']);
           _testId.add(_list[i]['testId']);
+          _probCount.add(_list[i]['probCount']);
         });
       }
       print('저장 완료');
@@ -139,7 +143,7 @@ class _ReviewModePage2State extends State<ReviewModePage2> {
       body: Column(children: [
         Padding(padding: EdgeInsets.all(20.0)),
         Container(
-            height: 560,
+            height: 570,
             child: Column(
               children: [
                 ...List.generate(
@@ -152,12 +156,12 @@ class _ReviewModePage2State extends State<ReviewModePage2> {
                         await _ProList(_testId[idx]);
                         Navigator.push(
                             context, MaterialPageRoute(
-                            builder: (_) => ReviewListPage(testId:_testId[idx],totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
+                            builder: (_) => ReviewListPage(testId:_testId[idx],totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/${_probCount[idx]}',)));
                       },
                       child: Container(
-                        margin: EdgeInsets.only(right:45, left:45),
+                        margin: EdgeInsets.only(right:40, left:40),
                         padding:
-                        const EdgeInsets.symmetric(vertical: 7.3, horizontal: 10),
+                        const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
                         decoration: BoxDecoration(
                             border: Border.all(
                                 width: 1,
@@ -168,12 +172,13 @@ class _ReviewModePage2State extends State<ReviewModePage2> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(_dateList[idx], style: TextStyle(fontSize: 13, color: Color(0xff333333)),),
-                                  Padding(padding: EdgeInsets.only(top:5.0)),
+                                  Padding(padding: EdgeInsets.only(top:4.0)),
                                   Text(_testName[idx],
-                                    style: TextStyle(fontSize: 16, color: Color(0xff333333)),
+                                    style: TextStyle(fontSize: 15, color: Color(0xff333333), ),
                                   ),
                                 ]
                             ),
@@ -181,7 +186,7 @@ class _ReviewModePage2State extends State<ReviewModePage2> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 // Text(_testId[idx].toString(), style: TextStyle(fontSize: 13),),
-                                Text('${_correctCount[idx]}/10', style: TextStyle(fontSize: 17.0, color: Color(0xff333333)),)
+                                Text('${_correctCount[idx]}/${_probCount[idx]}', style: TextStyle(fontSize: 17.0, color: Color(0xff333333)),)
                               ],
                             )
                           ],

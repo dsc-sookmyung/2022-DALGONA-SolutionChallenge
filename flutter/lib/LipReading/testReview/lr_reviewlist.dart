@@ -102,10 +102,12 @@ class _ReviewListPageState extends State<ReviewListPage> {
       var _data = body['data'];
       var _list = _data['content'];
       for (int i = 0; i < _list.length; i++) {
-        _type.add(_list[i]['type']);
-        _testProbId.add(_list[i]['testProbId']);
-        _content.add(_list[i]['content']);
-        _correct.add(_list[i]['correct']);
+        setState(() {
+          _type.add(_list[i]['type']);
+          _testProbId.add(_list[i]['testProbId']);
+          _content.add(_list[i]['content']);
+          _correct.add(_list[i]['correct']);
+        });
       }
       print('저장 완료');
     } else if (response.statusCode == 401) {
@@ -166,14 +168,14 @@ class _ReviewListPageState extends State<ReviewListPage> {
         foregroundColor: Color(0xff333333),
       ),
       body: Column(children: [
-        Padding(padding: EdgeInsets.all(30.0)),
+        Padding(padding: EdgeInsets.all(25.0)),
         Container(
-            height: 500,
+            height: 570,
             child: Column(
               children: [
                 Container(
                   height: 75,
-                  margin: EdgeInsets.only(right: 45.0, left: 45.0),
+                  margin: EdgeInsets.only(right: 40.0, left: 40.0),
                   padding:
                       const EdgeInsets.symmetric(vertical: 7.3, horizontal: 10),
                   child: Row(
@@ -181,6 +183,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
                     children: [
                       Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               '${widget.date}',
@@ -224,9 +227,9 @@ class _ReviewListPageState extends State<ReviewListPage> {
                         //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
                       },
                       child: Container(
-                        margin: EdgeInsets.only(right: 45, left: 45),
+                        margin: EdgeInsets.only(right: 40, left: 40),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
+                            vertical: 11, horizontal: 8),
                         decoration: BoxDecoration(
                           border: Border.all(width: 1, color: Colors.grey),
                         ),
@@ -234,11 +237,12 @@ class _ReviewListPageState extends State<ReviewListPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Flexible(
-                              child: Text(
-                                _type[idx] + ' - ' + _content[idx],
+                              child: Text(_type[idx]=='Word'?'단어'+ ' - ' + _content[idx]
+                                  :'문장'+ ' - ' + _content[idx],
                                 style: TextStyle(
                                     fontSize: 15, color: Color(0xff333333)),
-                                overflow: TextOverflow.fade,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                             ),
                             Container(

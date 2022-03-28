@@ -17,7 +17,8 @@ class SentenceTestPage extends StatefulWidget {
   final int time;
   final Map data;
   final String title;
-  const SentenceTestPage({Key? key, required this.title, required this.num, required this.time, required this.data}) : super(key: key);
+  final List space;
+  const SentenceTestPage({Key? key, required this.title, required this.num, required this.time, required this.data, required this.space}) : super(key: key);
 
   @override
   _SentenceTestPageState createState() => _SentenceTestPageState();
@@ -54,7 +55,8 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
   late var _hint=testinfo[pro_num-1]['hint'];
   late var _ans=testinfo[pro_num-1]['content'];
   late var _url=testinfo[pro_num-1]['url'];
-  // late var _space=testinfo[pro_num-1]['spacingInfo'];
+  late String _space=widget.space[pro_num-1];
+
 
   void initState() {
     _controller = VideoPlayerController.network(
@@ -335,7 +337,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
                           ),
                         ),
                         Container(
-                          child: Text(_hint, style: TextStyle(fontSize: 24, color: Color(0xff333333))),
+                          child: Text(_space, style: TextStyle(fontSize: 24, color: Color(0xff333333))),
                         ),
                         Padding(padding: EdgeInsets.all(5.0)),
                         Container(
@@ -730,6 +732,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
       _ans=testinfo[pro_num-1]['content'];
       _url=testinfo[pro_num-1]['url'];
       _hint=testinfo[pro_num-1]['hint'];
+      _space=widget.space[pro_num-1];
       _time = widget.time;
       _start();
     });

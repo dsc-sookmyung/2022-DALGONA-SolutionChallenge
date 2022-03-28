@@ -56,9 +56,11 @@ class _WordTestPageState extends State<WordTestPage> {
   late var _url=testinfo[pro_num-1]['url'];
 
   void initState() {
-    _controller = VideoPlayerController.network(
-      _url
-    );
+    setState(() {
+      _controller = VideoPlayerController.network(
+          _url
+      );
+    });
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
     _start();

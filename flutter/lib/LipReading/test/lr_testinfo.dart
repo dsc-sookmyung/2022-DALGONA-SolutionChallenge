@@ -57,7 +57,9 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
     }
   }
 
+  late List _space=[];
   _sentenceTest(String title, String count) async {
+    _space.clear();
     var url = Uri.http('10.0.2.2:8080', '/reading/test/sentence');
 
     final data = jsonEncode({'testName': title, 'probsCount': count});
@@ -72,6 +74,18 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
       var body=jsonDecode(utf8.decode(response.bodyBytes));
       res=body;
+      var result=res['data'];
+      result=result['readingProbResponseDtoList'];
+      for(int i=0;i<result.length;i++){
+        var _repeat=result[i]['spacingInfo'].split("");
+        var str="";
+        for(int j=0;j<_repeat.length;j++){
+          str += "_ " * int.parse(_repeat[j]);
+          str += " ";
+        }
+        _space.add(str);
+      }
+      print(_space);
     }
     else if(response.statusCode == 401){
       await RefreshToken(context);
@@ -294,7 +308,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                     else {
                       if (widget.ver == '단어') {
                         await _wordTest(myController1.text, myController2.text);
-                        print(res);
+                        // print(res);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -307,7 +321,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                       }
                       else if (widget.ver == '문장') {
                         await _sentenceTest(myController1.text, myController2.text);
-                        print(res);
+                        // print(res);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -316,7 +330,8 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                         title: myController1.text,
                                         num: int.parse(myController2.text),
                                         time: int.parse(myController3.text),
-                                        data: res)));
+                                        data: res,
+                                        space: _space)));
                       }
                     }
                   },
