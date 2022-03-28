@@ -44,23 +44,25 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
   late String _space;
   late var _sentence=widget.sentence;
   late var _hint=widget.hint;
-  late var _url=widget.url;
+  late var _url;
 
   void initState(){
+    setState(() {
+      _space=widget.space;
+      _url=widget.url;
+    });
     _controller = VideoPlayerController.network(
       _url,
     );
-    setState(() {
-      _space=widget.space;
-    });
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
+    // print('연습: '+widget.sentence+' '+widget.hint+' '+widget.space);
     super.initState();
 
     //usingCamera();
   }
 
-  void _randomsentence(String situationId, String situation) async {
+  _randomsentence(String situationId, String situation) async {
     Map<String, String> _queryParameters = <String, String>{
       'situationId': situationId,
       'situation': situation
@@ -83,7 +85,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
       _hint=data['hint'];
       _url=data['url'];
 
-      var repeat=data['spacing_info'].split("");
+      var repeat=data['spacingInfo'].split("");
       for(int i=0;i<repeat.length;i++){
         _space += "_ " * int.parse(repeat[i]);
         _space += " ";
@@ -680,6 +682,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
       _enterAnswer=true;
       _isCorrect=false;
       myController.text="";
+      _isHint=false;
     });
   }
 }

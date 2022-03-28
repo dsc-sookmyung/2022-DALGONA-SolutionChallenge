@@ -5,12 +5,14 @@ import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
+import 'lr_testresult.dart';
 
 class WordTestPage extends StatefulWidget {
   final int num;
   final int time;
   final Map data;
-  const WordTestPage({Key? key, required this.num, required this.time, required this.data}) : super(key: key);
+  final String title;
+  const WordTestPage({Key? key,required this.title, required this.num, required this.time, required this.data}) : super(key: key);
 
   @override
   _WordTestPageState createState() => _WordTestPageState();
@@ -19,6 +21,7 @@ class WordTestPage extends StatefulWidget {
 class _WordTestPageState extends State<WordTestPage> {
   bool _isStared = false;
   bool _isHint = false;
+  bool _clickHint=false;
   bool _isCorrect = true; //정답 맞췄는지
   bool _enterAnswer = true; //확인  // 재도전, 답보기
   bool _isInit = true; //textfield
@@ -32,22 +35,28 @@ class _WordTestPageState extends State<WordTestPage> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
 
+  var _correct_num=0;
+  List<bool> _usedHint=[];
+  List<bool> _correct=[];
+
+  var _totalTime=0;
   late var _time = widget.time;
   late Timer _timer;
+
   late var body=widget.data['data'];
   late var testinfo=body['readingProbResponseDtoList'];
   var pro_num=1;
 
-  late var _hint=testinfo[pro_num]['hint'];
-  late var _ans=testinfo[pro_num]['content'];
+  late var _hint=testinfo[pro_num-1]['hint'];
+  late var _ans=testinfo[pro_num-1]['content'];
+  late var _url=testinfo[pro_num-1]['url'];
 
   void initState() {
     _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      _url
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-
     _start();
     super.initState();
   }
@@ -250,6 +259,7 @@ class _WordTestPageState extends State<WordTestPage> {
                         Padding(padding: EdgeInsets.only(left: 120.0)),
                         InkWell(
                           onTap: () {
+                            _clickHint=true;
                             _pressedHint();
                           },
                           child: _isHint
@@ -343,9 +353,21 @@ class _WordTestPageState extends State<WordTestPage> {
                                     minimumSize: Size(80, 40),
                                   ),
                                   onPressed: () {
-                                    setState(() {
-                                      pro_num+=1;
-                                    });
+                                    _check();
+                                    if(pro_num==widget.num){
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  lrTestResultPage(title: widget.title,cnt: '$_correct_num/${widget.num}',time: _totalTime,)));
+                                    }
+                                    else{
+                                      if(_seeAnswer)
+                                        _next();
+                                      else {
+                                        _showDialog();
+                                      }
+                                    }
                                   },
                                   child: Text(
                                     '다음',
@@ -437,6 +459,7 @@ class _WordTestPageState extends State<WordTestPage> {
               _isCorrect = true;
               _seeAnswer = true;
               _isInit = false;
+              _correct_num++;
               _timer.cancel();
             });
           } else if (myController.text == '') {
@@ -611,6 +634,7 @@ class _WordTestPageState extends State<WordTestPage> {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         _time--;
+        _totalTime++;
 
         if (_time == 0) {
           _timer.cancel();
@@ -623,5 +647,60 @@ class _WordTestPageState extends State<WordTestPage> {
         }
       });
     });
+  }
+
+  void _showDialog(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: new Text("Notice", style: TextStyle(color: Color(0xff333333)),),
+            content:new Text("문제를 통과하시겠어요?", style: TextStyle(color: Color(0xff333333))),
+            actions: [
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff97D5FE),
+                    minimumSize: Size(80, 40),
+                  ),
+                  onPressed: (){
+                    _next();
+                    Navigator.of(context).pop();
+                  }, child: Text("확인", style: TextStyle(color: Colors.white),)),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff97D5FE),
+                    minimumSize: Size(80, 40),
+                  ),
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  }, child: Text("취소", style: TextStyle(color: Colors.white)))
+            ],
+          );
+        }
+    );
+  }
+
+  void _next(){
+    setState(() {
+      _seeAnswer = false;
+      _isInit = true;
+      _enterAnswer=true;
+      _isCorrect=false;
+      myController.text="";
+      _isHint=false;
+      pro_num+=1;
+      _ans=testinfo[pro_num-1]['content'];
+      _url=testinfo[pro_num-1]['url'];
+      _hint=testinfo[pro_num-1]['hint'];
+      _time = widget.time;
+      _start();
+    });
+  }
+
+  void _check(){
+    _clickHint?
+      _usedHint.add(true): _usedHint.add(false);
+    _isCorrect?
+        _correct.add(true): _correct.add(false);
   }
 }

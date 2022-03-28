@@ -13,7 +13,10 @@ import 'package:zerozone/Login/login.dart';
 class WordPracticePage extends StatefulWidget {
   final int id;
   final String onset;
-  const WordPracticePage({Key? key, required this.onset, required this.id}) : super(key: key);
+  final String word;
+  final String hint;
+  final String url;
+  const WordPracticePage({Key? key, required this.onset, required this.id, required this.word, required this.hint, required this.url}) : super(key: key);
 
   @override
   _WordPracticePageState createState() => _WordPracticePageState();
@@ -35,21 +38,23 @@ class _WordPracticePageState extends State<WordPracticePage> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
 
+  var data;
+  late var _hint=widget.hint;
+  late var _word=widget.word;
+  late var _url;
+
   void initState() {
+    _url=widget.url;
     _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      _url
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _randomWord((widget.id).toString(), widget.onset);
 
     super.initState();
     //usingCamera();
   }
-  var data;
-  var _hint;
-  var _word;
-  var _wordId;
+
   void _randomWord(String onsetId, String onset) async {
     Map<String, String> _queryParameters = <String, String>{
       'onsetId': onsetId,
@@ -71,7 +76,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
       print(data);
       _hint=data['hint'];
       _word=data['word'];
-      _wordId=data['wordId'];
+      _url=data['url'];
     }
   }
 
@@ -653,6 +658,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
       _enterAnswer=true;
       _isCorrect=false;
       myController.text="";
+      _isHint=false;
     });
   }
 }

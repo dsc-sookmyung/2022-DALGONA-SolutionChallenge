@@ -20,10 +20,37 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
 
   getGridViewSelectedItem(BuildContext context, String gridItem, int index){
     Navigator.push(
-        context, MaterialPageRoute(builder: (_) => WordPracticePage(onset: gridItem, id: index+1,))
+        context, MaterialPageRoute(builder: (_) => WordPracticePage(onset: gridItem, id: index+1, word: _word,hint: _hint, url: _url,))
     );
   }
+  var data;
+  late var _word="";
+  late var _hint="";
+  late var _url="";
 
+  _randomWord(String onsetId, String onset) async {
+    Map<String, String> _queryParameters = <String, String>{
+      'onsetId': onsetId,
+      'onset': onset
+    };
+    Uri.encodeComponent(onsetId);
+    var url = Uri.http('10.0.2.2:8080', '/reading/practice/word/random', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
+    print(url);
+    // print("Bearer $authToken");
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+      data=body["data"];
+      _hint=data['hint'];
+      _word=data['word'];
+      _url=data['url'];
+    }
+  }
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -43,7 +70,8 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
                 crossAxisCount: 3,
                 children: consonantList.asMap().map((index,data) => MapEntry(index, GestureDetector(
 
-                    onTap: (){
+                    onTap: () async{
+                      await _randomWord((index+1).toString(), data);
                       getGridViewSelectedItem(context, data, index);
                     },
                     child: Container(
