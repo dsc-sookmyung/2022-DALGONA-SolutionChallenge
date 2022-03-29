@@ -30,7 +30,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   }
 
   _wordTest(String title, String count) async {
-    var url = Uri.http('10.0.2.2:8080', '/reading/test/word');
+    var url = Uri.http('104.197.249.40:8080', '/reading/test/word');
 
     final data = jsonEncode({'testName': title, 'probsCount': count});
 
@@ -60,7 +60,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   late List _space=[];
   _sentenceTest(String title, String count) async {
     _space.clear();
-    var url = Uri.http('10.0.2.2:8080', '/reading/test/sentence');
+    var url = Uri.http('104.197.249.40:8080', '/reading/test/sentence');
 
     final data = jsonEncode({'testName': title, 'probsCount': count});
 

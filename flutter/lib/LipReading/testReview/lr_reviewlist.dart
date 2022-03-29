@@ -86,7 +86,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
     };
 
     var url =
-        Uri.http('10.0.2.2:8080', '/reading/test/list/probs', _queryParameters);
+        Uri.http('104.197.249.40:8080', '/reading/test/list/probs', _queryParameters);
 
     var response = await http.get(url, headers: {
       'Accept': 'application/json',
@@ -168,9 +168,9 @@ class _ReviewListPageState extends State<ReviewListPage> {
         foregroundColor: Color(0xff333333),
       ),
       body: Column(children: [
-        Padding(padding: EdgeInsets.all(25.0)),
+        Padding(padding: EdgeInsets.all(20.0)),
         Container(
-            height: 570,
+            height: 560,
             child: Column(
               children: [
                 Container(
