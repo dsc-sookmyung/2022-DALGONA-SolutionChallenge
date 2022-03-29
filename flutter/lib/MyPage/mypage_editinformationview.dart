@@ -20,11 +20,7 @@ class _ModifyInformationPageState extends State<ModifyInformationPage> {
 
   Future<void> changeName(String editName) async {
 
-<<<<<<< HEAD
-    var url = Uri.http('104.197.249.40:8080', '/user/name');
-=======
     var url = Uri.http('${serverHttp}:8080', '/user/name');
->>>>>>> 031cfe11ec397201bc496a9659ef2925109b6fd7
     final data = jsonEncode({'name': editName});
 
     name = editName;

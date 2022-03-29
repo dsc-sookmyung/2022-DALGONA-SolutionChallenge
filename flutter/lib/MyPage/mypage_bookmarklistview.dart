@@ -32,11 +32,7 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
       'email': email,
     };
 
-<<<<<<< HEAD
-    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
-=======
     var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
->>>>>>> 031cfe11ec397201bc496a9659ef2925109b6fd7
 
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTY5NDEsImV4cCI6MTY0NTQ5ODc0MX0.g5kqasAyvzWZ_ZkENa6UaXf6_qyiYarmu6xn12CbW7U" });
@@ -69,11 +65,7 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
       'email': email,
     };
 
-<<<<<<< HEAD
-    var url = Uri.http('104.197.249.40:8080', '/bookmark/reading', _queryParameters);
-=======
     var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
->>>>>>> 031cfe11ec397201bc496a9659ef2925109b6fd7
 
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTY5NDEsImV4cCI6MTY0NTQ5ODc0MX0.g5kqasAyvzWZ_ZkENa6UaXf6_qyiYarmu6xn12CbW7U" });
