@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Speaking/sp_word_consonant.dart';
+import 'package:zerozone/server.dart';
 import 'dart:convert';
 
 import 'sp_practiceview_word.dart';
@@ -27,7 +28,7 @@ class _WordSelectPageState extends State<WordSelectPage> {
       'id' : index.toString(),
     };
 
-    var url = Uri.http('104.197.249.40:8080', '/speaking/practice/word', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/word', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 

@@ -12,6 +12,7 @@ import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
 
 
 class SpWordPracticePage extends StatefulWidget {
@@ -51,7 +52,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -85,7 +86,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 

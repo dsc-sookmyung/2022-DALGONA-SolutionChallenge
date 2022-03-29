@@ -5,6 +5,7 @@ import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Speaking/sp_select_situation.dart';
 import 'package:zerozone/Speaking/sp_word_consonant.dart';
+import 'package:zerozone/server.dart';
 import 'dart:convert';
 
 import 'sp_practiceview_sentence.dart';
@@ -29,7 +30,7 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
       'id' : index.toString(),
     };
 
-    var url = Uri.http('104.197.249.40:8080', '/speaking/practice/sentence', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/sentence', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
