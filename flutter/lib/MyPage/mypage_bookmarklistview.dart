@@ -32,6 +32,7 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
       'email': email,
     };
 
+
     var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
 
@@ -64,6 +65,7 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
     Map<String, String> _queryParameters = <String, String>{
       'email': email,
     };
+
 
     var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
 
