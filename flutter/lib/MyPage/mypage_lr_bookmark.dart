@@ -26,8 +26,7 @@ import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/server.dart';
 
-import '../LipReading/practice/lr_sentencepractice.dart';
-import '../LipReading/practice/lr_wordpractice.dart';
+import '../LipReading/practice/lr_bookmarkview.dart';
 
 class LRBookmarkPage extends StatefulWidget {
   const LRBookmarkPage(
@@ -187,12 +186,26 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
         String space = "";
 
         Navigator.of(context).pop();
-        // Navigator.push(
-        //     context, MaterialPageRoute(builder: (_) => WordPracticePage(probId: probId, content: word, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space))
-        // );
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: word, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space))
+        );
       }
       else if(_type[idx] == 'Sentence'){
+        String word = data["sentence"];
+        String type = "sentence";
+        String _space = "";
 
+        var repeat = data['spacingInfo'].split("");
+
+        for (int i = 0; i < repeat.length; i++) {
+          _space += "_ " * int.parse(repeat[i]);
+          _space += " ";
+        }
+
+        Navigator.of(context).pop();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: word, hint: hint, url: url, bookmarked: bookmarked, type: type, space: _space))
+        );
       }
 
     }
