@@ -207,6 +207,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
       body:SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(
+          color: Color(0xfff0f8ff),
         child: Container(
           alignment: Alignment.center,
           margin: EdgeInsets.only(

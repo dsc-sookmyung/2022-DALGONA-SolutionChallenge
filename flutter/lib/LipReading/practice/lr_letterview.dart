@@ -12,22 +12,47 @@ class ChooseWordConsonantPage extends StatefulWidget {
   const ChooseWordConsonantPage({Key? key}) : super(key: key);
 
   @override
-  _ChooseWordConsonantPageState createState() => _ChooseWordConsonantPageState();
+  _ChooseWordConsonantPageState createState() =>
+      _ChooseWordConsonantPageState();
 }
 
 class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
+  List<String> consonantList = [
+    'ㄱ',
+    'ㄴ',
+    'ㄷ',
+    'ㄹ',
+    'ㅁ',
+    'ㅂ',
+    'ㅅ',
+    'ㅇ',
+    'ㅈ',
+    'ㅊ',
+    'ㅋ',
+    'ㅌ',
+    'ㅍ',
+    'ㅎ'
+  ];
 
-  List<String> consonantList = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
-
-  getGridViewSelectedItem(BuildContext context, String gridItem, int index){
+  getGridViewSelectedItem(BuildContext context, String gridItem, int index) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (_) => WordPracticePage(onset: gridItem, id: index+1,probId: _probId, word: _word,hint: _hint, url: _url, bookmarked: _bookmark,))
-    );
+        context,
+        MaterialPageRoute(
+            builder: (_) => WordPracticePage(
+                  onset: gridItem,
+                  id: index + 1,
+                  probId: _probId,
+                  word: _word,
+                  hint: _hint,
+                  url: _url,
+                  bookmarked: _bookmark,
+                )));
   }
+
   var data;
-  late var _word="";
-  late var _hint="";
-  late var _url="";
+  late var _word = "";
+  late var _hint = "";
+  late var _url = "";
   late bool _bookmark;
   late var _probId;
 
@@ -37,9 +62,14 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
       'onset': onset
     };
     Uri.encodeComponent(onsetId);
-    var url = Uri.http('${serverHttp}:8080', '/reading/practice/word/random', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/reading/practice/word/random',
+        _queryParameters);
 
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
+    var response = await http.get(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer $authToken"
+    });
     print(url);
     // print("Bearer $authToken");
     print('Response status: ${response.statusCode}');
@@ -48,16 +78,15 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
       var body = jsonDecode(utf8.decode(response.bodyBytes));
-      data=body["data"];
-      _hint=data['hint'];
-      _word=data['word'];
-      _url=data['url'];
-      _bookmark=data['bookmarked'];
-      _probId=data['probId'];
-    }
-    else if(response.statusCode == 401){
+      data = body["data"];
+      _hint = data['hint'];
+      _word = data['word'];
+      _url = data['url'];
+      _bookmark = data['bookmarked'];
+      _probId = data['probId'];
+    } else if (response.statusCode == 401) {
       await RefreshToken(context);
-      if(check == true){
+      if (check == true) {
         _randomWord(onsetId, onset);
         check = false;
       }
@@ -71,44 +100,58 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
         appBar: AppBar(
           title: Text(
             '구화 연습 - 단어',
-            style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
+            style: TextStyle(
+                color: Color(0xff333333),
+                fontSize: 24,
+                fontWeight: FontWeight.w800),
           ),
           centerTitle: true,
           backgroundColor: Color(0xffC8E8FF),
           foregroundColor: Color(0xff333333),
         ),
         body: new Container(
-          padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 30.0, bottom: 100.0),
-          child: new Column(
-              children: [ Expanded(child: GridView.count(
-                crossAxisCount: 3,
-                children: consonantList.asMap().map((index,data) => MapEntry(index, GestureDetector(
-
-                    onTap: () async{
-                      await _randomWord((index+1).toString(), data);
-                      getGridViewSelectedItem(context, data, index);
-                    },
-                    child: Container(
-
-                        margin:EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                        decoration:BoxDecoration(
-                            color: (index/3)%2 < 1 ? Color(0xffD8EFFF) : Color(0xff97D5FE),
-                            borderRadius:BorderRadius.all(Radius.circular(15.0))
-                        ) ,
-
-                        child: Center(
-                          child: Text(
-                            data,
-                            style: TextStyle(fontSize: 42, color: Color(0xff333333), fontWeight: FontWeight.w900),
-                            textAlign: TextAlign.center,
-                          ),
-
-                        ))))
-                ).values.toList(),
-              ),)
+            color: Color(0xfff0f8ff),
+            child: Container(
+              padding: EdgeInsets.only(
+                  left: 30.0, right: 30.0, top: 30.0, bottom: 100.0),
+              child: new Column(children: [
+                Expanded(
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    children: consonantList
+                        .asMap()
+                        .map((index, data) => MapEntry(
+                            index,
+                            GestureDetector(
+                                onTap: () async {
+                                  await _randomWord(
+                                      (index + 1).toString(), data);
+                                  getGridViewSelectedItem(context, data, index);
+                                },
+                                child: Container(
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 15),
+                                    decoration: BoxDecoration(
+                                        color: (index / 3) % 2 < 1
+                                            ? Color(0xffD8EFFF)
+                                            : Color(0xff97D5FE),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15.0))),
+                                    child: Center(
+                                      child: Text(
+                                        data,
+                                        style: TextStyle(
+                                            fontSize: 42,
+                                            color: Color(0xff333333),
+                                            fontWeight: FontWeight.w900),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )))))
+                        .values
+                        .toList(),
+                  ),
+                )
               ]),
-        ));
-
-
+            )));
   }
 }
