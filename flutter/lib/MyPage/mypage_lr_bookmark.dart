@@ -186,6 +186,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Flexible(
                               child: Text(_type[idx]=='Word'?'단어'+ ' - ' + _content[idx]
@@ -197,6 +198,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                               ),
                             ),
                           ],
+
                         ),
                       ),
                     ),
