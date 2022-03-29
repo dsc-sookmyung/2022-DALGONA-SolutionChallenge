@@ -70,7 +70,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
   }
 
   _score(int testId, var list, int correctCnt) async{
-    var url = Uri.http('10.0.2.2:8080', '/reading/test/result');
+    var url = Uri.http('104.197.249.40:8080', '/reading/test/result');
 
     final data = jsonEncode({'testId': testId, 'testResultList': list, 'correctCount': correctCnt});
 
@@ -83,6 +83,11 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
       print('Response status: ${response.statusCode}');
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
       // var body=jsonDecode(utf8.decode(response.bodyBytes));
+      setState(() {
+        _controller = VideoPlayerController.network(_url);
+        _initializeVideoPlayerFuture = _controller.initialize();
+        _controller.setLooping(true);
+      });
     }
     else if(response.statusCode == 401){
       await RefreshToken(context);
@@ -721,6 +726,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
 
   void _next(){
     setState(() {
+      _controller.pause();
       _seeAnswer = false;
       _isInit = true;
       _enterAnswer=true;

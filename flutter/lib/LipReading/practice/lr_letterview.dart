@@ -34,7 +34,7 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
       'onset': onset
     };
     Uri.encodeComponent(onsetId);
-    var url = Uri.http('10.0.2.2:8080', '/reading/practice/word/random', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/reading/practice/word/random', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);

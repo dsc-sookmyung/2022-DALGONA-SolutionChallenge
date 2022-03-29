@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/custom_icons_icons.dart';
 
 class WordPracticePage extends StatefulWidget {
   final int id;
@@ -30,6 +31,9 @@ class _WordPracticePageState extends State<WordPracticePage> {
   bool _isInit = true;  //textfield
   bool _seeAnswer = false;  //정답보기
   String color = '0xff97D5FE';
+
+  late int _probId=widget.id;
+  List _recent=[];
 
   final myController = TextEditingController();
 
@@ -54,13 +58,40 @@ class _WordPracticePageState extends State<WordPracticePage> {
     //usingCamera();
   }
 
+  void _AddRecent(List id) async{
+    var url = Uri.http('104.197.249.40:8080', '/recent/reading');
+    final data = jsonEncode({'recentProbIdRequestList': id});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      // var body=jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _AddRecent(id);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
   void _randomWord(String onsetId, String onset) async {
     Map<String, String> _queryParameters = <String, String>{
       'onsetId': onsetId,
       'onset': onset
     };
     Uri.encodeComponent(onsetId);
-    var url = Uri.http('10.0.2.2:8080', '/reading/practice/word/random', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/reading/practice/word/random', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);
@@ -77,9 +108,12 @@ class _WordPracticePageState extends State<WordPracticePage> {
         _hint=data['hint'];
         _word=data['word'];
         _url=data['url'];
+        _probId=data['probId'];
         _controller = VideoPlayerController.network(
             _url
         );
+        _initializeVideoPlayerFuture = _controller.initialize();
+        _controller.setLooping(true);
       });
     }
     else if(response.statusCode == 401){
@@ -96,7 +130,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
     double height=MediaQuery.of(context).size.height;
     double width=MediaQuery.of(context).size.width;
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-    return GestureDetector(
+    return WillPopScope(child:
+        GestureDetector(
         onTap: () {
           //FocusManager.instance.primaryFocus?.unfocus();
           FocusScope.of(context).unfocus();
@@ -171,15 +206,15 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size.zero,
                                   padding:
-                                      EdgeInsets.only(right: 5.0, left: 5.0),
+                                      EdgeInsets.only(top: 9.5, bottom: 9.5,right: 14.0, left: 14.0),
                                   primary: Color(0xffC8E8FF),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
                                 child: Icon(
-                                  Icons.arrow_left_sharp,
-                                  size: 37,
+                                  CustomIcons.to_start,
+                                  size: 17,
                                   color: Color(0xff97D5FE),
                                 ),
                                 onPressed: () {}),
@@ -384,7 +419,15 @@ class _WordPracticePageState extends State<WordPracticePage> {
                       ),
                     ),
                   ],
-                )))));
+                ))))),
+                onWillPop: (){
+                  setState(() {
+                    _controller.pause();
+                  });
+                  _recent.length>0?
+                  _AddRecent(_recent): null;
+                return Future(()=>true);
+              });
   }
 
   Widget _initTextField() {
@@ -456,6 +499,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
           minimumSize: Size(80, 40),
         ),
         onPressed: () {
+          _recent.add(_probId);
           FocusScope.of(context).unfocus();
           if (myController.text == _word) { //정답
             setState(() {
@@ -663,6 +707,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
 
   void _next(){
     setState(() {
+        _controller.pause();
       _randomWord((widget.id).toString(), widget.onset);
       _seeAnswer = false;
       _isInit = true;

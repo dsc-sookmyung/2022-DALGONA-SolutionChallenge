@@ -21,9 +21,9 @@ class _lrTestModePageState extends State<lrTestModePage> {
   _Cnt(String ver) async{
     var url;
     if(ver=='단어')
-      url = Uri.http('10.0.2.2:8080', '/reading/test/word');
+      url = Uri.http('104.197.249.40:8080', '/reading/test/word');
     else if(ver=='문장')
-      url = Uri.http('10.0.2.2:8080', '/reading/test/sentence');
+      url = Uri.http('104.197.249.40:8080', '/reading/test/sentence');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);
