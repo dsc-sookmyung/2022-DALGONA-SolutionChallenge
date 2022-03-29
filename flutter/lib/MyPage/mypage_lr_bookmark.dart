@@ -26,6 +26,9 @@ import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/server.dart';
 
+import '../LipReading/practice/lr_sentencepractice.dart';
+import '../LipReading/practice/lr_wordpractice.dart';
+
 class LRBookmarkPage extends StatefulWidget {
   const LRBookmarkPage(
       {Key? key,
@@ -144,6 +147,52 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
     rangeEnd = pageTotal < threshold ? pageTotal : rangeStart + threshold;
   }
 
+  Future<void> practiceLipReading(int idx) async {
+
+    late var url;
+
+    Map<String, String> _queryParameters = <String, String>{
+      'id': _testProbId[idx].toString(),
+    };
+
+    if(_type[idx] == 'Word'){
+      url = Uri.http('${serverHttp}:8080', '/reading/practice/word', _queryParameters);
+    }
+    else if(_type[idx] == 'Sentnece'){
+      url = Uri.http('${serverHttp}:8080', '/reading/practice/sentence', _queryParameters);
+    }
+
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+
+      if(_type[idx] == 'Word'){
+
+      }
+      else if(_type[idx] == 'Sentnece'){
+
+      }
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        practiceLipReading(idx);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -172,6 +221,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
+                        practiceLipReading(idx);
                         // await _ProList(idx);
                         // Navigator.push(
                         //     context, MaterialPageRoute(

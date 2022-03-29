@@ -26,6 +26,10 @@ import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/server.dart';
 
+import '../Speaking/sp_practiceview_letter.dart';
+import '../Speaking/sp_practiceview_word.dart';
+import '../Speaking/sp_practiceview_sentence.dart';
+
 class SPBookmarkPage extends StatefulWidget {
   const SPBookmarkPage(
       {Key? key,
@@ -145,6 +149,81 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
     rangeEnd = pageTotal < threshold ? pageTotal : rangeStart + threshold;
   }
 
+  Future<void> practiceSpeaking(int idx) async {
+
+    late var url;
+
+    Map<String, String> _queryParameters = <String, String>{
+      'id': _testProbId[idx].toString(),
+    };
+
+    if(_type[idx] == 'Word'){
+      url = Uri.http('${serverHttp}:8080', '/speaking/practice/word', _queryParameters);
+    }
+    else if(_type[idx] == 'Sentence'){
+      url = Uri.http('${serverHttp}:8080', '/speaking/practice/sentence', _queryParameters);
+    }
+    else if(_type[idx] == 'Letter'){
+      url = Uri.http('${serverHttp}:8080', '/speaking/practice/letter', _queryParameters);
+    }
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      bool bookmarked = data["bookmarked"];
+
+      if(_type[idx] == 'Word'){
+        String word = data["word"];
+        Navigator.of(context).pop();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: word, bookmarked: bookmarked,))
+        );
+      }
+      else if(_type[idx] == 'Sentence'){
+
+        String sentence = data["sentence"];
+
+        Navigator.of(context).pop();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: sentence, bookmarked: bookmarked,))
+        );
+      }
+      else if(_type[idx] == 'Letter'){
+
+        String letter = data["letter"];
+        int letterId = data["letterId"];
+
+        Navigator.of(context).pop();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type, probId: probId, bookmarked: bookmarked,))
+        );
+      }
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        practiceSpeaking(idx);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,6 +252,7 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
+                        practiceSpeaking(idx);
                         // await _ProList(idx);
                         // Navigator.push(
                         //     context, MaterialPageRoute(
