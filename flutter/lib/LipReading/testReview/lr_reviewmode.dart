@@ -302,7 +302,7 @@ class _ReviewModePageState extends State<ReviewModePage> {
       'testId': id.toString()
     };
 
-    var url = Uri.http('${server}:8080', '/reading/test/list/probs', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/reading/test/list/probs', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);

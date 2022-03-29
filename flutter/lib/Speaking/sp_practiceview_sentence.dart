@@ -88,7 +88,7 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -326,7 +326,7 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
                             child: Text(
                               '${widget.sentence}',
                               style: TextStyle(
-                                fontSize: 38, fontWeight: FontWeight.w600,
+                                fontSize: 20, fontWeight: FontWeight.w600,
                               ),
                             ),
                           )

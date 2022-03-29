@@ -8,6 +8,8 @@ import '../Login/login.dart';
 import 'mypage_bookmarklistview.dart';
 import 'mypage_studylistview.dart';
 import 'mypage_editinformationview.dart';
+import 'mypage_lr_bookmark.dart';
+import 'mypage_sp_bookmark.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -54,6 +56,110 @@ class _MyPageState extends State<MyPage> {
       print('error : ${response.reasonPhrase}');
     }
 
+  }
+
+  late List _type=[];
+  late List _content=[];
+  late List _testProbId=[];
+  late int _Page;
+  late int _Element;
+
+  Future<void> _SPList() async {
+    _type.clear();
+    _content.clear();
+    _testProbId.clear();
+
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+      var _data=body['data'];
+      var _list=_data['content'];
+
+      if(_list.isEmpty){
+        _Page=1;
+        _Element=0;
+      }
+      else{
+        _Page=_data['totalPages'];
+        _Element=_data['totalElements'];
+        for(int i=0;i<_list.length;i++){
+          _type.add(_list[i]['type']);
+          _testProbId.add(_list[i]['id']);
+          _content.add(_list[i]['content']);
+        }
+      }
+
+      print('저장 완료');
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SPBookmarkPage(totalPage: _Page, totalElements: _Element, type: _type, content: _content, testProbId: _testProbId))
+      );
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _SPList();
+        check = false;
+      }
+    }
+  }
+
+  late List _lrtype=[];
+  late List _lrcontent=[];
+  late List _lrtestProbId=[];
+  late int _lrPage;
+  late int _lrElement;
+
+  Future<void> _LRList() async {
+    _lrtype.clear();
+    _lrcontent.clear();
+    _lrtestProbId.clear();
+
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+      var _data=body['data'];
+      var _list=_data['content'];
+
+      if(_list.isEmpty){
+        _lrPage=1;
+        _lrElement=0;
+      }
+      else{
+        _lrPage=_data['totalPages'];
+        _lrElement=_data['totalElements'];
+        for(int i=0;i<_list.length;i++){
+          _lrtype.add(_list[i]['type']);
+          _lrtestProbId.add(_list[i]['id']);
+          _lrcontent.add(_list[i]['content']);
+        }
+      }
+
+      print('저장 완료');
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SPBookmarkPage(totalPage: _lrPage, totalElements: _lrElement, type: _lrtype, content: _lrcontent, testProbId: _lrtestProbId))
+      );
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _LRList();
+        check = false;
+      }
+    }
   }
 
 
@@ -120,7 +226,6 @@ class _MyPageState extends State<MyPage> {
                         Navigator.push(
                             context, MaterialPageRoute(builder: (_) => ModifyInformationPage())
                         ).then((value) {
-                          print("here");
                           _update(value);
                         });
                       },
@@ -129,22 +234,6 @@ class _MyPageState extends State<MyPage> {
                     ),
                     height: 20,
                   ),
-                  // Container(
-                  //   margin: EdgeInsets.only(top: 40.0, bottom: 30.0),
-                  //   decoration: BoxDecoration(
-                  //     shape: BoxShape.circle,
-                  //     border: Border.all(
-                  //       width: 2.0,
-                  //       color: Color(0xff333333)
-                  //     )
-                  //   ),
-                  //   // child: Image.network(
-                  //   //   "https://user-images.githubusercontent.com/61380136/152644132-fdcaff3b-d192-4513-853c-fb4f1516bdea.png",
-                  //   //
-                  //   // ),
-                  //   height: 140,
-                  //   // width: 150,
-                  // ),
                   Text(
                     "${name}",
                     style: TextStyle(fontSize: 32, height: 1.8, fontWeight: FontWeight.w700),
@@ -159,13 +248,11 @@ class _MyPageState extends State<MyPage> {
             Container(
               child: RaisedButton(
                 child: new Text(
-                  "학습 목록",
+                  "구화 책갈피 목록",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => StudyListPage())
-                  );
+                  _LRList();
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -179,13 +266,11 @@ class _MyPageState extends State<MyPage> {
               margin: EdgeInsets.only(top: 20.0),
               child: RaisedButton(
                 child: new Text(
-                  "책갈피 목록",
+                  "말하기 책갈피 목록",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => BookMarkListPage())
-                  );
+                  _SPList();
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -212,16 +297,6 @@ class _MyPageState extends State<MyPage> {
                       style: TextStyle(fontSize: 12, decoration: TextDecoration.underline),
                     ),
                   ),
-                  // TextButton(
-                  //   onPressed: (){
-                  //     Navigator.pop(context);
-                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
-                  //   },
-                  //   child: Text(
-                  //     '회원탈퇴',
-                  //     style: TextStyle(fontSize: 12, decoration: TextDecoration.underline),
-                  //   ),
-                  // ),
                 ],
               )
             )
