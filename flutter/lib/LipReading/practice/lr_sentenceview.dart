@@ -21,6 +21,8 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
   late var _sentence;
   late var _hint;
   late var _url;
+  late var _probId;
+  late var _bookmarked;
 
   _randomsentence(String situationId, String situation) async{
     _space="";
@@ -53,6 +55,8 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
         _sentence=data['sentence'];
         _hint=data['hint'];
         _url=data['url'];
+        _probId=data['probId'];
+        _bookmarked=data['bookmarked'];
       });
     }
     else if(response.statusCode == 401){
@@ -104,7 +108,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                       // print('확인: '+_sentence+' '+_space+' '+_hint+' '+_url);
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:1, situation: '인사하기', sentence: _sentence,space: _space,hint: _hint,url: _url,))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:1, situation: '인사하기', probId:_probId ,sentence: _sentence,space: _space,hint: _hint,url: _url,bookmarked: _bookmarked,))
                       );
                     }
                 ),
@@ -125,7 +129,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                       await _randomsentence('2', '날짜와 시간 말하기');
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:2,situation: '날짜와 시간 말하기', sentence: _sentence,space: _space,hint: _hint,url: _url,))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:2,situation: '날짜와 시간 말하기', probId:_probId,sentence: _sentence,space: _space,hint: _hint,url: _url,bookmarked: _bookmarked,))
                       );
                     }
                 ),
@@ -145,7 +149,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                       await _randomsentence('3', '날씨 말하기');
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:3, situation: '날씨 말하기', sentence: _sentence,space: _space,hint: _hint,url: _url,))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:3, situation: '날씨 말하기', probId:_probId,sentence: _sentence,space: _space,hint: _hint,url: _url,bookmarked: _bookmarked,))
                       );
                     }
                 ),
@@ -166,7 +170,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                       await _randomsentence('4', '부탁 요청하기');
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:4, situation: '부탁 요청하기', sentence: _sentence,space: _space,hint: _hint,url: _url,))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:4, situation: '부탁 요청하기',probId: _probId, sentence: _sentence,space: _space,hint: _hint,url: _url, bookmarked: _bookmarked,))
                       );
                     }
                 ),
@@ -186,7 +190,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                       await _randomsentence('5', '기분 표현하기');
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:5, situation: '기분 표현하기', sentence: _sentence,space: _space,hint: _hint,url: _url,))
+                          MaterialPageRoute(builder: (context)=> SentencePracticePage(id:5, situation: '기분 표현하기',probId: _probId, sentence: _sentence,space: _space,hint: _hint,url: _url,bookmarked: _bookmarked,))
                       );
                     }
                 ),

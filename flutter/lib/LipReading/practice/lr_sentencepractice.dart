@@ -20,14 +20,18 @@ class SentencePracticePage extends StatefulWidget {
   final String sentence;
   final String hint;
   final String url;
+  final int probId;
+  final bool bookmarked;
   const SentencePracticePage(
       {Key? key,
       required this.id,
       required this.situation,
+        required this.probId,
       required this.sentence,
       required this.space,
       required this.hint,
-      required this.url})
+      required this.url,
+      required this.bookmarked})
       : super(key: key);
 
   @override
@@ -35,7 +39,7 @@ class SentencePracticePage extends StatefulWidget {
 }
 
 class _SentencePracticePageState extends State<SentencePracticePage> {
-  bool _isStared = false;
+  late bool _isStared = widget.bookmarked;
   bool _isHint = false;
   bool _isCorrect = false; //정답 맞췄는지
   bool _enterAnswer = true; //확인  / 재도전, 답보기
@@ -132,6 +136,8 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         _hint = data['hint'];
         _url = data['url'];
         _probId = data['probId'];
+        _isStared=data['bookmarked'];
+
         var repeat = data['spacingInfo'].split("");
         for (int i = 0; i < repeat.length; i++) {
           _space += "_ " * int.parse(repeat[i]);
@@ -150,6 +156,72 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     }
   }
 
+  void ReadingBookmark(int probId) async {
+    Map<String, String> _queryParameters = <String, String>{
+      'readingProbId': probId.toString(),
+    };
+
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
+
+    var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print("북마크에 등록되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        ReadingBookmark(probId);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  void deleteReadingBookmark(int probId) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'readingProbId': probId.toString(),
+    };
+
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
+
+    var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print("북마크가 해제되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        deleteReadingBookmark(probId);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -193,9 +265,9 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                                 Padding(padding: EdgeInsets.only(right: 180.0)),
                                 IconButton(
                                   onPressed: _pressedStar,
-                                  icon: (_isStared
+                                  icon:(_isStared)
                                       ? Icon(Icons.star)
-                                      : Icon(Icons.star_border)),
+                                      : Icon(Icons.star_border),
                                   iconSize: 23,
                                   color: Colors.amber,
                                 ),
@@ -645,8 +717,10 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     setState(() {
       if (_isStared) {
         _isStared = false;
+        deleteReadingBookmark(_probId);
       } else {
         _isStared = true;
+        ReadingBookmark(_probId);
       }
     });
   }

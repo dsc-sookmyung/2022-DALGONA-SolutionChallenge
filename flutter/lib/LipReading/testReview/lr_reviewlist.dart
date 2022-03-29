@@ -250,6 +250,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
                               child: Icon(
                                 _correct[idx] ? CustomIcons.check : Icons.clear,
                                 color: _correct[idx] ? Colors.green : Colors.red,
+                                size: _correct[idx] ? 18.0: 22.0,
                               ),
                             )
                           ],

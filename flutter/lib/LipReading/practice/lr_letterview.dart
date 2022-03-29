@@ -21,13 +21,15 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
 
   getGridViewSelectedItem(BuildContext context, String gridItem, int index){
     Navigator.push(
-        context, MaterialPageRoute(builder: (_) => WordPracticePage(onset: gridItem, id: index+1, word: _word,hint: _hint, url: _url,))
+        context, MaterialPageRoute(builder: (_) => WordPracticePage(onset: gridItem, id: index+1,probId: _probId, word: _word,hint: _hint, url: _url, bookmarked: _bookmark,))
     );
   }
   var data;
   late var _word="";
   late var _hint="";
   late var _url="";
+  late bool _bookmark;
+  late var _probId;
 
   _randomWord(String onsetId, String onset) async {
     Map<String, String> _queryParameters = <String, String>{
@@ -50,6 +52,8 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
       _hint=data['hint'];
       _word=data['word'];
       _url=data['url'];
+      _bookmark=data['bookmarked'];
+      _probId=data['probId'];
     }
     else if(response.statusCode == 401){
       await RefreshToken(context);
@@ -59,6 +63,7 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

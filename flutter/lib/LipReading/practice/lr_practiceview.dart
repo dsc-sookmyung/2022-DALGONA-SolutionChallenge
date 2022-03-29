@@ -29,7 +29,7 @@ class lrselectModeWordPage extends StatelessWidget {
           children: <Widget>[
             Container(
               child: new Icon(
-                Icons.record_voice_over_rounded,
+                Icons.face,
                 color: Color(0xff5AA9DD),
                 size: 180.0,
               ),

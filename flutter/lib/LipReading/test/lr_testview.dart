@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:zerozone/custom_icons_icons.dart';
 import 'lr_testinfo.dart';
 
 import 'package:http/http.dart' as http;
@@ -72,7 +73,7 @@ class _lrTestModePageState extends State<lrTestModePage> {
           children: <Widget>[
             Container(
               child: new Icon(
-                Icons.record_voice_over_rounded,
+                CustomIcons.book,
                 color: Color(0xff5AA9DD),
                 size: 180.0,
               ),
@@ -165,7 +166,7 @@ class _lrTestModePageState extends State<lrTestModePage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: new Text(
-                    '즐겨찾기',
+                    '북마크',
                     style: new TextStyle(
                         fontSize: 20.0,
                         color: Color(0xff333333),
