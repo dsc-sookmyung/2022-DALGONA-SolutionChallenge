@@ -59,7 +59,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
   late var _sentence = widget.sentence;
   late var _hint = widget.hint;
   late var _url;
-  late int _probId = widget.id;
+  late int _probId = widget.probId;
   List _recent = [];
 
   void initState() {
@@ -78,7 +78,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     //usingCamera();
   }
 
-  void _AddRecent(List id) async {
+  /*void _AddRecent(List id) async {
     var url = Uri.http('${serverHttp}:8080', '/recent/reading');
     final data = jsonEncode({'recentProbIdRequestList': id});
 
@@ -104,7 +104,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     } else {
       print('error : ${response.reasonPhrase}');
     }
-  }
+  }*/
 
   _randomsentence(String situationId, String situation) async {
     Map<String, String> _queryParameters = <String, String>{
@@ -539,11 +539,10 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
           setState(() {
             _controller.pause();
           });
-          _recent.length>0?
-          _AddRecent(_recent): null;
+          // _recent.length>0?
+          // _AddRecent(_recent): null;
           return Future(() => true);
         });
-    ;
   }
 
   Widget _initTextField() {

@@ -19,11 +19,20 @@ class selectModeMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "말하기 연습",
+            style: TextStyle(
+                color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
+          ),
+          centerTitle: true,
+          backgroundColor: Color(0xffC8E8FF),
+        ),
       body: new Container(
         decoration: BoxDecoration(
-          color: Color(0xffe9f5ff),
+          color: Color(0xfff0f8ff),
         ),
-        padding: EdgeInsets.only(top: 190.0),
+        padding: EdgeInsets.only(top: 130.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           //mainAxisAlignment: MainAxisAlignment.center,

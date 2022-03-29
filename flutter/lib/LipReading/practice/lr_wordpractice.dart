@@ -61,7 +61,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
     //usingCamera();
   }
 
-  void _AddRecent(List id) async{
+  /*void _AddRecent(List id) async{
     var url = Uri.http('${serverHttp}:8080', '/recent/reading');
     final data = jsonEncode({'recentProbIdRequestList': id});
 
@@ -86,7 +86,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
       print('error : ${response.reasonPhrase}');
     }
 
-  }
+  }*/
 
   void _randomWord(String onsetId, String onset) async {
     Map<String, String> _queryParameters = <String, String>{
@@ -497,8 +497,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
                   setState(() {
                     _controller.pause();
                   });
-                  _recent.length>0?
-                  _AddRecent(_recent): null;
+                  // _recent.length>0?
+                  // _AddRecent(_recent): null;
                 return Future(()=>true);
               });
   }

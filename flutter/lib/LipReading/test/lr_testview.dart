@@ -91,7 +91,7 @@ class _lrTestModePageState extends State<lrTestModePage> {
                   child: new Text(
                     '단어',
                     style: new TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
@@ -117,7 +117,7 @@ class _lrTestModePageState extends State<lrTestModePage> {
                   child: new Text(
                     '문장',
                     style: new TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
@@ -142,7 +142,7 @@ class _lrTestModePageState extends State<lrTestModePage> {
                   child: new Text(
                     '랜덤',
                     style: new TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
@@ -168,7 +168,7 @@ class _lrTestModePageState extends State<lrTestModePage> {
                   child: new Text(
                     '북마크',
                     style: new TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),

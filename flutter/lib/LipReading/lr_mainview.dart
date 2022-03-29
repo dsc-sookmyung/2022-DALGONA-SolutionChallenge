@@ -90,20 +90,20 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return Scaffold(
-        // appBar: AppBar(
-        //   title: Text(
-        //     "구화 연습",
-        //     style: TextStyle(
-        //         color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
-        //   ),
-        //   centerTitle: true,
-        //   backgroundColor: Color(0xffC8E8FF),
-        // ),
+        appBar: AppBar(
+        title: Text(
+            "구화 연습",
+            style: TextStyle(
+                color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
+          ),
+          centerTitle: true,
+          backgroundColor: Color(0xffC8E8FF),
+        ),
         body: new Container(
           decoration: BoxDecoration(
-          color: Color(0xffe9f5ff),
+          color: Color(0xfff0f8ff),
           ),
-          padding: EdgeInsets.only(top: 190.0),
+          padding: EdgeInsets.only(top: 130.0),
           // margin: EdgeInsets.only(top: 130.0),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -126,7 +126,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     child: new Text(
                       '연습하기',
                       style: new TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 18.0,
                           color: Color(0xff333333),
                           fontWeight: FontWeight.w500),
                     ),
@@ -154,7 +154,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     child: new Text(
                       '시험 보기',
                       style: new TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 18.0,
                           color: Color(0xff333333),
                           fontWeight: FontWeight.w500),
                     ),
@@ -179,7 +179,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     child: new Text(
                       '시험 목록 보기',
                       style: new TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 18.0,
                           color: Color(0xff333333),
                           fontWeight: FontWeight.w500),
                     ),

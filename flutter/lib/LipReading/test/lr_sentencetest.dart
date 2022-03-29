@@ -19,7 +19,14 @@ class SentenceTestPage extends StatefulWidget {
   final Map data;
   final String title;
   final List space;
-  const SentenceTestPage({Key? key, required this.title, required this.num, required this.time, required this.data, required this.space}) : super(key: key);
+  const SentenceTestPage(
+      {Key? key,
+      required this.title,
+      required this.num,
+      required this.time,
+      required this.data,
+      required this.space})
+      : super(key: key);
 
   @override
   _SentenceTestPageState createState() => _SentenceTestPageState();
@@ -27,7 +34,7 @@ class SentenceTestPage extends StatefulWidget {
 
 class _SentenceTestPageState extends State<SentenceTestPage> {
   bool _isHint = false;
-  bool _clickHint=false;
+  bool _clickHint = false;
   bool _isCorrect = true; //정답 맞췄는지
   bool _enterAnswer = true; //확인  // 재도전, 답보기
   bool _isInit = true; //textfield
@@ -41,28 +48,26 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
 
-  var _correct_num=0;
-  var testResult=<Map>[];
+  var _correct_num = 0;
+  var testResult = <Map>[];
 
-  var _totalTime=0;
+  var _totalTime = 0;
   late var _time = widget.time;
   late Timer _timer;
 
-  late var body=widget.data['data'];
-  late var testinfo=body['readingProbResponseDtoList'];
-  var pro_num=1;
+  late var body = widget.data['data'];
+  late var testinfo = body['readingProbResponseDtoList'];
+  var pro_num = 1;
 
-  late var _probId=testinfo[pro_num-1]['probId'];
-  late var _hint=testinfo[pro_num-1]['hint'];
-  late var _ans=testinfo[pro_num-1]['content'];
-  late var _url=testinfo[pro_num-1]['url'];
-  late String _space=widget.space[pro_num-1];
-  late bool _isStared=testinfo[pro_num-1]['bookmarked'];
+  late var _probId = testinfo[pro_num - 1]['probId'];
+  late var _hint = testinfo[pro_num - 1]['hint'];
+  late var _ans = testinfo[pro_num - 1]['content'];
+  late var _url = testinfo[pro_num - 1]['url'];
+  late String _space = widget.space[pro_num - 1];
+  late bool _isStared = testinfo[pro_num - 1]['bookmarked'];
 
   void initState() {
-    _controller = VideoPlayerController.network(
-      _url
-    );
+    _controller = VideoPlayerController.network(_url);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
 
@@ -70,12 +75,17 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
     super.initState();
   }
 
-  _score(int testId, var list, int correctCnt) async{
+  _score(int testId, var list, int correctCnt) async {
     var url = Uri.http('${serverHttp}:8080', '/reading/test/result');
 
-    final data = jsonEncode({'testId': testId, 'testResultList': list, 'correctCount': correctCnt});
+    final data = jsonEncode(
+        {'testId': testId, 'testResultList': list, 'correctCount': correctCnt});
 
-    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
+    var response = await http.post(url, body: data, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer $authToken"
+    });
 
     // print(url);
     print(response.statusCode);
@@ -89,15 +99,13 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
         _initializeVideoPlayerFuture = _controller.initialize();
         _controller.setLooping(true);
       });
-    }
-    else if(response.statusCode == 401){
+    } else if (response.statusCode == 401) {
       await RefreshToken(context);
-      if(check == true){
+      if (check == true) {
         _score(testId, list, correctCnt);
         check = false;
       }
-    }
-    else {
+    } else {
       print('error : ${response.reasonPhrase}');
     }
   }
@@ -107,9 +115,14 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
       'readingProbId': probId.toString(),
     };
 
-    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
+    var url =
+        Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
 
-    var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+    var response = await http.post(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
 
     print(url);
 
@@ -121,29 +134,30 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
       dynamic data = body["data"];
 
       print("북마크에 등록되었습니다.");
-    }
-    else if(response.statusCode == 401){
+    } else if (response.statusCode == 401) {
       await RefreshToken(context);
-      if(check == true){
+      if (check == true) {
         ReadingBookmark(probId);
         check = false;
       }
-    }
-    else {
+    } else {
       print('error : ${response.reasonPhrase}');
     }
-
   }
 
   void deleteReadingBookmark(int probId) async {
-
     Map<String, String> _queryParameters = <String, String>{
       'readingProbId': probId.toString(),
     };
 
-    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
+    var url =
+        Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
 
-    var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+    var response = await http.delete(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
 
     print(url);
 
@@ -155,15 +169,13 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
       dynamic data = body["data"];
 
       print("북마크가 해제되었습니다.");
-    }
-    else if(response.statusCode == 401){
+    } else if (response.statusCode == 401) {
       await RefreshToken(context);
-      if(check == true){
+      if (check == true) {
         deleteReadingBookmark(probId);
         check = false;
       }
-    }
-    else {
+    } else {
       print('error : ${response.reasonPhrase}');
     }
   }
@@ -175,132 +187,140 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    double height=MediaQuery.of(context).size.height;
-    double width=MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-    return GestureDetector(
-        onTap: () {
-          //FocusManager.instance.primaryFocus?.unfocus();
-          FocusScope.of(context).unfocus();
-        },
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                '남은 시간: $_time 초',
-                style: TextStyle(
-                    color: Color(0xff333333),
-                    fontSize: 25,
-                    fontWeight: FontWeight.w800),
-              ),
-              centerTitle: true,
-              backgroundColor: Color(0xffC8E8FF),
-              foregroundColor: Color(0xff333333),
-            ),
-            body: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: SizedBox(
-                    height: height-height/8,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+    return WillPopScope(
+        child: GestureDetector(
+            onTap: () {
+              //FocusManager.instance.primaryFocus?.unfocus();
+              FocusScope.of(context).unfocus();
+            },
+            child: Scaffold(
+                appBar: AppBar(
+                  title: Text(
+                    '남은 시간: $_time 초',
+                    style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 25,
+                        fontWeight: FontWeight.w800),
+                  ),
+                  centerTitle: true,
+                  backgroundColor: Color(0xffC8E8FF),
+                  foregroundColor: Color(0xff333333),
+                ),
+                body: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: SizedBox(
+                        height: height - height / 8,
+                        child: Column(
                           children: [
-                            Padding(padding: EdgeInsets.only(left: 8.0)),
-                            Text(
-                              "무슨 말인지 맞춰보세요!",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w600),
-                            ),
-                            Padding(padding: EdgeInsets.only(right: 180.0)),
-                            IconButton(
-                              onPressed: _pressedStar,
-                              icon: (_isStared
-                                  ? Icon(Icons.star)
-                                  : Icon(Icons.star_border)),
-                              iconSize: 23,
-                              color: Colors.amber,
-                            ),
-                          ],
-                        ),
-                        Container(
-                          child: FutureBuilder(
-                            future: _initializeVideoPlayerFuture,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                return AspectRatio(
-                                  aspectRatio: 100 / 100,
-                                  child: VideoPlayer(_controller),
-                                );
-                              } else {
-                                return Center(child: CircularProgressIndicator());
-                              }
-                            },
-                          ),
-                          width: 380,
-                          height: 200,
-                        ),
-                        Padding(padding: EdgeInsets.all(2.0)),
-                        Row(
-                          //동영상 플레이 버튼
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          // crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Padding(padding: EdgeInsets.only(left: 1.0)),
-                            Column(
+                            Padding(padding: EdgeInsets.only(top:10.0)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize: Size.zero,
-                                      padding:
-                                      EdgeInsets.only(right: 5.0, left: 5.0),
-                                      primary: Color(0xffC8E8FF),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    child: Icon(
-                                      Icons.arrow_left_sharp,
-                                      size: 37,
-                                      color: Color(0xff97D5FE),
-                                    ),
-                                    onPressed: () {}),
+                                Padding(padding: EdgeInsets.only(left: 10.0)),
+                                Text(
+                                  "무슨 말인지 맞춰보세요!",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                // Padding(padding: EdgeInsets.only(right: 180.0)),
+                                // IconButton(
+                                //   onPressed: _pressedStar,
+                                //   icon: (_isStared
+                                //       ? Icon(Icons.star)
+                                //       : Icon(Icons.star_border)),
+                                //   iconSize: 23,
+                                //   color: Colors.amber,
+                                // ),
                               ],
                             ),
-                            Padding(padding: EdgeInsets.all(3.0)),
-                            Column(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (_controller.value.isPlaying) {
-                                        _controller.pause();
-                                      } else {
-                                        _controller.play();
-                                      }
-                                    });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color(0xffC8E8FF),
-                                    minimumSize: Size(45, 37),
-                                    padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  child: Icon(
-                                    _controller.value.isPlaying
-                                        ? Icons.pause
-                                        : Icons.play_arrow,
-                                    size: 21,
-                                    color: Color(0xff97D5FE),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Padding(padding: EdgeInsets.only(right: 130.0)),
+                            Padding(padding: EdgeInsets.all(2.0)),
                             Container(
-                                child: ElevatedButton(
+                              child: FutureBuilder(
+                                future: _initializeVideoPlayerFuture,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return AspectRatio(
+                                      aspectRatio: 100 / 100,
+                                      child: VideoPlayer(_controller),
+                                    );
+                                  } else {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                },
+                              ),
+                              width: 380,
+                              height: 200,
+                            ),
+                            Padding(padding: EdgeInsets.all(2.0)),
+                            Row(
+                              //동영상 플레이 버튼
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              // crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Padding(padding: EdgeInsets.only(left: 1.0)),
+                                Column(
+                                  children: [
+                                    ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize: Size.zero,
+                                          padding: EdgeInsets.only(
+                                              right: 5.0, left: 5.0),
+                                          primary: Color(0xffC8E8FF),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_left_sharp,
+                                          size: 37,
+                                          color: Color(0xff97D5FE),
+                                        ),
+                                        onPressed: () {}),
+                                  ],
+                                ),
+                                Padding(padding: EdgeInsets.all(3.0)),
+                                Column(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          if (_controller.value.isPlaying) {
+                                            _controller.pause();
+                                          } else {
+                                            _controller.play();
+                                          }
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xffC8E8FF),
+                                        minimumSize: Size(45, 37),
+                                        padding: EdgeInsets.only(
+                                            right: 5.0, left: 5.0),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      child: Icon(
+                                        _controller.value.isPlaying
+                                            ? Icons.pause
+                                            : Icons.play_arrow,
+                                        size: 21,
+                                        color: Color(0xff97D5FE),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Padding(padding: EdgeInsets.only(right: 130.0)),
+                                Container(
+                                    child: ElevatedButton(
                                   onPressed: () {
                                     setState(() {
                                       if (_videoSpeed > 0.25) {
@@ -312,7 +332,8 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
                                   style: ElevatedButton.styleFrom(
                                     primary: Color(0xffC8E8FF),
                                     minimumSize: Size(40, 35),
-                                    padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                                    padding:
+                                        EdgeInsets.only(right: 5.0, left: 5.0),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5),
                                     ),
@@ -323,13 +344,13 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
                                     color: Color(0xff97D5FE),
                                   ),
                                 )),
-                            Padding(padding: EdgeInsets.only(right: 8.0)),
-                            Container(
-                              child: Text('$_videoSpeed'),
-                              width: 30,
-                            ),
-                            Container(
-                                child: ElevatedButton(
+                                Padding(padding: EdgeInsets.only(right: 8.0)),
+                                Container(
+                                  child: Text('$_videoSpeed'),
+                                  width: 30,
+                                ),
+                                Container(
+                                    child: ElevatedButton(
                                   onPressed: () {
                                     setState(() {
                                       if (_videoSpeed < 1.5) {
@@ -341,7 +362,8 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
                                   style: ElevatedButton.styleFrom(
                                     primary: Color(0xffC8E8FF),
                                     minimumSize: Size(40, 35),
-                                    padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                                    padding:
+                                        EdgeInsets.only(right: 5.0, left: 5.0),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5),
                                     ),
@@ -352,147 +374,165 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
                                     color: Color(0xff97D5FE),
                                   ),
                                 )),
-                          ],
-                        ),
-                        Padding(padding: EdgeInsets.all(2.0)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              '당신의 답은...',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w600),
+                              ],
                             ),
-                            Padding(padding: EdgeInsets.only(left: 120.0)),
-                            InkWell(
-                              onTap: () {
-                                _clickHint=true;
-                                _pressedHint();
-                              },
-                              child: _isHint
-                                  ? new Text(
-                                '힌트 닫기',
-                                style: TextStyle(
-                                    color: Colors.grey, fontSize: 15),
-                              )
-                                  : new Text(
-                                "힌트 보기",
-                                style: TextStyle(
-                                    color: Colors.grey, fontSize: 15),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(padding: EdgeInsets.all(2.0)),
-                        Container(
-                          child: Column(
-                            // mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _isHint
-                                  ? Bubble(
-                                color: Color(0xff97D5FE),
-                                // stick: true,
-                                nip: BubbleNip.rightTop,
-                                margin: BubbleEdges.only(
-                                    top: 2.0,
-                                    bottom: 3.0,
-                                    right: 3.0,
-                                    left: 3.0),
-                                child: Text(_hint,
-                                    style: TextStyle(
-                                        color: Color(0xff333333),
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w600)),
-                              )
-                                  : Container(),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Text(_space, style: TextStyle(fontSize: 24, color: Color(0xff333333))),
-                        ),
-                        Padding(padding: EdgeInsets.all(5.0)),
-                        Container(
-                          margin:
-                          EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
-                          child: Column(
-                            //textfield
-                            //crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _isInit
-                                  ? _initTextField()
-                                  : _isCorrect
-                                  ? _correctTextField()
-                                  : _errorTextField()
-                            ],
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(3.0)),
-                        Column(children: [
-                          // 확인 버튼
-                          if (!_seeAnswer) ...{
-                            if (_enterAnswer) _Answer() else _reAnswer()
-                          } else ...{
-                            if (_isCorrect) _Correct() else _Wrong()
-                          }
-                        ]),
-                        Spacer(),
-                        Row(
-                          // crossAxisAlignment: CrossAxisAlignment.,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              child:
-                              Text(
-                                '$pro_num/${widget.num}',
-                                style: TextStyle(
-                                    fontSize: 20.0, color: Color(0xff333333)),
-                              ),
-                            ),
-                            Padding(padding: EdgeInsets.only(right:width/6)),
-                            Container(
-                              child:
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      side: BorderSide(
-                                          color: Color(0xff97D5FE), width: 1.0),
-                                    ),
-                                    minimumSize: Size(80, 40),
-                                  ),
-                                  onPressed: () async{
-                                    _check();
-                                    if(pro_num==widget.num){
-                                      await _score(body['id'], testResult,_correct_num);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  lrTestResultPage(title: widget.title,cnt: '$_correct_num/${widget.num}',time: _totalTime,)));
-                                    }
-                                    else{
-                                      if(_seeAnswer)
-                                        _next();
-                                      else {
-                                        _showDialog();
-                                      }
-                                    }
+                            Padding(padding: EdgeInsets.all(2.0)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  '당신의 답은...',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Padding(padding: EdgeInsets.only(left: 120.0)),
+                                InkWell(
+                                  onTap: () {
+                                    _clickHint = true;
+                                    _pressedHint();
                                   },
+                                  child: _isHint
+                                      ? new Text(
+                                          '힌트 닫기',
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 15),
+                                        )
+                                      : new Text(
+                                          "힌트 보기",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 15),
+                                        ),
+                                ),
+                              ],
+                            ),
+                            Padding(padding: EdgeInsets.all(2.0)),
+                            Container(
+                              child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _isHint
+                                      ? Bubble(
+                                          color: Color(0xff97D5FE),
+                                          // stick: true,
+                                          nip: BubbleNip.rightTop,
+                                          margin: BubbleEdges.only(
+                                              top: 2.0,
+                                              bottom: 3.0,
+                                              right: 3.0,
+                                              left: 3.0),
+                                          child: Text(_hint,
+                                              style: TextStyle(
+                                                  color: Color(0xff333333),
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w600)),
+                                        )
+                                      : Container(),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Text(_space,
+                                  style: TextStyle(
+                                      fontSize: 24, color: Color(0xff333333))),
+                            ),
+                            Padding(padding: EdgeInsets.all(5.0)),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: 3.0, left: 15.0, right: 15.0),
+                              child: Column(
+                                //textfield
+                                //crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _isInit
+                                      ? _initTextField()
+                                      : _isCorrect
+                                          ? _correctTextField()
+                                          : _errorTextField()
+                                ],
+                              ),
+                            ),
+                            Padding(padding: EdgeInsets.all(3.0)),
+                            Column(children: [
+                              // 확인 버튼
+                              if (!_seeAnswer) ...{
+                                if (_enterAnswer) _Answer() else _reAnswer()
+                              } else ...{
+                                if (_isCorrect) _Correct() else _Wrong()
+                              }
+                            ]),
+                            Spacer(),
+                            Row(
+                              // crossAxisAlignment: CrossAxisAlignment.,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
                                   child: Text(
-                                    '다음',
+                                    '$pro_num/${widget.num}',
                                     style: TextStyle(
-                                      color: Color(0xff97D5FE),
-                                      fontSize: 16.0,
-                                    ),
-                                  )),
+                                        fontSize: 20.0,
+                                        color: Color(0xff333333)),
+                                  ),
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(right: width / 6)),
+                                Container(
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          side: BorderSide(
+                                              color: Color(0xff97D5FE),
+                                              width: 1.0),
+                                        ),
+                                        minimumSize: Size(80, 40),
+                                      ),
+                                      onPressed: () async {
+                                        _check();
+                                        if (pro_num == widget.num) {
+                                          await _score(body['id'], testResult,
+                                              _correct_num);
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      lrTestResultPage(
+                                                        title: widget.title,
+                                                        cnt:
+                                                            '$_correct_num/${widget.num}',
+                                                        time: _totalTime,
+                                                      )));
+                                        } else {
+                                          if (_seeAnswer)
+                                            _next();
+                                          else {
+                                            _showDialog();
+                                          }
+                                        }
+                                      },
+                                      child: Text(
+                                        '다음',
+                                        style: TextStyle(
+                                          color: Color(0xff97D5FE),
+                                          fontSize: 16.0,
+                                        ),
+                                      )),
+                                ),
+                              ],
                             ),
                           ],
-                        ),
-                      ],
-                    )))));
+                        ))))),
+        onWillPop: () {
+          setState(() {
+            _controller.pause();
+          });
+          // _recent.length>0?
+          // _AddRecent(_recent): null;
+          return Future(() => true);
+        });
   }
 
   Widget _initTextField() {
@@ -762,63 +802,70 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
       });
     });
   }
-  void _showDialog(){
+
+  void _showDialog() {
     showDialog(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
-            title: new Text("Notice", style: TextStyle(color: Color(0xff333333)),),
-            content:new Text("문제를 통과하시겠어요?", style: TextStyle(color: Color(0xff333333))),
+            title: new Text(
+              "Notice",
+              style: TextStyle(color: Color(0xff333333)),
+            ),
+            content: new Text("문제를 통과하시겠어요?",
+                style: TextStyle(color: Color(0xff333333))),
             actions: [
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff97D5FE),
                     minimumSize: Size(80, 40),
                   ),
-                  onPressed: (){
+                  onPressed: () {
                     _next();
                     Navigator.of(context).pop();
-                  }, child: Text("확인", style: TextStyle(color: Colors.white),)),
+                  },
+                  child: Text(
+                    "확인",
+                    style: TextStyle(color: Colors.white),
+                  )),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff97D5FE),
                     minimumSize: Size(80, 40),
                   ),
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.of(context).pop();
-                  }, child: Text("취소", style: TextStyle(color: Colors.white)))
+                  },
+                  child: Text("취소", style: TextStyle(color: Colors.white)))
             ],
           );
-        }
-    );
+        });
   }
 
-  void _next(){
+  void _next() {
     setState(() {
       _controller.pause();
       _seeAnswer = false;
       _isInit = true;
-      _enterAnswer=true;
-      _isCorrect=false;
-      myController.text="";
-      _isHint=false;
-      _clickHint=false;
-      pro_num+=1;
-      _ans=testinfo[pro_num-1]['content'];
-      _url=testinfo[pro_num-1]['url'];
-      _hint=testinfo[pro_num-1]['hint'];
-      _space=widget.space[pro_num-1];
+      _enterAnswer = true;
+      _isCorrect = false;
+      myController.text = "";
+      _isHint = false;
+      _clickHint = false;
+      pro_num += 1;
+      _ans = testinfo[pro_num - 1]['content'];
+      _url = testinfo[pro_num - 1]['url'];
+      _hint = testinfo[pro_num - 1]['hint'];
+      _space = widget.space[pro_num - 1];
       _time = widget.time;
       _start();
     });
   }
 
-  void _check(){
+  void _check() {
     bool hint, correct;
-    _clickHint?
-      hint=true:hint=false;
-    _isCorrect?
-      correct=true:correct=false;
+    _clickHint ? hint = true : hint = false;
+    _isCorrect ? correct = true : correct = false;
     testResult.add({'usedHint': hint, 'correct': correct});
   }
 }
