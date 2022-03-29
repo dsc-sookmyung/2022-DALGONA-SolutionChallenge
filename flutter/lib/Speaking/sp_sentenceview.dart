@@ -99,7 +99,7 @@ class _SelectModeSentencePageState extends State<SelectModeSentencePage> {
                   ),
                   child: new Text(
                     '상황 선택하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     Navigator.push(
@@ -121,7 +121,7 @@ class _SelectModeSentencePageState extends State<SelectModeSentencePage> {
                   ),
                   child: new Text(
                     '랜덤 연습하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     randomUrlInfo();

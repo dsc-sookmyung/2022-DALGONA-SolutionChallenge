@@ -47,7 +47,7 @@ class selectModeMainPage extends StatelessWidget {
                   ),
                   child: new Text(
                   '한 글자 연습하기',
-                  style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                  style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
                   Navigator.push(
@@ -68,7 +68,7 @@ class selectModeMainPage extends StatelessWidget {
                   ),
                   child: new Text(
                     '단어 연습하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     Navigator.push(
@@ -89,7 +89,7 @@ class selectModeMainPage extends StatelessWidget {
                   ),
                   child: new Text(
                     '문장 연습하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     Navigator.push(
