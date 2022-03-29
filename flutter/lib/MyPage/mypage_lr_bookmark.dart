@@ -149,7 +149,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '기록 확인',
+          '구화 책갈피 목록',
           style: TextStyle(
               color: Color(0xff333333),
               fontSize: 24,
