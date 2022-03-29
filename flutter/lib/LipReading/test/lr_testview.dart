@@ -66,6 +66,8 @@ class _lrTestModePageState extends State<lrTestModePage> {
         foregroundColor: Color(0xff333333),
       ),
       body: new Container(
+    color: Color(0xfff0f8ff),
+    child: Container(
         margin: EdgeInsets.only(top: 130.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -184,6 +186,6 @@ class _lrTestModePageState extends State<lrTestModePage> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

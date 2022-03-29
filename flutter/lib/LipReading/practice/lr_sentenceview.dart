@@ -82,6 +82,8 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
           foregroundColor: Color(0xff333333),
         ),
         body: new Container(
+    color: Color(0xfff0f8ff),
+    child: Container(
           margin: EdgeInsets.only(top: 50.0),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -201,6 +203,6 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
             ],
           ),
         )
-    );
+    ));
   }
 }
