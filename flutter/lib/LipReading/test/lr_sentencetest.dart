@@ -26,7 +26,6 @@ class SentenceTestPage extends StatefulWidget {
 }
 
 class _SentenceTestPageState extends State<SentenceTestPage> {
-  bool _isStared = false;
   bool _isHint = false;
   bool _clickHint=false;
   bool _isCorrect = true; //정답 맞췄는지
@@ -53,11 +52,12 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
   late var testinfo=body['readingProbResponseDtoList'];
   var pro_num=1;
 
+  late var _probId=testinfo[pro_num-1]['probId'];
   late var _hint=testinfo[pro_num-1]['hint'];
   late var _ans=testinfo[pro_num-1]['content'];
   late var _url=testinfo[pro_num-1]['url'];
   late String _space=widget.space[pro_num-1];
-
+  late bool _isStared=testinfo[pro_num-1]['bookmarked'];
 
   void initState() {
     _controller = VideoPlayerController.network(
@@ -94,6 +94,72 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
       await RefreshToken(context);
       if(check == true){
         _score(testId, list, correctCnt);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
+  void ReadingBookmark(int probId) async {
+    Map<String, String> _queryParameters = <String, String>{
+      'readingProbId': probId.toString(),
+    };
+
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
+
+    var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print("북마크에 등록되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        ReadingBookmark(probId);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  void deleteReadingBookmark(int probId) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'readingProbId': probId.toString(),
+    };
+
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
+
+    var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print("북마크가 해제되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        deleteReadingBookmark(probId);
         check = false;
       }
     }
@@ -600,8 +666,10 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
     setState(() {
       if (_isStared) {
         _isStared = false;
+        deleteReadingBookmark(_probId);
       } else {
         _isStared = true;
+        ReadingBookmark(_probId);
       }
     });
   }

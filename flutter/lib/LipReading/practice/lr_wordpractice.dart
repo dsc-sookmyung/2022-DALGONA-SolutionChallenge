@@ -13,19 +13,21 @@ import 'package:zerozone/custom_icons_icons.dart';
 import 'package:zerozone/server.dart';
 
 class WordPracticePage extends StatefulWidget {
+  final int probId;
   final int id;
   final String onset;
   final String word;
   final String hint;
   final String url;
-  const WordPracticePage({Key? key, required this.onset, required this.id, required this.word, required this.hint, required this.url}) : super(key: key);
+  final bool bookmarked;
+  const WordPracticePage({Key? key, required this.onset, required this.id, required this.probId, required this.word, required this.hint, required this.url, required this.bookmarked}) : super(key: key);
 
   @override
   _WordPracticePageState createState() => _WordPracticePageState();
 }
 
 class _WordPracticePageState extends State<WordPracticePage> {
-  bool _isStared = false;
+  late bool _isStared = widget.bookmarked;
   bool _isHint = false;
   bool _isCorrect = false; //정답 맞췄는지
   bool _enterAnswer=true; //확인  / 재도전, 답보기
@@ -33,7 +35,6 @@ class _WordPracticePageState extends State<WordPracticePage> {
   bool _seeAnswer = false;  //정답보기
   String color = '0xff97D5FE';
 
-  late int _probId=widget.id;
   List _recent=[];
 
   final myController = TextEditingController();
@@ -47,6 +48,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
   late var _hint=widget.hint;
   late var _word=widget.word;
   late var _url=widget.url;
+  late var _probId=widget.probId;
 
   void initState() {
     _controller = VideoPlayerController.network(
@@ -110,6 +112,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
         _word=data['word'];
         _url=data['url'];
         _probId=data['probId'];
+        _isStared=data['bookmarked'];
+
         _controller = VideoPlayerController.network(
             _url
         );
@@ -124,6 +128,73 @@ class _WordPracticePageState extends State<WordPracticePage> {
         check = false;
       }
     }
+  }
+
+  void ReadingBookmark(int probId) async {
+    Map<String, String> _queryParameters = <String, String>{
+      'readingProbId': probId.toString(),
+    };
+
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
+
+    var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print("북마크에 등록되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        ReadingBookmark(probId);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  void deleteReadingBookmark(int probId) async {
+
+    Map<String, String> _queryParameters = <String, String>{
+      'readingProbId': probId.toString(),
+    };
+
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
+
+    var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print("북마크가 해제되었습니다.");
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        deleteReadingBookmark(probId);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
   }
 
   @override
@@ -168,9 +239,9 @@ class _WordPracticePageState extends State<WordPracticePage> {
                         Padding(padding: EdgeInsets.only(right: 180.0)),
                         IconButton(
                           onPressed: _pressedStar,
-                          icon: (_isStared
-                              ? Icon(Icons.star)
-                              : Icon(Icons.star_border)),
+                            icon:(_isStared)
+                                ? Icon(Icons.star)
+                                : Icon(Icons.star_border),
                           iconSize: 23,
                           color: Colors.amber,
                         ),
@@ -218,7 +289,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                   size: 17,
                                   color: Color(0xff97D5FE),
                                 ),
-                                onPressed: () {}),
+                                onPressed: () {
+                                }),
                           ],
                         ),
                         Padding(padding: EdgeInsets.all(3.0)),
@@ -599,8 +671,10 @@ class _WordPracticePageState extends State<WordPracticePage> {
     setState(() {
       if (_isStared) {
         _isStared = false;
+        deleteReadingBookmark(_probId);
       } else {
         _isStared = true;
+        ReadingBookmark(_probId);
       }
     });
   }

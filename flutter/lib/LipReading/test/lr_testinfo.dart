@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:zerozone/Login/login.dart';
 import 'lr_wordtest.dart';
 import 'lr_sentencetest.dart';
+import 'lr_randomtest.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
@@ -103,6 +104,47 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   _randomTest(String title, String count) async {
     _space.clear();
     var url = Uri.http('${serverHttp}:8080', '/reading/test/random');
+
+    final data = jsonEncode({'testName': title, 'probsCount': count});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      var body=jsonDecode(utf8.decode(response.bodyBytes));
+      res=body;
+      var result=res['data'];
+      result=result['readingProbResponseDtoList'];
+      for(int i=0;i<result.length;i++){
+        var _repeat=result[i]['spacingInfo'].split("");
+        var str="";
+        for(int j=0;j<_repeat.length;j++){
+          str += "_ " * int.parse(_repeat[j]);
+          str += " ";
+        }
+        _space.add(str);
+      }
+      print(_space);
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _sentenceTest(title, count);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
+  _bookmarkTest(String title, String count) async {
+    _space.clear();
+    var url = Uri.http('${serverHttp}:8080', '/reading/test/bookmark');
 
     final data = jsonEncode({'testName': title, 'probsCount': count});
 
@@ -369,6 +411,34 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                             MaterialPageRoute(
                                 builder: (_) =>
                                     SentenceTestPage(
+                                        title: myController1.text,
+                                        num: int.parse(myController2.text),
+                                        time: int.parse(myController3.text),
+                                        data: res,
+                                        space: _space)));
+                      }
+                      else if (widget.ver == '랜덤') {
+                        await _randomTest(myController1.text, myController2.text);
+                        // print(res);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    RandomTestPage(
+                                        title: myController1.text,
+                                        num: int.parse(myController2.text),
+                                        time: int.parse(myController3.text),
+                                        data: res,
+                                        space: _space)));
+                      }
+                      else if (widget.ver == '북마크') {
+                        await _bookmarkTest(myController1.text, myController2.text);
+                        // print(res);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    RandomTestPage(
                                         title: myController1.text,
                                         num: int.parse(myController2.text),
                                         time: int.parse(myController3.text),

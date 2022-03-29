@@ -30,7 +30,7 @@ class selectModeMainPage extends StatelessWidget {
         decoration: BoxDecoration(
           color: Color(0xffe9f5ff),
         ),
-        padding: EdgeInsets.only(top: 200.0),
+        padding: EdgeInsets.only(top: 190.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           //mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +46,7 @@ class selectModeMainPage extends StatelessWidget {
 
             Container(
               padding: EdgeInsets.only(left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
-              margin: EdgeInsets.only(left: 0.0, top:50.0, right: 0.0, bottom: 0.0),
+              margin: EdgeInsets.only(left: 0.0, top:40.0, right: 0.0, bottom: 0.0),
               child: new RaisedButton(
                   color: Color(0xffC8E8FF),
                   shape: RoundedRectangleBorder(

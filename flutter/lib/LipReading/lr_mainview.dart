@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zerozone/custom_icons_icons.dart';
 import 'practice/lr_practiceview.dart';
 import 'lr_readvideo.dart';
 import 'test/lr_testview.dart';
@@ -102,7 +103,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
           decoration: BoxDecoration(
           color: Color(0xffe9f5ff),
           ),
-          padding: EdgeInsets.only(top: 200.0),
+          padding: EdgeInsets.only(top: 190.0),
           // margin: EdgeInsets.only(top: 130.0),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -110,7 +111,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
             children: <Widget>[
               Container(
                 child: new Icon(
-                  Icons.record_voice_over_rounded,
+                  Icons.face,
                   color: Color(0xff5AA9DD),
                   size: 180.0,
                 ),
