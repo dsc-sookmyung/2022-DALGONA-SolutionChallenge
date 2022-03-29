@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/custom_icons_icons.dart';
+import 'package:zerozone/server.dart';
 
 class SentencePracticePage extends StatefulWidget {
   final String situation;
@@ -74,7 +75,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
   }
 
   void _AddRecent(List id) async {
-    var url = Uri.http('104.197.249.40:8080', '/recent/reading');
+    var url = Uri.http('${serverHttp}:8080', '/recent/reading');
     final data = jsonEncode({'recentProbIdRequestList': id});
 
     var response = await http.post(url, body: data, headers: {
@@ -108,7 +109,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     };
     // Uri.encodeComponent(situationId);
     var url = Uri.http(
-        '104.197.249.40:8080', '/reading/practice/sentence/random', _queryParameters);
+        '${serverHttp}:8080', '/reading/practice/sentence/random', _queryParameters);
 
     var response = await http.get(url, headers: {
       'Accept': 'application/json',

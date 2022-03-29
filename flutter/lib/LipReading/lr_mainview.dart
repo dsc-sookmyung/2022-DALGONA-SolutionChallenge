@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'testReview/lr_reviewmode.dart';
+import 'package:zerozone/server.dart';
 
 class lrselectModeMainPage extends StatefulWidget {
   const lrselectModeMainPage({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
     _testId.clear();
     _probCount.clear();
 
-    var url = Uri.http('104.197.249.40:8080', '/reading/test/list');
+    var url = Uri.http('${serverHttp}:8080', '/reading/test/list');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);

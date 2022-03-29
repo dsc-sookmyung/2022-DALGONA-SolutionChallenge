@@ -5,6 +5,7 @@ import 'login.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:zerozone/server.dart';
 
 class changePasswordPage extends StatefulWidget {
 
@@ -43,7 +44,7 @@ class _changePasswordPageState extends State<changePasswordPage> {
 
   changePassword(String pass) async {
     if(_formKey2.currentState!.validate()){
-      var url = Uri.http('localhost:8080', '/user/password/lost');
+      var url = Uri.http('${serverHttp}:8080', '/user/password/lost');
 
       print(widget.email);
 

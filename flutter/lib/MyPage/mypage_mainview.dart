@@ -11,7 +11,7 @@ import 'mypage_editinformationview.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:zerozone/server.dart';
 
 class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _MyPageState extends State<MyPage> {
 
   void userInfo() async {
 
-    var url = Uri.http('localhost:8080', '/user/info');
+    var url = Uri.http('${serverHttp}:8080', '/user/info');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 

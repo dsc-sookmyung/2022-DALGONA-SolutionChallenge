@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
 
 class lrTestModePage extends StatefulWidget {
   const lrTestModePage({Key? key}) : super(key: key);
@@ -21,9 +22,13 @@ class _lrTestModePageState extends State<lrTestModePage> {
   _Cnt(String ver) async{
     var url;
     if(ver=='단어')
-      url = Uri.http('104.197.249.40:8080', '/reading/test/word');
+      url = Uri.http('${serverHttp}:8080', '/reading/test/word');
     else if(ver=='문장')
-      url = Uri.http('104.197.249.40:8080', '/reading/test/sentence');
+      url = Uri.http('${serverHttp}:8080', '/reading/test/sentence');
+    else if(ver=='랜덤')
+      url = Uri.http('${serverHttp}:8080', '/reading/test/random');
+    else if(ver=='북마크')
+      url = Uri.http('${serverHttp}:8080', '/reading/test/bookmark');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);
@@ -141,9 +146,11 @@ class _lrTestModePageState extends State<lrTestModePage> {
                         fontWeight: FontWeight.w500),
                   ),
                   onPressed: () async{
-                    // Navigator.push(
-                    //     context, MaterialPageRoute(builder: (_) => lrTestInfoPage(ver:'랜덤', cnt: totalProbCnt,))
-                    // );
+                    await _Cnt('랜덤');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => lrTestInfoPage(ver: '랜덤', cnt: totalProbCnt)));
                   }),
               height: 40,
             ),
@@ -164,10 +171,12 @@ class _lrTestModePageState extends State<lrTestModePage> {
                         color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
-                  onPressed: () {
-                    // Navigator.push(
-                    //     context, MaterialPageRoute(builder: (_) => LrModeSentencePage())
-                    // );
+                  onPressed: () async {
+                    await _Cnt('북마크');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => lrTestInfoPage(ver: '북마크', cnt: totalProbCnt)));
                   }),
               height: 40,
             ),
