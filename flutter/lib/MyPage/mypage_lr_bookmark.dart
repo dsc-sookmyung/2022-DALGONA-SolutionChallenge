@@ -160,7 +160,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
         foregroundColor: Color(0xff333333),
       ),
       body: Column(children: [
-        Padding(padding: EdgeInsets.all(20.0)),
+        Padding(padding: EdgeInsets.only(top:50.0, left: 20.0, right: 20.0)),
         Container(
             height: 560,
             child: Column(

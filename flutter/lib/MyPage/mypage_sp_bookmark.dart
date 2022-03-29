@@ -161,7 +161,7 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
         foregroundColor: Color(0xff333333),
       ),
       body: Column(children: [
-        Padding(padding: EdgeInsets.all(20.0)),
+        Padding(padding: EdgeInsets.only(top:50.0, left: 20.0, right: 20.0)),
         Container(
             height: 560,
             child: Column(
@@ -179,6 +179,7 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
                         //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
                       },
                       child: Container(
+                        height: 50,
                         margin: EdgeInsets.only(right: 40, left: 40),
                         padding: const EdgeInsets.symmetric(
                             vertical: 11, horizontal: 8),
@@ -188,15 +189,26 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Flexible(
-                              child: Text(_type[idx]=='Word'?'단어'+ ' - ' + _content[idx]
-                                  :'문장'+ ' - ' + _content[idx],
-                                style: TextStyle(
-                                    fontSize: 15, color: Color(0xff333333)),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ),
+                            if(_type[idx]=='Word')
+                              Container(
+                                child: Text('단어'+ ' - ' + _content[idx],
+                                  style: TextStyle(
+                                      fontSize: 15, color: Color(0xff333333)),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              )
+                            else
+                              Container(
+                                child: Text(_type[idx]=='Letter'?'한 글자'+ ' - ' + _content[idx]
+                                    :'문장'+ ' - ' + _content[idx],
+                                  style: TextStyle(
+                                      fontSize: 15, color: Color(0xff333333)),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              )
+
                           ],
                         ),
                       ),
