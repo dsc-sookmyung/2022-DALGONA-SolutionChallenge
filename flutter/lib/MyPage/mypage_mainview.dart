@@ -150,7 +150,7 @@ class _MyPageState extends State<MyPage> {
       print('저장 완료');
 
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SPBookmarkPage(totalPage: _lrPage, totalElements: _lrElement, type: _lrtype, content: _lrcontent, testProbId: _lrtestProbId))
+          context, MaterialPageRoute(builder: (_) => LRBookmarkPage(totalPage: _lrPage, totalElements: _lrElement, type: _lrtype, content: _lrcontent, testProbId: _lrtestProbId))
       );
     }
     else if(response.statusCode == 401){
