@@ -19,13 +19,6 @@ class selectModeMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(
-      //     "말하기 연습",
-      //     style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
-      //   ),
-      //   backgroundColor: Color(0xffC8E8FF),
-      // ),
       body: new Container(
         decoration: BoxDecoration(
           color: Color(0xffe9f5ff),

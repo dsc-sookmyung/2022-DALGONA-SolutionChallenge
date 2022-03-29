@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zerozone/server.dart';
 import 'sp_select_situation.dart';
 
 import 'package:zerozone/Login/login.dart';
@@ -21,7 +22,7 @@ class _SelectModeSentencePageState extends State<SelectModeSentencePage> {
   Future<void> randomUrlInfo() async {
 
 
-    var url = Uri.http('localhost:8080', '/speaking/practice/sentence/random');
+    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/sentence/random');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -38,6 +39,7 @@ class _SelectModeSentencePageState extends State<SelectModeSentencePage> {
       String type = data["type"];
       int probId = data["probId"];
       String sentence = data["sentence"];
+      bool bookmarked = data["bookmarked"];
 
       print("url : ${url}");
       print("type : ${type}");
@@ -45,7 +47,7 @@ class _SelectModeSentencePageState extends State<SelectModeSentencePage> {
 
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: sentence))
+          context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: sentence, bookmarked: bookmarked,))
       );
 
     }

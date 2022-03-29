@@ -24,7 +24,9 @@ class _findPasswordPageState extends State<findPasswordPage> {
 
   Future<void> emailAuth(String email) async {
 
+
     var url = Uri.http('${serverHttp}:8080', 'email/code/pwd/send');
+
     final data = jsonEncode({'email': email});
 
     var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"});
@@ -76,6 +78,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
   }
 
   sendPassword(String email) async {
+
     var url = Uri.http('${serverHttp}:8080', '/email/pwd');
 
     final data = jsonEncode({'email': email});
@@ -94,6 +97,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
   }
 
   changePassword(String email, pass) async {
+
 
     var url = Uri.http('${serverHttp}:8080', '/user/password/lost');
 

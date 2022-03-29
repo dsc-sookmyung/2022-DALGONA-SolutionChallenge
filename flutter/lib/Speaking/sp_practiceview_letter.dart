@@ -12,6 +12,7 @@ import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
 
 
 class SpLetterPracticePage extends StatefulWidget {
@@ -23,8 +24,9 @@ class SpLetterPracticePage extends StatefulWidget {
   final String type;
 
   final int probId;
+  final bool bookmarked;
 
-  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId, required this.url, required this.type, required this.probId}) : super(key: key);
+  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId, required this.url, required this.type, required this.probId, required this.bookmarked}) : super(key: key);
 
   @override
   _SpLetterPracticePageState createState() => _SpLetterPracticePageState();
@@ -34,8 +36,8 @@ List<CameraDescription> cameras = <CameraDescription>[];
 
 class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
 
-
   bool _isStared = false;
+  bool _isChecked = false;
 
   late stt.SpeechToText _speech;
   bool _isListening = false;
@@ -59,7 +61,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -93,7 +95,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -136,24 +138,11 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
     _speech = stt.SpeechToText();
   }
 
-  // // initializeCamera(int cameraIndex) async {
-  // //   _cameraController = CameraController(
-  // //       widget.cameras[cameraIndex],
-  // //       ResolutionPreset.medium
-  // //   );
-  //
-  //   _initializeControllerFuture = _cameraController.initialize();
-  // }
 
 
   @override
   void dispose() {
     _controller.dispose();
-
-    // if(_cameraController != null){
-    //   _cameraController?.dispose();
-    // }
-    //_cameraController.dispose();
 
     super.dispose();
   }
@@ -190,246 +179,225 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
               ),
             ),
             body: SingleChildScrollView(
-              reverse: true,
-              child: Container(
-                padding: EdgeInsets.only(top: 15.0, left: 25.0, right: 25.0, bottom: 15.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "다음 글자를 발음해 보세요!",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600),
-                        ),
-                        IconButton(
-                          onPressed: _pressedStar,
-                          icon: (_isStared
-                              ? Icon(Icons.star)
-                              : Icon(Icons.star_border)),
-                          iconSize: 23,
-                          color: Colors.amber,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              child: FutureBuilder(
-                                future: _initializeVideoPlayerFuture,
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.done) {
-                                    return AspectRatio(
-                                      aspectRatio: 100/100,
-                                      child: VideoPlayer(_controller),
-                                    );
-                                  } else {
-                                    return Center(child: CircularProgressIndicator());
-                                  }
-                                },
-                              ),
-                              width: 160,
-                              height: 160,
+                reverse: true,
+                child: Container(
+                  padding: EdgeInsets.only(top: 15.0, left: 25.0, right: 25.0, bottom: 15.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "다음 글자를 발음해 보세요!",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
+                          IconButton(
+                            onPressed: _pressedStar,
+                            icon: (
+                                ( (_isChecked == true && _isStared) ||(_isChecked == false && widget.bookmarked)  )
+                                    ? Icon(Icons.star)
+                                    : Icon(Icons.star_border)
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                  child: ElevatedButton(
-                                    onPressed: (){
-                                      setState(() {
-                                        if (_controller.value.isPlaying) {
-                                          _controller.pause();
-                                        } else {
-                                          _controller.play();
-                                        }
-                                      });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Color(0xffC8E8FF),
-                                      minimumSize: Size(35, 25),
-                                      padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                    ),
-                                    child: Icon(
-                                      _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                                      size: 20,
-                                      color: Color(0xff97D5FE),
+                            iconSize: 23,
+                            color: Colors.amber,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(bottom: 10.0),
+                                child: FutureBuilder(
+                                  future: _initializeVideoPlayerFuture,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.done) {
+                                      return AspectRatio(
+                                        aspectRatio: 270/100,
+                                        child: VideoPlayer(_controller),
+                                      );
+                                    } else {
+                                      return Center(child: CircularProgressIndicator());
+                                    }
+                                  },
+                                ),
+                                height: 210,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                      child: ElevatedButton(
+                                        onPressed: (){
+                                          setState(() {
+                                            if (_controller.value.isPlaying) {
+                                              _controller.pause();
+                                            } else {
+                                              _controller.play();
+                                            }
+                                          });
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Color(0xffC8E8FF),
+                                          minimumSize: Size(35, 25),
+                                          padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                                          size: 20,
+                                          color: Color(0xff97D5FE),
+                                        ),
+                                      )
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                            child: ElevatedButton(
+                                              onPressed: (){
+                                                setState(() {
+                                                  if(_videoSpeed>0.25){
+                                                    _videoSpeed -= 0.25;
+                                                  }
+                                                });
+                                                _controller.setPlaybackSpeed(_videoSpeed);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                primary: Color(0xffC8E8FF),
+                                                minimumSize: Size(35, 25),
+                                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                ),
+                                              ),
+                                              child: Icon(
+                                                Icons.remove,
+                                                size: 20,
+                                                color: Color(0xff97D5FE),
+                                              ),
+                                            )
+                                        ),
+                                        Container(
+                                          child: Text(
+                                              '$_videoSpeed'
+                                          ),
+                                          width: 30,
+                                        ),
+                                        Container(
+                                            child: ElevatedButton(
+                                              onPressed: (){
+                                                setState(() {
+                                                  if(_videoSpeed < 1.5){
+                                                    _videoSpeed += 0.25;
+                                                  }
+                                                });
+                                                _controller.setPlaybackSpeed(_videoSpeed);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                primary: Color(0xffC8E8FF),
+                                                minimumSize: Size(35, 25),
+                                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                ),
+                                              ),
+                                              child: Icon(
+                                                Icons.add,
+                                                size: 20,
+                                                color: Color(0xff97D5FE),
+                                              ),
+                                            )
+                                        ),
+                                      ],
                                     ),
                                   )
-                                ),
-                                Container(
-                                    child: ElevatedButton(
-                                      onPressed: (){
-                                        setState(() {
-                                          if(_videoSpeed>0.25){
-                                            _videoSpeed -= 0.25;
-                                          }
-                                        });
-                                        _controller.setPlaybackSpeed(_videoSpeed);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Color(0xffC8E8FF),
-                                        minimumSize: Size(35, 25),
-                                        padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(5),
-                                        ),
-                                      ),
-                                      child: Icon(
-                                        Icons.remove,
-                                        size: 20,
-                                        color: Color(0xff97D5FE),
-                                      ),
-                                    )
-                                ),
-                                Container(
-                                  child: Text(
-                                    '$_videoSpeed'
-                                  ),
-                                  width: 30,
-                                ),
-                                Container(
-                                    child: ElevatedButton(
-                                      onPressed: (){
-                                        setState(() {
-                                          if(_videoSpeed < 1.5){
-                                            _videoSpeed += 0.25;
-                                          }
-                                        });
-                                        _controller.setPlaybackSpeed(_videoSpeed);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Color(0xffC8E8FF),
-                                        minimumSize: Size(35, 25),
-                                        padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(5),
-                                        ),
-                                      ),
-                                      child: Icon(
-                                        Icons.add,
-                                        size: 20,
-                                        color: Color(0xff97D5FE),
-                                      ),
-                                    )
-                                ),
-
-                              ],
-                            )
+                                ],
+                              )
 
 
-                          ],
-                        ),
-                        Container(
+                            ],
+                          ),
+                        ],
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(top: 15.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Color(0xffC8E8FF),
                           ),
-                          width: 160,
-                          height: 160,
+                          height: 70,
                           child: Center(
                             child: Text(
                               '${widget.letter}',
                               style: TextStyle(
-                                fontSize: 50, fontWeight: FontWeight.w700,
+                                fontSize: 38, fontWeight: FontWeight.w600,
                               ),
                             ),
                           )
-                        )
-                      ],
-                    ),
-
-                    Container(
-                        margin: EdgeInsets.only(top: 20.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              "다음과 같이 발음하고 있습니다.",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        )
-                    ),
-
-                    Container(
-                      margin: EdgeInsets.only(top:10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            // child: CameraPreview(_cameraController),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Color(0xff97D5FE),
-                                  borderRadius: BorderRadius.circular(5)
-                              ),
-                              height: 160,
-                              width: 160,
-                              child: Text('camera here!'),
-                            ),
-                          ),
-                          Column(
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(top: 30.0, bottom: 15.0),
+                          child: Row(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Color(0xff97D5FE),
-                                    borderRadius: BorderRadius.circular(5)
-                                ),
-                                height: 160,
-                                width: 160,
-                                child: Container(
-                                  child: Center(
-                                    child: Text(
-                                      '${_text}',
-                                      style: const TextStyle(
-                                        fontSize: 50.0,
-                                        color: Color(0xff333333),
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                              Text(
+                                "다음과 같이 발음하고 있습니다.",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
                               ),
                             ],
                           )
-                        ],
                       ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 20.0, left: 0.0, right: 0.0, ),
-                          padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0, bottom: 10.0),
-                          decoration: BoxDecoration(
-                              color: Color(0xffD8EFFF),
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          height: 100,
-                          child: Center(
-                            child: Text(
-                              '${_pronounceTip}',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600
+
+                      // Container(
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(5),
+                      //       color: Color(0xffC8E8FF),
+                      //     ),
+                      //     margin: EdgeInsets.only(top: 10.0, bottom:15.0),
+                      //     height: 130,
+                      //     child: Center(
+                      //       child: Text(
+                      //         'camera',
+                      //         style: TextStyle(
+                      //           fontSize: 38, fontWeight: FontWeight.w600,
+                      //         ),
+                      //       ),
+                      //     )
+                      // ),
+
+                      Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xff97D5FE),
+                                borderRadius: BorderRadius.circular(5)
+                            ),
+                            height: 70,
+                            child: Container(
+                              child: Center(
+                                child: Text(
+                                  '${_text}',
+                                  style: const TextStyle(
+                                    fontSize: 38.0,
+                                    color: Color(0xff333333),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
                             ),
-                          )
-                        )
-                      ],
-                    ),
-
-                  ],
-                ),
-              )
-            )
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+            ),
         )
     );
   }
@@ -458,12 +426,15 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
   }
 
   void _pressedStar() {
+
     setState(() {
-      if (_isStared) {
+      if (_isStared || (!_isChecked && widget.bookmarked)) {
         _isStared = false;
+        _isChecked = true;
         deleteLetterBookmark(widget.probId);
       } else {
         _isStared = true;
+        _isChecked = true;
         letterBookmark(widget.probId);
       }
     });

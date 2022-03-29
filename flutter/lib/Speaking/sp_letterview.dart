@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
 
 import 'sp_letter_consonant.dart';
 import 'sp_practiceview_letter.dart';
@@ -20,7 +21,7 @@ class _SelectModeLetterPageState extends State<SelectModeLetterPage> {
   Future<void> randomUrlInfo() async {
 
 
-    var url = Uri.http('localhost:8080', '/speaking/practice/letter/random');
+    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/letter/random');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -38,6 +39,7 @@ class _SelectModeLetterPageState extends State<SelectModeLetterPage> {
       int probId = data["probId"];
       String letter = data["letter"];
       int letterId = data["letterId"];
+      bool bookmarked = data["bookmarked"];
 
       print("url : ${url}");
       print("type : ${type}");
@@ -45,7 +47,7 @@ class _SelectModeLetterPageState extends State<SelectModeLetterPage> {
 
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(url: url, type: type, probId: probId, letter: letter, letterId: letterId,))
+          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(url: url, type: type, probId: probId, letter: letter, letterId: letterId, bookmarked: bookmarked,))
       );
 
     }

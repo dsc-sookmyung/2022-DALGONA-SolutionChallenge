@@ -12,6 +12,7 @@ import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
 
 
 class SpWordPracticePage extends StatefulWidget {
@@ -21,17 +22,18 @@ class SpWordPracticePage extends StatefulWidget {
   // final String wordId;
   final String word;
   final String url;
+  final bool bookmarked;
 
   // required this.probId, required this.type, required this.wordId, required this.word, required this.url
 
-  const SpWordPracticePage({Key? key, required this.probId, required this.type, required this.word, required this.url}) : super(key: key);
+  const SpWordPracticePage({Key? key, required this.probId, required this.type, required this.word, required this.url, required this.bookmarked}) : super(key: key);
   @override
   _SpWordPracticePageState createState() => _SpWordPracticePageState();
 }
 
 class _SpWordPracticePageState extends State<SpWordPracticePage> {
 
-
+  bool _isChecked = false;
   bool _isStared = false;
 
   late stt.SpeechToText _speech;
@@ -50,7 +52,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -84,7 +86,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -185,10 +187,12 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                           ),
                           IconButton(
                             onPressed: _pressedStar,
-                            icon: (_isStared
-                                ? Icon(Icons.star)
-                                : Icon(Icons.star_border)),
-                            iconSize: 25,
+                            icon: (
+                                ( (_isChecked == true && _isStared) ||(_isChecked == false && widget.bookmarked)  )
+                                    ? Icon(Icons.star)
+                                    : Icon(Icons.star_border)
+                            ),
+                            iconSize: 23,
                             color: Colors.amber,
                           ),
                         ],
@@ -415,12 +419,15 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
   }
 
   void _pressedStar() {
+
     setState(() {
-      if (_isStared) {
+      if (_isStared || (!_isChecked && widget.bookmarked)) {
         _isStared = false;
+        _isChecked = true;
         deleteWordBookmark(widget.probId);
       } else {
         _isStared = true;
+        _isChecked = true;
         wordBookmark(widget.probId);
       }
     });
