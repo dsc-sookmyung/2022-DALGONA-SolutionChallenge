@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:zerozone/Login/login.dart';
 import 'dart:convert';
 
 import 'package:zerozone/Login/refreshToken.dart';
@@ -28,8 +29,9 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
 
     //TO DO 사용자 정보 받아오기 성공할 경우 받아온 이메일로 조회할 수 있도록 재설정
     Map<String, String> _queryParameters = <String, String>{
-      'email': "ksa8023@naver.com",
+      'email': email,
     };
+
 
     var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
@@ -61,8 +63,9 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
 
     //TO DO 사용자 정보 받아오기 성공할 경우 받아온 이메일로 조회할 수 있도록 재설정
     Map<String, String> _queryParameters = <String, String>{
-      'email': "ksa8023@naver.com",
+      'email': email,
     };
+
 
     var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
 

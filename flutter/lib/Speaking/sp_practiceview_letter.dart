@@ -23,8 +23,9 @@ class SpLetterPracticePage extends StatefulWidget {
   final String type;
 
   final int probId;
+  final bool bookmarked;
 
-  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId, required this.url, required this.type, required this.probId}) : super(key: key);
+  const SpLetterPracticePage({Key? key, required this.letter, required this.letterId, required this.url, required this.type, required this.probId, required this.bookmarked}) : super(key: key);
 
   @override
   _SpLetterPracticePageState createState() => _SpLetterPracticePageState();
@@ -34,8 +35,8 @@ List<CameraDescription> cameras = <CameraDescription>[];
 
 class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
 
-
   bool _isStared = false;
+  bool _isChecked = false;
 
   late stt.SpeechToText _speech;
   bool _isListening = false;
@@ -59,7 +60,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -93,7 +94,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -136,24 +137,11 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
     _speech = stt.SpeechToText();
   }
 
-  // // initializeCamera(int cameraIndex) async {
-  // //   _cameraController = CameraController(
-  // //       widget.cameras[cameraIndex],
-  // //       ResolutionPreset.medium
-  // //   );
-  //
-  //   _initializeControllerFuture = _cameraController.initialize();
-  // }
 
 
   @override
   void dispose() {
     _controller.dispose();
-
-    // if(_cameraController != null){
-    //   _cameraController?.dispose();
-    // }
-    //_cameraController.dispose();
 
     super.dispose();
   }
@@ -205,9 +193,11 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
                         ),
                         IconButton(
                           onPressed: _pressedStar,
-                          icon: (_isStared
+                          icon: (
+                         ( (_isChecked == true && _isStared) ||(_isChecked == false && widget.bookmarked)  )
                               ? Icon(Icons.star)
-                              : Icon(Icons.star_border)),
+                              : Icon(Icons.star_border)
+                          ),
                           iconSize: 23,
                           color: Colors.amber,
                         ),
@@ -458,12 +448,15 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
   }
 
   void _pressedStar() {
+
     setState(() {
-      if (_isStared) {
+      if (_isStared || (!_isChecked && widget.bookmarked)) {
         _isStared = false;
+        _isChecked = true;
         deleteLetterBookmark(widget.probId);
       } else {
         _isStared = true;
+        _isChecked = true;
         letterBookmark(widget.probId);
       }
     });

@@ -148,6 +148,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void signIn(String email, pass) async {
 
+
     var url = Uri.http('${serverHttp}:8080', '/user/login');
 
     final data = jsonEncode({'email': email, 'password': pass});
@@ -187,6 +188,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void userInfo() async {
+
 
     var url = Uri.http('${serverHttp}:8080', '/user/info');
 

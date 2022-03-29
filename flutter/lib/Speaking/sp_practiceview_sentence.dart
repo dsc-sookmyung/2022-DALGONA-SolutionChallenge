@@ -22,9 +22,11 @@ class SpSentencePracticePage extends StatefulWidget {
   final String sentence;
   final String url;
 
+  final bool bookmarked;
+
   // required this.probId, required this.type, required this.wordId, required this.word, required this.url
 
-  const SpSentencePracticePage({Key? key, required this.probId, required this.type, required this.sentence, required this.url}) : super(key: key);
+  const SpSentencePracticePage({Key? key, required this.probId, required this.type, required this.sentence, required this.url, required this.bookmarked}) : super(key: key);
   @override
   _SpSentencePracticePageState createState() => _SpSentencePracticePageState();
 }
@@ -33,6 +35,7 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
 
 
   bool _isStared = false;
+  bool _isChecked = false;
 
   late stt.SpeechToText _speech;
   bool _isListening = false;
@@ -50,7 +53,7 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -84,7 +87,7 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -180,10 +183,12 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
                           ),
                           IconButton(
                             onPressed: _pressedStar,
-                            icon: (_isStared
-                                ? Icon(Icons.star)
-                                : Icon(Icons.star_border)),
-                            iconSize: 25,
+                            icon: (
+                                ( (_isChecked == true && _isStared) ||(_isChecked == false && widget.bookmarked)  )
+                                    ? Icon(Icons.star)
+                                    : Icon(Icons.star_border)
+                            ),
+                            iconSize: 23,
                             color: Colors.amber,
                           ),
                         ],
@@ -410,12 +415,15 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
   }
 
   void _pressedStar() {
+
     setState(() {
-      if (_isStared) {
+      if (_isStared || (!_isChecked && widget.bookmarked)) {
         _isStared = false;
+        _isChecked = true;
         deleteSentenceBookmark(widget.probId);
       } else {
         _isStared = true;
+        _isChecked = true;
         sentenceBookmark(widget.probId);
       }
     });
