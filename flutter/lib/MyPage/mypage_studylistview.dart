@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Login/login.dart';
+import 'package:zerozone/server.dart';
 
 class StudyListPage extends StatefulWidget {
   const StudyListPage({Key? key}) : super(key: key);

@@ -24,6 +24,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/server.dart';
 
 class ReviewListPage extends StatefulWidget {
   const ReviewListPage(
@@ -86,7 +87,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
     };
 
     var url =
-        Uri.http('104.197.249.40:8080', '/reading/test/list/probs', _queryParameters);
+        Uri.http('${serverHttp}:8080', '/reading/test/list/probs', _queryParameters);
 
     var response = await http.get(url, headers: {
       'Accept': 'application/json',

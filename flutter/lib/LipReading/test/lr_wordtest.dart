@@ -11,6 +11,7 @@ import 'package:zerozone/Login/refreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/server.dart';
 
 class WordTestPage extends StatefulWidget {
   final int num;
@@ -68,7 +69,7 @@ class _WordTestPageState extends State<WordTestPage> {
   }
 
   _score(int testId, var list, int correctCnt) async{
-    var url = Uri.http('104.197.249.40:8080', '/reading/test/result');
+    var url = Uri.http('${serverHttp}:8080', '/reading/test/result');
 
     final data = jsonEncode({'testId': testId, 'testResultList': list, 'correctCount': correctCnt});
 

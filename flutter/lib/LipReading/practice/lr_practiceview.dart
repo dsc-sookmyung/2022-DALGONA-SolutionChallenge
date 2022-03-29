@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'lr_letterview.dart';
 import 'lr_sentenceview.dart';
 import 'package:flutter/services.dart';
+import 'package:zerozone/server.dart';
 
 class lrselectModeWordPage extends StatelessWidget {
   const lrselectModeWordPage({Key? key}) : super(key: key);
