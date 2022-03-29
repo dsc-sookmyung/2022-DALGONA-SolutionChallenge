@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zerozone/server.dart';
 import 'sp_select_situation.dart';
 
 import 'package:zerozone/Login/login.dart';
@@ -21,7 +22,7 @@ class _SelectModeSentencePageState extends State<SelectModeSentencePage> {
   Future<void> randomUrlInfo() async {
 
 
-    var url = Uri.http('104.197.249.40:8080', '/speaking/practice/sentence/random');
+    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/sentence/random');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 

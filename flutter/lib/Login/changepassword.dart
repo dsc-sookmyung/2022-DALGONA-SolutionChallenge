@@ -23,25 +23,6 @@ class _changePasswordPageState extends State<changePasswordPage> {
   final TextEditingController _pass = new TextEditingController();
   final TextEditingController _checkPass = new TextEditingController();
 
-
-  // sendPassword(String email) async {
-  //   var url = Uri.http('localhost:8080', '/email/pwd');
-  //
-  //   final data = jsonEncode({'email': email});
-  //
-  //   var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json"} );
-  //
-  //   // print(url);
-  //   print(response.statusCode);
-  //
-  //   if (response.statusCode == 200) {
-  //     print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-  //   }
-  //   else {
-  //     print('error : ${response.reasonPhrase}');
-  //   }
-  // }
-
   changePassword(String pass) async {
     if(_formKey2.currentState!.validate()){
       var url = Uri.http('${serverHttp}:8080', '/user/password/lost');

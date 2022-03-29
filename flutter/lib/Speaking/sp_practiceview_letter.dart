@@ -12,6 +12,7 @@ import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
 
 
 class SpLetterPracticePage extends StatefulWidget {
@@ -60,7 +61,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -94,7 +95,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
       'speakingProbId': probId.toString(),
     };
 
-    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
