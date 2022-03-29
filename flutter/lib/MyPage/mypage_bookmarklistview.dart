@@ -6,6 +6,7 @@ import 'package:zerozone/Login/login.dart';
 import 'dart:convert';
 
 import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
 
 class BookMarkListPage extends StatefulWidget {
   const BookMarkListPage({Key? key}) : super(key: key);
@@ -31,7 +32,8 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
       'email': email,
     };
 
-    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
+
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTY5NDEsImV4cCI6MTY0NTQ5ODc0MX0.g5kqasAyvzWZ_ZkENa6UaXf6_qyiYarmu6xn12CbW7U" });
@@ -64,7 +66,8 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
       'email': email,
     };
 
-    var url = Uri.http('104.197.249.40:8080', '/bookmark/reading', _queryParameters);
+
+    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
 
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTY5NDEsImV4cCI6MTY0NTQ5ODc0MX0.g5kqasAyvzWZ_ZkENa6UaXf6_qyiYarmu6xn12CbW7U" });

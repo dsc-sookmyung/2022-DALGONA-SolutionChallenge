@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
 
 class ModifyInformationPage extends StatefulWidget {
   const ModifyInformationPage({Key? key}) : super(key: key);
@@ -19,7 +20,9 @@ class _ModifyInformationPageState extends State<ModifyInformationPage> {
 
   Future<void> changeName(String editName) async {
 
-    var url = Uri.http('104.197.249.40:8080', '/user/name');
+
+    var url = Uri.http('${serverHttp}:8080', '/user/name');
+
     final data = jsonEncode({'name': editName});
 
     name = editName;

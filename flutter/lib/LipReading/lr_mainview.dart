@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'testReview/lr_reviewmode.dart';
+import 'package:zerozone/server.dart';
 
 class lrselectModeMainPage extends StatefulWidget {
   const lrselectModeMainPage({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
     _testId.clear();
     _probCount.clear();
 
-    var url = Uri.http('10.0.2.2:8080', '/reading/test/list');
+    var url = Uri.http('${serverHttp}:8080', '/reading/test/list');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);
@@ -51,16 +52,22 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       var _data=body['data'];
       var _list=_data['content'];
-      totalPage=_data['totalPages'];
-      totalElement=_data['totalElements'];
-      for(int i=0;i<_list.length;i++){
-        DateTime date=DateTime.parse(_list[i]['date']);
-        var day=(date.toString()).split(' ');
-        _dateList.add(day[0]);
-        _testName.add(_list[i]['testName']);
-        _correctCnt.add(_list[i]['correctCount']);
-        _testId.add(_list[i]['testId']);
-        _probCount.add(_list[i]['probCount']);
+      if(_list.isEmpty){
+        totalPage=1;
+        totalElement=0;
+      }
+      else{
+        totalPage=_data['totalPages'];
+        totalElement=_data['totalElements'];
+        for(int i=0;i<_list.length;i++){
+          DateTime date=DateTime.parse(_list[i]['date']);
+          var day=(date.toString()).split(' ');
+          _dateList.add(day[0]);
+          _testName.add(_list[i]['testName']);
+          _correctCnt.add(_list[i]['correctCount']);
+          _testId.add(_list[i]['testId']);
+          _probCount.add(_list[i]['probCount']);
+      }
       }
       print(_testId);
       print('저장 완료');

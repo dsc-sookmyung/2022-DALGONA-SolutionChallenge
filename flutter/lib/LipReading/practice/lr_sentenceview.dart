@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/server.dart';
 
 class LrModeSentencePage extends StatefulWidget {
   const LrModeSentencePage({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
       'situation': situation
     };
     // Uri.encodeComponent(situationId);
-    var url = Uri.http('10.0.2.2:8080', '/reading/practice/sentence/random', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/reading/practice/sentence/random', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);

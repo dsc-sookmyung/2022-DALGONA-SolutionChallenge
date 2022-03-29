@@ -13,19 +13,19 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:zerozone/server.dart';
 
-class SentenceTestPage extends StatefulWidget {
+class RandomTestPage extends StatefulWidget {
   final int num;
   final int time;
   final Map data;
   final String title;
   final List space;
-  const SentenceTestPage({Key? key, required this.title, required this.num, required this.time, required this.data, required this.space}) : super(key: key);
+  const RandomTestPage({Key? key, required this.title, required this.num, required this.time, required this.data, required this.space}) : super(key: key);
 
   @override
-  _SentenceTestPageState createState() => _SentenceTestPageState();
+  _RandomTestPageState createState() => _RandomTestPageState();
 }
 
-class _SentenceTestPageState extends State<SentenceTestPage> {
+class _RandomTestPageState extends State<RandomTestPage> {
   bool _isStared = false;
   bool _isHint = false;
   bool _clickHint=false;
@@ -61,7 +61,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
 
   void initState() {
     _controller = VideoPlayerController.network(
-      _url
+        _url
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
@@ -748,9 +748,9 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
   void _check(){
     bool hint, correct;
     _clickHint?
-      hint=true:hint=false;
+    hint=true:hint=false;
     _isCorrect?
-      correct=true:correct=false;
+    correct=true:correct=false;
     testResult.add({'usedHint': hint, 'correct': correct});
   }
 }

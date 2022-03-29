@@ -24,6 +24,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/server.dart';
 
 class ReviewListPage extends StatefulWidget {
   const ReviewListPage(
@@ -86,7 +87,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
     };
 
     var url =
-        Uri.http('10.0.2.2:8080', '/reading/test/list/probs', _queryParameters);
+        Uri.http('${serverHttp}:8080', '/reading/test/list/probs', _queryParameters);
 
     var response = await http.get(url, headers: {
       'Accept': 'application/json',
@@ -168,9 +169,9 @@ class _ReviewListPageState extends State<ReviewListPage> {
         foregroundColor: Color(0xff333333),
       ),
       body: Column(children: [
-        Padding(padding: EdgeInsets.all(25.0)),
+        Padding(padding: EdgeInsets.all(20.0)),
         Container(
-            height: 570,
+            height: 560,
             child: Column(
               children: [
                 Container(
