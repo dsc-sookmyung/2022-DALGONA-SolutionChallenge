@@ -22,6 +22,8 @@ class lrselectModeWordPage extends StatelessWidget {
         foregroundColor: Color(0xff333333),
       ),
       body: new Container(
+        color: Color(0xfff0f8ff),
+        child: Container(
         margin: EdgeInsets.only(top: 130.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -47,7 +49,7 @@ class lrselectModeWordPage extends StatelessWidget {
                   child: new Text(
                     '단어 연습하기',
                     style: new TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
@@ -72,7 +74,7 @@ class lrselectModeWordPage extends StatelessWidget {
                   child: new Text(
                     '문장 연습하기',
                     style: new TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         color: Color(0xff333333),
                         fontWeight: FontWeight.w500),
                   ),
@@ -85,7 +87,7 @@ class lrselectModeWordPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ),)
     );
   }
 }

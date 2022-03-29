@@ -73,6 +73,7 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
             '구화 연습 - 단어',
             style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
           ),
+          centerTitle: true,
           backgroundColor: Color(0xffC8E8FF),
           foregroundColor: Color(0xff333333),
         ),

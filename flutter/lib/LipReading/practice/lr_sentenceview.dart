@@ -77,6 +77,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
             '말하기 연습 - 문장',
             style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
           ),
+          centerTitle: true,
           backgroundColor: Color(0xffC8E8FF),
           foregroundColor: Color(0xff333333),
         ),
@@ -89,7 +90,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                 margin: EdgeInsets.only(bottom: 10.0),
                 child: Text(
                   '상황 선택하기',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -101,7 +102,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                     color: Color(0xffD8EFFF),
                     child: new Text(
                       '인사하기',
-                      style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                      style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: () async{
                       await _randomsentence('1', '인사하기');
@@ -123,7 +124,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                     color: Color(0xff97D5FE),
                     child: new Text(
                       '날짜와 시간 말하기',
-                      style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                      style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: () async{
                       await _randomsentence('2', '날짜와 시간 말하기');
@@ -143,7 +144,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                     color: Color(0xffD8EFFF),
                     child: new Text(
                       '날씨 말하기',
-                      style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                      style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: () async{
                       await _randomsentence('3', '날씨 말하기');
@@ -164,7 +165,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                     color: Color(0xff97D5FE),
                     child: new Text(
                       '부탁 요청하기',
-                      style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                      style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: () async{
                       await _randomsentence('4', '부탁 요청하기');
@@ -184,7 +185,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                     color: Color(0xffD8EFFF),
                     child: new Text(
                       '기분 표현하기',
-                      style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                      style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                     ),
                     onPressed: () async{
                       await _randomsentence('5', '기분 표현하기');

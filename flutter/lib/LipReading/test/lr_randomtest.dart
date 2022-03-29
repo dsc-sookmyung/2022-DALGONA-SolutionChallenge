@@ -204,26 +204,28 @@ class _RandomTestPageState extends State<RandomTestPage> {
                     height: height-height/8,
                     child: Column(
                       children: [
+                        Padding(padding: EdgeInsets.only(top:10.0)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Padding(padding: EdgeInsets.only(left: 8.0)),
+                            Padding(padding: EdgeInsets.only(left: 10.0)),
                             Text(
                               "무슨 말인지 맞춰보세요!",
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w600),
                             ),
-                            Padding(padding: EdgeInsets.only(right: 180.0)),
-                            IconButton(
-                              onPressed: _pressedStar,
-                              icon: (_isStared
-                                  ? Icon(Icons.star)
-                                  : Icon(Icons.star_border)),
-                              iconSize: 23,
-                              color: Colors.amber,
-                            ),
+                            // Padding(padding: EdgeInsets.only(right: 180.0)),
+                            // IconButton(
+                            //   onPressed: _pressedStar,
+                            //   icon: (_isStared
+                            //       ? Icon(Icons.star)
+                            //       : Icon(Icons.star_border)),
+                            //   iconSize: 23,
+                            //   color: Colors.amber,
+                            // ),
                           ],
                         ),
+                        Padding(padding: EdgeInsets.all(2.0)),
                         Container(
                           child: FutureBuilder(
                             future: _initializeVideoPlayerFuture,
