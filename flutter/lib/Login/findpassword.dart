@@ -49,7 +49,6 @@ class _findPasswordPageState extends State<findPasswordPage> {
 
     var url = Uri.http('${serverHttp}:8080', '/email/code/pwd/verify');
 
-
     final data = jsonEncode({'email': email, 'authCode': authCode});
 
     var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
