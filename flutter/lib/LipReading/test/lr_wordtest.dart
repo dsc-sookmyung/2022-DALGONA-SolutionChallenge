@@ -11,6 +11,7 @@ import 'package:zerozone/Login/refreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/server.dart';
 
 class WordTestPage extends StatefulWidget {
   final int num;
@@ -68,7 +69,7 @@ class _WordTestPageState extends State<WordTestPage> {
   }
 
   _score(int testId, var list, int correctCnt) async{
-    var url = Uri.http('10.0.2.2:8080', '/reading/test/result');
+    var url = Uri.http('${serverHttp}:8080', '/reading/test/result');
 
     final data = jsonEncode({'testId': testId, 'testResultList': list, 'correctCount': correctCnt});
 
@@ -81,6 +82,13 @@ class _WordTestPageState extends State<WordTestPage> {
       print('Response status: ${response.statusCode}');
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
       var body=jsonDecode(utf8.decode(response.bodyBytes));
+      setState(() {
+        _controller = VideoPlayerController.network(
+            _url
+        );
+        _initializeVideoPlayerFuture = _controller.initialize();
+        _controller.setLooping(true);
+      });
     }
     else if(response.statusCode == 401){
       await RefreshToken(context);
@@ -716,6 +724,7 @@ class _WordTestPageState extends State<WordTestPage> {
 
   void _next(){
     setState(() {
+      _controller.pause();
       _seeAnswer = false;
       _isInit = true;
       _enterAnswer=true;

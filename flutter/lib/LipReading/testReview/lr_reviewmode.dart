@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/server.dart';
 
 class ReviewModePage extends StatefulWidget {
   final List testId;
@@ -34,7 +35,7 @@ class _ReviewModePageState extends State<ReviewModePage> {
   late List _correctCount=widget.correctCount;
   late List _probCount=widget.probCount;
 
-  late int pageTotal=widget.totalPage;
+  late int pageTotal=widget.totalPage==0?1:widget.totalPage;
   int pageInit = 1;
   late int threshold = pageTotal<5?
   pageTotal : 5;
@@ -61,7 +62,7 @@ class _ReviewModePageState extends State<ReviewModePage> {
     Map<String, String> _queryParameters = <String, String>{
       'page': page.toString()
     };
-    var url = Uri.http('10.0.2.2:8080', '/reading/test/list', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/reading/test/list', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);
@@ -101,6 +102,7 @@ class _ReviewModePageState extends State<ReviewModePage> {
     iconPrevious = Icon(Icons.keyboard_arrow_left);
     iconNext = Icon(Icons.keyboard_arrow_right);
     iconToLast = Icon(Icons.last_page);
+
 
     _rangeSet();
     super.initState();
@@ -178,7 +180,8 @@ class _ReviewModePageState extends State<ReviewModePage> {
                                   Text(_dateList[idx], style: TextStyle(fontSize: 13, color: Color(0xff333333)),),
                                   Padding(padding: EdgeInsets.only(top:4.0)),
                                   Text(_testName[idx],
-                                    style: TextStyle(fontSize: 15, color: Color(0xff333333), ),
+                                    style: TextStyle(fontSize: 15, color: Color(0xff333333),
+                                      ),
                                   ),
                                 ]
                             ),
@@ -299,7 +302,7 @@ class _ReviewModePageState extends State<ReviewModePage> {
       'testId': id.toString()
     };
 
-    var url = Uri.http('10.0.2.2:8080', '/reading/test/list/probs', _queryParameters);
+    var url = Uri.http('${server}:8080', '/reading/test/list/probs', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
     print(url);

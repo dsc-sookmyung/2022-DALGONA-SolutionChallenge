@@ -6,11 +6,16 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/server.dart';
 
 bool check = false;
 
 Future<void> RefreshToken(BuildContext context) async {
+<<<<<<< HEAD
   var url = Uri.http('104.197.249.40:8080', '/token/reissue/accessToken');
+=======
+  var url = Uri.http('${serverHttp}:8080', '/token/reissue/accessToken');
+>>>>>>> 031cfe11ec397201bc496a9659ef2925109b6fd7
 
   final data = jsonEncode({'email': email, 'refreshToken': refreshToken});
 

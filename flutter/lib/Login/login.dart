@@ -6,6 +6,7 @@ import 'signup.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:zerozone/server.dart';
 
 var authToken = '';
 var refreshToken = '';
@@ -147,7 +148,11 @@ class _LoginPageState extends State<LoginPage> {
 
   void signIn(String email, pass) async {
 
+<<<<<<< HEAD
     var url = Uri.http('104.197.249.40:8080', '/user/login');
+=======
+    var url = Uri.http('${serverHttp}:8080', '/user/login');
+>>>>>>> 031cfe11ec397201bc496a9659ef2925109b6fd7
 
     final data = jsonEncode({'email': email, 'password': pass});
 
@@ -187,7 +192,11 @@ class _LoginPageState extends State<LoginPage> {
 
   void userInfo() async {
 
+<<<<<<< HEAD
     var url = Uri.http('104.197.249.40:8080', '/user/info');
+=======
+    var url = Uri.http('${serverHttp}:8080', '/user/info');
+>>>>>>> 031cfe11ec397201bc496a9659ef2925109b6fd7
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
