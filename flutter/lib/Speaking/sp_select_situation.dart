@@ -31,7 +31,7 @@ class _SelectSituationPageState extends State<SelectSituationPage> {
       'situation' : situation
     };
 
-    var url = Uri.http('localhost:8080', '/speaking/list/situation/sentence', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/speaking/list/situation/sentence', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 

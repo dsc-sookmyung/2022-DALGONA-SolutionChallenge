@@ -29,7 +29,7 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
       'id' : index.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/speaking/practice/sentence', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/speaking/practice/sentence', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -45,6 +45,7 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
       String url = data["url"];
       String type = data["type"];
       int probId = data["probId"];
+      bool bookmarked = data["bookmarked"];
 
       print("url : ${url}");
       print("type : ${type}");
@@ -52,7 +53,7 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
 
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: letter,))
+          context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: letter, bookmarked: bookmarked,))
       );
 
     }

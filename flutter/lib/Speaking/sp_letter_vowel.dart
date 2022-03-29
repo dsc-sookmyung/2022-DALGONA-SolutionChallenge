@@ -34,7 +34,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
       'nucleus': gridItem
     };
 
-    var url = Uri.http('localhost:8080', '/speaking/list/letter/coda', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/speaking/list/letter/coda', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -78,7 +78,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
       'id' : letterId.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/speaking/practice/letter', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/speaking/practice/letter', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -95,6 +95,8 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
       String url = data["url"];
       String type = data["type"];
       int probId = data["probId"];
+      bool bookmarked = data["bookmarked"];
+
 
       print("url : ${url}");
       print("type : ${type}");
@@ -103,7 +105,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type, probId: probId,))
+          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type, probId: probId, bookmarked: bookmarked,))
       );
 
     }

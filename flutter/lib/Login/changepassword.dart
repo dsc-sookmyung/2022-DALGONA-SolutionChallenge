@@ -43,7 +43,7 @@ class _changePasswordPageState extends State<changePasswordPage> {
 
   changePassword(String pass) async {
     if(_formKey2.currentState!.validate()){
-      var url = Uri.http('localhost:8080', '/user/password/lost');
+      var url = Uri.http('104.197.249.40:8080', '/user/password/lost');
 
       print(widget.email);
 

@@ -20,7 +20,7 @@ class _SelectModeWordPageState extends State<SelectModeWordPage> {
   Future<void> randomUrlInfo() async {
 
 
-    var url = Uri.http('localhost:8080', '/speaking/practice/word/random');
+    var url = Uri.http('104.197.249.40:8080', '/speaking/practice/word/random');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -37,6 +37,7 @@ class _SelectModeWordPageState extends State<SelectModeWordPage> {
       String type = data["type"];
       int probId = data["probId"];
       String word = data["word"];
+      bool bookmarked = data["bookmarked"];
 
       print("url : ${url}");
       print("type : ${type}");
@@ -44,7 +45,7 @@ class _SelectModeWordPageState extends State<SelectModeWordPage> {
 
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: word))
+          context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: word, bookmarked: bookmarked,))
       );
 
     }

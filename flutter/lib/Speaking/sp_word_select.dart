@@ -27,7 +27,7 @@ class _WordSelectPageState extends State<WordSelectPage> {
       'id' : index.toString(),
     };
 
-    var url = Uri.http('localhost:8080', '/speaking/practice/word', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/speaking/practice/word', _queryParameters);
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
@@ -43,6 +43,7 @@ class _WordSelectPageState extends State<WordSelectPage> {
       String url = data["url"];
       String type = data["type"];
       int probId = data["probId"];
+      bool bookmarked = data["bookmarked"];
 
       print("url : ${url}");
       print("type : ${type}");
@@ -50,7 +51,7 @@ class _WordSelectPageState extends State<WordSelectPage> {
 
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: letter,))
+          context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: letter, bookmarked: bookmarked,))
       );
 
     }

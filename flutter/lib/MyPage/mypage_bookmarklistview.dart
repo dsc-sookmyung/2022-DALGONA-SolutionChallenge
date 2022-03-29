@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:zerozone/Login/login.dart';
 import 'dart:convert';
 
 import 'package:zerozone/Login/refreshToken.dart';
@@ -27,10 +28,10 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
 
     //TO DO 사용자 정보 받아오기 성공할 경우 받아온 이메일로 조회할 수 있도록 재설정
     Map<String, String> _queryParameters = <String, String>{
-      'email': "ksa8023@naver.com",
+      'email': email,
     };
 
-    var url = Uri.http('localhost:8080', '/bookmark/speaking', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/bookmark/speaking', _queryParameters);
 
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTY5NDEsImV4cCI6MTY0NTQ5ODc0MX0.g5kqasAyvzWZ_ZkENa6UaXf6_qyiYarmu6xn12CbW7U" });
@@ -60,10 +61,10 @@ class _BookMarkListPageState extends State<BookMarkListPage> with TickerProvider
 
     //TO DO 사용자 정보 받아오기 성공할 경우 받아온 이메일로 조회할 수 있도록 재설정
     Map<String, String> _queryParameters = <String, String>{
-      'email': "ksa8023@naver.com",
+      'email': email,
     };
 
-    var url = Uri.http('localhost:8080', '/bookmark/reading', _queryParameters);
+    var url = Uri.http('104.197.249.40:8080', '/bookmark/reading', _queryParameters);
 
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaW5wZWFybEBuYXZlci5jb20iLCJpYXQiOjE2NDU0OTY5NDEsImV4cCI6MTY0NTQ5ODc0MX0.g5kqasAyvzWZ_ZkENa6UaXf6_qyiYarmu6xn12CbW7U" });

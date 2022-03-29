@@ -26,7 +26,7 @@ class _MyPageState extends State<MyPage> {
 
   void userInfo() async {
 
-    var url = Uri.http('localhost:8080', '/user/info');
+    var url = Uri.http('104.197.249.40:8080', '/user/info');
 
     var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
