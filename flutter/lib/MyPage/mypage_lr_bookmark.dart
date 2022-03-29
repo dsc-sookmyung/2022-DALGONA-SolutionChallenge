@@ -26,8 +26,7 @@ import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/server.dart';
 
-import '../LipReading/practice/lr_sentencepractice.dart';
-import '../LipReading/practice/lr_wordpractice.dart';
+import '../LipReading/practice/lr_bookmarkview.dart';
 
 class LRBookmarkPage extends StatefulWidget {
   const LRBookmarkPage(
@@ -158,7 +157,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
     if(_type[idx] == 'Word'){
       url = Uri.http('${serverHttp}:8080', '/reading/practice/word', _queryParameters);
     }
-    else if(_type[idx] == 'Sentnece'){
+    else if(_type[idx] == 'Sentence'){
       url = Uri.http('${serverHttp}:8080', '/reading/practice/sentence', _queryParameters);
     }
 
@@ -171,13 +170,42 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
     if (response.statusCode == 200) {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
-      var body = jsonDecode(response.body);
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      String hint = data["hint"];
+      int probId = data["probId"];
+      bool bookmarked = data["bookmarked"];
 
       if(_type[idx] == 'Word'){
+        String word = data["word"];
+        String type = "word";
+        String space = "";
 
+        Navigator.of(context).pop();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: word, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space))
+        );
       }
-      else if(_type[idx] == 'Sentnece'){
+      else if(_type[idx] == 'Sentence'){
+        String word = data["sentence"];
+        String type = "sentence";
+        String _space = "";
 
+        var repeat = data['spacingInfo'].split("");
+
+        for (int i = 0; i < repeat.length; i++) {
+          _space += "_ " * int.parse(repeat[i]);
+          _space += " ";
+        }
+
+        Navigator.of(context).pop();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: word, hint: hint, url: url, bookmarked: bookmarked, type: type, space: _space))
+        );
       }
 
     }
@@ -228,6 +256,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                         //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
                       },
                       child: Container(
+                        height: 50,
                         margin: EdgeInsets.only(right: 40, left: 40),
                         padding: const EdgeInsets.symmetric(
                             vertical: 11, horizontal: 8),
