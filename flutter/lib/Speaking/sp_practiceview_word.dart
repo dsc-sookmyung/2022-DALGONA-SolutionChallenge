@@ -277,10 +277,8 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                                             )
                                         ),
                                         Container(
-                                          child: Text(
-                                              '$_videoSpeed'
-                                          ),
-                                          width: 30,
+                                          child: Text('$_videoSpeed', textAlign: TextAlign.center,),
+                                          width: 40,
                                         ),
                                         Container(
                                             child: ElevatedButton(
@@ -329,7 +327,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                             child: Text(
                               '${widget.word}',
                               style: TextStyle(
-                                fontSize: 38, fontWeight: FontWeight.w600,
+                                fontSize: 28, fontWeight: FontWeight.w600,
                               ),
                             ),
                           )
@@ -377,7 +375,7 @@ class _SpWordPracticePageState extends State<SpWordPracticePage> {
                                 child: Text(
                                   '${_text}',
                                   style: const TextStyle(
-                                    fontSize: 38.0,
+                                    fontSize: 28.0,
                                     color: Color(0xff333333),
                                     fontWeight: FontWeight.w600,
                                   ),

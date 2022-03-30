@@ -348,10 +348,10 @@ class _RandomTestPageState extends State<RandomTestPage> {
                                     color: Color(0xff97D5FE),
                                   ),
                                 )),
-                                Padding(padding: EdgeInsets.only(right: 8.0)),
+                                // Padding(padding: EdgeInsets.only(right: 8.0)),
                                 Container(
-                                  child: Text('$_videoSpeed'),
-                                  width: 30,
+                                  child: Text('$_videoSpeed', textAlign: TextAlign.center,),
+                                  width: 40,
                                 ),
                                 Container(
                                     child: ElevatedButton(

@@ -274,10 +274,8 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
                                             )
                                         ),
                                         Container(
-                                          child: Text(
-                                              '$_videoSpeed'
-                                          ),
-                                          width: 30,
+                                          child: Text('$_videoSpeed', textAlign: TextAlign.center,),
+                                          width: 40,
                                         ),
                                         Container(
                                             child: ElevatedButton(
@@ -326,7 +324,7 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
                             child: Text(
                               '${widget.sentence}',
                               style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w600,
+                                fontSize: 16, fontWeight: FontWeight.w600,
                               ),
                             ),
                           )
@@ -374,7 +372,7 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
                                 child: Text(
                                   '${_text}',
                                   style: const TextStyle(
-                                    fontSize: 38.0,
+                                    fontSize: 16.0,
                                     color: Color(0xff333333),
                                     fontWeight: FontWeight.w600,
                                   ),
