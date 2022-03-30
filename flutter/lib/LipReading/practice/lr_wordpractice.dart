@@ -734,7 +734,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
               child: Text(_word,
                   style: TextStyle(
                       color: Color(0xff333333),
-                      fontSize: 20.0,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.w600)),
             ))
       ]),
@@ -761,7 +761,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                 child: Text(_word,
                     style: TextStyle(
                         color: Color(0xff333333),
-                        fontSize: 20.0,
+                        fontSize:16.0,
                         fontWeight: FontWeight.w600)),
               ))
         ]),

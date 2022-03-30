@@ -184,7 +184,7 @@ class _BookmarkPracticePageState extends State<BookmarkPracticePage> {
             child: Scaffold(
                 appBar: AppBar(
                   title: Text(
-                    "문장",
+                    widget.type=='word'? '단어':'문장',
                     style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 24,

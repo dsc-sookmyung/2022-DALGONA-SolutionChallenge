@@ -740,7 +740,7 @@ class _WordTestPageState extends State<WordTestPage> {
               child: Text(_ans,
                   style: TextStyle(
                       color: Color(0xff333333),
-                      fontSize: 20.0,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.w600)),
             ))
       ]),
@@ -767,7 +767,7 @@ class _WordTestPageState extends State<WordTestPage> {
                 child: Text(_ans,
                     style: TextStyle(
                         color: Color(0xff333333),
-                        fontSize: 20.0,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w600)),
               ))
         ]),
