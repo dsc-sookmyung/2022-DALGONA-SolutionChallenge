@@ -52,12 +52,10 @@ public class ReadingProb {
 
     @Override
     public boolean equals(Object o) {
-        System.out.println("equals");
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReadingProb that = (ReadingProb) o;
         boolean is_same = id.equals(that.id) && Objects.equals(type, that.type) && word.equals(that.word) && Objects.equals(sentence, that.sentence);
-        System.out.println("is_same = " + is_same);
         return is_same;
     }
 
