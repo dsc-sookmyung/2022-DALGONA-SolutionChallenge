@@ -94,11 +94,6 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
       print('Response status: ${response.statusCode}');
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
       // var body=jsonDecode(utf8.decode(response.bodyBytes));
-      setState(() {
-        _controller = VideoPlayerController.network(_url);
-        _initializeVideoPlayerFuture = _controller.initialize();
-        _controller.setLooping(true);
-      });
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
@@ -182,6 +177,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
 
   void dispose() {
     _timer.cancel();
+    _controller.pause();
     super.dispose();
   }
 
@@ -496,6 +492,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
                                       onPressed: () async {
                                         _check();
                                         if (pro_num == widget.num) {
+                                          _controller.pause();
                                           await _score(body['id'], testResult,
                                               _correct_num);
                                           Navigator.push(
@@ -889,6 +886,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
 
   void _next() {
     setState(() {
+      _timer.cancel();
       _controller.pause();
       _seeAnswer = false;
       _isInit = true;
@@ -903,6 +901,9 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
       _hint = testinfo[pro_num - 1]['hint'];
       _space = widget.space[pro_num - 1];
       _time = widget.time;
+      _controller = VideoPlayerController.network(_url);
+      _initializeVideoPlayerFuture = _controller.initialize();
+      _controller.setLooping(true);
       _start();
     });
   }

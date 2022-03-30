@@ -248,7 +248,7 @@ class _MyPageState extends State<MyPage> {
             Container(
               child: RaisedButton(
                 child: new Text(
-                  "구화 책갈피 목록",
+                  "구화 북마크 목록",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){
@@ -266,7 +266,7 @@ class _MyPageState extends State<MyPage> {
               margin: EdgeInsets.only(top: 20.0),
               child: RaisedButton(
                 child: new Text(
-                  "말하기 책갈피 목록",
+                  "말하기 북마크 목록",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 onPressed: (){

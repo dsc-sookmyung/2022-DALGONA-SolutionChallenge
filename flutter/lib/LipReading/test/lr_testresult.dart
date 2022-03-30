@@ -215,7 +215,6 @@ class _lrTestResultPageState extends State<lrTestResultPage> {
                           FocusScope.of(context).unfocus();
                           Navigator.pop(context);
                           Navigator.pop(context);
-                          Navigator.pop(context);
                         },
                         child: Padding(
                           padding: EdgeInsets.only(

@@ -212,7 +212,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
         child:Container(
           alignment: Alignment.center,
           margin: EdgeInsets.only(
-              top: 160.0, bottom: 210.0, right: 30.0, left: 30.0),
+              top: 170.0, bottom: 230.0, right: 30.0, left: 30.0),
           color: Color(0xffC8E8FF),
           child: Column(
             children: [
