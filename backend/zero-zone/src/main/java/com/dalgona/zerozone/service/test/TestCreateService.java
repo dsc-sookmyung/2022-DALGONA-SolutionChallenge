@@ -86,9 +86,6 @@ public class TestCreateService {
             // 북마크 여부 조회하기
             for(BookmarkReadingProb bookmarkReadingProb:bookmarkReadingProbList){
                 if(bookmarkReadingProb.getReadingProb().equals(newReadingProbList.get(i))){
-                    System.out.println("newReadingProbList.get(i) = " + newReadingProbList.get(i).getWord().getWord());
-                    System.out.println("bookmarkReadingProb.getReadingProb() = " + bookmarkReadingProb.getReadingProb().getWord().getWord());
-
                     isBookmarked = true;
                     break;
                 }
@@ -198,7 +195,6 @@ public class TestCreateService {
         int halfCount = probsCount/2;
         // 단어가 요구 문제 개수의 절반보다 적은 경우
         if(halfCount>=wordsCount){
-            System.out.println("단어가 요구 문제 개수의 절반보다 적은 경우");
             // 단어 전부 추출
             for(ReadingProb word:readingWordProbList){
                 newReadingProbList.add(word);
@@ -210,7 +206,6 @@ public class TestCreateService {
         }
         // 문장이 요구 문제 개수의 절반보다 적은 경우
         else if(halfCount>=sentencesCount){
-            System.out.println("문장이 요구 문제 개수의 절반보다 적은 경우");
             // 문장 전부 추출
             for(ReadingProb sentence:readingSentenceProbList){
                 newReadingProbList.add(sentence);
@@ -222,7 +217,6 @@ public class TestCreateService {
         }
         // 둘다 요구 문제 개수의 절반보다 많은 경우
         else{
-            System.out.println("둘다 요구 문제 개수의 절반보다 많은 경우");
             // 단어 절반 추출
             for(int i=0;i<halfCount;i++){
                 newReadingProbList.add(readingWordProbList.get(i));
