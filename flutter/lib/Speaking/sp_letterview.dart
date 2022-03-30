@@ -72,6 +72,7 @@ class _SelectModeLetterPageState extends State<SelectModeLetterPage> {
           '말하기 연습 - 한 글자',
           style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
         ),
+        centerTitle: true,
         backgroundColor: Color(0xffC8E8FF),
         foregroundColor: Color(0xff333333),
       ),
@@ -99,7 +100,7 @@ class _SelectModeLetterPageState extends State<SelectModeLetterPage> {
                   ),
                   child: new Text(
                     '한 글자 선택하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     Navigator.push(
@@ -121,7 +122,7 @@ class _SelectModeLetterPageState extends State<SelectModeLetterPage> {
                   ),
                   child: new Text(
                     '랜덤 연습하기',
-                    style: new TextStyle(fontSize: 20.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     randomUrlInfo();

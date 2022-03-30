@@ -26,6 +26,8 @@ import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/server.dart';
 
+import '../LipReading/practice/lr_bookmarkview.dart';
+
 class LRBookmarkPage extends StatefulWidget {
   const LRBookmarkPage({
     Key? key,
@@ -144,12 +146,87 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
     rangeEnd = pageTotal < threshold ? pageTotal : rangeStart + threshold;
   }
 
+  Future<void> practiceLipReading(int idx) async {
+
+    late var url;
+
+    Map<String, String> _queryParameters = <String, String>{
+      'id': _testProbId[idx].toString(),
+    };
+
+    if(_type[idx] == 'Word'){
+      url = Uri.http('${serverHttp}:8080', '/reading/practice/word', _queryParameters);
+    }
+    else if(_type[idx] == 'Sentence'){
+      url = Uri.http('${serverHttp}:8080', '/reading/practice/sentence', _queryParameters);
+    }
+
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      String hint = data["hint"];
+      int probId = data["probId"];
+      bool bookmarked = data["bookmarked"];
+
+      if(_type[idx] == 'Word'){
+        String word = data["word"];
+        String type = "word";
+        String space = "";
+
+        Navigator.of(context).pop();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: word, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space))
+        );
+      }
+      else if(_type[idx] == 'Sentence'){
+        String word = data["sentence"];
+        String type = "sentence";
+        String _space = "";
+
+        var repeat = data['spacingInfo'].split("");
+
+        for (int i = 0; i < repeat.length; i++) {
+          _space += "_ " * int.parse(repeat[i]);
+          _space += " ";
+        }
+
+        Navigator.of(context).pop();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: word, hint: hint, url: url, bookmarked: bookmarked, type: type, space: _space))
+        );
+      }
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        practiceLipReading(idx);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            '구화 책갈피 목록',
+            '책갈피 목록',
             style: TextStyle(
                 color: Color(0xff333333),
                 fontSize: 24,
