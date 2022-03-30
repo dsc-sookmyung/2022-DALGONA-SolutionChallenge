@@ -123,10 +123,10 @@ class _ReviewListPageState extends State<ReviewListPage> {
   @override
   void initState() {
     currentPage = pageInit;
-    iconToFirst = Icon(Icons.first_page);
-    iconPrevious = Icon(Icons.keyboard_arrow_left);
-    iconNext = Icon(Icons.keyboard_arrow_right);
-    iconToLast = Icon(Icons.last_page);
+    iconToFirst = Icon(Icons.first_page, color: Color(0xff5AA9DD),);
+    iconPrevious = Icon(Icons.keyboard_arrow_left, color: Color(0xff5AA9DD));
+    iconNext = Icon(Icons.keyboard_arrow_right, color: Color(0xff5AA9DD));
+    iconToLast = Icon(Icons.last_page, color: Color(0xff5AA9DD));
 
     _rangeSet();
 
@@ -168,10 +168,13 @@ class _ReviewListPageState extends State<ReviewListPage> {
         backgroundColor: Color(0xffC8E8FF),
         foregroundColor: Color(0xff333333),
       ),
-      body: Column(children: [
+      body: new Container(
+    color: Color(0xfff0f8ff),
+    child:
+    Column(children: [
         Padding(padding: EdgeInsets.all(20.0)),
         Container(
-            height: 560,
+            height: 570,
             child: Column(
               children: [
                 Container(
@@ -193,7 +196,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
                             Padding(padding: EdgeInsets.only(top: 5.0)),
                             Text(
                               '${widget.title}',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 19,),
                             ),
                           ]),
                       Column(
@@ -201,7 +204,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
                         children: [
                           Text(
                             '${widget.score}',
-                            style: TextStyle(fontSize: 20.0),
+                            style: TextStyle(fontSize: 21.0),
                           )
                         ],
                       )
@@ -232,7 +235,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 11, horizontal: 8),
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: Colors.grey),
+                          border: Border.all(width: 1, color: Colors.blueGrey),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -300,14 +303,14 @@ class _ReviewListPageState extends State<ReviewListPage> {
                         const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                     decoration: BoxDecoration(
                         color: (currentPage - 1) % threshold == index
-                            ? colorPrimary
+                            ? Color(0xff5AA9DD)
                             : colorSub,
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey,
                             offset: Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 6.0,
+                            blurRadius: 3.0,
                           ),
                         ]),
                     child: Text(
@@ -346,6 +349,6 @@ class _ReviewListPageState extends State<ReviewListPage> {
         ),
         Padding(padding: EdgeInsets.all(15.0))
       ]),
-    );
+    ));
   }
 }

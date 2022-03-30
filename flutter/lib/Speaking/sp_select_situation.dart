@@ -83,7 +83,9 @@ class _SelectSituationPageState extends State<SelectSituationPage> {
           backgroundColor: Color(0xffC8E8FF),
           foregroundColor: Color(0xff333333),
         ),
-        body: new Container(
+        body:new Container(
+          color: Color(0xfff0f8ff),
+          child:Container(
           margin: EdgeInsets.only(top: 50.0),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -181,6 +183,6 @@ class _SelectSituationPageState extends State<SelectSituationPage> {
             ],
           ),
         )
-    );
+    ));
   }
 }

@@ -77,6 +77,8 @@ class _SelectModeSentencePageState extends State<SelectModeSentencePage> {
       ),
 
       body: new Container(
+    color: Color(0xfff0f8ff),
+      child: Container(
         margin: EdgeInsets.only(top: 130.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -133,6 +135,6 @@ class _SelectModeSentencePageState extends State<SelectModeSentencePage> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'lr_testresult.dart';
 import 'package:zerozone/Login/refreshToken.dart';
-
+import 'package:zerozone/custom_icons_icons.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:zerozone/Login/login.dart';
@@ -268,16 +268,19 @@ class _WordTestPageState extends State<WordTestPage> {
                                         style: ElevatedButton.styleFrom(
                                           minimumSize: Size.zero,
                                           padding: EdgeInsets.only(
-                                              right: 5.0, left: 5.0),
+                                              top: 9.5,
+                                              bottom: 9.5,
+                                              right: 14.0,
+                                              left: 14.0),
                                           primary: Color(0xffC8E8FF),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                           ),
                                         ),
                                         child: Icon(
-                                          Icons.arrow_left_sharp,
-                                          size: 37,
+                                          CustomIcons.to_start,
+                                          size: 17,
                                           color: Color(0xff97D5FE),
                                         ),
                                         onPressed: () {}),
@@ -517,14 +520,17 @@ class _WordTestPageState extends State<WordTestPage> {
                             ),
                           ],
                         ))))),
-        onWillPop: () {
+        onWillPop: (){
           setState(() {
             _controller.pause();
+            _timer.cancel();
           });
+          //_quitDialog();
+          return Future(() => true);
           // _recent.length>0?
           // _AddRecent(_recent): null;
-          return Future(() => true);
-        });
+        }
+        );
   }
 
   Widget _initTextField() {
@@ -827,6 +833,46 @@ class _WordTestPageState extends State<WordTestPage> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
+                  },
+                  child: Text("취소", style: TextStyle(color: Colors.white)))
+            ],
+          );
+        });
+  }
+
+  void _quitDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text(
+              "Notice",
+              style: TextStyle(color: Color(0xff333333)),
+            ),
+            content: new Text("시험을 나가시겠어요? \n지금까지 푼 문제가 모두 오답 처리됩니다",
+                style: TextStyle(color: Color(0xff333333))),
+            actions: [
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff97D5FE),
+                    minimumSize: Size(80, 40),
+                  ),
+                  onPressed: (){
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "확인",
+                    style: TextStyle(color: Colors.white),
+                  )),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff97D5FE),
+                    minimumSize: Size(80, 40),
+                  ),
+                  onPressed: () {
+                    _start();
+                    Navigator.pop(context);
                   },
                   child: Text("취소", style: TextStyle(color: Colors.white)))
             ],

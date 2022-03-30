@@ -27,14 +27,14 @@ import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/server.dart';
 
 class SPBookmarkPage extends StatefulWidget {
-  const SPBookmarkPage(
-      {Key? key,
-        required this.totalPage,
-        required this.totalElements,
-        required this.type,
-        required this.content,
-        required this.testProbId,
-      });
+  const SPBookmarkPage({
+    Key? key,
+    required this.totalPage,
+    required this.totalElements,
+    required this.type,
+    required this.content,
+    required this.testProbId,
+  });
   final int totalPage, totalElements;
   final List type, content, testProbId;
 
@@ -79,7 +79,7 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
     };
 
     var url =
-    Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
+        Uri.http('${serverHttp}:8080', '/bookmark/speaking', _queryParameters);
 
     var response = await http.get(url, headers: {
       'Accept': 'application/json',
@@ -115,10 +115,10 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
   @override
   void initState() {
     currentPage = pageInit;
-    iconToFirst = Icon(Icons.first_page);
-    iconPrevious = Icon(Icons.keyboard_arrow_left);
-    iconNext = Icon(Icons.keyboard_arrow_right);
-    iconToLast = Icon(Icons.last_page);
+    iconToFirst = Icon(Icons.first_page, color:Color(0xff5AA9DD));
+    iconPrevious = Icon(Icons.keyboard_arrow_left, color:Color(0xff5AA9DD));
+    iconNext = Icon(Icons.keyboard_arrow_right, color:Color(0xff5AA9DD));
+    iconToLast = Icon(Icons.last_page, color:Color(0xff5AA9DD));
 
     _rangeSet();
 
@@ -148,160 +148,167 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '기록 확인',
-          style: TextStyle(
-              color: Color(0xff333333),
-              fontSize: 24,
-              fontWeight: FontWeight.w800),
+        appBar: AppBar(
+          title: Text(
+            '책갈피 목록',
+            style: TextStyle(
+                color: Color(0xff333333),
+                fontSize: 24,
+                fontWeight: FontWeight.w800),
+          ),
+          centerTitle: true,
+          backgroundColor: Color(0xffC8E8FF),
+          foregroundColor: Color(0xff333333),
         ),
-        centerTitle: true,
-        backgroundColor: Color(0xffC8E8FF),
-        foregroundColor: Color(0xff333333),
-      ),
-      body: Column(children: [
-        Padding(padding: EdgeInsets.only(top:50.0, left: 20.0, right: 20.0)),
-        Container(
-            height: 560,
-            child: Column(
-              children: [
-                ...List.generate(
-                  _content.length < 10 ? _content.length : 10,
+        body: new Container(
+          color: Color(0xfff0f8ff),
+          child: Column(children: [
+            Padding(
+                padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0)),
+            Container(
+                height: 560,
+                child: Column(
+                  children: [
+                    ...List.generate(
+                      _content.length < 10 ? _content.length : 10,
                       (idx) => Container(
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            // await _ProList(idx);
+                            // Navigator.push(
+                            //     context, MaterialPageRoute(
+                            //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
+                          },
+                          child: Container(
+                            height: 55,
+                            margin: EdgeInsets.only(right: 40, left: 40),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 11, horizontal: 8),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: Colors.blueGrey),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                if (_type[idx] == 'Word')
+                                  Container(
+                                    child: Text(
+                                      '단어' + ' - ' + _content[idx],
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Color(0xff333333)),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  )
+                                else
+                                  Container(
+                                    child: Text(
+                                      _type[idx] == 'Letter'
+                                          ? '한 글자' + ' - ' + _content[idx]
+                                          : '문장' + ' - ' + _content[idx],
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Color(0xff333333)),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await _changePage(0);
+                    _ProList(currentPage);
+                  },
+                  child: iconToFirst,
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                InkWell(
+                    onTap: () async {
+                      await _changePage(--currentPage);
+                      _ProList(currentPage);
+                    },
+                    child: iconPrevious),
+                SizedBox(
+                  width: 10,
+                ),
+                ...List.generate(
+                  rangeEnd <= pageTotal ? threshold : pageTotal % threshold,
+                  (index) => Flexible(
                     child: InkWell(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        // await _ProList(idx);
-                        // Navigator.push(
-                        //     context, MaterialPageRoute(
-                        //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
+                        await _changePage(index + 1 + rangeStart);
+                        _ProList(currentPage);
                       },
                       child: Container(
-                        height: 50,
-                        margin: EdgeInsets.only(right: 40, left: 40),
+                        margin: const EdgeInsets.all(4),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 11, horizontal: 8),
+                            vertical: 4, horizontal: 8),
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: Colors.grey),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            if(_type[idx]=='Word')
-                              Container(
-                                child: Text('단어'+ ' - ' + _content[idx],
-                                  style: TextStyle(
-                                      fontSize: 15, color: Color(0xff333333)),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              )
-                            else
-                              Container(
-                                child: Text(_type[idx]=='Letter'?'한 글자'+ ' - ' + _content[idx]
-                                    :'문장'+ ' - ' + _content[idx],
-                                  style: TextStyle(
-                                      fontSize: 15, color: Color(0xff333333)),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              )
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )),
-        Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: () async {
-                await _changePage(0);
-                _ProList(currentPage);
-              },
-              child: iconToFirst,
-            ),
-            SizedBox(
-              width: 4,
-            ),
-            InkWell(
-                onTap: () async {
-                  await _changePage(--currentPage);
-                  _ProList(currentPage);
-                },
-                child: iconPrevious),
-            SizedBox(
-              width: 10,
-            ),
-            ...List.generate(
-              rangeEnd <= pageTotal ? threshold : pageTotal % threshold,
-                  (index) => Flexible(
-                child: InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () async {
-                    await _changePage(index + 1 + rangeStart);
-                    _ProList(currentPage);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(4),
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    decoration: BoxDecoration(
-                        color: (currentPage - 1) % threshold == index
-                            ? colorPrimary
-                            : colorSub,
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 6.0,
+                            color: (currentPage - 1) % threshold == index
+                                ? Color(0xff5AA9DD)
+                                : colorSub,
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(0.0, 1.0), //(x,y)
+                                blurRadius: 3.0,
+                              ),
+                            ]),
+                        child: Text(
+                          '${index + 1 + rangeStart}',
+                          style: TextStyle(
+                            fontSize: fontSize,
+                            fontFamily: fontFamily,
+                            color: (currentPage - 1) % threshold == index
+                                ? colorSub
+                                : colorPrimary,
                           ),
-                        ]),
-                    child: Text(
-                      '${index + 1 + rangeStart}',
-                      style: TextStyle(
-                        fontSize: fontSize,
-                        fontFamily: fontFamily,
-                        color: (currentPage - 1) % threshold == index
-                            ? colorSub
-                            : colorPrimary,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+                SizedBox(
+                  width: 10,
+                ),
+                InkWell(
+                    onTap: () async {
+                      await _changePage(++currentPage);
+                      _ProList(currentPage);
+                    },
+                    child: iconNext),
+                SizedBox(
+                  width: 4,
+                ),
+                InkWell(
+                    onTap: () async {
+                      await _changePage(pageTotal);
+                      _ProList(currentPage);
+                    },
+                    child: iconToLast),
+              ],
             ),
-            SizedBox(
-              width: 10,
-            ),
-            InkWell(
-                onTap: () async {
-                  await _changePage(++currentPage);
-                  _ProList(currentPage);
-                },
-                child: iconNext),
-            SizedBox(
-              width: 4,
-            ),
-            InkWell(
-                onTap: () async {
-                  await _changePage(pageTotal);
-                  _ProList(currentPage);
-                },
-                child: iconToLast),
-          ],
-        ),
-        Padding(padding: EdgeInsets.all(15.0))
-      ]),
-    );
+            Padding(padding: EdgeInsets.all(15.0))
+          ]),
+        ));
   }
 }
