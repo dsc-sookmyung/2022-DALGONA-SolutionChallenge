@@ -1,9 +1,6 @@
 package com.dalgona.zerozone.service.test;
 
-import com.dalgona.zerozone.domain.bookmark.BookmarkReading;
-import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProb;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingRepository;
-import com.dalgona.zerozone.domain.reading.ReadingProb;
 import com.dalgona.zerozone.domain.reading.ReadingProbRepository;
 import com.dalgona.zerozone.domain.test.Test;
 import com.dalgona.zerozone.domain.test.TestProbs;
@@ -157,24 +154,7 @@ public class TestService {
         if(!testProb.isPresent()) return response.fail("존재하지 않는 채점 결과입니다.", HttpStatus.BAD_REQUEST);
         TestProbs findTestProb = testProb.get();
         Test findTest = findTestProb.getTest();
-
-        ReadingProb readingProb = testProb.get().getReadingProb();
-
-        // 현재 회원의 북마크 리스트 가져오기
-        boolean isBookmarked = false;   // 북마크 여부 표시용
-        User currentUser = getCurrentUser();
-        Optional<BookmarkReading> bookmarkReadingByUser = bookmarkReadingRepository.findByUser(currentUser);
-        if(!bookmarkReadingByUser.isPresent()) return response.fail("회원의 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        List<BookmarkReadingProb> bookmarkReadingProbList = bookmarkReadingByUser.get().getBookmarkReadingList();
-
-        // 북마크 여부 조회하기
-        for(BookmarkReadingProb bookmarkReadingProb:bookmarkReadingProbList){
-            if(bookmarkReadingProb.getReadingProb().equals(readingProb)){
-                isBookmarked = true;
-                break;
-            }
-        }
-
+        
         // 다음 문제의 id 조회
         Long nextProbId;
         int curIndex = findTestProb.getIdx();   // 1부터 시작
@@ -184,7 +164,7 @@ public class TestService {
         else
             nextProbId = findTest.getTestProbs().get(curIndex).getId();    // 그 다음 요소 조회
         
-        TestProbResponseDto responseDto = new TestProbResponseDto(findTestProb, nextProbId, isBookmarked);
+        TestProbResponseDto responseDto = new TestProbResponseDto(findTestProb, nextProbId);
         return response.success(responseDto, "해당 문제의 채점 결과입니다.", HttpStatus.OK);
     }
 

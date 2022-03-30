@@ -16,12 +16,12 @@ public class TestProbResponseDto {
     private ReadingProbResponseDto readingProb;
     private Long nextProbId;
 
-    public TestProbResponseDto(TestProbs testProb, Long nextProbId, boolean isBookmarked){
+    public TestProbResponseDto(TestProbs testProb, Long nextProbId){
         this.probId = testProb.getId();
         this.idx = testProb.getIdx();
         this.useHint = testProb.isUseHint();
         this.isCorrect = testProb.isCorrect();
-        this.readingProb = new ReadingProbResponseDto(testProb.getReadingProb(), isBookmarked);
+        this.readingProb = new ReadingProbResponseDto(testProb.getReadingProb());
         this.nextProbId = nextProbId;
     }
 

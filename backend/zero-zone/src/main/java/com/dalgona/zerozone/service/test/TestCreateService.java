@@ -68,33 +68,15 @@ public class TestCreateService {
             newReadingProbList.add(readingProbList.get(i));
         }
 
-        // 현재 회원의 북마크 리스트 가져오기
-        User currentUser = getCurrentUser();
-        Optional<BookmarkReading> bookmarkReadingByUser = bookmarkReadingRepository.findByUser(currentUser);
-        if(!bookmarkReadingByUser.isPresent()) return response.fail("회원의 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        List<BookmarkReadingProb> bookmarkReadingProbList = bookmarkReadingByUser.get().getBookmarkReadingList();
-
         // 하나씩 저장
         List<TestProbs> newTestProbsList = newTest.getTestProbs();
         List<ReadingProbResponseDto> readingProbResponseDtoList = new ArrayList<>();
         for(int i=0;i<newReadingProbList.size();i++){
-            boolean isBookmarked = false;   // 북마크 여부 표시용
             TestProbs newTestProb = new TestProbs(i+1, false, false, newTest, newReadingProbList.get(i));
             testProbsRepository.save(newTestProb);  // 시험 문제로 등록
             newTestProbsList.add(newTestProb);      // 시험의 소속 문제 리스트에 추가
-
-            // 북마크 여부 조회하기
-            for(BookmarkReadingProb bookmarkReadingProb:bookmarkReadingProbList){
-                if(bookmarkReadingProb.getReadingProb().equals(newReadingProbList.get(i))){
-                    System.out.println("newReadingProbList.get(i) = " + newReadingProbList.get(i).getWord().getWord());
-                    System.out.println("bookmarkReadingProb.getReadingProb() = " + bookmarkReadingProb.getReadingProb().getWord().getWord());
-
-                    isBookmarked = true;
-                    break;
-                }
-            }
             // 반환 데이터 리스트는 Dto로 변경
-            readingProbResponseDtoList.add(new ReadingProbResponseDto(newReadingProbList.get(i), isBookmarked));
+            readingProbResponseDtoList.add(new ReadingProbResponseDto(newReadingProbList.get(i)));
         }
 
         // 시험 Dto로 변경
@@ -130,30 +112,15 @@ public class TestCreateService {
             newReadingProbList.add(readingProbList.get(i));
         }
 
-        // 현재 회원의 북마크 리스트 가져오기
-        User currentUser = getCurrentUser();
-        Optional<BookmarkReading> bookmarkReadingByUser = bookmarkReadingRepository.findByUser(currentUser);
-        if(!bookmarkReadingByUser.isPresent()) return response.fail("회원의 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        List<BookmarkReadingProb> bookmarkReadingProbList = bookmarkReadingByUser.get().getBookmarkReadingList();
-
         // 하나씩 저장
         List<TestProbs> newTestProbsList = newTest.getTestProbs();
         List<ReadingProbResponseDto> readingProbResponseDtoList = new ArrayList<>();
         for(int i=0;i<newReadingProbList.size();i++){
-            boolean isBookmarked = false;   // 북마크 여부 표시용
             TestProbs newTestProb = new TestProbs(i+1, false, false, newTest, newReadingProbList.get(i));
             testProbsRepository.save(newTestProb);  // 시험 문제로 등록
             newTestProbsList.add(newTestProb);      // 시험의 소속 문제 리스트에 추가
-            // 북마크 여부 조회하기
-            for(BookmarkReadingProb bookmarkReadingProb:bookmarkReadingProbList){
-                if(bookmarkReadingProb.getReadingProb().equals(newReadingProbList.get(i))){
-                    isBookmarked = true;
-                    break;
-                }
-            }
-
             // 반환 데이터 리스트는 Dto로 변경
-            readingProbResponseDtoList.add(new ReadingProbResponseDto(newReadingProbList.get(i), isBookmarked));
+            readingProbResponseDtoList.add(new ReadingProbResponseDto(newReadingProbList.get(i)));
         }
 
         // 시험 Dto로 변경
@@ -236,31 +203,15 @@ public class TestCreateService {
         Collections.shuffle(newReadingProbList);
         Collections.shuffle(newReadingProbList);
 
-        // 현재 회원의 북마크 리스트 가져오기
-        User currentUser = getCurrentUser();
-        Optional<BookmarkReading> bookmarkReadingByUser = bookmarkReadingRepository.findByUser(currentUser);
-        if(!bookmarkReadingByUser.isPresent()) return response.fail("회원의 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        List<BookmarkReadingProb> bookmarkReadingProbList = bookmarkReadingByUser.get().getBookmarkReadingList();
-
         // 하나씩 저장
         List<TestProbs> newTestProbsList = newTest.getTestProbs();
         List<ReadingProbResponseDto> readingProbResponseDtoList = new ArrayList<>();
         for(int i=0;i<newReadingProbList.size();i++){
-            boolean isBookmarked = false;   // 북마크 여부 표시용
             TestProbs newTestProb = new TestProbs(i+1, false, false, newTest, newReadingProbList.get(i));
             testProbsRepository.save(newTestProb);  // 시험 문제로 등록
             newTestProbsList.add(newTestProb);      // 시험의 소속 문제 리스트에 추가
-
-            // 북마크 여부 조회하기
-            for(BookmarkReadingProb bookmarkReadingProb:bookmarkReadingProbList){
-                if(bookmarkReadingProb.getReadingProb().equals(newReadingProbList.get(i))){
-                    isBookmarked = true;
-                    break;
-                }
-            }
-
             // 반환 데이터 리스트는 Dto로 변경
-            readingProbResponseDtoList.add(new ReadingProbResponseDto(newReadingProbList.get(i), isBookmarked));
+            readingProbResponseDtoList.add(new ReadingProbResponseDto(newReadingProbList.get(i)));
         }
 
         // 시험 Dto로 변경
@@ -306,31 +257,15 @@ public class TestCreateService {
             newReadingProbList.add(readingProbList.get(i));
         }
 
-        // 현재 회원의 북마크 리스트 가져오기
-        User currentUser = getCurrentUser();
-        Optional<BookmarkReading> bookmarkReadingByUser = bookmarkReadingRepository.findByUser(currentUser);
-        if(!bookmarkReadingByUser.isPresent()) return response.fail("회원의 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        List<BookmarkReadingProb> bookmarkReadingProbList = bookmarkReadingByUser.get().getBookmarkReadingList();
-
         // 하나씩 저장
         List<TestProbs> newTestProbsList = newTest.getTestProbs();
         List<ReadingProbResponseDto> readingProbResponseDtoList = new ArrayList<>();
         for(int i=0;i<newReadingProbList.size();i++){
-            boolean isBookmarked = false;   // 북마크 여부 표시용
             TestProbs newTestProb = new TestProbs(i+1, false, false, newTest, newReadingProbList.get(i));
             testProbsRepository.save(newTestProb);  // 시험 문제로 등록
             newTestProbsList.add(newTestProb);      // 시험의 소속 문제 리스트에 추가
-
-            // 북마크 여부 조회하기
-            for(BookmarkReadingProb bookmarkReadingProb:bookmarkReadingProbList){
-                if(bookmarkReadingProb.getReadingProb().equals(newReadingProbList.get(i))){
-                    isBookmarked = true;
-                    break;
-                }
-            }
-
             // 반환 데이터 리스트는 Dto로 변경
-            readingProbResponseDtoList.add(new ReadingProbResponseDto(newReadingProbList.get(i), isBookmarked));
+            readingProbResponseDtoList.add(new ReadingProbResponseDto(newReadingProbList.get(i)));
         }
 
         // 시험 Dto로 변경
