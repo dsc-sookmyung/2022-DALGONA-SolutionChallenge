@@ -19,7 +19,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final _formKey = new GlobalKey<FormState>();
 
   late String _email;
@@ -32,128 +31,147 @@ class _LoginPageState extends State<LoginPage> {
       print('Form is valid Email: $_email, password: $_password');
 
       signIn(_email, _password);
-
     } else {
       print('Form is invalid Email: $_email, password: $_password');
     }
   }
 
-  void forgotPassword(){
+  void forgotPassword() {
     Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => findPasswordPage()),);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => findPasswordPage()),
+    );
   }
 
-  void signUp(){
+  void signUp() {
     Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()),);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignUpPage()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     // final authToken = Provider.of<AccessToken>(context);
 
-    return new Scaffold(
-
-      body: new Container(
-        padding: EdgeInsets.all(30),
-
-        child: new Form(
-          key: _formKey,
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(left: 0.0, top:0.0, right: 0.0, bottom: 20.0),
-                alignment: Alignment.center,
-                child: new Text(
-                  "로그인",
-                  style: new TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Color(0xff5AA9DD) ),
-                ),
-
-              ),
-
-              Container(
-                child: new Column(
-                  children: <Widget> [
-
-                    new TextFormField(
-                      decoration: new InputDecoration(labelText: 'Email'),
-                      validator: (value) =>
-                      value!.isEmpty ? 'Email can\'t be empty' : null,
-                      onSaved: (value) => _email = value!,
+    return GestureDetector(
+        onTap: () {
+          //FocusManager.instance.primaryFocus?.unfocus();
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+            body: new Container(
+          color: Color(0xfff0f8ff),
+          child: Container(
+            padding: EdgeInsets.all(30),
+            child: new Form(
+              key: _formKey,
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: 0.0, top: 0.0, right: 0.0, bottom: 20.0),
+                    alignment: Alignment.center,
+                    child: new Text(
+                      "로그인",
+                      style: new TextStyle(
+                          fontSize: 32.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff5AA9DD)),
                     ),
+                  ),
 
-                    new TextFormField(
-                      obscureText: true,
-                      decoration: new InputDecoration(labelText: 'Password'),
-                      validator: (value) =>
-                      value!.isEmpty ? 'Password can\'t be empty' : null,
-                      onSaved: (value) => _password = value!,
+                  Container(
+                    child: new Column(
+                      children: <Widget>[
+                        new TextFormField(
+                          decoration: new InputDecoration(labelText: 'Email'),
+                          validator: (value) =>
+                              value!.isEmpty ? 'Email can\'t be empty' : null,
+                          onSaved: (value) => _email = value!,
+                        ),
+                        new TextFormField(
+                          obscureText: true,
+                          decoration:
+                              new InputDecoration(labelText: 'Password'),
+                          validator: (value) => value!.isEmpty
+                              ? 'Password can\'t be empty'
+                              : null,
+                          onSaved: (value) => _password = value!,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              TextButton(
+                                onPressed: forgotPassword,
+                                child: const Text(
+                                  "비밀번호 찾기",
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Color(0xff666666),
+                                  ),
+                                ),
+                              )
+                            ])
+                      ],
                     ),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            TextButton(
-              onPressed: forgotPassword,
-              child: const Text(
-                "비밀번호 찾기",
-                style: TextStyle(fontSize: 12.0, color: Color(0xff666666), ),
-              ),
-            )
-          ]
-        )
-
-                  ],
-                ),
-              ),
-
-
-              //로그인
-              Container(
-                margin: EdgeInsets.only(left: 0.0, top:40.0, right: 0.0, bottom: 10.0),
-                child: new RaisedButton(
-                  color: Color(0xff97D5FE),
-                  child: new Text(
-                    '로그인',
-                    style: new TextStyle(fontSize: 16.0, color: Color(0xffFFFFFF), ),
                   ),
-                  onPressed: validateAndSave,
-                ),
-                height: 40,
-              ),
 
-              //회원가입
-              Container(
-                margin: EdgeInsets.only(left: 0.0, top:10.0, right: 0.0, bottom: 0.0),
-                child: new RaisedButton(
-                  color: Color(0xff97D5FE),
-                  child: new Text(
-                    '회원가입',
-                    style: new TextStyle(fontSize: 16.0, color: Color(0xffFFFFFF), ),
+                  //로그인
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: 0.0, top: 40.0, right: 0.0, bottom: 10.0),
+                    child: new RaisedButton(
+                      color: Color(0xff97D5FE),
+                      child: new Text(
+                        '로그인',
+                        style: new TextStyle(
+                          fontSize: 16.0,
+                          color: Color(0xffFFFFFF),
+                        ),
+                      ),
+                      onPressed: validateAndSave,
+                    ),
+                    height: 40,
                   ),
-                  onPressed: signUp,
-                ),
-                height: 40,
-              ),
 
-            ],
+                  //회원가입
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: 0.0, top: 10.0, right: 0.0, bottom: 0.0),
+                    child: new RaisedButton(
+                      color: Color(0xff97D5FE),
+                      child: new Text(
+                        '회원가입',
+                        style: new TextStyle(
+                          fontSize: 16.0,
+                          color: Color(0xffFFFFFF),
+                        ),
+                      ),
+                      onPressed: signUp,
+                    ),
+                    height: 40,
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        )));
   }
 
   void signIn(String email, pass) async {
-
-
     var url = Uri.http('${serverHttp}:8080', '/user/login');
 
     final data = jsonEncode({'email': email, 'password': pass});
 
-    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
+    var response = await http.post(url, body: data, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json"
+    });
 
     // print(url);
     print(response.statusCode);
@@ -171,28 +189,30 @@ class _LoginPageState extends State<LoginPage> {
       ///!! 일단 result 값으로 지정해 놓음. 후에 서버와 논의하여 data값 설정하기.
       print("token: " + token.toString());
 
-      if(data != "fail"){
+      if (data != "fail") {
         print("로그인에 성공하셨습니다.");
         authToken = token;
 
         userInfo();
         Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => tabBarMainPage()),);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => tabBarMainPage()),
+        );
       }
-    }
-
-    else {
+    } else {
       print(response.reasonPhrase);
     }
-
   }
 
   void userInfo() async {
-
-
     var url = Uri.http('${serverHttp}:8080', '/user/info');
 
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+    var response = await http.get(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
 
     print(url);
     print("Bearer ${authToken}");
@@ -206,11 +226,8 @@ class _LoginPageState extends State<LoginPage> {
       var data = body["data"];
       email = data["email"].toString();
       name = data["name"].toString();
-
-    }
-    else {
+    } else {
       print('error : ${response.reasonPhrase}');
     }
-
   }
 }

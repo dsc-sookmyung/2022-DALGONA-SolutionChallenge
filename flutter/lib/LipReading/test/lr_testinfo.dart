@@ -46,6 +46,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
       var body=jsonDecode(utf8.decode(response.bodyBytes));
       res=body;
+      Navigator.of(context).pop();
     }
     else if(response.statusCode == 401){
       await RefreshToken(context);
@@ -206,12 +207,12 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
       ),
       body:SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      child: Container(
-          color: Color(0xfff0f8ff),
-        child: Container(
+      child: new Container(
+        color: Color(0xfff0f8ff),
+        child:Container(
           alignment: Alignment.center,
           margin: EdgeInsets.only(
-              top: 160.0, bottom: 160.0, right: 30.0, left: 30.0),
+              top: 160.0, bottom: 210.0, right: 30.0, left: 30.0),
           color: Color(0xffC8E8FF),
           child: Column(
             children: [
@@ -393,6 +394,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                     else {
                       if (widget.ver == '단어') {
                         await _wordTest(myController1.text, myController2.text);
+                        Navigator.of(context).pop();
                         // print(res);
                         Navigator.push(
                             context,
@@ -407,6 +409,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                       else if (widget.ver == '문장') {
                         await _sentenceTest(myController1.text, myController2.text);
                         // print(res);
+                        Navigator.of(context).pop();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -418,23 +421,10 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                         data: res,
                                         space: _space)));
                       }
-                      else if (widget.ver == '랜덤') {
+                      else if (widget.ver == '랜덤' || widget.ver=='북마크') {
                         await _randomTest(myController1.text, myController2.text);
                         // print(res);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) =>
-                                    RandomTestPage(
-                                        title: myController1.text,
-                                        num: int.parse(myController2.text),
-                                        time: int.parse(myController3.text),
-                                        data: res,
-                                        space: _space)));
-                      }
-                      else if (widget.ver == '북마크') {
-                        await _bookmarkTest(myController1.text, myController2.text);
-                        // print(res);
+                        Navigator.of(context).pop();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -465,7 +455,6 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
         ),
       ),
       ),
-    )
-    );
+    ));
   }
 }

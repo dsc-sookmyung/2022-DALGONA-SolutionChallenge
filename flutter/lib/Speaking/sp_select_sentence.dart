@@ -85,6 +85,8 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
       ),
 
       body: new Container(
+    color: Color(0xfff0f8ff),
+      child: Container(
         margin: EdgeInsets.only(top: 40.0, left: 30.0, right: 30.0),
         padding: EdgeInsets.only(left: 10.0, right: 10.0),
 
@@ -130,7 +132,7 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
                           decoration: BoxDecoration(
                               border: Border.all(
                                 width: 1,
-                                color: Colors.grey,
+                                color: Colors.blueGrey,
                               )),
 
                         ),
@@ -143,7 +145,7 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
         ),
       ),
 
-
+      )
     );
   }
 }

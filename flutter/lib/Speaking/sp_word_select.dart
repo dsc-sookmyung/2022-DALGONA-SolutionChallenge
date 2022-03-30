@@ -83,6 +83,8 @@ class _WordSelectPageState extends State<WordSelectPage> {
       ),
 
       body: new Container(
+    color: Color(0xfff0f8ff),
+        child:Container(
          margin: EdgeInsets.only(top: 60.0, left: 30.0, right: 30.0),
          padding: EdgeInsets.only(left: 10.0, right: 10.0),
 
@@ -149,6 +151,6 @@ class _WordSelectPageState extends State<WordSelectPage> {
       ),
 
 
-    );
+    ));
   }
 }

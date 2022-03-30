@@ -43,6 +43,7 @@ class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
         foregroundColor: Color(0xff333333),
       ),
       body: new Container(
+            color: Color(0xfff0f8ff),
         padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 30.0, bottom: 100.0),
         child: new Column(
             children: [ Expanded(child: GridView.count(

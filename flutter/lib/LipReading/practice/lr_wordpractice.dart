@@ -20,7 +20,16 @@ class WordPracticePage extends StatefulWidget {
   final String hint;
   final String url;
   final bool bookmarked;
-  const WordPracticePage({Key? key, required this.onset, required this.id, required this.probId, required this.word, required this.hint, required this.url, required this.bookmarked}) : super(key: key);
+  const WordPracticePage(
+      {Key? key,
+      required this.onset,
+      required this.id,
+      required this.probId,
+      required this.word,
+      required this.hint,
+      required this.url,
+      required this.bookmarked})
+      : super(key: key);
 
   @override
   _WordPracticePageState createState() => _WordPracticePageState();
@@ -30,12 +39,12 @@ class _WordPracticePageState extends State<WordPracticePage> {
   late bool _isStared = widget.bookmarked;
   bool _isHint = false;
   bool _isCorrect = false; //정답 맞췄는지
-  bool _enterAnswer=true; //확인  / 재도전, 답보기
-  bool _isInit = true;  //textfield
-  bool _seeAnswer = false;  //정답보기
+  bool _enterAnswer = true; //확인  / 재도전, 답보기
+  bool _isInit = true; //textfield
+  bool _seeAnswer = false; //정답보기
   String color = '0xff97D5FE';
 
-  List _recent=[];
+  List _recent = [];
 
   final myController = TextEditingController();
 
@@ -45,15 +54,13 @@ class _WordPracticePageState extends State<WordPracticePage> {
   late Future<void> _initializeVideoPlayerFuture;
 
   var data;
-  late var _hint=widget.hint;
-  late var _word=widget.word;
-  late var _url=widget.url;
-  late var _probId=widget.probId;
+  late var _hint = widget.hint;
+  late var _word = widget.word;
+  late var _url = widget.url;
+  late var _probId = widget.probId;
 
   void initState() {
-    _controller = VideoPlayerController.network(
-        _url
-    );
+    _controller = VideoPlayerController.network(_url);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
 
@@ -94,9 +101,14 @@ class _WordPracticePageState extends State<WordPracticePage> {
       'onset': onset
     };
     Uri.encodeComponent(onsetId);
-    var url = Uri.http('${serverHttp}:8080', '/reading/practice/word/random', _queryParameters);
+    var url = Uri.http('${serverHttp}:8080', '/reading/practice/word/random',
+        _queryParameters);
 
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
+    var response = await http.get(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer $authToken"
+    });
     print(url);
     // print("Bearer $authToken");
     print('Response status: ${response.statusCode}');
@@ -105,26 +117,23 @@ class _WordPracticePageState extends State<WordPracticePage> {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
       var body = jsonDecode(utf8.decode(response.bodyBytes));
-      data=body["data"];
+      data = body["data"];
       print(data);
       setState(() {
-        _hint=data['hint'];
-        _word=data['word'];
-        _url=data['url'];
-        _probId=data['probId'];
-        _isStared=data['bookmarked'];
+        _hint = data['hint'];
+        _word = data['word'];
+        _url = data['url'];
+        _probId = data['probId'];
+        _isStared = data['bookmarked'];
 
-        _controller = VideoPlayerController.network(
-            _url
-        );
+        _controller = VideoPlayerController.network(_url);
         _initializeVideoPlayerFuture = _controller.initialize();
         _controller.setLooping(true);
       });
-    }
-    else if(response.statusCode == 401){
+    } else if (response.statusCode == 401) {
       await RefreshToken(context);
-      if(check == true){
-        _randomWord(onsetId,onset);
+      if (check == true) {
+        _randomWord(onsetId, onset);
         check = false;
       }
     }
@@ -135,9 +144,14 @@ class _WordPracticePageState extends State<WordPracticePage> {
       'readingProbId': probId.toString(),
     };
 
-    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
+    var url =
+        Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
 
-    var response = await http.post(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+    var response = await http.post(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
 
     print(url);
 
@@ -149,29 +163,30 @@ class _WordPracticePageState extends State<WordPracticePage> {
       dynamic data = body["data"];
 
       print("북마크에 등록되었습니다.");
-    }
-    else if(response.statusCode == 401){
+    } else if (response.statusCode == 401) {
       await RefreshToken(context);
-      if(check == true){
+      if (check == true) {
         ReadingBookmark(probId);
         check = false;
       }
-    }
-    else {
+    } else {
       print('error : ${response.reasonPhrase}');
     }
-
   }
 
   void deleteReadingBookmark(int probId) async {
-
     Map<String, String> _queryParameters = <String, String>{
       'readingProbId': probId.toString(),
     };
 
-    var url = Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
+    var url =
+        Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
 
-    var response = await http.delete(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+    var response = await http.delete(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
 
     print(url);
 
@@ -183,324 +198,335 @@ class _WordPracticePageState extends State<WordPracticePage> {
       dynamic data = body["data"];
 
       print("북마크가 해제되었습니다.");
-    }
-    else if(response.statusCode == 401){
+    } else if (response.statusCode == 401) {
       await RefreshToken(context);
-      if(check == true){
+      if (check == true) {
         deleteReadingBookmark(probId);
         check = false;
       }
-    }
-    else {
+    } else {
       print('error : ${response.reasonPhrase}');
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
-    double height=MediaQuery.of(context).size.height;
-    double width=MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-    return WillPopScope(child:
-        GestureDetector(
-        onTap: () {
-          //FocusManager.instance.primaryFocus?.unfocus();
-          FocusScope.of(context).unfocus();
-        },
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                "단어",
-                style: TextStyle(
-                    color: Color(0xff333333),
-                    fontSize: 24,
-                    fontWeight: FontWeight.w800),
-              ),
-              centerTitle: true,
-              backgroundColor: Color(0xffC8E8FF),
-              foregroundColor: Color(0xff333333),
-            ),
-            body: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-              child: SizedBox(
-                height: height-height/8,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 8.0)),
-                        Text(
-                          "무슨 말인지 맞춰보세요!",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600),
-                        ),
-                        Padding(padding: EdgeInsets.only(right: 180.0)),
-                        IconButton(
-                          onPressed: _pressedStar,
-                            icon:(_isStared)
-                                ? Icon(Icons.star)
-                                : Icon(Icons.star_border),
-                          iconSize: 23,
-                          color: Colors.amber,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      child: FutureBuilder(
-                        future: _initializeVideoPlayerFuture,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            return AspectRatio(
-                              aspectRatio: 100 / 100,
-                              child: VideoPlayer(_controller),
-                            );
-                          } else {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                        },
-                      ),
-                      width: 380,
-                      height: 200,
-                    ),
-                    Padding(padding: EdgeInsets.all(2.0)),
-                    Row(
-                      //동영상 플레이 버튼
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 1.0)),
-                        Column(
+    return WillPopScope(
+        child: GestureDetector(
+            onTap: () {
+              //FocusManager.instance.primaryFocus?.unfocus();
+              FocusScope.of(context).unfocus();
+            },
+            child: Scaffold(
+                appBar: AppBar(
+                  title: Text(
+                    "단어",
+                    style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800),
+                  ),
+                  centerTitle: true,
+                  backgroundColor: Color(0xffC8E8FF),
+                  foregroundColor: Color(0xff333333),
+                ),
+                body: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: SizedBox(
+                        height: height - height / 8,
+                        child: Column(
                           children: [
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size.zero,
-                                  padding:
-                                      EdgeInsets.only(top: 9.5, bottom: 9.5,right: 14.0, left: 14.0),
-                                  primary: Color(0xffC8E8FF),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(padding: EdgeInsets.only(left: 8.0)),
+                                Text(
+                                  "무슨 말인지 맞춰보세요!",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600),
                                 ),
-                                child: Icon(
-                                  CustomIcons.to_start,
-                                  size: 17,
-                                  color: Color(0xff97D5FE),
+                                Padding(padding: EdgeInsets.only(right: 180.0)),
+                                IconButton(
+                                  onPressed: _pressedStar,
+                                  icon: (_isStared)
+                                      ? Icon(Icons.star)
+                                      : Icon(Icons.star_border),
+                                  iconSize: 23,
+                                  color: Colors.amber,
                                 ),
-                                onPressed: () {
-                                }),
-                          ],
-                        ),
-                        Padding(padding: EdgeInsets.all(3.0)),
-                        Column(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (_controller.value.isPlaying) {
-                                    _controller.pause();
+                              ],
+                            ),
+                            Container(
+                              child: FutureBuilder(
+                                future: _initializeVideoPlayerFuture,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return AspectRatio(
+                                      aspectRatio: 100 / 100,
+                                      child: VideoPlayer(_controller),
+                                    );
                                   } else {
-                                    _controller.play();
+                                    return Center(
+                                        child: CircularProgressIndicator());
                                   }
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Color(0xffC8E8FF),
-                                minimumSize: Size(45, 37),
-                                padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                },
+                              ),
+                              width: 380,
+                              height: 200,
+                            ),
+                            Padding(padding: EdgeInsets.all(2.0)),
+                            Row(
+                              //동영상 플레이 버튼
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              // crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Padding(padding: EdgeInsets.only(left: 1.0)),
+                                Column(
+                                  children: [
+                                    ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize: Size.zero,
+                                          padding: EdgeInsets.only(
+                                              top: 9.5,
+                                              bottom: 9.5,
+                                              right: 14.0,
+                                              left: 14.0),
+                                          primary: Color(0xffC8E8FF),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          CustomIcons.to_start,
+                                          size: 17,
+                                          color: Color(0xff97D5FE),
+                                        ),
+                                        onPressed: () {}),
+                                  ],
                                 ),
+                                Padding(padding: EdgeInsets.all(3.0)),
+                                Column(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          if (_controller.value.isPlaying) {
+                                            _controller.pause();
+                                          } else {
+                                            _controller.play();
+                                          }
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xffC8E8FF),
+                                        minimumSize: Size(45, 37),
+                                        padding: EdgeInsets.only(
+                                            right: 5.0, left: 5.0),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      child: Icon(
+                                        _controller.value.isPlaying
+                                            ? Icons.pause
+                                            : Icons.play_arrow,
+                                        size: 21,
+                                        color: Color(0xff97D5FE),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Padding(padding: EdgeInsets.only(right: 130.0)),
+                                Container(
+                                    child: ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (_videoSpeed > 0.25) {
+                                        _videoSpeed -= 0.25;
+                                      }
+                                    });
+                                    _controller.setPlaybackSpeed(_videoSpeed);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xffC8E8FF),
+                                    minimumSize: Size(40, 35),
+                                    padding:
+                                        EdgeInsets.only(right: 5.0, left: 5.0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    Icons.remove,
+                                    size: 20,
+                                    color: Color(0xff97D5FE),
+                                  ),
+                                )),
+                                Padding(padding: EdgeInsets.only(right: 8.0)),
+                                Container(
+                                  child: Text('$_videoSpeed'),
+                                  width: 30,
+                                ),
+                                Container(
+                                    child: ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (_videoSpeed < 1.5) {
+                                        _videoSpeed += 0.25;
+                                      }
+                                    });
+                                    _controller.setPlaybackSpeed(_videoSpeed);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xffC8E8FF),
+                                    minimumSize: Size(40, 35),
+                                    padding:
+                                        EdgeInsets.only(right: 5.0, left: 5.0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 20,
+                                    color: Color(0xff97D5FE),
+                                  ),
+                                )),
+                              ],
+                            ),
+                            Padding(padding: EdgeInsets.all(2.0)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  '당신의 답은...',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Padding(padding: EdgeInsets.only(left: 120.0)),
+                                InkWell(
+                                  onTap: () {
+                                    _pressedHint();
+                                  },
+                                  child: _isHint
+                                      ? new Text(
+                                          '힌트 닫기',
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 15),
+                                        )
+                                      : new Text(
+                                          "힌트 보기",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 15),
+                                        ),
+                                ),
+                              ],
+                            ),
+                            Padding(padding: EdgeInsets.all(2.0)),
+                            Container(
+                              child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _isHint
+                                      ? Bubble(
+                                          color: Color(0xff97D5FE),
+                                          // stick: true,
+                                          nip: BubbleNip.rightTop,
+                                          margin: BubbleEdges.only(
+                                              top: 2.0,
+                                              bottom: 3.0,
+                                              right: 3.0,
+                                              left: 3.0),
+                                          child: Text(_hint,
+                                              style: TextStyle(
+                                                  color: Color(0xff333333),
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.w600)),
+                                        )
+                                      : Container(),
+                                ],
                               ),
-                              child: Icon(
-                                _controller.value.isPlaying
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
-                                size: 21,
-                                color: Color(0xff97D5FE),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: 3.0, left: 15.0, right: 15.0),
+                              child: Column(
+                                //textfield
+                                //crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _isInit
+                                      ? _initTextField()
+                                      : _isCorrect
+                                          ? _correctTextField()
+                                          : _errorTextField()
+                                ],
                               ),
-                            )
+                            ),
+                            Padding(padding: EdgeInsets.all(3.0)),
+                            Column(children: [
+                              // 확인 버튼
+                              if (!_seeAnswer) ...{
+                                if (_enterAnswer) _Answer() else _reAnswer()
+                              } else ...{
+                                if (_isCorrect) _Correct() else _Wrong()
+                              }
+                            ]),
+                            Spacer(),
+                            Container(
+                              //다음 버튼
+                              alignment: AlignmentDirectional.centerEnd,
+                              padding: EdgeInsets.only(right: 10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                //mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          side: BorderSide(
+                                              color: Color(0xff97D5FE),
+                                              width: 1.0),
+                                        ),
+                                        minimumSize: Size(80, 40),
+                                      ),
+                                      onPressed: () {
+                                        if (_isCorrect)
+                                          _next();
+                                        else
+                                          _showDialog();
+                                      },
+                                      child: Text(
+                                        '다음',
+                                        style: TextStyle(
+                                          color: Color(0xff97D5FE),
+                                          fontSize: 16,
+                                        ),
+                                      ))
+                                ],
+                              ),
+                            ),
                           ],
-                        ),
-                        Padding(padding: EdgeInsets.only(right: 130.0)),
-                        Container(
-                            child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              if (_videoSpeed > 0.25) {
-                                _videoSpeed -= 0.25;
-                              }
-                            });
-                            _controller.setPlaybackSpeed(_videoSpeed);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xffC8E8FF),
-                            minimumSize: Size(40, 35),
-                            padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.remove,
-                            size: 20,
-                            color: Color(0xff97D5FE),
-                          ),
-                        )),
-                        Padding(padding: EdgeInsets.only(right: 8.0)),
-                        Container(
-                          child: Text('$_videoSpeed'),
-                          width: 30,
-                        ),
-                        Container(
-                            child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              if (_videoSpeed < 1.5) {
-                                _videoSpeed += 0.25;
-                              }
-                            });
-                            _controller.setPlaybackSpeed(_videoSpeed);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xffC8E8FF),
-                            minimumSize: Size(40, 35),
-                            padding: EdgeInsets.only(right: 5.0, left: 5.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.add,
-                            size: 20,
-                            color: Color(0xff97D5FE),
-                          ),
-                        )),
-                      ],
-                    ),
-                    Padding(padding: EdgeInsets.all(2.0)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          '당신의 답은...',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600),
-                        ),
-                        Padding(padding: EdgeInsets.only(left: 120.0)),
-                        InkWell(
-                          onTap: () {
-                            _pressedHint();
-                          },
-                          child: _isHint
-                              ? new Text(
-                                  '힌트 닫기',
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 15),
-                                )
-                              : new Text(
-                                  "힌트 보기",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 15),
-                                ),
-                        ),
-                      ],
-                    ),
-                    Padding(padding: EdgeInsets.all(2.0)),
-                    Container(
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _isHint
-                              ? Bubble(
-                                  color: Color(0xff97D5FE),
-                                  // stick: true,
-                                  nip: BubbleNip.rightTop,
-                                  margin: BubbleEdges.only(
-                                      top: 2.0,
-                                      bottom: 3.0,
-                                      right: 3.0,
-                                      left: 3.0),
-                                  child: Text(_hint,
-                                      style: TextStyle(
-                                          color: Color(0xff333333),
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w600)),
-                                )
-                              : Container(),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin:
-                          EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0),
-                      child: Column(  //textfield
-                        //crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _isInit
-                              ? _initTextField()
-                              : _isCorrect
-                                  ? _correctTextField()
-                                  : _errorTextField()
-                        ],
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.all(3.0)),
-                    Column(children: [  // 확인 버튼
-                      if (!_seeAnswer) ...{
-                        if (_enterAnswer) _Answer() else _reAnswer()
-                      } else ...{
-                        if (_isCorrect) _Correct()
-                        else _Wrong()
-                      }
-                    ]),
-                    Spacer(),
-                    Container(    //다음 버튼
-                      alignment: AlignmentDirectional.centerEnd,
-                      padding: EdgeInsets.only(right: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        //mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  side: BorderSide(
-                                      color: Color(0xff97D5FE), width: 1.0),
-                                ),
-                                minimumSize: Size(80, 40),
-                              ),
-                              onPressed: () {
-                                if(_isCorrect)
-                                  _next();
-                                else
-                                  _showDialog();
-                              },
-                              child: Text(
-                                '다음',
-                                style: TextStyle(
-                                  color: Color(0xff97D5FE),
-                                  fontSize: 16,
-                                ),
-                              ))
-                        ],
-                      ),
-                    ),
-                  ],
-                ))))),
-                onWillPop: (){
-                  setState(() {
-                    _controller.pause();
-                  });
-                  // _recent.length>0?
-                  // _AddRecent(_recent): null;
-                return Future(()=>true);
-              });
+                        ))))),
+        onWillPop: () {
+          setState(() {
+            _controller.pause();
+          });
+          // _recent.length>0?
+          // _AddRecent(_recent): null;
+          return Future(() => true);
+        });
   }
 
   Widget _initTextField() {
@@ -574,11 +600,12 @@ class _WordPracticePageState extends State<WordPracticePage> {
         onPressed: () {
           _recent.add(_probId);
           FocusScope.of(context).unfocus();
-          if (myController.text == _word) { //정답
+          if (myController.text == _word) {
+            //정답
             setState(() {
               _isCorrect = true;
               _seeAnswer = true;
-              _isInit=false;
+              _isInit = false;
             });
           } else if (myController.text == '') {
             Fluttertoast.showToast(
@@ -590,9 +617,9 @@ class _WordPracticePageState extends State<WordPracticePage> {
           } else {
             //오답
             setState(() {
-              _isInit=false;
+              _isInit = false;
               _isCorrect = false;
-              _enterAnswer=false;
+              _enterAnswer = false;
             });
           }
         },
@@ -627,7 +654,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                     // _isCorrect = true;
                     _seeAnswer = false;
                     _isInit = true;
-                    _enterAnswer=true;
+                    _enterAnswer = true;
                   });
                 },
                 child: Text(
@@ -707,7 +734,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
               child: Text(_word,
                   style: TextStyle(
                       color: Color(0xff333333),
-                      fontSize: 20.0,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.w600)),
             ))
       ]),
@@ -734,7 +761,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                 child: Text(_word,
                     style: TextStyle(
                         color: Color(0xff333333),
-                        fontSize: 20.0,
+                        fontSize:16.0,
                         fontWeight: FontWeight.w600)),
               ))
         ]),
@@ -749,47 +776,55 @@ class _WordPracticePageState extends State<WordPracticePage> {
     ));
   }
 
-  void _showDialog(){
+  void _showDialog() {
     showDialog(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
-            title: new Text("Notice", style: TextStyle(color: Color(0xff333333)),),
-            content:new Text("다음 문제로 넘어가시겠어요?", style: TextStyle(color: Color(0xff333333))),
+            title: new Text(
+              "Notice",
+              style: TextStyle(color: Color(0xff333333)),
+            ),
+            content: new Text("다음 문제로 넘어가시겠어요?",
+                style: TextStyle(color: Color(0xff333333))),
             actions: [
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff97D5FE),
                     minimumSize: Size(80, 40),
                   ),
-                  onPressed: (){
+                  onPressed: () {
                     _next();
                     Navigator.of(context).pop();
-                  }, child: Text("확인", style: TextStyle(color: Colors.white),)),
+                  },
+                  child: Text(
+                    "확인",
+                    style: TextStyle(color: Colors.white),
+                  )),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff97D5FE),
                     minimumSize: Size(80, 40),
                   ),
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.of(context).pop();
-                  }, child: Text("취소", style: TextStyle(color: Colors.white)))
+                  },
+                  child: Text("취소", style: TextStyle(color: Colors.white)))
             ],
           );
-        }
-    );
+        });
   }
 
-  void _next(){
+  void _next() {
     setState(() {
-        _controller.pause();
+      _controller.pause();
       _randomWord((widget.id).toString(), widget.onset);
       _seeAnswer = false;
       _isInit = true;
-      _enterAnswer=true;
-      _isCorrect=false;
-      myController.text="";
-      _isHint=false;
+      _enterAnswer = true;
+      _isCorrect = false;
+      myController.text = "";
+      _isHint = false;
     });
   }
 }

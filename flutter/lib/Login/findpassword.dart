@@ -123,6 +123,8 @@ class _findPasswordPageState extends State<findPasswordPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new Container(
+        color: Color(0xfff0f8ff),
+        child: Container(
         padding: EdgeInsets.all(30),
         key: _formKey,
         child: new Form(
@@ -144,7 +146,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
                   margin: EdgeInsets.only(bottom: 10.0),
                   child: Text(
                     '이메일',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Row(
@@ -160,7 +162,8 @@ class _findPasswordPageState extends State<findPasswordPage> {
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Color(0xff97D5FE), width: 2.0),
                             ),
-                            hintText: '이메일을 입력하세요.'
+                            contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            hintText: '이메일을 입력하세요.',hintStyle: TextStyle(fontSize: 16.0)
                         ),
                         validator: (value) => value!.isEmpty ? '이메일을 입력해 주세요.' : null,
                         controller: _email,
@@ -191,7 +194,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
                   margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
                   child: Text(
                     '인증번호',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Container(
@@ -203,7 +206,9 @@ class _findPasswordPageState extends State<findPasswordPage> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Color(0xff97D5FE), width: 2.0),
                         ),
-                        hintText: '인증번호를 입력하세요.'
+                        contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        hintText: '인증번호를 입력하세요.',
+                        hintStyle: TextStyle(fontSize: 16.0)
                     ),
                     validator: (value) => value!.isEmpty ? '인증번호를 입력해 주세요.' : null,
                     controller: _emailAuthCode,
@@ -217,7 +222,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
                     color: Color(0xff97D5FE),
                     child: new Text(
                       '인증번호 확인',
-                      style: new TextStyle(fontSize: 18.0, color: Color(0xffFFFFFF), ),
+                      style: new TextStyle(fontSize: 17.0, color: Color(0xffFFFFFF), ),
                     ),
                     onPressed: (){
                       checkAuthCode(_email.text, _emailAuthCode.text);
@@ -246,6 +251,6 @@ class _findPasswordPageState extends State<findPasswordPage> {
             )
         ),
       ),
-    );
+    ));
   }
 }
