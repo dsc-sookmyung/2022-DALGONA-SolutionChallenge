@@ -77,7 +77,8 @@ class _SelectModeLetterPageState extends State<SelectModeLetterPage> {
         foregroundColor: Color(0xff333333),
       ),
       body: new Container(
-        color: Color(0xfff0f8ff),
+    color: Color(0xfff0f8ff),
+        child:Container(
         margin: EdgeInsets.only(top: 130.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -134,6 +135,6 @@ class _SelectModeLetterPageState extends State<SelectModeLetterPage> {
           ],
         ),
       )
-    );
+    ));
   }
 }

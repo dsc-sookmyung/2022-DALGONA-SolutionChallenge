@@ -229,7 +229,7 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '말하기 책갈피 목록',
+          '말하기 북마크 목록',
           style: TextStyle(
               color: Color(0xff333333),
               fontSize: 24,
