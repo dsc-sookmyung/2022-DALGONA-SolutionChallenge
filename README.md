@@ -20,6 +20,10 @@
 
 ## 👩🏼‍💻  How to use
 
+<img width="762" alt="image" src="https://user-images.githubusercontent.com/61380136/160974252-de3b07ea-bfa6-41e0-81dd-e0938c7060f1.png">
+<img width="757" alt="image" src="https://user-images.githubusercontent.com/61380136/160974345-5c8c0dcd-8a70-4bf6-a43e-9c4108aaebf9.png">
+<img width="761" alt="image" src="https://user-images.githubusercontent.com/61380136/160974446-e5ca279a-bd48-484b-a64d-547ac767d0b4.png">
+
 
 <br/>
 
