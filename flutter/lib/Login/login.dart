@@ -215,9 +215,6 @@ class _LoginPageState extends State<LoginPage> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  // Navigator.push(context,
-                  //   MaterialPageRoute(builder: (context) => LoginPage()),
-                  // );
                 },
                 child: const Text('확인'),
               ),
