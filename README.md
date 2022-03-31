@@ -14,7 +14,7 @@
 
 ## 📽  Demo Video Link
 
- [![Zero Zone](https://user-images.githubusercontent.com/61380136/161077171-aebb5943-f1d5-496a-a903-afcd323b9b8c.png)](https://www.youtube.com/watch?v=2lRl3bbPffc)
+ [![Zero Zone](https://user-images.githubusercontent.com/61380136/161100088-6861a7e8-8a51-484f-b6ca-624daec438b1.png)](https://www.youtube.com/watch?v=2lRl3bbPffc)
  
  <br/>
 
