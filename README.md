@@ -19,16 +19,17 @@
  <br/>
 
 ## 👩🏼‍💻  How to use
+![슬라이드1](https://user-images.githubusercontent.com/61380136/161090987-0f705792-7d16-4ebd-a9fd-a521acf4a0d2.jpeg)
+![슬라이드2](https://user-images.githubusercontent.com/61380136/161091002-4268611a-6907-496f-8cca-3a50f188aa3b.jpeg)
+![슬라이드3](https://user-images.githubusercontent.com/61380136/161091010-2eca022c-10b2-44cd-a1f4-97da08784137.jpeg)
+![슬라이드4](https://user-images.githubusercontent.com/61380136/161091012-56006a34-7afe-438f-a4e0-c08fdf38de5a.jpeg)
+![슬라이드5](https://user-images.githubusercontent.com/61380136/161091014-32a562e4-3928-402a-93e3-a7e827b3f0e9.jpeg)
+![슬라이드6](https://user-images.githubusercontent.com/61380136/161091017-081681f5-00c0-4f3f-be91-2ef4d786bed4.jpeg)
+![슬라이드7](https://user-images.githubusercontent.com/61380136/161091020-92618d35-b458-4d34-942c-4c1e20e2a6aa.jpeg)
+![슬라이드8](https://user-images.githubusercontent.com/61380136/161091021-e09980c4-4576-474a-af2c-7369c47c6a1e.jpeg)
+![슬라이드9](https://user-images.githubusercontent.com/61380136/161091025-6b15a55b-2b26-452b-9c73-e2cb01108863.jpeg)
 
-![슬라이드1](https://user-images.githubusercontent.com/61380136/161089073-68c4d6b3-f766-43c8-aee0-aa857559ea3b.jpeg)
-![슬라이드2](https://user-images.githubusercontent.com/61380136/161089081-48e1ce88-286d-4f55-80d8-a2469bf8a757.jpeg)
-![슬라이드3](https://user-images.githubusercontent.com/61380136/161089086-65d87f9d-51da-4401-8ac4-6b030f6e56e1.jpeg)
-![슬라이드4](https://user-images.githubusercontent.com/61380136/161089088-e5178a71-3ba5-495d-a762-6217815dded2.jpeg)
-![슬라이드5](https://user-images.githubusercontent.com/61380136/161089089-c980a07f-c590-4dec-bc26-0c6f2f1c7132.jpeg)
-![슬라이드6](https://user-images.githubusercontent.com/61380136/161089091-02d0a3cc-137d-4ba2-93e7-e54ec0d02e57.jpeg)
-![슬라이드7](https://user-images.githubusercontent.com/61380136/161089093-e386e820-c544-4336-bdf5-9ef82c70eebf.jpeg)
-![슬라이드8](https://user-images.githubusercontent.com/61380136/161089097-20909578-78e2-4434-9d88-28067274d3ff.jpeg)
-![슬라이드9](https://user-images.githubusercontent.com/61380136/161089099-d70f679a-b758-4f23-a9f1-4f5dbaaef388.jpeg)
+
 
 
 <br/>
