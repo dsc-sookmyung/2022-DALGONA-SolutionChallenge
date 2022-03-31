@@ -183,13 +183,15 @@ class _LoginPageState extends State<LoginPage> {
       var body = jsonDecode(response.body);
 
       dynamic data = body["data"];
-      String token = data["accessToken"];
-      refreshToken = data["refreshToken"];
+
+
 
       ///!! 일단 result 값으로 지정해 놓음. 후에 서버와 논의하여 data값 설정하기.
-      print("token: " + token.toString());
+      //print("token: " + token.toString());
 
-      if (data != "fail") {
+      if (body["result"] == "success") {
+        String token = data["accessToken"];
+        refreshToken = data["refreshToken"];
         print("로그인에 성공하셨습니다.");
         authToken = token;
 
@@ -198,6 +200,29 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => tabBarMainPage()),
+        );
+      }
+      else{
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '로그인 실패',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('로그인에 실패하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  // Navigator.push(context,
+                  //   MaterialPageRoute(builder: (context) => LoginPage()),
+                  // );
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
         );
       }
     } else {
