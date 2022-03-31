@@ -66,6 +66,54 @@ class _SignUpPageState extends State<SignUpPage> {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
       var body = jsonDecode(response.body);
+
+      if(body["result"] != "fail"){
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '인증코드 전송 성공',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('이메일로 인증코드를 전송하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  // Navigator.push(context,
+                  //   MaterialPageRoute(builder: (context) => LoginPage()),
+                  // );
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
+      else{
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '인증코드 전송 실패',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('이메일 인증코드 전송에 실패하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  // Navigator.push(context,
+                  //   MaterialPageRoute(builder: (context) => LoginPage()),
+                  // );
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
+
     } else {
       print('error : ${response.reasonPhrase}');
     }
@@ -102,6 +150,26 @@ class _SignUpPageState extends State<SignUpPage> {
 
         emailAuth(email);
       }
+      else{
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '이미 등록된 이메일',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('해당 이메일은 이미 가입되어 있는 이메일입니다. 다른 이메일을 이용해 주세요.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
     } else {
       print('error : ${response.reasonPhrase}');
     }
@@ -123,6 +191,52 @@ class _SignUpPageState extends State<SignUpPage> {
     if (response.statusCode == 200) {
       print('Response status: ${response.statusCode}');
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+
+      if(body["result"] == "success"){
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '회원가입 성공',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('회원가입에 성공하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  // Navigator.push(context,
+                  //   MaterialPageRoute(builder: (context) => LoginPage()),
+                  // );
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
+      else{
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '회원가입 실패',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('회원가입에 실패하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
     } else {
       print('error : ${response.reasonPhrase}');
     }
@@ -144,6 +258,49 @@ class _SignUpPageState extends State<SignUpPage> {
     if (response.statusCode == 200) {
       print('Response status: ${response.statusCode}');
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+
+      if(body["result"] != "fail"){
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '이메일 인증 성공',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('이메일 인증에 성공하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
+      else{
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '인증 실패',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('이메일 인증에 실패하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
     } else {
       print('error : ${response.reasonPhrase}');
     }

@@ -38,6 +38,50 @@ class _findPasswordPageState extends State<findPasswordPage> {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
 
       var body = jsonDecode(response.body);
+
+      if(body["result"] != "fail"){
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '인증코드 전송 성공',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('인증코드 전송에 성공 하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  // Navigator.push(context,
+                  //   MaterialPageRoute(builder: (context) => LoginPage()),
+                  // );
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
+      else{
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '인증코드 전송 실패',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('인증 코드 전송에 실패하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
     }
     else {
       print('error : ${response.reasonPhrase}');
@@ -53,7 +97,6 @@ class _findPasswordPageState extends State<findPasswordPage> {
 
     var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json"} );
 
-    // print(url);
     print(response.statusCode);
 
     if (response.statusCode == 200) {
@@ -66,9 +109,47 @@ class _findPasswordPageState extends State<findPasswordPage> {
       print("result: " + data.toString());
 
       if(data == "success"){
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '인증 성공',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('인증 코드 확인을 성공하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
         Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context) => changePasswordPage(email: _email.text)));
 
+      }
+      else{
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              '인증 실패',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text('이메일 인증에 실패하였습니다.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
       }
     }
     else {
