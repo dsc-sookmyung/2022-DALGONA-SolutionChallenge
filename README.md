@@ -14,15 +14,21 @@
 
 ## 📽  Demo Video Link
 
- [![Zero Zone](썸네일)](링크)
+ [![Zero Zone](![image](https://user-images.githubusercontent.com/61380136/161077171-aebb5943-f1d5-496a-a903-afcd323b9b8c.png))](링크)
  
  <br/>
 
 ## 👩🏼‍💻  How to use
 
-<img width="762" alt="image" src="https://user-images.githubusercontent.com/61380136/160974252-de3b07ea-bfa6-41e0-81dd-e0938c7060f1.png">
-<img width="757" alt="image" src="https://user-images.githubusercontent.com/61380136/160974345-5c8c0dcd-8a70-4bf6-a43e-9c4108aaebf9.png">
-<img width="761" alt="image" src="https://user-images.githubusercontent.com/61380136/160974446-e5ca279a-bd48-484b-a64d-547ac767d0b4.png">
+![슬라이드1](https://user-images.githubusercontent.com/61380136/161089073-68c4d6b3-f766-43c8-aee0-aa857559ea3b.jpeg)
+![슬라이드2](https://user-images.githubusercontent.com/61380136/161089081-48e1ce88-286d-4f55-80d8-a2469bf8a757.jpeg)
+![슬라이드3](https://user-images.githubusercontent.com/61380136/161089086-65d87f9d-51da-4401-8ac4-6b030f6e56e1.jpeg)
+![슬라이드4](https://user-images.githubusercontent.com/61380136/161089088-e5178a71-3ba5-495d-a762-6217815dded2.jpeg)
+![슬라이드5](https://user-images.githubusercontent.com/61380136/161089089-c980a07f-c590-4dec-bc26-0c6f2f1c7132.jpeg)
+![슬라이드6](https://user-images.githubusercontent.com/61380136/161089091-02d0a3cc-137d-4ba2-93e7-e54ec0d02e57.jpeg)
+![슬라이드7](https://user-images.githubusercontent.com/61380136/161089093-e386e820-c544-4336-bdf5-9ef82c70eebf.jpeg)
+![슬라이드8](https://user-images.githubusercontent.com/61380136/161089097-20909578-78e2-4434-9d88-28067274d3ff.jpeg)
+![슬라이드9](https://user-images.githubusercontent.com/61380136/161089099-d70f679a-b758-4f23-a9f1-4f5dbaaef388.jpeg)
 
 
 <br/>
