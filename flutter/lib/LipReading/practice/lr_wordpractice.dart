@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -65,10 +66,30 @@ class _WordPracticePageState extends State<WordPracticePage> {
     _controller.setLooping(true);
 
     super.initState();
-    //usingCamera();
+    _loadRecent();
   }
 
-  /*void _AddRecent(List id) async{
+  _loadRecent() async{
+    final prefs=await SharedPreferences.getInstance();
+    setState((){
+      final ret=prefs.getStringList('id');
+      for(int i=0;i<ret!.length;i++){
+        _recent.add(int.parse(ret[i]));
+      }
+    });
+  }
+
+  _saveRecent(List id) async{
+    final prefs=await SharedPreferences.getInstance();
+    List<String>ret=[];
+    for(int i=0;i<id.length;i++){
+      ret.add(id[i].toString());
+    }
+    setState(() {
+      prefs.setStringList('id', ret);
+    });
+  }
+  void _AddRecent(List id) async{
     var url = Uri.http('${serverHttp}:8080', '/recent/reading');
     final data = jsonEncode({'recentProbIdRequestList': id});
 
@@ -93,7 +114,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
       print('error : ${response.reasonPhrase}');
     }
 
-  }*/
+  }
 
   void _randomWord(String onsetId, String onset) async {
     Map<String, String> _queryParameters = <String, String>{
