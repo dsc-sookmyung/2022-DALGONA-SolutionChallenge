@@ -33,7 +33,7 @@ public class Test extends BaseTimeEntity {
     private int correctCount;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
 

@@ -8,7 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -32,13 +35,13 @@ public class User{
     private String name;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     private List<Test> tests = new ArrayList<>();
 
     @Column(name = "refresh_token_value")
     private String refreshTokenValue;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "user_authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
@@ -70,19 +73,4 @@ public class User{
     public void updateRefreshTokenValue(String refreshToken) {
         this.refreshTokenValue = refreshToken;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User that = (User) o;
-        boolean is_same = userId.equals(that.userId) && Objects.equals(email, that.email);
-        return is_same;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, email);
-    }
-
 }

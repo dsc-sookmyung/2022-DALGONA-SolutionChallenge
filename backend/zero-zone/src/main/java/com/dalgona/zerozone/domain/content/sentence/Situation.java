@@ -1,6 +1,6 @@
-package com.dalgona.zerozone.domain.staticContent.sentence;
+package com.dalgona.zerozone.domain.content.sentence;
 
-import com.dalgona.zerozone.domain.staticContent.Content;
+import com.dalgona.zerozone.domain.content.Content;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

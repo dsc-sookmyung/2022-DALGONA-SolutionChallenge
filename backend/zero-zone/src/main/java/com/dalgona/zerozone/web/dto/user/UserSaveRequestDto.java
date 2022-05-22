@@ -32,7 +32,7 @@ public class UserSaveRequestDto {
                 .build();
     }
 
-    public void setEncodePwd(String encodedPwd){
+    public void encodePwd(String encodedPwd){
         this.password = encodedPwd;
     }
 

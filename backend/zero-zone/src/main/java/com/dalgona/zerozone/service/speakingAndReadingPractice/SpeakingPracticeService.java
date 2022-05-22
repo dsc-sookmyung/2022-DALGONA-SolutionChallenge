@@ -1,18 +1,21 @@
 package com.dalgona.zerozone.service.speakingAndReadingPractice;
 
 import com.dalgona.zerozone.domain.bookmark.*;
-import com.dalgona.zerozone.domain.staticContent.letter.Letter;
-import com.dalgona.zerozone.domain.staticContent.letter.LetterRepository;
-import com.dalgona.zerozone.domain.staticContent.sentence.Sentence;
-import com.dalgona.zerozone.domain.staticContent.sentence.SentenceRepository;
-import com.dalgona.zerozone.domain.staticContent.word.Word;
-import com.dalgona.zerozone.domain.staticContent.word.WordRepository;
+import com.dalgona.zerozone.domain.content.letter.Letter;
+import com.dalgona.zerozone.domain.content.letter.LetterRepository;
+import com.dalgona.zerozone.domain.content.sentence.Sentence;
+import com.dalgona.zerozone.domain.content.sentence.SentenceRepository;
+import com.dalgona.zerozone.domain.content.word.Word;
+import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.dalgona.zerozone.domain.speaking.SpeakingProbRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
 import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
+import com.dalgona.zerozone.web.dto.content.LetterResponseDto;
+import com.dalgona.zerozone.web.dto.content.SentenceResponseDto;
+import com.dalgona.zerozone.web.dto.content.WordResponseDto;
 import com.dalgona.zerozone.web.dto.speakingPractice.LetterSpeakingProbResponseDto;
 import com.dalgona.zerozone.web.dto.speakingPractice.SentenceSpeakingProbResponseDto;
 import com.dalgona.zerozone.web.dto.speakingPractice.WordSpeakingProbResponseProbDto;
