@@ -8,7 +8,7 @@ import 'package:zerozone/Speaking/sp_word_consonant.dart';
 import 'package:zerozone/server.dart';
 import 'dart:convert';
 
-import 'practice/sp_practiceview_sentence.dart';
+import 'sp_practiceview_sentence.dart';
 
 class SentenceSelectPage extends StatefulWidget {
 

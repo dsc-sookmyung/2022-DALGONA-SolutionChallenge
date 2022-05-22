@@ -5,7 +5,7 @@ import 'sp_select_situation.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
 
-import 'practice/sp_practiceview_sentence.dart';
+import 'sp_practiceview_sentence.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
