@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/fluttertoast/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/fluttertoast/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/fluttertoast/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/speech_to_text/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/speech_to_text/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/speech_to_text/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/video_player_avfoundation/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/video_player_avfoundation/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/video_player_avfoundation/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/fluttertoast/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/fluttertoast/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/fluttertoast/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/video_player_avfoundation/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/video_player_avfoundation/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/video_player_avfoundation/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/speech_to_text/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/speech_to_text/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter/ios/.symlinks/plugins/speech_to_text/.pub" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

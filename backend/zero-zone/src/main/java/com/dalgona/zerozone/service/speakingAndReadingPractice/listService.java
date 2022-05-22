@@ -1,12 +1,12 @@
 package com.dalgona.zerozone.service.speakingAndReadingPractice;
 
-import com.dalgona.zerozone.domain.content.letter.*;
-import com.dalgona.zerozone.domain.content.sentence.Sentence;
-import com.dalgona.zerozone.domain.content.sentence.SentenceRepository;
-import com.dalgona.zerozone.domain.content.sentence.Situation;
-import com.dalgona.zerozone.domain.content.sentence.SituationRepository;
-import com.dalgona.zerozone.domain.content.word.Word;
-import com.dalgona.zerozone.domain.content.word.WordRepository;
+import com.dalgona.zerozone.domain.staticContent.letter.*;
+import com.dalgona.zerozone.domain.staticContent.sentence.Sentence;
+import com.dalgona.zerozone.domain.staticContent.sentence.SentenceRepository;
+import com.dalgona.zerozone.domain.staticContent.sentence.Situation;
+import com.dalgona.zerozone.domain.staticContent.sentence.SituationRepository;
+import com.dalgona.zerozone.domain.staticContent.word.Word;
+import com.dalgona.zerozone.domain.staticContent.word.WordRepository;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.comparator.*;
 import com.dalgona.zerozone.web.dto.content.*;

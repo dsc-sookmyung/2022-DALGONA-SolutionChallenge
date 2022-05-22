@@ -1,6 +1,6 @@
 package com.dalgona.zerozone.web.dto.content;
 
-import com.dalgona.zerozone.domain.content.sentence.Situation;
+import com.dalgona.zerozone.domain.staticContent.sentence.Situation;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

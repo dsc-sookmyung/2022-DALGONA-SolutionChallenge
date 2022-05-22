@@ -1,6 +1,6 @@
 package com.dalgona.zerozone.web.dto.comparator;
 
-import com.dalgona.zerozone.domain.content.Content;
+import com.dalgona.zerozone.domain.staticContent.Content;
 
 import java.util.Comparator;
 

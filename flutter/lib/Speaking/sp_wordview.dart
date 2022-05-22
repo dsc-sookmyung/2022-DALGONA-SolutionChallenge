@@ -1,67 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:zerozone/Login/login.dart';
-import 'package:zerozone/Login/refreshToken.dart';
-import 'package:zerozone/server.dart';
 
 import 'sp_word_consonant.dart';
-import 'sp_practiceview_word.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-class SelectModeWordPage extends StatefulWidget {
+class SelectModeWordPage extends StatelessWidget {
   const SelectModeWordPage({Key? key}) : super(key: key);
-
-  @override
-  _SelectModeWordPageState createState() => _SelectModeWordPageState();
-}
-
-class _SelectModeWordPageState extends State<SelectModeWordPage> {
-
-  Future<void> randomUrlInfo() async {
-
-
-    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/word/random');
-
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
-
-    print(url);
-
-    if (response.statusCode == 200) {
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-
-      var body = jsonDecode(utf8.decode(response.bodyBytes));
-
-      dynamic data = body["data"];
-
-      String url = data["url"];
-      String type = data["type"];
-      int probId = data["probId"];
-      String word = data["word"];
-      bool bookmarked = data["bookmarked"];
-
-      print("url : ${url}");
-      print("type : ${type}");
-
-
-      Navigator.of(context).pop();
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: word, bookmarked: bookmarked,))
-      );
-
-    }
-    else if(response.statusCode == 401){
-      await RefreshToken(context);
-      if(check == true){
-        randomUrlInfo();
-        check = false;
-      }
-    }
-    else {
-      print('error : ${response.reasonPhrase}');
-    }
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,15 +11,12 @@ class _SelectModeWordPageState extends State<SelectModeWordPage> {
       appBar: AppBar(
         title: Text(
           '말하기 연습 - 단어',
-          style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
+          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
         ),
-        centerTitle: true,
         backgroundColor: Color(0xffC8E8FF),
-        foregroundColor: Color(0xff333333),
+        foregroundColor: Colors.black,
       ),
       body: new Container(
-    color: Color(0xfff0f8ff),
-    child:Container(
         margin: EdgeInsets.only(top: 130.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -100,7 +39,7 @@ class _SelectModeWordPageState extends State<SelectModeWordPage> {
                   ),
                   child: new Text(
                     '단어 선택하기',
-                    style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
                     Navigator.push(
@@ -122,10 +61,10 @@ class _SelectModeWordPageState extends State<SelectModeWordPage> {
                   ),
                   child: new Text(
                     '랜덤 연습하기',
-                    style: new TextStyle(fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                    style: new TextStyle(fontSize: 20.0, color: Color(0xff000000), fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    randomUrlInfo();
+                    //
                   }
               ),
               height: 40,
@@ -134,6 +73,6 @@ class _SelectModeWordPageState extends State<SelectModeWordPage> {
           ],
         ),
       ),
-    ));
+    );
   }
 }
