@@ -1,4 +1,4 @@
-package com.dalgona.zerozone.domain.content.sentence;
+package com.dalgona.zerozone.domain.staticContent.sentence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

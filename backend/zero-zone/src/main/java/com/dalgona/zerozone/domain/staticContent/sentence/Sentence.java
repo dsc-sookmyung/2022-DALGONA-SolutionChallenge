@@ -1,8 +1,5 @@
-package com.dalgona.zerozone.domain.content.sentence;
+package com.dalgona.zerozone.domain.staticContent.sentence;
 
-import com.dalgona.zerozone.domain.content.Content;
-import com.dalgona.zerozone.domain.speaking.SpeakingProb;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

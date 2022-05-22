@@ -23,8 +23,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +49,8 @@ public class UserService {
     private final Response response;
 
     // 회원가입
+    // 기존 코드
+    // UserService 클래스의 회원가입 메소드
     @Transactional
     public ResponseEntity<?> join(UserSaveRequestDto userSaveRequestDTO){
         if (isExistingUser(userSaveRequestDTO.getEmail())) {
@@ -63,7 +63,7 @@ public class UserService {
 
         // 비밀번호 암호화
         String encodedPwd = pwdEncorder.encode(userSaveRequestDTO.getPassword());
-        userSaveRequestDTO.encodePwd(encodedPwd);
+        userSaveRequestDTO.setEncodePwd(encodedPwd);
 
         // DB 저장
         Authority authority = Authority.builder().authorityName("ROLE_USER").build();
@@ -84,10 +84,17 @@ public class UserService {
         return response.success("회원가입에 성공했습니다.");
     }
 
-    // 이메일 중복체크 내부 메소드
-    public boolean isExistingUser(String email) {
-        Optional<User> findUser = userRepository.findByEmail(email);
-        return findUser.isPresent();
+    private boolean isExistingUser(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+    private boolean isAuthed(String email) {
+        Optional<UserEmailAuth> optionalUserEmailAuth = userEmailAuthRepository.findByEmail(email);
+        if(!optionalUserEmailAuth.isPresent()) {
+            return false;
+        }
+        UserEmailAuth findUserEmailAuth = optionalUserEmailAuth.get();
+        LocalDateTime validTime = findUserEmailAuth.getAuthValidTime();
+        return validTime.isAfter(LocalDateTime.now());
     }
 
     // 이메일 중복체크
@@ -121,30 +128,6 @@ public class UserService {
         return response.success(userLoginResponseDto, "로그인에 성공했습니다.", HttpStatus.OK);
     }
 
-    // 인증된 이메일인지 확인
-    public boolean isAuthed(String email){
-        Optional<UserEmailAuth> findUser = userEmailAuthRepository.findByEmail(email);
-        if(!findUser.isPresent())
-            return false;
-        LocalDateTime validTime = findUser.get().getAuthValidTime();
-        if(validTime.isAfter(LocalDateTime.now()))
-            return true;
-        else
-            return false;
-    }
-
-    // 비밀번호 인증된 이메일인지 확인
-    public boolean isAuthedPwd(String email){
-        Optional<UserEmailAuth> findUser = userEmailAuthRepository.findByEmail(email);
-        if(!findUser.isPresent())
-            return false;
-        LocalDateTime validTime = findUser.get().getAuthPwdValidTime();
-        if(validTime.isAfter(LocalDateTime.now()))
-            return true;
-        else
-            return false;
-    }
-
     private User getCurrentUser(){
         return SecurityUtil.getCurrentUsername().flatMap(userRepository::findByEmail).orElse(null);
     }
@@ -172,7 +155,7 @@ public class UserService {
         // 인증된 이메일인지 확인
         if(findUser.isPresent()){
             // 인증되었다면 비밀번호 수정
-            if(isAuthedPwd(findUser.get().getEmail())){
+            if(isPwdAuthed(findUser.get().getEmail())){
                 String encodedPwd = pwdEncorder.encode(newPassword);
                 Optional<User> user = userRepository.findByEmail(email);
                 if(!user.isPresent()) return response.fail("존재하지 않는 이메일입니다.", HttpStatus.BAD_REQUEST);
@@ -181,6 +164,14 @@ public class UserService {
             }
         }
         return response.fail("인증되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST);
+    }
+    private boolean isPwdAuthed(String email) {
+        Optional<UserEmailAuth> optionalUserEmailAuth = userEmailAuthRepository.findByEmail(email);
+        if(!optionalUserEmailAuth.isPresent()) return false;
+        UserEmailAuth findUserEmailAuth = optionalUserEmailAuth.get();
+
+        LocalDateTime validTime = findUserEmailAuth.getAuthPwdValidTime();
+        return validTime.isAfter(LocalDateTime.now());
     }
 
     // 인증토큰 재발급

@@ -36,4 +36,9 @@ public class UserSaveRequestDto {
         this.password = encodedPwd;
     }
 
+    public void setEncodePwd(String encodedPwd){
+        this.password = encodedPwd;
+    }
+
+
 }

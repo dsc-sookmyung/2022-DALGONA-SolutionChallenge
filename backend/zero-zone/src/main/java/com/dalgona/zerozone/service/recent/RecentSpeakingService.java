@@ -1,8 +1,5 @@
 package com.dalgona.zerozone.service.recent;
 
-import com.dalgona.zerozone.domain.content.letter.LetterRepository;
-import com.dalgona.zerozone.domain.content.sentence.SentenceRepository;
-import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.recent.*;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.dalgona.zerozone.domain.speaking.SpeakingProbRepository;

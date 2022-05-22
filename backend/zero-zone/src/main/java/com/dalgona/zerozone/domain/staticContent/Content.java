@@ -1,4 +1,4 @@
-package com.dalgona.zerozone.domain.content;
+package com.dalgona.zerozone.domain.staticContent;
 
 import lombok.Getter;
 
