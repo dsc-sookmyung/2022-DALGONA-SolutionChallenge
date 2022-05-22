@@ -1,6 +1,7 @@
-package com.dalgona.zerozone.domain.staticContent.word;
+package com.dalgona.zerozone.domain.content.word;
 
-import com.dalgona.zerozone.domain.staticContent.letter.Onset;
+import com.dalgona.zerozone.domain.content.Content;
+import com.dalgona.zerozone.domain.content.letter.Onset;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

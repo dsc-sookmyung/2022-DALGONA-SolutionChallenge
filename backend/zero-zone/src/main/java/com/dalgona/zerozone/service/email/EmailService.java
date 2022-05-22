@@ -121,9 +121,6 @@ public class EmailService {
         // 코드 비교
         UserEmailAuth findUser = userEmailAuthRepository.findByEmail(codeValidDTO.getEmail()).get();
         String findCode = findUser.getAuthCode();
-        if(findCode == null){
-            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
-        }
         if(findCode.compareTo(codeValidDTO.getAuthCode())==0){
             // 유효 시간이 지나지 않았다면
             if(isAuthed(findUser.getEmail())){
@@ -149,9 +146,6 @@ public class EmailService {
         // 코드 비교
         UserEmailAuth findUser = userEmailAuthRepository.findByEmail(codeValidDTO.getEmail()).get();
         String findCode = findUser.getAuthPwdCode();
-        if(findCode == null){
-            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
-        }
         if(findCode.compareTo(codeValidDTO.getAuthCode())==0){
             // 유효 시간이 지나지 않았다면
             if(isAuthedPwd(findUser.getEmail())){
@@ -167,13 +161,10 @@ public class EmailService {
 
     // 인증된 이메일인지 확인
     public boolean isAuthed(String email){
-        Optional<UserEmailAuth> optionalUserEmailAuth = userEmailAuthRepository.findByEmail(email);
-        if(!optionalUserEmailAuth.isPresent()) {
+        Optional<UserEmailAuth> findUser = userEmailAuthRepository.findByEmail(email);
+        if(!findUser.isPresent())
             return false;
-        }
-        UserEmailAuth findUser = optionalUserEmailAuth.get();
-        LocalDateTime validTime = findUser.getAuthValidTime();
-
+        LocalDateTime validTime = findUser.get().getAuthValidTime();
         if(validTime.isAfter(LocalDateTime.now()))
             return true;
         else
@@ -191,6 +182,7 @@ public class EmailService {
         else
             return false;
     }
+
 
     @Transactional
     public boolean isExistInUserEmailAuth(String email){

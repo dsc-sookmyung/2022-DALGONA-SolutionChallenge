@@ -1,8 +1,8 @@
 package com.dalgona.zerozone.domain.reading;
 
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProb;
-import com.dalgona.zerozone.domain.staticContent.sentence.Sentence;
-import com.dalgona.zerozone.domain.staticContent.word.Word;
+import com.dalgona.zerozone.domain.content.sentence.Sentence;
+import com.dalgona.zerozone.domain.content.word.Word;
 import com.dalgona.zerozone.domain.recent.RecentReadingProb;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
