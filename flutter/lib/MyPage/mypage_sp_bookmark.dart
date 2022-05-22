@@ -26,9 +26,9 @@ import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/server.dart';
 
-import '../Speaking/sp_practiceview_letter.dart';
-import '../Speaking/sp_practiceview_word.dart';
-import '../Speaking/sp_practiceview_sentence.dart';
+import '../Speaking/practice/sp_practiceview_letter.dart';
+import '../Speaking/practice/sp_practiceview_word.dart';
+import '../Speaking/practice/sp_practiceview_sentence.dart';
 
 class SPBookmarkPage extends StatefulWidget {
   const SPBookmarkPage(

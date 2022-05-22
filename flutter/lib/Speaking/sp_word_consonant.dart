@@ -4,7 +4,7 @@ import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/server.dart';
 
 import 'sp_word_select.dart';
-import 'sp_practiceview_word.dart';
+import 'practice/sp_practiceview_word.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
