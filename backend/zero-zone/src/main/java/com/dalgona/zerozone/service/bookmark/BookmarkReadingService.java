@@ -4,8 +4,6 @@ import com.dalgona.zerozone.domain.bookmark.BookmarkReading;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProbRepository;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingRepository;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProb;
-import com.dalgona.zerozone.domain.content.sentence.SentenceRepository;
-import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.reading.ReadingProb;
 import com.dalgona.zerozone.domain.reading.ReadingProbRepository;
 import com.dalgona.zerozone.domain.user.User;

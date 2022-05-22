@@ -1,9 +1,6 @@
 package com.dalgona.zerozone.service.bookmark;
 
 import com.dalgona.zerozone.domain.bookmark.*;
-import com.dalgona.zerozone.domain.content.letter.LetterRepository;
-import com.dalgona.zerozone.domain.content.sentence.SentenceRepository;
-import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.dalgona.zerozone.domain.speaking.SpeakingProbRepository;
 import com.dalgona.zerozone.domain.user.User;

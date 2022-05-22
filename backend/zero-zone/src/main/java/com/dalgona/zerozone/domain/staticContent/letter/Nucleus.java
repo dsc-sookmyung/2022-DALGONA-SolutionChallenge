@@ -1,7 +1,8 @@
-package com.dalgona.zerozone.domain.content.letter;
+package com.dalgona.zerozone.domain.staticContent.letter;
 
-import com.dalgona.zerozone.domain.content.Content;
+import com.dalgona.zerozone.domain.staticContent.Content;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,14 +11,15 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-public class Coda {
+public class Nucleus extends Content {
 
     @Id
-    @Column(name = "CODA_ID")
+    @Column(name = "NUCLEUS_ID")
     private Long id;
 
     @Column(length = 5, nullable = false, unique = true)
-    private String coda;
+    private String nucleus;
 
 }

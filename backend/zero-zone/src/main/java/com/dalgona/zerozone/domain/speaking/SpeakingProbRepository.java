@@ -1,8 +1,8 @@
 package com.dalgona.zerozone.domain.speaking;
 
-import com.dalgona.zerozone.domain.content.letter.Letter;
-import com.dalgona.zerozone.domain.content.sentence.Sentence;
-import com.dalgona.zerozone.domain.content.word.Word;
+import com.dalgona.zerozone.domain.staticContent.letter.Letter;
+import com.dalgona.zerozone.domain.staticContent.sentence.Sentence;
+import com.dalgona.zerozone.domain.staticContent.word.Word;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
