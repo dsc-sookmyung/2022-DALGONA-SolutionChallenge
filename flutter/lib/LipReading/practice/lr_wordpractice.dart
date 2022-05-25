@@ -45,7 +45,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
   bool _seeAnswer = false; //정답보기
   String color = '0xff97D5FE';
 
-  List _recent = [];
+  List<String> _recent = [];
 
   final myController = TextEditingController();
 
@@ -74,47 +74,46 @@ class _WordPracticePageState extends State<WordPracticePage> {
     setState((){
       final ret=prefs.getStringList('id');
       for(int i=0;i<ret!.length;i++){
-        _recent.add(int.parse(ret[i]));
+        _recent.add(ret[i]);
       }
     });
   }
 
-  _saveRecent(List id) async{
+  _saveRecent(int id) async{
     final prefs=await SharedPreferences.getInstance();
-    List<String>ret=[];
-    for(int i=0;i<id.length;i++){
-      ret.add(id[i].toString());
-    }
+    _recent.add(id.toString());
+
     setState(() {
-      prefs.setStringList('id', ret);
+      prefs.setStringList('id', _recent);
     });
   }
-  void _AddRecent(List id) async{
-    var url = Uri.http('${serverHttp}:8080', '/recent/reading');
-    final data = jsonEncode({'recentProbIdRequestList': id});
 
-    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
-
-    // print(url);
-    print(response.statusCode);
-
-    if (response.statusCode == 200) {
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-      // var body=jsonDecode(utf8.decode(response.bodyBytes));
-    }
-    else if(response.statusCode == 401){
-      await RefreshToken(context);
-      if(check == true){
-        _AddRecent(id);
-        check = false;
-      }
-    }
-    else {
-      print('error : ${response.reasonPhrase}');
-    }
-
-  }
+  // void _AddRecent(List id) async{
+  //   var url = Uri.http('${serverHttp}:8080', '/recent/reading');
+  //   final data = jsonEncode({'recentProbIdRequestList': id});
+  //
+  //   var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
+  //
+  //   // print(url);
+  //   print(response.statusCode);
+  //
+  //   if (response.statusCode == 200) {
+  //     print('Response status: ${response.statusCode}');
+  //     print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+  //     // var body=jsonDecode(utf8.decode(response.bodyBytes));
+  //   }
+  //   else if(response.statusCode == 401){
+  //     await RefreshToken(context);
+  //     if(check == true){
+  //       _AddRecent(id);
+  //       check = false;
+  //     }
+  //   }
+  //   else {
+  //     print('error : ${response.reasonPhrase}');
+  //   }
+  //
+  // }
 
   void _randomWord(String onsetId, String onset) async {
     Map<String, String> _queryParameters = <String, String>{
@@ -143,7 +142,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
       setState(() {
         _hint = data['hint'];
         _word = data['word'];
-        _url = data['url'];
+        _url = 'https://storage.googleapis.com/zerozone-custom-video/159079717-b3c81f63-5bb7-4ff6-b9f4-ecfc5ff6bf93.mp4';
+        //data['url'];
         _probId = data['probId'];
         _isStared = data['bookmarked'];
 
@@ -544,6 +544,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
         onWillPop: () {
           setState(() {
             _controller.pause();
+            _saveRecent(_probId);
           });
           // _recent.length>0?
           // _AddRecent(_recent): null;
@@ -620,11 +621,11 @@ class _WordPracticePageState extends State<WordPracticePage> {
           minimumSize: Size(80, 40),
         ),
         onPressed: () {
-          _recent.add(_probId);
           FocusScope.of(context).unfocus();
           if (myController.text == _word) {
             //정답
             setState(() {
+              _saveRecent(_probId); //최근 학습 단어
               _isCorrect = true;
               _seeAnswer = true;
               _isInit = false;
@@ -697,6 +698,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                 ),
                 onPressed: () {
                   setState(() {
+                    _saveRecent(_probId);
                     _seeAnswer = true;
                     _isCorrect = false;
                     _isInit = false;
