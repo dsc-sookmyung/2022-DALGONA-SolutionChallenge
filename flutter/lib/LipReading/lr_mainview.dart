@@ -93,278 +93,104 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return Scaffold(
-        // appBar: AppBar(
-        //   title: Text(
-        //     "구화 연습",
-        //     style: TextStyle(
-        //         color: Color(0xff333333),
-        //         fontSize: 24,
-        //         fontWeight: FontWeight.w800),
-        //   ),
-        //   centerTitle: true,
-        //   backgroundColor: Color(0xffC8E8FF),
-        // ),
         body: new Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Colors.white,
+                Color(0xffE3F2FD),
+                Color(0xffBBDEFB),
+              ],
+              stops: [0.5, 0.8, 0.9, ],
             ),
-            child: Container(
-                margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 20.0),
-                child: new Column(crossAxisAlignment: CrossAxisAlignment.start,
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(bottom: 15.0),
-                            child: Text(
-                              "연습하기",
-                              style: TextStyle(
-                                  color: Color(0xff333333),
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w800),
+          ),
+          child: Container(
+            margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 40.0),
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 15.0),
+                      child: Text(
+                        "연습하기",
+                        style: TextStyle(
+                            color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
+                        ),
+                      ),
+
+                    ),
+                  ],
+                ),
+
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 10.0, bottom: 20.0),
+                  padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                  width: 220.0,
+                  decoration: BoxDecoration(
+                    // color: Colors.white,
+                    border: Border.all(
+                        color: Color(0xff4478FF),
+                        width: 2.0
+                    ),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(20.0)
+                    ),
+                  ),
+                  child: Text("구화",
+                    style: TextStyle(
+                        color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                ),
+
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                          onTap: (){
+                            // Navigator.push(
+                            //     context, MaterialPageRoute(builder: (_) => )
+                            // );
+                          },
+                          child: new Container(
+                            width: 140.0,
+                            height: 140.0,
+                            padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                            decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(16.0),
+                              color: Color(0xffF3F8FF),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.9),
+                                  spreadRadius: 0,
+                                  blurRadius: 5,
+                                  offset: Offset(2, 3), // changes position of shadow
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-
-                      Container(
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(
-                              left: 0.0, right: 15.0, top: 10.0, bottom: 20.0),
-                          padding: EdgeInsets.only(
-                              top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                          width: 220.0,
-                          decoration: BoxDecoration(
-                            // color: Colors.white,
-                            border: Border.all(
-                                color: Color(0xff0074C8), width: 2.0),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.ac_unit_outlined,
-                                color: Color(0xff0074C8),
-                              ),
-                              Text(
-                                "구화",
-                                style: TextStyle(
-                                    color: Color(0xff333333),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          )),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                                onTap: () {
-                                  print("Container clicked");
-                                },
-                                child: new Container(
-                                  width: 140.0,
-                                  height: 140.0,
-                                  padding: EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 10.0,
-                                      top: 10.0,
-                                      bottom: 10.0),
-                                  decoration: new BoxDecoration(
-                                    borderRadius:
-                                        new BorderRadius.circular(16.0),
-                                    color: Color(0xffE8F9FD),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 0,
-                                        blurRadius: 5,
-                                        offset: Offset(
-                                            2, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Icon(
-                                        Icons.ac_unit_outlined,
-                                        color: Color(0xff2155CD),
-                                        size: 90.0,
-                                      ),
-                                      Text(
-                                        "단어",
-                                        style: TextStyle(
-                                            color: Color(0xff333333),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500),
-                                      )
-                                    ],
-                                  ),
-                                )),
-
-                            GestureDetector(
-                                onTap: (){
-                                  print("Container clicked");
-                                },
-                                child: new Container(
-                                  width: 140.0,
-                                  height: 140.0,
-                                  padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-                                  decoration: new BoxDecoration(
-                                    borderRadius: new BorderRadius.circular(16.0),
-                                    color: Color(0xffE8F9FD),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 0,
-                                        blurRadius: 5,
-                                        offset: Offset(2, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Icon(
-                                        Icons.ac_unit_outlined,
-                                        color: Color(0xff2155CD),
-                                        size: 90.0,
-                                      ),
-                                      Text(
-                                        "문장",
-                                        style: TextStyle(
-                                            color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
-                                      )
-                                    ],
-                                  ),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.wordpress_outlined,
+                                  color: Color(0xff4478FF),
+                                  size: 90.0,
+                                ),
+                                Text(
+                                  "단어",
+                                  style: TextStyle(
+                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
                                 )
-                            )
-
-                          ],
-                        ),
+                              ],
+                            ),
+                          )
                       ),
-
-                      Container(
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(
-                              left: 0.0, right: 15.0, top: 10.0, bottom: 20.0),
-                          padding: EdgeInsets.only(
-                              top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                          width: 220.0,
-                          decoration: BoxDecoration(
-                            // color: Colors.white,
-                            border: Border.all(
-                                color: Color(0xff0074C8), width: 2.0),
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(20.0)),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.ac_unit_outlined,
-                                color: Color(0xff0074C8),
-                              ),
-                              Text(
-                                "구화",
-                                style: TextStyle(
-                                    color: Color(0xff333333),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          )),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                                onTap: () {
-                                  print("Container clicked");
-                                },
-                                child: new Container(
-                                  width: 140.0,
-                                  height: 140.0,
-                                  padding: EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 10.0,
-                                      top: 10.0,
-                                      bottom: 10.0),
-                                  decoration: new BoxDecoration(
-                                    borderRadius:
-                                    new BorderRadius.circular(16.0),
-                                    color: Color(0xffE8F9FD),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 0,
-                                        blurRadius: 5,
-                                        offset: Offset(
-                                            2, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Icon(
-                                        Icons.ac_unit_outlined,
-                                        color: Color(0xff2155CD),
-                                        size: 90.0,
-                                      ),
-                                      Text(
-                                        "단어",
-                                        style: TextStyle(
-                                            color: Color(0xff333333),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500),
-                                      )
-                                    ],
-                                  ),
-                                )),
-
-                            GestureDetector(
-                                onTap: (){
-                                  print("Container clicked");
-                                },
-                                child: new Container(
-                                  width: 140.0,
-                                  height: 140.0,
-                                  padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-                                  decoration: new BoxDecoration(
-                                    borderRadius: new BorderRadius.circular(16.0),
-                                    color: Color(0xffE8F9FD),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 0,
-                                        blurRadius: 5,
-                                        offset: Offset(2, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Icon(
-                                        Icons.ac_unit_outlined,
-                                        color: Color(0xff2155CD),
-                                        size: 90.0,
-                                      ),
-                                      Text(
-                                        "문장",
-                                        style: TextStyle(
-                                            color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
-                                      )
-                                    ],
-                                  ),
-                                )
-                            )
-
-                          ],
-                        ),
-                      ),
-
 
                       GestureDetector(
                           onTap: (){
@@ -376,10 +202,10 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                             padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                             decoration: new BoxDecoration(
                               borderRadius: new BorderRadius.circular(16.0),
-                              color: Color(0xffE8F9FD),
+                              color: Color(0xffF3F8FF),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withOpacity(0.9),
                                   spreadRadius: 0,
                                   blurRadius: 5,
                                   offset: Offset(2, 3), // changes position of shadow
@@ -389,8 +215,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                             child: Column(
                               children: [
                                 Icon(
-                                  Icons.ac_unit_outlined,
-                                  color: Color(0xff2155CD),
+                                  Icons.draw_rounded,
+                                  color: Color(0xff4478FF),
                                   size: 90.0,
                                 ),
                                 Text(
@@ -404,8 +230,157 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                       )
 
                     ],
+                  ),
                 ),
+
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 35.0, bottom: 20.0),
+                  padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                  width: 220.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Color(0xff4478FF),
+                        width: 2.0
+                    ),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(20.0)
+                    ),
+                  ),
+                  child: Text("말하기",
+                    style: TextStyle(
+                        color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                ),
+
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                          onTap: (){
+                            // Navigator.push(
+                            //     context, MaterialPageRoute(builder: (_) => ())
+                            // );
+                          },
+                          child: new Container(
+                            width: 140.0,
+                            height: 140.0,
+                            padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                            decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(16.0),
+                              color: Color(0xffF3F8FF),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.9),
+                                  spreadRadius: 0,
+                                  blurRadius: 5,
+                                  offset: Offset(2, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.wordpress_outlined,
+                                  color: Color(0xff4478FF),
+                                  size: 90.0,
+                                ),
+                                Text(
+                                  "한 글자",
+                                  style: TextStyle(
+                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            ),
+                          )
+                      ),
+
+                      GestureDetector(
+                          onTap: (){
+                            print("Container clicked");
+                          },
+                          child: new Container(
+                            width: 140.0,
+                            height: 140.0,
+                            padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                            decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(16.0),
+                              color: Color(0xffF3F8FF),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.9),
+                                  spreadRadius: 0,
+                                  blurRadius: 5,
+                                  offset: Offset(2, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.wordpress_outlined,
+                                  color: Color(0xff4478FF),
+                                  size: 90.0,
+                                ),
+                                Text(
+                                  "단어",
+                                  style: TextStyle(
+                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            ),
+                          )
+                      )
+
+                    ],
+                  ),
+                ),
+
+
+                GestureDetector(
+                    onTap: (){
+                      print("Container clicked");
+                    },
+                    child: new Container(
+                      width: 140.0,
+                      height: 140.0,
+                      margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 20.0, bottom: 20.0),
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                      decoration: new BoxDecoration(
+                        borderRadius: new BorderRadius.circular(16.0),
+                        color: Color(0xffF3F8FF),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.9),
+                            spreadRadius: 0,
+                            blurRadius: 5,
+                            offset: Offset(2, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.draw_rounded,
+                            color: Color(0xff4478FF),
+                            size: 90.0,
+                          ),
+                          Text(
+                            "문장",
+                            style: TextStyle(
+                                color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
+                    )
+                )
+
+              ],
             ),
-        ));
+          ),
+
+        )
+                );
   }
 }
