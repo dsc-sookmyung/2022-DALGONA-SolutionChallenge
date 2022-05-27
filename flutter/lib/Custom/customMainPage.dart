@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:zerozone/Custom/createCustomProblemPage.dart';
 import 'package:zerozone/Custom/customProblemPage.dart';
 
 class customMainPageView extends StatefulWidget {
@@ -15,7 +16,16 @@ class _customMainPageViewState extends State<customMainPageView> {
     return Scaffold(
       body: new Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Colors.white,
+              Color(0xffE3F2FD),
+              Color(0xffBBDEFB),
+            ],
+            stops: [0.5, 0.8, 0.9, ],
+          ),
         ),
         child: Container(
           margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 70.0),
@@ -47,7 +57,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                 decoration: BoxDecoration(
                   // color: Colors.white,
                   border: Border.all(
-                      color: Color(0xff2155CD),
+                      color: Color(0xff4478FF),
                       width: 2.0
                   ),
                   borderRadius: BorderRadius.all(
@@ -66,7 +76,9 @@ class _customMainPageViewState extends State<customMainPageView> {
                   children: [
                     GestureDetector(
                         onTap: (){
-                          print("Container clicked");
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (_) => createCustomProblemPage())
+                          );
                         },
                         child: new Container(
                           width: 140.0,
@@ -74,10 +86,10 @@ class _customMainPageViewState extends State<customMainPageView> {
                           padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                           decoration: new BoxDecoration(
                             borderRadius: new BorderRadius.circular(16.0),
-                            color: Color(0xffE8F9FD),
+                            color: Color(0xffF3F8FF),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
+                                color: Colors.grey.withOpacity(0.9),
                                 spreadRadius: 0,
                                 blurRadius: 5,
                                 offset: Offset(2, 3), // changes position of shadow
@@ -88,7 +100,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                             children: [
                               Icon(
                                 Icons.wordpress_outlined,
-                                color: Color(0xff2155CD),
+                                color: Color(0xff4478FF),
                                 size: 90.0,
                               ),
                               Text(
@@ -111,10 +123,10 @@ class _customMainPageViewState extends State<customMainPageView> {
                           padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                           decoration: new BoxDecoration(
                             borderRadius: new BorderRadius.circular(16.0),
-                            color: Color(0xffE8F9FD),
+                            color: Color(0xffF3F8FF),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
+                                color: Colors.grey.withOpacity(0.9),
                                 spreadRadius: 0,
                                 blurRadius: 5,
                                 offset: Offset(2, 3), // changes position of shadow
@@ -125,7 +137,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                             children: [
                               Icon(
                                 Icons.draw_rounded,
-                                color: Color(0xff2155CD),
+                                color: Color(0xff4478FF),
                                 size: 90.0,
                               ),
                               Text(
@@ -149,7 +161,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                 width: 220.0,
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: Color(0xff2155CD),
+                      color: Color(0xff4478FF),
                       width: 2.0
                   ),
                   borderRadius: BorderRadius.all(
@@ -172,10 +184,10 @@ class _customMainPageViewState extends State<customMainPageView> {
                   child: Container(
                     decoration: new BoxDecoration(
                       borderRadius: new BorderRadius.circular(10.0),
-                      color: Color(0xffE8F9FD),
+                      color: Color(0xffF3F8FF),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: Colors.grey.withOpacity(0.9),
                           spreadRadius: 0,
                           blurRadius: 5,
                           offset: Offset(2, 3), // changes position of shadow
@@ -201,7 +213,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                 width: 220.0,
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: Color(0xff2155CD),
+                      color: Color(0xff4478FF),
                       width: 2.0
                   ),
                   borderRadius: BorderRadius.all(
@@ -225,10 +237,14 @@ class _customMainPageViewState extends State<customMainPageView> {
                         margin: EdgeInsets.only(bottom: 20.0),
                         decoration: new BoxDecoration(
                           borderRadius: new BorderRadius.circular(16.0),
-                          color: Color(0xffE8F9FD),
+                          color: Color(0xffF3F8FF),
+                          // border: Border.all(
+                          //     color: Color(0xff999999),
+                          //     width: 1.0
+                          // ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey.withOpacity(0.9),
                               spreadRadius: 0,
                               blurRadius: 5,
                               offset: Offset(2, 3), // changes position of shadow
@@ -241,7 +257,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                               padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 25.0, right: 10.0),
                               child: Icon(
                                 Icons.face,
-                                color: Color(0xff2155CD),
+                                color: Color(0xff4478FF),
                                 size: 60.0,
                               ),
                             ),
@@ -265,10 +281,10 @@ class _customMainPageViewState extends State<customMainPageView> {
                       child: Container(
                         decoration: new BoxDecoration(
                           borderRadius: new BorderRadius.circular(16.0),
-                          color: Color(0xffE8F9FD),
+                          color: Color(0xffF3F8FF),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey.withOpacity(0.9),
                               spreadRadius: 0,
                               blurRadius: 5,
                               offset: Offset(2, 3), // changes position of shadow
@@ -281,7 +297,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                               padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 25.0, right: 10.0),
                               child: Icon(
                                 Icons.record_voice_over,
-                                color: Color(0xff2155CD),
+                                color: Color(0xff4478FF),
                                 size: 60.0,
                               ),
                             ),
