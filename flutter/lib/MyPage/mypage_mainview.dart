@@ -172,136 +172,363 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '마이 페이지',
-          style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
-        ),
-        centerTitle: true,
-        backgroundColor: Color(0xffC8E8FF),
-      ),
       body: Container(
         decoration: BoxDecoration(
-          color: Color(0xfff0f8ff),
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Colors.white,
+              Color(0xffE3F2FD),
+              Color(0xffBBDEFB),
+            ],
+            stops: [0.5, 0.8, 0.9, ],
+          ),
+          // color: Colors.white,
         ),
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 130.0, left: 40.0, right: 40.0, bottom: 80.0),
-              //padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0, bottom: 10.0),
-              alignment: Alignment.center,
-              height: 180,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Color(0xffE3F2FD),
-                      Color(0xffBBDEFB),
-                      Color(0xff90CAF9),
-                    ],
-                    stops: [0.2, 0.5, 0.9, ],
-                ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                // border: Border.all(
-                //   width: 2,
-                //   color: Color(0xff5AA9DD),
-                // ),
-                borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
-              child: Column(
-                children: <Widget>[
+        child: Container(
+          margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 70.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   Container(
-                    alignment: Alignment.centerRight,
-                    margin: EdgeInsets.only(bottom: 30.0),
-                    child: IconButton(
-                      onPressed: (){
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (_) => ModifyInformationPage())
-                        ).then((value) {
-                          _update(value);
-                        });
-                      },
-                      icon: Icon(Icons.edit),
-                      iconSize: 20,
-                    ),
-                    height: 20,
-                  ),
-                  Text(
-                    "${name}",
-                    style: TextStyle(fontSize: 32, height: 1.8, fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    "${email}",
-                    style: TextStyle(fontSize: 14, height: 1.8, fontWeight: FontWeight.w200),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              child: RaisedButton(
-                child: new Text(
-                  "구화 북마크 목록",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                ),
-                onPressed: (){
-                  _LRList();
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: Color(0xffC8E8FF),
-              ),
-              width: 300,
-              height: 40,
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 20.0),
-              child: RaisedButton(
-                child: new Text(
-                  "말하기 북마크 목록",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                ),
-                onPressed: (){
-                  _SPList();
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: Color(0xffC8E8FF),
-              ),
-              width: 300,
-              height: 40,
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 30.0, left: 50.0, right: 50.0),
-              alignment: Alignment.bottomRight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  TextButton(
-                    onPressed: (){
-                      //Navigator.pop(context);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
-                      
-                    },
+                    margin: EdgeInsets.only(bottom: 15.0),
                     child: Text(
-                      '로그아웃',
-                      style: TextStyle(fontSize: 12, decoration: TextDecoration.underline),
+                      "마이페이지",
+                      style: TextStyle(
+                          color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
+                      ),
                     ),
+
                   ),
                 ],
+              ),
+
+              Container(
+                margin: EdgeInsets.only(top: 10.0, left: 0.0, right: 0.0, bottom: 25.0),
+                //padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0, bottom: 10.0),
+                alignment: Alignment.center,
+                width: double.infinity,
+                height: 100,
+                decoration: BoxDecoration(
+                    // gradient: LinearGradient(
+                    //   begin: Alignment.topRight,
+                    //   end: Alignment.bottomLeft,
+                    //   colors: [
+                    //     Color(0xffE3F2FD),
+                    //     Color(0xffBBDEFB),
+                    //     Color(0xff90CAF9),
+                    //   ],
+                    //   stops: [0.2, 0.5, 0.9, ],
+                    // ),
+                    border: Border.all(
+                        color: Color(0xff4478FF),
+                        width: 1.0
+                    ),
+                  color: Color(0xffF3F8FF),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 0,
+                        blurRadius: 5,
+                        offset: Offset(2, 3), // changes position of shadow
+                      ),
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 40.0),
+                          child: Text(
+                            "${name}",
+                            style: TextStyle(fontSize: 32, height: 1.8, fontWeight: FontWeight.w700),
+                          ),
+                        ),
+
+                        Container(
+                          alignment: Alignment.centerRight,
+                          margin: EdgeInsets.only(bottom: 10.0),
+                          child: IconButton(
+                            onPressed: (){
+                              Navigator.push(
+                                  context, MaterialPageRoute(builder: (_) => ModifyInformationPage())
+                              ).then((value) {
+                                _update(value);
+                              });
+                            },
+                            icon: Icon(Icons.edit),
+                            iconSize: 20,
+                          ),
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 40.0),
+                      child: Text(
+                        "${email}",
+                        style: TextStyle(fontSize: 14, height: 1.8, fontWeight: FontWeight.w200),
+                      ),
+                    )
+
+                  ],
+                ),
+              ),
+
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 10.0, bottom: 20.0),
+                padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                width: 150.0,
+                decoration: BoxDecoration(
+                  // color: Colors.white,
+                  border: Border.all(
+                      color: Color(0xff4478FF),
+                      width: 2.0
+                  ),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(20.0)
+                  ),
+                ),
+                child: Text("최근 학습",
+                  style: TextStyle(
+                      color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+              ),
+
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                        onTap: (){
+                          // 구화 최근 학습
+                        },
+                        child: new Container(
+                          width: 140.0,
+                          height: 130.0,
+                          padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                          decoration: new BoxDecoration(
+                            borderRadius: new BorderRadius.circular(16.0),
+                            color: Color(0xffF3F8FF),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.9),
+                                spreadRadius: 0,
+                                blurRadius: 5,
+                                offset: Offset(2, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.face,
+                                color: Color(0xff4478FF),
+                                size: 70.0,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 10.0),
+                                child: Text(
+                                  "구화 연습하기",
+                                  style: TextStyle(
+                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                    ),
+
+                    GestureDetector(
+                        onTap: (){
+                          // 말하기 최근 학습
+                        },
+                        child: new Container(
+                          width: 140.0,
+                          height: 130.0,
+                          padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                          decoration: new BoxDecoration(
+                            borderRadius: new BorderRadius.circular(16.0),
+                            color: Color(0xffF3F8FF),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.9),
+                                spreadRadius: 0,
+                                blurRadius: 5,
+                                offset: Offset(2, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.record_voice_over,
+                                color: Color(0xff4478FF),
+                                size: 70.0,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 10.0),
+                                child: Text(
+                                  "말하기 연습하기",
+                                  style: TextStyle(
+                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                    )
+
+                  ],
+                ),
+              ),
+
+
+
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 35.0, bottom: 20.0),
+                padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                width: 150.0,
+                decoration: BoxDecoration(
+                  // color: Colors.white,
+                  border: Border.all(
+                      color: Color(0xff4478FF),
+                      width: 2.0
+                  ),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(20.0)
+                  ),
+                ),
+                child: Text("북마크",
+                  style: TextStyle(
+                      color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+              ),
+
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                        onTap: (){
+                          _LRList();
+                        },
+                        child: new Container(
+                          width: 140.0,
+                          height: 130.0,
+                          padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                          decoration: new BoxDecoration(
+                            borderRadius: new BorderRadius.circular(16.0),
+                            color: Color(0xffF3F8FF),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.9),
+                                spreadRadius: 0,
+                                blurRadius: 5,
+                                offset: Offset(2, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.face,
+                                color: Color(0xff4478FF),
+                                size: 70.0,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 10.0),
+                                child: Text(
+                                  "구화 연습하기",
+                                  style: TextStyle(
+                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                    ),
+
+                    GestureDetector(
+                        onTap: (){
+                          _SPList();
+                        },
+                        child: new Container(
+                          width: 140.0,
+                          height: 130.0,
+                          padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                          decoration: new BoxDecoration(
+                            borderRadius: new BorderRadius.circular(16.0),
+                            color: Color(0xffF3F8FF),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.9),
+                                spreadRadius: 0,
+                                blurRadius: 5,
+                                offset: Offset(2, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.record_voice_over,
+                                color: Color(0xff4478FF),
+                                size: 70.0,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 10.0),
+                                child: Text(
+                                  "말하기 연습하기",
+                                  style: TextStyle(
+                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                    )
+
+                  ],
+                ),
+              ),
+
+
+              Container(
+                  margin: EdgeInsets.only(top: 30.0, left: 0.0, right: 0.0),
+                  alignment: Alignment.bottomRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: (){
+                          //Navigator.pop(context);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
+
+                        },
+                        child: Text(
+                          '로그아웃',
+                          style: TextStyle(fontSize: 12, decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    ],
+                  )
               )
-            )
-          ],
-        ),
+            ],
+          ),
+        )
       ),
     );
 
