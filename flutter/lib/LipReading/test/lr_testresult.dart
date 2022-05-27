@@ -1,14 +1,19 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/custom_icons_icons.dart';
 import 'lr_wordtest.dart';
 import 'lr_sentencetest.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:confetti/confetti.dart';
+import 'dart:async';
 import 'lr_testview.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:math';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/server.dart';
 
@@ -16,19 +21,59 @@ class lrTestResultPage extends StatefulWidget {
   final String title;
   final String cnt;
   final int time;
-  const lrTestResultPage({Key? key, required this.title, required this.cnt, required this.time}) : super(key: key);
+  const lrTestResultPage({
+    Key? key,
+    required this.title, required this.cnt, required this.time
+  }) : super(key: key);
   @override
   _lrTestResultPageState createState() => _lrTestResultPageState();
 }
 
 class _lrTestResultPageState extends State<lrTestResultPage> {
-  late final myController1 = TextEditingController(text: '${widget.title}');
-  late final myController2 = TextEditingController(text: '${widget.cnt}');
-  late final myController3 = TextEditingController(text: '${widget.time}');
+  late final title = widget.title;
+  late final totaltime = widget.time;
+  late final correct = widget.cnt;
 
-  void initState(){
+  late List score=correct.split('/');
+  late double stamp=double.parse(score[0])/double.parse(score[1]);
+  bool _visibility=false;
+  bool _btn_visibility=false;
+  late Timer _timer;
+  int _time=0;
+
+  late ConfettiController _controllerCenter;
+
+
+  void _start() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _time++;
+      if(_time==4){
+        setState(() {
+          _visibility=true;
+        });
+      }
+      if(_time==6){
+        setState(() {
+          _btn_visibility=true;
+            _timer.cancel();
+        });
+      }
+    });
+  }
+
+  void initState() {
+    _start();
+    _controllerCenter = ConfettiController(duration: const Duration(seconds: 10));
+    _controllerCenter.play();
     super.initState();
   }
+
+  void dispose() {
+    _controllerCenter.dispose();
+    super.dispose();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,200 +84,210 @@ class _lrTestResultPageState extends State<lrTestResultPage> {
           FocusScope.of(context).unfocus();
         },
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              '테스트 결과',
-              style: TextStyle(
-                  color: Color(0xff333333),
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800),
-            ),
-            centerTitle: true,
-            backgroundColor: Color(0xffC8E8FF),
-            foregroundColor: Color(0xff333333),
-          ),
-          body:SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Container(
-              child: Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(
-                    top: 160.0, bottom: 160.0, right: 30.0, left: 30.0),
-                color: Color(0xffC8E8FF),
-                child: Column(
-                  children: [
-                    Padding(padding: EdgeInsets.all(10.0)),
-                    Text(
-                      '테스트 이름',
-                      style: TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    Padding(padding: EdgeInsets.all(10.0)),
-                    Container(
-                      margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                      child: TextField(
-                        enabled: false,
-                        maxLength: 15,
-                        controller: myController1,
+            // appBar: AppBar(
+            //   title: Text(
+            //     '테스트 결과',
+            //     style: TextStyle(
+            //         color: Color(0xff333333),
+            //         fontSize: 24,
+            //         fontWeight: FontWeight.w800),
+            //   ),
+            //   centerTitle: true,
+            //   backgroundColor: Color(0xffC8E8FF),
+            //   foregroundColor: Color(0xff333333),
+            // ),
+            body: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(
+                        top: 50.0, bottom: 10.0, right: 30.0, left: 30.0),
+                    child: Column(children: [
+                      Padding(padding: EdgeInsets.all(10.0)),
+                      Text(
+                        '$title',
                         style: TextStyle(
-                          fontSize: 17.0,
-                        ),
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          counterText: '',
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 7),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(width: 2, color: Colors.white),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(width: 2, color: Colors.white),
-                          ),
+                            color: Color(0xffFFB800),
+                            fontSize: 36.0,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Container(
+                        child:Stack(
+                          children: [
+                            Container(
+                              width: 450,
+                              child: Image(
+                                  image: AssetImage('assets/images/complete.png'),
+                                  width: 170,
+                                  height: 162),
+                            ),
+                                 Positioned(
+                                      top: 20,
+                                      left: 170,
+                                      child: _visibility?
+                                      Image(
+                                          image:AssetImage(stamp==1? 'assets/images/perfect.png' : stamp>=0.5? 'assets/images/good.png' :  'assets/images/cheer up.png'),
+                                          width: 197.0,
+                                          height:187.0
+                                      ): Container()
+                                  )
+                          ],
                         ),
                       ),
-                    ),
-                    Padding(padding: EdgeInsets.all(10.0)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Padding(padding: EdgeInsets.all(15.0)),
-                        Container(
-                          child: Text(
-                            '맞은 개수',
-                            style: TextStyle(
-                                color: Color(0xff333333),
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(15.0)),
-                        Expanded(
-                          child: TextField(
-                            enabled: false,
-                            keyboardType: TextInputType.number,
-                            maxLength: 3,
-                            controller: myController2,
-                            style: TextStyle(
-                              fontSize: 17.0,
-                            ),
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                              counterText: '',
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintStyle: TextStyle(fontSize: 15.0),
-                              contentPadding: EdgeInsets.symmetric(horizontal: 5),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                borderSide: BorderSide(width: 2, color: Colors.white),
+                      stamp>=0.5?
+                      ConfettiWidget(
+                        confettiController: _controllerCenter,
+                        blastDirection: pi / 2 * 3,
+                        particleDrag: 0.05,
+                        emissionFrequency: 0.01,
+                        numberOfParticles: 15,
+                        gravity: 0.1,
+                        shouldLoop: false,
+                        colors: const [
+                          Colors.green,
+                          Colors.blue,
+                          Colors.pink,
+                          Colors.orange,
+                          Colors.purple
+                        ], // manually specify the colors to be used
+                      ): Container(),
+                      Padding(padding: EdgeInsets.all(10.0)),
+                      Container(
+                        height: 127.0,
+                        width: 249.0,
+                        decoration: BoxDecoration(
+                            color: Color(0xff97D5FE),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                child: Text(
+                                  '응시 시간',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20.0),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                borderSide: BorderSide(width: 2, color: Colors.white),
+                              Container(
+                                width: 241.0,
+                                height: 86.0,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: Color(0xffF3F8FF),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.access_time,
+                                      color: Color(0xff97D5FE),
+                                      size: 30.0,
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only(right: 5.0)),
+                                    Text(
+                                      '$totaltime',
+                                      style: TextStyle(
+                                          color: Color(0xff333333),
+                                          fontSize: 20.0),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(5.0)),
-                        Text(
-                          '개',
-                          style: TextStyle(
-                              color: Color(0xff333333),
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Padding(padding: EdgeInsets.all(15.0)),
-                      ],
-                    ),
-                    Padding(padding: EdgeInsets.all(10.0)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Padding(padding: EdgeInsets.all(15.0)),
-                        Text(
-                          '총 응시 시간',
-                          style: TextStyle(
-                              color: Color(0xff333333),
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Padding(padding: EdgeInsets.all(15.0)),
-                        Flexible(
-                          child: TextField(
-                            enabled: false,
-                            keyboardType: TextInputType.number,
-                            maxLength: 2,
-                            controller: myController3,
-                            style: TextStyle(
-                              fontSize: 17.0,
-                            ),
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                              counterText: '',
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintStyle: TextStyle(fontSize: 15.0),
-                              contentPadding: EdgeInsets.symmetric(horizontal: 5),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                borderSide:
-                                BorderSide(width: 2, color: Colors.white),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                borderSide: BorderSide(width: 2, color: Colors.white),
+                            ]),
+                      ),
+                      Padding(padding: EdgeInsets.all(10.0)),
+                      Container(
+                        height: 127.0,
+                        width: 249.0,
+                        decoration: BoxDecoration(
+                            color: Color(0xff97D5FE),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              child: Text(
+                                '맞은 개수',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20.0),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                          ),
+                            Container(
+                              width: 241.0,
+                              height: 86.0,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: Color(0xffF3F8FF),
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    CustomIcons.thumbs_up,
+                                    color: Color(0xff97D5FE),
+                                    size: 30.0,
+                                  ),
+                                  Padding(padding: EdgeInsets.only(right: 5.0)),
+                                  Text(
+                                    '$correct',
+                                    style: TextStyle(
+                                        color: Color(0xff333333),
+                                        fontSize: 20.0),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(padding: EdgeInsets.all(5.0)),
-                        Text(
-                          '초',
-                          style: TextStyle(
-                              color: Color(0xff333333),
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Padding(padding: EdgeInsets.all(15.0)),
-                      ],
-                    ),
-                    Padding(padding: EdgeInsets.all(10.0)),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xffff97D5FE),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: BorderSide(color: Color(0xffff97D5FE), width: 1.0),
-                          ),
-                          // minimumSize: Size(100, 40),
-                        ),
-                        onPressed: () async {
-                          FocusScope.of(context).unfocus();
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 10.0, bottom: 10.0, right: 20.0, left: 20.0),
-                          child: Text(
-                            '완료',
-                            style: TextStyle(
-                                color: Color(0xff333333),
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )),
-                    Padding(padding: EdgeInsets.all(10.0)),
-                  ],
+                      ),
+                      Padding(padding: EdgeInsets.all(20.0)),
+                      // _btn_visibility?
+                          Container(
+                            child: AnimatedOpacity(
+                              // If the widget is visible, animate to 0.0 (invisible).
+                              // If the widget is hidden, animate to 1.0 (fully visible).
+                                opacity: _btn_visibility ? 1.0 : 0.0,
+                                duration: const Duration(milliseconds: 700),
+                                child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Color(0xffff97D5FE),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: BorderSide(
+                                        color: Color(0xffff97D5FE), width: 1.0),
+                                  ),
+                                  // minimumSize: Size(100, 40),
+                                ),
+                                onPressed: () async {
+
+                                  // Navigator.pop(context);
+                                  // Navigator.pop(context);
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 10.0,
+                                      bottom: 10.0,
+                                      right: 80.0,
+                                      left: 80.0),
+                                  child: Text(
+                                    '마치기',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )
+                            )
+                          )),
+                      // : Container(),
+                    ])
                 ),
-              ),
-            ),
-          ),
+            ])
         )
     );
   }

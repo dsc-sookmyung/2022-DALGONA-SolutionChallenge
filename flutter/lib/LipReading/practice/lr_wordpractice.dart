@@ -83,37 +83,46 @@ class _WordPracticePageState extends State<WordPracticePage> {
     final prefs=await SharedPreferences.getInstance();
     _recent.add(id.toString());
 
-    setState(() {
-      prefs.setStringList('id', _recent);
-    });
+    if(_recent.length>=20){
+      List _ret=[];
+      for(int i=0;i<_recent.length;i++){
+        _ret.add(int.parse(_recent[i]));
+      }
+      _AddRecent(_ret);
+    }
+    else {
+      setState(() {
+        prefs.setStringList('id', _recent);
+      });
+    }
   }
 
-  // void _AddRecent(List id) async{
-  //   var url = Uri.http('${serverHttp}:8080', '/recent/reading');
-  //   final data = jsonEncode({'recentProbIdRequestList': id});
-  //
-  //   var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
-  //
-  //   // print(url);
-  //   print(response.statusCode);
-  //
-  //   if (response.statusCode == 200) {
-  //     print('Response status: ${response.statusCode}');
-  //     print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-  //     // var body=jsonDecode(utf8.decode(response.bodyBytes));
-  //   }
-  //   else if(response.statusCode == 401){
-  //     await RefreshToken(context);
-  //     if(check == true){
-  //       _AddRecent(id);
-  //       check = false;
-  //     }
-  //   }
-  //   else {
-  //     print('error : ${response.reasonPhrase}');
-  //   }
-  //
-  // }
+  void _AddRecent(List id) async{
+    var url = Uri.http('${serverHttp}:8080', '/recent/reading');
+    final data = jsonEncode({'recentProbIdRequestList': id});
+
+    var response = await http.post(url, body: data, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"} );
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+      // var body=jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _AddRecent(id);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
 
   void _randomWord(String onsetId, String onset) async {
     Map<String, String> _queryParameters = <String, String>{
@@ -142,8 +151,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
       setState(() {
         _hint = data['hint'];
         _word = data['word'];
-        _url = 'https://storage.googleapis.com/zerozone-custom-video/159079717-b3c81f63-5bb7-4ff6-b9f4-ecfc5ff6bf93.mp4';
-        //data['url'];
+        _url = data['url'];
         _probId = data['probId'];
         _isStared = data['bookmarked'];
 
@@ -544,7 +552,6 @@ class _WordPracticePageState extends State<WordPracticePage> {
         onWillPop: () {
           setState(() {
             _controller.pause();
-            _saveRecent(_probId);
           });
           // _recent.length>0?
           // _AddRecent(_recent): null;
