@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'Speaking/sp_mainview.dart';
 import 'LipReading/lr_mainview.dart';
 import 'MyPage/mypage_mainview.dart';
+import 'Custom/customMainPage.dart';
 
 
 class tabBarMainPage extends StatelessWidget {
@@ -34,7 +35,7 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -53,6 +54,7 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
   List<Widget> _widgetOptions = [
     lrselectModeMainPage(),
     selectModeMainPage(),
+    customMainPageView(),
     MyPage(),
   ];
 
@@ -77,7 +79,14 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
             ),
           ),
           Tab(
-            icon: _seletedIndex == 2? Icon(Icons.home_filled, color: Color(0xff5AA9DD),) : Icon(Icons.home_outlined, color: Color(0xff5AA9DD)),
+            icon: _seletedIndex == 2 ? Icon(Icons.add_box_rounded, color: Color(0xff5AA9DD)) : Icon(Icons.add_box_outlined, color: Color(0xff5AA9DD)),
+            child: Text(
+              '커스텀',
+              style: TextStyle(color: Color(0xff5AA9DD), fontSize: 11),
+            ),
+          ),
+          Tab(
+            icon: _seletedIndex == 3? Icon(Icons.home_filled, color: Color(0xff5AA9DD),) : Icon(Icons.home_outlined, color: Color(0xff5AA9DD)),
             child: Text(
               '마이페이지',
               style: TextStyle(color: Color(0xff5AA9DD), fontSize: 11),
