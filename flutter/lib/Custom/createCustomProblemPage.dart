@@ -54,7 +54,7 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
               ),
             ),
             child: Container(
-                margin: EdgeInsets.only(left: 10.0, top: 50.0),
+                margin: EdgeInsets.only(left: 10.0, top: 15.0),
                 child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
 

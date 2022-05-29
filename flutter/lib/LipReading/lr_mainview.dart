@@ -318,7 +318,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height -160.0,
+                    height: MediaQuery.of(context).size.height -180.0,
                     child: SingleChildScrollView(
                       child: Container(
                         padding:
@@ -672,7 +672,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                       left: 0.0,
                                       right: 15.0,
                                       top: 20.0,
-                                      bottom: 20.0),
+                                      bottom: 30.0),
                                   padding: EdgeInsets.only(
                                       left: 10.0,
                                       right: 10.0,
@@ -708,7 +708,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                       )
                                     ],
                                   ),
-                                ))
+                                )),
+
                           ],
                         ),
                       ),
@@ -737,7 +738,6 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                   children: [
                     InkWell(
                         onTap: () async{
-                          Navigator.pop(context);
                           await _Cnt('단어');
                           Navigator.push(
                               context,
@@ -765,7 +765,6 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     Padding(padding: EdgeInsets.all(1.0)),
                     InkWell(
                       onTap: () async{
-                        Navigator.pop(context);
                         await _Cnt('문장');
                         Navigator.push(
                             context,
@@ -790,7 +789,6 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     Padding(padding: EdgeInsets.all(1.0)),
                     InkWell(
                       onTap: () async{
-                        Navigator.pop(context);
                         await _Cnt('랜덤');
                         Navigator.push(
                             context,
@@ -854,6 +852,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                         InkWell(
                           onTap: () {
                             letterRandomUrlInfo();
+                            Navigator.pop(context);
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width-10.0,
@@ -914,6 +913,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                             InkWell(
                               onTap: () {
                                 wordRandomUrlInfo();
+                                Navigator.pop(context);
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width-10.0,
@@ -974,6 +974,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                 InkWell(
                                   onTap: () {
                                     sentenceRandomUrlInfo();
+                                    Navigator.pop(context);
                                   },
                                   child: Container(
                                     width: MediaQuery.of(context).size.width-10.0,

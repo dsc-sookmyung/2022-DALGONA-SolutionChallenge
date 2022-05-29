@@ -60,7 +60,7 @@ class _customMainPageViewState extends State<customMainPageView> {
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top:20.0),
+                  margin: EdgeInsets.only(top:15.0),
                   height: 50.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

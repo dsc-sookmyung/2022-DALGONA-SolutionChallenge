@@ -20,33 +20,51 @@ class ChooseWordConsonantPage extends StatefulWidget {
   const ChooseWordConsonantPage({Key? key}) : super(key: key);
 
   @override
-  _ChooseWordConsonantPageState createState() => _ChooseWordConsonantPageState();
+  _ChooseWordConsonantPageState createState() =>
+      _ChooseWordConsonantPageState();
 }
 
 class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
-
   int letterId = 0;
   String letter = 'ㄱ';
 
   final wordList = new List<WordList>.empty(growable: true);
 
-  List<String> consonantList = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+  List<String> consonantList = [
+    'ㄱ',
+    'ㄴ',
+    'ㄷ',
+    'ㄹ',
+    'ㅁ',
+    'ㅂ',
+    'ㅅ',
+    'ㅇ',
+    'ㅈ',
+    'ㅊ',
+    'ㅋ',
+    'ㅌ',
+    'ㅍ',
+    'ㅎ'
+  ];
 
-  getGridViewSelectedItem(BuildContext context, String gridItem, int index){
-
+  getGridViewSelectedItem(BuildContext context, String gridItem, int index) {
     letterInfo(gridItem, index + 1);
   }
 
   void letterInfo(String gridItem, int index) async {
-
     Map<String, String> _queryParameters = <String, String>{
       'onsetId': index.toString(),
       'onset': gridItem
     };
 
-    var url = Uri.http('${serverHttp}:8080', '/speaking/list/word', _queryParameters);
+    var url =
+        Uri.http('${serverHttp}:8080', '/speaking/list/word', _queryParameters);
 
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+    var response = await http.get(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
 
     print(url);
 
@@ -57,7 +75,7 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
 
       dynamic data = body["data"];
 
-      for(dynamic i in data){
+      for (dynamic i in data) {
         String a = i["word"];
         int b = i["id"];
         wordList.add(WordList(a, b));
@@ -68,32 +86,34 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
 
       Navigator.of(context).pop();
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => WordSelectPage(consonant: gridItem, wordList: wordList))
-      );
-
-    }
-    else if(response.statusCode == 401){
+          context,
+          MaterialPageRoute(
+              builder: (_) =>
+                  WordSelectPage(consonant: gridItem, wordList: wordList)));
+    } else if (response.statusCode == 401) {
       await RefreshToken(context);
-      if(check == true){
+      if (check == true) {
         letterInfo(gridItem, index);
         check = false;
       }
-    }
-    else {
+    } else {
       print('error : ${response.reasonPhrase}');
     }
-
   }
 
   void urlInfo(String letter, int letterId) async {
-
     Map<String, String> _queryParameters = <String, String>{
-      'id' : letterId.toString(),
+      'id': letterId.toString(),
     };
 
-    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/letter', _queryParameters);
+    var url = Uri.http(
+        '${serverHttp}:8080', '/speaking/practice/letter', _queryParameters);
 
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+    var response = await http.get(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
 
     print(url);
 
@@ -109,67 +129,121 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
 
       print("url : ${url}");
       print("type : ${type}");
-
-    }
-    else if(response.statusCode == 401){
+    } else if (response.statusCode == 401) {
       await RefreshToken(context);
-      if(check == true){
+      if (check == true) {
         urlInfo(letter, letterId);
         check = false;
       }
-    }
-    else {
+    } else {
       print('error : ${response.reasonPhrase}');
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '말하기 연습 - 단어',
-            style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
-          ),
-          centerTitle: true,
-          backgroundColor: Color(0xffC8E8FF),
-          foregroundColor: Color(0xff333333),
-        ),
-        body: new Container(
-    color: Color(0xfff0f8ff),
-    child:Container(
-          padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 30.0, bottom: 100.0),
-          child: new Column(
-              children: [ Expanded(child: GridView.count(
-                crossAxisCount: 3,
-                children: consonantList.asMap().map((index,data) => MapEntry(index, GestureDetector(
-
-                    onTap: (){
-                      getGridViewSelectedItem(context, data, index);
-                    },
-                    child: Container(
-
-                        margin:EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                        decoration:BoxDecoration(
-                            color: (index/3)%2 < 1 ? Color(0xffD8EFFF) : Color(0xff97D5FE),
-                            borderRadius:BorderRadius.all(Radius.circular(15.0))
-                        ) ,
-
-                        child: Center(
-                          child: Text(
-                            data,
-                            style: TextStyle(fontSize: 42, color: Color(0xff333333), fontWeight: FontWeight.w900),
-                            textAlign: TextAlign.center,
-                          ),
-
-                        ))))
-                ).values.toList(),
-              ),)
-              ]),
-        )));
-
-
+        body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Color(0xffF3F4F6),
+                  Color(0xffEFF4FA),
+                  Color(0xffECF4FE),
+                ],
+                stops: [
+                  0.3,
+                  0.7,
+                  0.9,
+                ],
+              ),
+            ),
+            child: SafeArea(
+                child: Container(
+                    child: Column(children: [
+              Container(
+                margin: EdgeInsets.only(top: 20.0),
+                height: 50.0,
+                // decoration: BoxDecoration(
+                //   color: Colors.white,
+                //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                // ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 15.0),
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back),
+                        iconSize: 20,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 15.0),
+                      alignment: Alignment.center,
+                      width: 300.0,
+                      child: Text(
+                        "말하기 단어 연습",
+                        style: TextStyle(
+                            color: Color(0xff333333),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                  height: MediaQuery.of(context).size.height - 100,
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+                    margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 0.0),
+                    child: Column(children: [
+                      Expanded(
+                        child: GridView.count(
+                          crossAxisCount: 3,
+                          children: consonantList
+                              .asMap()
+                              .map((index, data) => MapEntry(
+                                  index,
+                                  GestureDetector(
+                                      onTap: () {
+                                        getGridViewSelectedItem(
+                                            context, data, index);
+                                      },
+                                      child: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 15, horizontal: 15),
+                                          decoration: BoxDecoration(
+                                              color: (index / 3) % 2 < 1
+                                                  ? Color(0xffD8EFFF)
+                                                  : Color(0xff97D5FE),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15.0))),
+                                          child: Center(
+                                            child: Text(
+                                              data,
+                                              style: TextStyle(
+                                                  fontSize: 42,
+                                                  color: Color(0xff333333),
+                                                  fontWeight: FontWeight.w900),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          )))))
+                              .values
+                              .toList(),
+                        ),
+                      )
+                    ]),
+                  ))
+            ])))));
   }
 }
