@@ -42,7 +42,16 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
     return Scaffold(
         body: Container(
             decoration: BoxDecoration(
-              color: Colors.white
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Color(0xffF3F4F6),
+                  Color(0xffEFF4FA),
+                  Color(0xffECF4FE),
+                ],
+                stops: [0.3, 0.7, 0.9, ],
+              ),
             ),
             child: Container(
                 margin: EdgeInsets.only(left: 10.0, top: 50.0),
