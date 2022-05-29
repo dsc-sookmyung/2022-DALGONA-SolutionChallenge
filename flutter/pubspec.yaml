@@ -46,6 +46,7 @@ dependencies:
   shared_preferences: ^2.0.15
   card_swiper: ^2.0.3
   confetti: ^0.5.4+1
+  modal_bottom_sheet: ^2.0.1
 #  number_paginator: ^0.0.2
 #  tflite: ^1.1.2
 

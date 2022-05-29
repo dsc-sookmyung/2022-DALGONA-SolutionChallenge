@@ -35,7 +35,7 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -53,7 +53,6 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
 
   List<Widget> _widgetOptions = [
     lrselectModeMainPage(),
-    selectModeMainPage(),
     customMainPageView(),
     MyPage(),
   ];
@@ -67,14 +66,7 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
           Tab(
             icon: _seletedIndex == 0 ? Icon(Icons.face, color: Color(0xff5AA9DD)) : Icon(Icons.face_outlined, color: Color(0xff5AA9DD)),
             child: Text(
-              '연습하기',
-              style: TextStyle(color: Color(0xff5AA9DD), fontSize: 11),
-            ),
-          ),
-          Tab(
-            icon: _seletedIndex == 1 ? Icon(Icons.record_voice_over, color: Color(0xff5AA9DD)) : Icon(Icons.record_voice_over_outlined, color: Color(0xff5AA9DD)),
-            child: Text(
-              '말하기',
+              '학습하기',
               style: TextStyle(color: Color(0xff5AA9DD), fontSize: 11),
             ),
           ),
