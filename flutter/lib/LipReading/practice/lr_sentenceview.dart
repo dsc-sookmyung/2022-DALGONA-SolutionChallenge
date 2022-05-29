@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'lr_sentencepractice.dart';
@@ -103,10 +104,24 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                 //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
                 // ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
                       margin: EdgeInsets.only(bottom: 15.0),
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back),
+                        iconSize: 20,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 15.0),
+                      alignment: Alignment.center,
+                      width: 300.0,
                       child: Text(
                         "구화 문장 연습",
                         style: TextStyle(
@@ -118,228 +133,299 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                   ],
                 ),
               ),
-                  Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(
-                        left: 0.0,
-                        right: 15.0,
-                        top: 10.0,
-                        bottom: 20.0),
-                    padding: EdgeInsets.only(
-                        top: 5.0,
-                        bottom: 5.0,
-                        left: 10.0,
-                        right: 10.0),
-                    width: 220.0,
-                    decoration: BoxDecoration(
-                      color: Color(0xffF3F8FF),
-                      border: Border.all(
-                          color: Color(0xff4478FF), width: 2.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.9),
-                          spreadRadius: 0,
-                          blurRadius: 2,
-                          offset: Offset(
-                              1, 2), // changes position of shadow
-                        ),
-                      ],
-                      borderRadius:
-                      BorderRadius.all(Radius.circular(20.0)),
-                    ),
-                    child: Text(
-                      "상황 선택하기",
-                      style: TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
+              Container(
+                  height: MediaQuery.of(context).size.height - 160.0,
+                  child: SingleChildScrollView(
+                      child: Container(
+                    padding:
+                        EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+                    margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 0.0),
+                    // decoration: BoxDecoration(
+                    //     color: Color(0xffF1EEE9),
+                    //     borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))
+                    // ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Container(
-                          width: MediaQuery.of(context).size.width -50.0,
-                          height: MediaQuery.of(context).size.width *0.2,
-                          decoration: new BoxDecoration(
-                            borderRadius:
-                            new BorderRadius.circular(16.0),
-                            color: Colors.white,
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(
+                              left: 0.0, right: 15.0, top: 10.0, bottom: 20.0),
+                          padding: EdgeInsets.only(
+                              top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                          width: 220.0,
+                          decoration: BoxDecoration(
+                            color: Color(0xffF3F8FF),
+                            border: Border.all(
+                                color: Color(0xff4478FF), width: 2.0),
                             boxShadow: [
                               BoxShadow(
-                                color:
-                                Colors.grey.withOpacity(0.9),
+                                color: Colors.grey.withOpacity(0.9),
                                 spreadRadius: 0,
-                                blurRadius: 5,
-                                offset: Offset(2,
-                                    3), // changes position of shadow
+                                blurRadius: 2,
+                                offset:
+                                    Offset(1, 2), // changes position of shadow
                               ),
                             ],
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
                           ),
-                          child: new RaisedButton(
-                              color: Color(0xffD8EFFF),
-                              child: new Text(
-                                '인사하기',
-                                style: new TextStyle(
-                                    fontSize: 18.0,
-                                    color: Color(0xff333333),
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              onPressed: () async {
-                                await _randomsentence('1', '인사하기');
-                                Navigator.of(context).pop();
-                                // print('확인: '+_sentence+' '+_space+' '+_hint+' '+_url);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            SentencePracticePage(
-                                              id: 1,
-                                              situation: '인사하기',
-                                              probId: _probId,
-                                              sentence: _sentence,
-                                              space: _space,
-                                              hint: _hint,
-                                              url: _url,
-                                              bookmarked: _bookmarked,
-                                            )));
-                              }),
+                          child: Text(
+                            "상황 선택하기",
+                            style: TextStyle(
+                                color: Color(0xff333333),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
+                          ),
                         ),
-                        Container(
-                          padding: EdgeInsets.only(
-                              left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
-                          margin: EdgeInsets.only(
-                              left: 0.0, top: 20.0, right: 0.0, bottom: 0.0),
-                          child: new RaisedButton(
-                              color: Color(0xff97D5FE),
-                              child: new Text(
-                                '날짜와 시간 말하기',
-                                style: new TextStyle(
-                                    fontSize: 18.0,
-                                    color: Color(0xff333333),
-                                    fontWeight: FontWeight.w500),
+                        GestureDetector(
+                            onTap: () async {
+                              await _randomsentence('1', '인사하기');
+                              Navigator.of(context).pop();
+                              // print('확인: '+_sentence+' '+_space+' '+_hint+' '+_url);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SentencePracticePage(
+                                            id: 1,
+                                            situation: '인사하기',
+                                            probId: _probId,
+                                            sentence: _sentence,
+                                            space: _space,
+                                            hint: _hint,
+                                            url: _url,
+                                            bookmarked: _bookmarked,
+                                          )));
+                            },
+                            child: new Container(
+                              width: MediaQuery.of(context).size.width - 50.0,
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              decoration: new BoxDecoration(
+                                borderRadius: new BorderRadius.circular(16.0),
+                                color: Color(0xffC8E8FF),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.9),
+                                    spreadRadius: 0,
+                                    blurRadius: 5,
+                                    offset: Offset(
+                                        2, 3), // changes position of shadow
+                                  ),
+                                ],
                               ),
-                              onPressed: () async {
-                                await _randomsentence('2', '날짜와 시간 말하기');
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            SentencePracticePage(
-                                              id: 2,
-                                              situation: '날짜와 시간 말하기',
-                                              probId: _probId,
-                                              sentence: _sentence,
-                                              space: _space,
-                                              hint: _hint,
-                                              url: _url,
-                                              bookmarked: _bookmarked,
-                                            )));
-                              }),
-                          height: 40,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(
-                              left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
-                          margin: EdgeInsets.only(
-                              left: 0.0, top: 20.0, right: 0.0, bottom: 0.0),
-                          child: new RaisedButton(
-                              color: Color(0xffD8EFFF),
-                              child: new Text(
-                                '날씨 말하기',
-                                style: new TextStyle(
-                                    fontSize: 18.0,
-                                    color: Color(0xff333333),
-                                    fontWeight: FontWeight.w500),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "인사하기",
+                                    style: TextStyle(
+                                        color: Color(0xff333333),
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
                               ),
-                              onPressed: () async {
-                                await _randomsentence('3', '날씨 말하기');
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            SentencePracticePage(
-                                              id: 3,
-                                              situation: '날씨 말하기',
-                                              probId: _probId,
-                                              sentence: _sentence,
-                                              space: _space,
-                                              hint: _hint,
-                                              url: _url,
-                                              bookmarked: _bookmarked,
-                                            )));
-                              }),
-                          height: 40,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(
-                              left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
-                          margin: EdgeInsets.only(
-                              left: 0.0, top: 20.0, right: 0.0, bottom: 0.0),
-                          child: new RaisedButton(
-                              color: Color(0xff97D5FE),
-                              child: new Text(
-                                '부탁 요청하기',
-                                style: new TextStyle(
-                                    fontSize: 18.0,
-                                    color: Color(0xff333333),
-                                    fontWeight: FontWeight.w500),
+                            )),
+                        Padding(padding: EdgeInsets.all(8.0)),
+                        GestureDetector(
+                            onTap: () async {
+                              await _randomsentence('2', '날짜와 시간 말하기');
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SentencePracticePage(
+                                            id: 2,
+                                            situation: '날짜와 시간 말하기',
+                                            probId: _probId,
+                                            sentence: _sentence,
+                                            space: _space,
+                                            hint: _hint,
+                                            url: _url,
+                                            bookmarked: _bookmarked,
+                                          )));
+                            },
+                            child: new Container(
+                              width: MediaQuery.of(context).size.width - 50.0,
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              decoration: new BoxDecoration(
+                                borderRadius: new BorderRadius.circular(16.0),
+                                color: Color(0xffC8E8FF),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.9),
+                                    spreadRadius: 0,
+                                    blurRadius: 5,
+                                    offset: Offset(
+                                        2, 3), // changes position of shadow
+                                  ),
+                                ],
                               ),
-                              onPressed: () async {
-                                await _randomsentence('4', '부탁 요청하기');
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            SentencePracticePage(
-                                              id: 4,
-                                              situation: '부탁 요청하기',
-                                              probId: _probId,
-                                              sentence: _sentence,
-                                              space: _space,
-                                              hint: _hint,
-                                              url: _url,
-                                              bookmarked: _bookmarked,
-                                            )));
-                              }),
-                          height: 40,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(
-                              left: 50.0, top: 0.0, right: 50.0, bottom: 0.0),
-                          margin: EdgeInsets.only(
-                              left: 0.0, top: 20.0, right: 0.0, bottom: 0.0),
-                          child: new RaisedButton(
-                              color: Color(0xffD8EFFF),
-                              child: new Text(
-                                '기분 표현하기',
-                                style: new TextStyle(
-                                    fontSize: 18.0,
-                                    color: Color(0xff333333),
-                                    fontWeight: FontWeight.w500),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "날짜와 시간 말하기",
+                                    style: TextStyle(
+                                        color: Color(0xff333333),
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
                               ),
-                              onPressed: () async {
-                                await _randomsentence('5', '기분 표현하기');
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            SentencePracticePage(
-                                              id: 5,
-                                              situation: '기분 표현하기',
-                                              probId: _probId,
-                                              sentence: _sentence,
-                                              space: _space,
-                                              hint: _hint,
-                                              url: _url,
-                                              bookmarked: _bookmarked,
-                                            )));
-                              }),
-                          height: 40,
-                        ),
+                            )),
+                        Padding(padding: EdgeInsets.all(8.0)),
+                        GestureDetector(
+                            onTap: () async {
+                              await _randomsentence('3', '날씨 말하기');
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SentencePracticePage(
+                                            id: 3,
+                                            situation: '날씨 말하기',
+                                            probId: _probId,
+                                            sentence: _sentence,
+                                            space: _space,
+                                            hint: _hint,
+                                            url: _url,
+                                            bookmarked: _bookmarked,
+                                          )));
+                            },
+                            child: new Container(
+                              width: MediaQuery.of(context).size.width - 50.0,
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              decoration: new BoxDecoration(
+                                borderRadius: new BorderRadius.circular(16.0),
+                                color: Color(0xffC8E8FF),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.9),
+                                    spreadRadius: 0,
+                                    blurRadius: 5,
+                                    offset: Offset(
+                                        2, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "날씨 말하기",
+                                    style: TextStyle(
+                                        color: Color(0xff333333),
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              ),
+                            )),
+                        Padding(padding: EdgeInsets.all(8.0)),
+                        GestureDetector(
+                            onTap: () async {
+                              await _randomsentence('4', '부탁 요청하기');
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SentencePracticePage(
+                                            id: 4,
+                                            situation: '부탁 요청하기',
+                                            probId: _probId,
+                                            sentence: _sentence,
+                                            space: _space,
+                                            hint: _hint,
+                                            url: _url,
+                                            bookmarked: _bookmarked,
+                                          )));
+                            },
+                            child: new Container(
+                              width: MediaQuery.of(context).size.width - 50.0,
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              decoration: new BoxDecoration(
+                                borderRadius: new BorderRadius.circular(16.0),
+                                color: Color(0xffC8E8FF),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.9),
+                                    spreadRadius: 0,
+                                    blurRadius: 5,
+                                    offset: Offset(
+                                        2, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "부탁 요청하기",
+                                    style: TextStyle(
+                                        color: Color(0xff333333),
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              ),
+                            )),
+                        Padding(padding: EdgeInsets.all(8.0)),
+                        GestureDetector(
+                            onTap: () async {
+                              await _randomsentence('5', '기분 표현하기');
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SentencePracticePage(
+                                            id: 5,
+                                            situation: '기분 표현하기',
+                                            probId: _probId,
+                                            sentence: _sentence,
+                                            space: _space,
+                                            hint: _hint,
+                                            url: _url,
+                                            bookmarked: _bookmarked,
+                                          )));
+                            },
+                            child: new Container(
+                              width: MediaQuery.of(context).size.width - 50.0,
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              decoration: new BoxDecoration(
+                                borderRadius: new BorderRadius.circular(16.0),
+                                color: Color(0xffC8E8FF),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.9),
+                                    spreadRadius: 0,
+                                    blurRadius: 5,
+                                    offset: Offset(
+                                        2, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "기분 표현하기",
+                                    style: TextStyle(
+                                        color: Color(0xff333333),
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              ),
+                            )),
                       ],
                     ),
-                  )));
+                  )))
+            ]))));
   }
 }

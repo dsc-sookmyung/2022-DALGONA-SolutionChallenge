@@ -19,6 +19,7 @@ import 'package:zerozone/LipReading/practice/lr_sentenceview.dart';
 import 'package:zerozone/Speaking/sp_word_consonant.dart';
 import 'package:zerozone/Speaking/sp_letter_consonant.dart';
 import 'package:zerozone/Speaking/sp_select_situation.dart';
+import 'package:zerozone/LipReading/test/lr_testinfo.dart';
 
 class lrselectModeMainPage extends StatefulWidget {
   const lrselectModeMainPage({Key? key}) : super(key: key);
@@ -42,6 +43,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   late List _probCount = [];
   late int totalPage;
   late int totalElement;
+  late var totalProbCnt;
 
   Future<void> _TestList() async {
     _dateList.clear();
@@ -92,6 +94,37 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
     }
   }
 
+  _Cnt(String ver) async{
+    var url;
+    if(ver=='단어')
+      url = Uri.http('${serverHttp}:8080', '/reading/test/word');
+    else if(ver=='문장')
+      url = Uri.http('${serverHttp}:8080', '/reading/test/sentence');
+    else if(ver=='랜덤')
+      url = Uri.http('${serverHttp}:8080', '/reading/test/random');
+    else if(ver=='북마크')
+      url = Uri.http('${serverHttp}:8080', '/reading/test/bookmark');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer $authToken"});
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+      var data=body['data'];
+      totalProbCnt=data['totalProbCount'];
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        _Cnt(ver);
+        check = false;
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -118,7 +151,9 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     ],
                   ),
                 ),
-                child: Container(
+
+                child: SafeArea(
+    child: Container(
                     child: Column(children: [
                   Container(
                     margin: EdgeInsets.only(top: 20.0),
@@ -145,7 +180,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height -180.0,
+                    height: MediaQuery.of(context).size.height -160.0,
                     child: SingleChildScrollView(
                       child: Container(
                         padding:
@@ -541,12 +576,13 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                       ),
                     ),
                   ),
-                ]))));
+                ])))));
   }
 
   void _showModal(String mode) {
     showMaterialModalBottomSheet(
         context: context,
+        enableDrag : false,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0),
@@ -562,7 +598,13 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InkWell(
-                        onTap: () {},
+                        onTap: () async{
+                          await _Cnt('단어');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => lrTestInfoPage(ver: '단어', cnt: totalProbCnt)));
+                        },
                         child: Container(
                           width: MediaQuery.of(context).size.width-10.0,
                           padding: EdgeInsets.only(top:10.0, bottom: 10.0),
@@ -583,7 +625,13 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                         )),
                     Padding(padding: EdgeInsets.all(1.0)),
                     InkWell(
-                      onTap: () {},
+                      onTap: () async{
+                        await _Cnt('문장');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => lrTestInfoPage(ver: '문장', cnt: totalProbCnt)));
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width-10.0,
                         padding: EdgeInsets.only(top:10.0, bottom: 10.0),
@@ -601,7 +649,13 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     ),
                     Padding(padding: EdgeInsets.all(1.0)),
                     InkWell(
-                      onTap: () {},
+                      onTap: () async{
+                        await _Cnt('랜덤');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => lrTestInfoPage(ver: '랜덤', cnt: totalProbCnt)));
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width-10.0,
                         padding: EdgeInsets.only(top:10.0, bottom: 10.0),

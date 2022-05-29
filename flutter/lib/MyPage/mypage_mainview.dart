@@ -210,7 +210,7 @@ class _MyPageState extends State<MyPage> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 50.0),
+              margin: EdgeInsets.only(top: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -228,6 +228,7 @@ class _MyPageState extends State<MyPage> {
               ),
             ),
             Container(
+                height: MediaQuery.of(context).size.height -160.0,
               child: SingleChildScrollView(
                 child: Container(
 
