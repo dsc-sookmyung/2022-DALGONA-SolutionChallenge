@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class createCustomProblemPage extends StatefulWidget {
   const createCustomProblemPage({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
   String inputText = '';
 
   bool _isChecked = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -258,28 +260,28 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
                                   ),
                                 ),
 
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Checkbox(
-                                          value: _isChecked,
-                                          onChanged: (value){
-                                            setState(() {
-                                              _isChecked = value!;
-                                            });
-                                            print(value);
-                                          }
-                                      ),
-
-                                      Text(
-                                        "개발자에게 공식 연습 문제의 추가 요청하기",
-                                        style: TextStyle(
-                                            color: Color(0xff333333), fontSize: 14, fontWeight: FontWeight.w500
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                // Container(
+                                //   child: Row(
+                                //     children: [
+                                //       Checkbox(
+                                //           value: _isChecked,
+                                //           onChanged: (value){
+                                //             setState(() {
+                                //               _isChecked = value!;
+                                //             });
+                                //             print(value);
+                                //           }
+                                //       ),
+                                //
+                                //       Text(
+                                //         "개발자에게 공식 연습 문제의 추가 요청하기",
+                                //         style: TextStyle(
+                                //             color: Color(0xff333333), fontSize: 14, fontWeight: FontWeight.w500
+                                //         ),
+                                //       )
+                                //     ],
+                                //   ),
+                                // ),
 
 
                                 Container(

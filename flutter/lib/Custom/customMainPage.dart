@@ -12,6 +12,7 @@ class customMainPageView extends StatefulWidget {
 }
 
 class _customMainPageViewState extends State<customMainPageView> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,13 +136,13 @@ class _customMainPageViewState extends State<customMainPageView> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Icon(
-                                          Icons.wordpress_outlined,
+                                          Icons.face,
                                           color: Color(0xff4478FF),
                                           size: 90.0,
                                         ),
                                         Container(
                                             child: Text(
-                                              "단어",
+                                              "구화 문제",
                                               style: TextStyle(
                                                   color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
                                             )
@@ -159,7 +160,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                                     );                          },
                                   child: new Container(
                                     width: 140.0,
-                                    height: 140.0,
+                                    height: 145.0,
                                     padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                                     decoration: new BoxDecoration(
                                       borderRadius: new BorderRadius.circular(16.0),
@@ -174,16 +175,17 @@ class _customMainPageViewState extends State<customMainPageView> {
                                       ],
                                     ),
                                     child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Icon(
-                                          Icons.draw_rounded,
+                                          Icons.record_voice_over,
                                           color: Color(0xff4478FF),
                                           size: 90.0,
                                         ),
                                         Text(
-                                          "문장",
+                                          "말하기 문제",
                                           style: TextStyle(
-                                              color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                              color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
                                         )
                                       ],
                                     ),
@@ -266,7 +268,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                                         child: Text(
                                           "구화 연습하기",
                                           style: TextStyle(
-                                              color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                              color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
                                         ),
                                       )
                                     ],
@@ -306,7 +308,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                                         child: Text(
                                           "말하기 연습하기",
                                           style: TextStyle(
-                                              color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                              color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
                                         ),
                                       )
                                     ],
