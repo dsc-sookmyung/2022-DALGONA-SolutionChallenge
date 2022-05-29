@@ -36,8 +36,8 @@ class _customMainPageViewState extends State<customMainPageView> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 50.0),
-                height: 90.0,
+                margin: EdgeInsets.only(top: 50.0),
+                height: 50.0,
                 // decoration: BoxDecoration(
                 //   color: Colors.white,
                 //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
@@ -139,11 +139,10 @@ class _customMainPageViewState extends State<customMainPageView> {
                                           size: 90.0,
                                         ),
                                         Container(
-                                            margin: EdgeInsets.only(top: 5.0),
                                             child: Text(
                                               "단어",
                                               style: TextStyle(
-                                                  color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
+                                                  color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
                                             )
                                         )
 

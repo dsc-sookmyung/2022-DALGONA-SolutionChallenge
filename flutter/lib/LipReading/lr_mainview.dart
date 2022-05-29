@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:zerozone/custom_icons_icons.dart';
 import 'lr_readvideo.dart';
 import 'test/lr_testview.dart';
@@ -99,480 +101,698 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return Scaffold(
-        body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                Colors.white,
-                Color(0xffE3F2FD),
-                Color(0xffBBDEFB),
-              ],
-              stops: [0.5, 0.8, 0.9, ],
-            ),
-          ),
-          child: Container(
-            margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 50.0),
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 15.0),
-                      child: Text(
-                        "학습하기",
-                        style: TextStyle(
-                            color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
+        body: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      Color(0xffF3F4F6),
+                      Color(0xffEFF4FA),
+                      Color(0xffECF4FE),
+                    ],
+                    stops: [
+                      0.3,
+                      0.7,
+                      0.9,
+                    ],
+                  ),
+                ),
+                child: Container(
+                    child: Column(children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 20.0),
+                    height: 50.0,
+                    // decoration: BoxDecoration(
+                    //   color: Colors.white,
+                    //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                    // ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: 15.0),
+                          child: Text(
+                            "학습하기",
+                            style: TextStyle(
+                                color: Color(0xff333333),
+                                fontSize: 24,
+                                fontWeight: FontWeight.w800),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height -180.0,
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding:
+                            EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+                        margin:
+                            EdgeInsets.only(left: 20.0, right: 20.0, top: 0.0),
+                        // decoration: BoxDecoration(
+                        //     color: Color(0xffF1EEE9),
+                        //     borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))
+                        // ),
+                        child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                  left: 0.0,
+                                  right: 15.0,
+                                  top: 10.0,
+                                  bottom: 20.0),
+                              padding: EdgeInsets.only(
+                                  top: 5.0,
+                                  bottom: 5.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              width: 220.0,
+                              decoration: BoxDecoration(
+                                color: Color(0xffF3F8FF),
+                                border: Border.all(
+                                    color: Color(0xff4478FF), width: 2.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.9),
+                                    spreadRadius: 0,
+                                    blurRadius: 2,
+                                    offset: Offset(
+                                        1, 2), // changes position of shadow
+                                  ),
+                                ],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                              ),
+                              child: Text(
+                                "구화",
+                                style: TextStyle(
+                                    color: Color(0xff333333),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    LRChooseWordConsonantPage()));
+                                      },
+                                      child: new Container(
+                                        width: 140.0,
+                                        height: 140.0,
+                                        padding: EdgeInsets.only(
+                                            left: 10.0,
+                                            right: 10.0,
+                                            top: 10.0,
+                                            bottom: 10.0),
+                                        decoration: new BoxDecoration(
+                                          borderRadius:
+                                              new BorderRadius.circular(16.0),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.9),
+                                              spreadRadius: 0,
+                                              blurRadius: 5,
+                                              offset: Offset(2,
+                                                  3), // changes position of shadow
+                                            ),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.wordpress_outlined,
+                                              color: Color(0xff4478FF),
+                                              size: 90.0,
+                                            ),
+                                            Text(
+                                              "단어",
+                                              style: TextStyle(
+                                                  color: Color(0xff333333),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ],
+                                        ),
+                                      )),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    LrModeSentencePage()));
+                                      },
+                                      child: new Container(
+                                        width: 140.0,
+                                        height: 140.0,
+                                        padding: EdgeInsets.only(
+                                            left: 10.0,
+                                            right: 10.0,
+                                            top: 10.0,
+                                            bottom: 10.0),
+                                        decoration: new BoxDecoration(
+                                          borderRadius:
+                                              new BorderRadius.circular(16.0),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.9),
+                                              spreadRadius: 0,
+                                              blurRadius: 5,
+                                              offset: Offset(2,
+                                                  3), // changes position of shadow
+                                            ),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.draw_rounded,
+                                              color: Color(0xff4478FF),
+                                              size: 90.0,
+                                            ),
+                                            Text(
+                                              "문장",
+                                              style: TextStyle(
+                                                  color: Color(0xff333333),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ],
+                                        ),
+                                      ))
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  _showModal("시험");
+                                  // Navigator.push(
+                                  //     context, MaterialPageRoute(builder: (_) => SelectSituationPage())
+                                  // );
+                                },
+                                child: new Container(
+                                  width: 140.0,
+                                  height: 140.0,
+                                  margin: EdgeInsets.only(
+                                      left: 0.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 15.0),
+                                  padding: EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      top: 10.0,
+                                      bottom: 10.0),
+                                  decoration: new BoxDecoration(
+                                    borderRadius:
+                                        new BorderRadius.circular(16.0),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.9),
+                                        spreadRadius: 0,
+                                        blurRadius: 5,
+                                        offset: Offset(
+                                            2, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Icon(
+                                        CustomIcons.book,
+                                        color: Color(0xff4478FF),
+                                        size: 80.0,
+                                      ),
+                                      Padding(
+                                          padding:
+                                              EdgeInsets.only(bottom: 5.0)),
+                                      Text(
+                                        "시험",
+                                        style: TextStyle(
+                                            color: Color(0xff333333),
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
+                                )),
+                            Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                  left: 0.0,
+                                  right: 15.0,
+                                  top: 10.0,
+                                  bottom: 20.0),
+                              padding: EdgeInsets.only(
+                                  top: 5.0,
+                                  bottom: 5.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              width: 220.0,
+                              decoration: BoxDecoration(
+                                color: Color(0xffF3F8FF),
+                                border: Border.all(
+                                    color: Color(0xff4478FF), width: 2.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.9),
+                                    spreadRadius: 0,
+                                    blurRadius: 2,
+                                    offset: Offset(
+                                        1, 2), // changes position of shadow
+                                  ),
+                                ],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                              ),
+                              child: Text(
+                                "말하기",
+                                style: TextStyle(
+                                    color: Color(0xff333333),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        _showModal("말하기 한 글자");
+                                      },
+                                      child: new Container(
+                                        width: 140.0,
+                                        height: 140.0,
+                                        padding: EdgeInsets.only(
+                                            left: 10.0,
+                                            right: 10.0,
+                                            top: 10.0,
+                                            bottom: 10.0),
+                                        decoration: new BoxDecoration(
+                                          borderRadius:
+                                              new BorderRadius.circular(16.0),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.9),
+                                              spreadRadius: 0,
+                                              blurRadius: 5,
+                                              offset: Offset(2,
+                                                  3), // changes position of shadow
+                                            ),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.abc_outlined,
+                                              color: Color(0xff4478FF),
+                                              size: 90.0,
+                                            ),
+                                            Text(
+                                              "한 글자",
+                                              style: TextStyle(
+                                                  color: Color(0xff333333),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ],
+                                        ),
+                                      )),
+                                  GestureDetector(
+                                      onTap: () {
+                                        _showModal("말하기 단어");
+                                      },
+                                      child: new Container(
+                                        width: 140.0,
+                                        height: 140.0,
+                                        padding: EdgeInsets.only(
+                                            left: 10.0,
+                                            right: 10.0,
+                                            top: 10.0,
+                                            bottom: 10.0),
+                                        decoration: new BoxDecoration(
+                                          borderRadius:
+                                              new BorderRadius.circular(16.0),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.9),
+                                              spreadRadius: 0,
+                                              blurRadius: 5,
+                                              offset: Offset(2,
+                                                  3), // changes position of shadow
+                                            ),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.wordpress_outlined,
+                                              color: Color(0xff4478FF),
+                                              size: 90.0,
+                                            ),
+                                            Text(
+                                              "단어",
+                                              style: TextStyle(
+                                                  color: Color(0xff333333),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ],
+                                        ),
+                                      ))
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  _showModal("말하기 문장");
+                                },
+                                child: new Container(
+                                  width: 140.0,
+                                  height: 140.0,
+                                  margin: EdgeInsets.only(
+                                      left: 0.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  padding: EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      top: 10.0,
+                                      bottom: 10.0),
+                                  decoration: new BoxDecoration(
+                                    borderRadius:
+                                        new BorderRadius.circular(16.0),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.9),
+                                        spreadRadius: 0,
+                                        blurRadius: 5,
+                                        offset: Offset(
+                                            2, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.draw_rounded,
+                                        color: Color(0xff4478FF),
+                                        size: 90.0,
+                                      ),
+                                      Text(
+                                        "문장",
+                                        style: TextStyle(
+                                            color: Color(0xff333333),
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
+                                ))
+                          ],
                         ),
                       ),
+                    ),
+                  ),
+                ]))));
+  }
 
+  void _showModal(String mode) {
+    showMaterialModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          )
+        ),
+        backgroundColor: Color(0xffF3F4F6),
+        builder: (context) => mode == "시험"
+            ? Container(
+                padding: EdgeInsets.only(top: 15.0),
+                height: 170.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    InkWell(
+                        onTap: () {},
+                        child: Container(
+                          width: MediaQuery.of(context).size.width-10.0,
+                          padding: EdgeInsets.only(top:10.0, bottom: 10.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
+                            )
+                          ),
+
+                          child: Center(
+                              child: Text(
+                            "단어",
+                            style: TextStyle(
+                                fontSize: 18.0, color: Color(0xff333333)),
+                          )),
+                        )),
+                    Padding(padding: EdgeInsets.all(1.0)),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: MediaQuery.of(context).size.width-10.0,
+                        padding: EdgeInsets.only(top:10.0, bottom: 10.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+
+                        ),
+                        child: Center(
+                            child: Text(
+                          "문장",
+                          style: TextStyle(
+                              fontSize: 18.0, color: Color(0xff333333)),
+                        )),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.all(1.0)),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: MediaQuery.of(context).size.width-10.0,
+                        padding: EdgeInsets.only(top:10.0, bottom: 10.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0),
+                            )
+                        ),
+                        child: Center(
+                            child: Text(
+                          "랜덤",
+                          style: TextStyle(
+                              fontSize: 18.0, color: Color(0xff333333)),
+                        )),
+                      ),
                     ),
                   ],
                 ),
-
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 10.0, bottom: 20.0),
-                  padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                  width: 220.0,
-                  decoration: BoxDecoration(
-                    // color: Colors.white,
-                    border: Border.all(
-                        color: Color(0xff0AA1DD),
-                        width: 2.0
-                    ),
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(20.0)
-                    ),
-                  ),
-                  child: Text("구화",
-                    style: TextStyle(
-                        color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
-                ),
-
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                          onTap: (){
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (_) => LRChooseWordConsonantPage())
-                            );
-                          },
-                          child: new Container(
-                            width: 140.0,
-                            height: 140.0,
-                            padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-                            decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.circular(16.0),
-                              color: Color(0xffF3F8FF),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.9),
-                                  spreadRadius: 0,
-                                  blurRadius: 5,
-                                  offset: Offset(2, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.wordpress_outlined,
-                                  color: Color(0xff4478FF),
-                                  size: 90.0,
-                                ),
-                                Text(
-                                  "단어",
-                                  style: TextStyle(
-                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+              )
+            : mode == "말하기 한 글자"
+                ? Container(
+                    padding: EdgeInsets.only(top: 15.0),
+                    height: 120.0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => ChooseConsonantPage()));
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width-10.0,
+                              padding: EdgeInsets.only(top:10.0, bottom: 10.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10.0),
+                                    topRight: Radius.circular(10.0),
+                                  )
+                              ),
+                              child: Center(
+                                  child: Text(
+                                "직접 선택",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Color(0xff333333)),
+                              )),
+                            )),
+                        Padding(padding: EdgeInsets.all(1.0)),
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            width: MediaQuery.of(context).size.width-10.0,
+                            padding: EdgeInsets.only(top:10.0, bottom: 10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10.0),
+                                  bottomRight: Radius.circular(10.0),
                                 )
-                              ],
                             ),
-                          )
-                      ),
-
-                      GestureDetector(
-                          onTap: (){
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (_) => LrModeSentencePage())
-                            );
-                          },
-                          child: new Container(
-                            width: 140.0,
-                            height: 140.0,
-                            padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-                            decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.circular(16.0),
-                              color: Color(0xffF3F8FF),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.9),
-                                  spreadRadius: 0,
-                                  blurRadius: 5,
-                                  offset: Offset(2, 3), // changes position of shadow
+                            child: Center(
+                                child: Text(
+                              "랜덤",
+                              style: TextStyle(
+                                  fontSize: 18.0, color: Color(0xff333333)),
+                            )),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : mode == "말하기 단어"
+                    ? Container(
+                        padding: EdgeInsets.only(top: 15.0),
+                        height: 120.0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              ChooseWordConsonantPage()));
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width-10.0,
+                                  padding: EdgeInsets.only(top:10.0, bottom: 10.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0),
+                                      )
+                                  ),
+                                  child: Center(
+                                      child: Text(
+                                    "직접 선택",
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xff333333)),
+                                  )),
+                                )),
+                            Padding(padding: EdgeInsets.all(1.0)),
+                            InkWell(
+                              onTap: () {},
+                              child: Container(
+                                width: MediaQuery.of(context).size.width-10.0,
+                                padding: EdgeInsets.only(top:10.0, bottom: 10.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10.0),
+                                      bottomRight: Radius.circular(10.0),
+                                    )
                                 ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.draw_rounded,
-                                  color: Color(0xff4478FF),
-                                  size: 90.0,
-                                ),
-                                Text(
-                                  "문장",
+                                child: Center(
+                                    child: Text(
+                                  "랜덤",
                                   style: TextStyle(
-                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
-                                )
-                              ],
+                                      fontSize: 18.0, color: Color(0xff333333)),
+                                )),
+                              ),
                             ),
-                          )
+                          ],
+                        ),
                       )
-
-                    ],
-                  ),
-                ),
-
-                GestureDetector(
-                    onTap: (){
-                      _showModal("시험");
-                      // Navigator.push(
-                      //     context, MaterialPageRoute(builder: (_) => SelectSituationPage())
-                      // );
-                    },
-                    child: new Container(
-                      width: 140.0,
-                      height: 140.0,
-                      margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 20.0, bottom: 15.0),
-                      padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-                      decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(16.0),
-                        color: Color(0xffF3F8FF),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.9),
-                            spreadRadius: 0,
-                            blurRadius: 5,
-                            offset: Offset(2, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Icon(
-                            CustomIcons.book,
-                            color: Color(0xff4478FF),
-                            size: 80.0,
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom:5.0)),
-                          Text(
-                            "시험",
-                            style: TextStyle(
-                                color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    )
-                ),
-
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 35.0, bottom: 20.0),
-                  padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                  width: 220.0,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Color(0xff4478FF),
-                        width: 2.0
-                    ),
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(20.0)
-                    ),
-                  ),
-                  child: Text("말하기",
-                    style: TextStyle(
-                        color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
-                ),
-
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                          onTap: (){
-                            _showModal("말하기 한 글자");
-                          },
-                          child: new Container(
-                            width: 140.0,
-                            height: 140.0,
-                            padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-                            decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.circular(16.0),
-                              color: Color(0xffF3F8FF),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.9),
-                                  spreadRadius: 0,
-                                  blurRadius: 5,
-                                  offset: Offset(2, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
+                    : mode == "말하기 문장"
+                        ? Container(
+                            padding: EdgeInsets.only(top: 15.0),
+                            height: 120.0,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Icon(
-                                  Icons.abc_outlined,
-                                  color: Color(0xff4478FF),
-                                  size: 90.0,
+                                InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  SelectSituationPage()));
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width-10.0,
+                                      padding: EdgeInsets.only(top:10.0, bottom: 10.0),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10.0),
+                                            topRight: Radius.circular(10.0),
+                                          )
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        "직접 선택",
+                                        style: TextStyle(
+                                            fontSize: 18.0,
+                                            color: Color(0xff333333)),
+                                      )),
+                                    )),
+                                Padding(padding: EdgeInsets.all(1.0)),
+                                InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width-10.0,
+                                    padding: EdgeInsets.only(top:10.0, bottom: 10.0),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(10.0),
+                                          bottomRight: Radius.circular(10.0),
+                                        )
+                                    ),
+                                    child: Center(
+                                        child: Text(
+                                      "랜덤",
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Color(0xff333333)),
+                                    )),
+                                  ),
                                 ),
-                                Text(
-                                  "한 글자",
-                                  style: TextStyle(
-                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
-                                )
                               ],
                             ),
                           )
-                      ),
-
-                      GestureDetector(
-                          onTap: (){
-                            _showModal("말하기 단어");
-                          },
-                          child: new Container(
-                            width: 140.0,
-                            height: 140.0,
-                            padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-                            decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.circular(16.0),
-                              color: Color(0xffF3F8FF),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.9),
-                                  spreadRadius: 0,
-                                  blurRadius: 5,
-                                  offset: Offset(2, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.wordpress_outlined,
-                                  color: Color(0xff4478FF),
-                                  size: 90.0,
-                                ),
-                                Text(
-                                  "단어",
-                                  style: TextStyle(
-                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
-                                )
-                              ],
-                            ),
-                          )
-                      )
-
-                    ],
-                  ),
-                ),
-
-
-                GestureDetector(
-                    onTap: (){
-                      _showModal("말하기 문장");
-                    },
-                    child: new Container(
-                      width: 140.0,
-                      height: 140.0,
-                      margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 20.0, bottom: 20.0),
-                      padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-                      decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(16.0),
-                        color: Color(0xffF3F8FF),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.9),
-                            spreadRadius: 0,
-                            blurRadius: 5,
-                            offset: Offset(2, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.draw_rounded,
-                            color: Color(0xff4478FF),
-                            size: 90.0,
-                          ),
-                          Text(
-                            "문장",
-                            style: TextStyle(
-                                color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    )
-                )
-
-              ],
-            ),
-          ),
-
-        )
-        ));
-  }
-
-  void _showModal(String mode){
-    showMaterialModalBottomSheet(
-      context: context,
-      builder: (context) =>
-      mode=="시험"? Container(
-        padding: EdgeInsets.only(top: 20.0),
-        height: 170.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InkWell(
-                onTap: (){},
-                child: Container(
-                  width: 300.0,
-                  child: Center(
-                      child: Text("단어", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
-                  ),
-                )
-            ),
-            Padding(padding: EdgeInsets.all(12.0)),
-            InkWell(
-              onTap: (){},
-              child: Container(
-                width: 300.0,
-                child: Center(
-                    child: Text("문장", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
-                ),
-              ),
-            ),
-            Padding(padding: EdgeInsets.all(12.0)),
-            InkWell(
-              onTap: (){},
-              child: Container(
-                width: 300.0,
-                child: Center(
-                    child: Text("랜덤", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
-                ),
-              ),
-            ),
-          ],
-        ),
-      )
-          : mode=="말하기 한 글자"?
-      Container(
-        padding: EdgeInsets.only(top: 20.0),
-        height: 120.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InkWell(
-                onTap: (){
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => ChooseConsonantPage())
-                  );
-                },
-                child: Container(
-                  width: 300.0,
-                  child: Center(
-                      child: Text("직접 선택", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
-                  ),
-                )
-            ),
-            Padding(padding: EdgeInsets.all(12.0)),
-            InkWell(
-              onTap: (){},
-              child: Container(
-                width: 300.0,
-                child: Center(
-                    child: Text("랜덤", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
-                ),
-              ),
-            ),
-          ],
-        ),
-      )
-          : mode=="말하기 단어"?
-      Container(
-        padding: EdgeInsets.only(top: 20.0),
-        height: 120.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InkWell(
-                onTap: (){
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => ChooseWordConsonantPage())
-                  );
-                },
-                child: Container(
-                  width: 300.0,
-                  child: Center(
-                      child: Text("직접 선택", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
-                  ),
-                )
-            ),
-            Padding(padding: EdgeInsets.all(12.0)),
-            InkWell(
-              onTap: (){},
-              child: Container(
-                width: 300.0,
-                child: Center(
-                    child: Text("랜덤", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
-                ),
-              ),
-            ),
-          ],
-        ),
-      ) : mode=="말하기 문장"?
-      Container(
-        padding: EdgeInsets.only(top: 20.0),
-        height: 120.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InkWell(
-                onTap: (){
-                  Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => SelectSituationPage())
-                );
-                  },
-                child: Container(
-                  width: 300.0,
-                  child: Center(
-                      child: Text("직접 선택", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
-                  ),
-                )
-            ),
-            Padding(padding: EdgeInsets.all(12.0)),
-            InkWell(
-              onTap: (){},
-              child: Container(
-                width: 300.0,
-                child: Center(
-                    child: Text("랜덤", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
-                ),
-              ),
-            ),
-          ],
-        ),
-      ) : Container()
-    );
+                        : Container());
   }
 }
