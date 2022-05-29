@@ -270,7 +270,6 @@ class _customMainPageViewState extends State<customMainPageView> {
                                             style: TextStyle(
                                                 color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
                                           ),
-                                        )
                                       ],
                                     ),
                                   ),
