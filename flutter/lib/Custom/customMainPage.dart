@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zerozone/Custom/createCustomProblemPage.dart';
 import 'package:zerozone/Custom/lrCustomProblemListPage.dart';
@@ -38,6 +39,7 @@ class _customMainPageViewState extends State<customMainPageView> {
             child: Column(
               children: [
                 Container(
+                  margin: EdgeInsets.only(top:20.0) ,
                   height: 50.0,
                   // decoration: BoxDecoration(
                   //   color: Colors.white,
@@ -270,6 +272,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                                             style: TextStyle(
                                                 color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
                                           ),
+                                        )
                                       ],
                                     ),
                                   ),
