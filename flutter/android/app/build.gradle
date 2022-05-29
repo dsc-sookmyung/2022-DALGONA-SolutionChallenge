@@ -62,18 +62,19 @@ android {
         minSdkVersion 21
     }
 
-//    signingConfigs {
-//        release {
-//            storeFile file('../keystore/key.jks')
-//            storePassword file('../keystore/keystore.password').text.trim()
-//            keyPassword file('../keystore/keystore.password').text.trim()
-//            keyAlias 'key'
-//        }
-//    }
+    //디버깅 때는 숨기기
+    signingConfigs {
+        release {
+            storeFile file('../keystore/key.jks')
+            storePassword file('../keystore/keystore.password').text.trim()
+            keyPassword file('../keystore/keystore.password').text.trim()
+            keyAlias 'key'
+        }
+    }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release //debug
 //            minifyEnabled true
 //            useProguard true
 //

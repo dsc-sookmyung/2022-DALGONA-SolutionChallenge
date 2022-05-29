@@ -264,9 +264,8 @@ class _lrTestResultPageState extends State<lrTestResultPage> {
                                   // minimumSize: Size(100, 40),
                                 ),
                                 onPressed: () async {
-
-                                  // Navigator.pop(context);
-                                  // Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.only(
