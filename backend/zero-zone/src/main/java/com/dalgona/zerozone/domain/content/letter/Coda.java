@@ -1,7 +1,7 @@
 package com.dalgona.zerozone.domain.content.letter;
 
-import com.dalgona.zerozone.domain.content.Content;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class Coda {
 
     @Id

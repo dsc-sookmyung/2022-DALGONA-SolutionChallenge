@@ -26,6 +26,10 @@ public class CustomReadingProbSaveRequestDto {
         this.user = user;
     }
 
+    public void setHint(String hint) {
+        this.hint = hint;
+    }
+
     public void setSpacing_info(String spacing_info) { this.spacing_info = spacing_info; }
 
     public CustomReadingProb toEntity(){
