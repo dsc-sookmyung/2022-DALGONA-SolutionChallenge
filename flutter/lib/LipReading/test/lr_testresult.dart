@@ -47,12 +47,12 @@ class _lrTestResultPageState extends State<lrTestResultPage> {
   void _start() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _time++;
-      if(_time==4){
+      if(_time==2){
         setState(() {
           _visibility=true;
         });
       }
-      if(_time==6){
+      if(_time==3){
         setState(() {
           _btn_visibility=true;
             _timer.cancel();

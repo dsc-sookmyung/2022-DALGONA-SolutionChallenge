@@ -739,7 +739,6 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     InkWell(
                         onTap: () async{
                           await _Cnt('단어');
-                          Navigator.pop(context);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -767,7 +766,6 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     InkWell(
                       onTap: () async{
                         await _Cnt('문장');
-                        Navigator.pop(context);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -792,7 +790,6 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     InkWell(
                       onTap: () async{
                         await _Cnt('랜덤');
-                        Navigator.pop(context);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
