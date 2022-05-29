@@ -13,6 +13,27 @@ class customMainPageView extends StatefulWidget {
 
 class _customMainPageViewState extends State<customMainPageView> {
 
+  updateYet(){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(
+          '업데이트 예정',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        content: const Text('추후 업데이트 될 예정입니다.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('확인'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,17 +59,13 @@ class _customMainPageViewState extends State<customMainPageView> {
             child: Column(
               children: [
                 Container(
+                  margin: EdgeInsets.only(top: 20.0),
                   height: 50.0,
-                  // decoration: BoxDecoration(
-                  //   color: Colors.white,
-                  //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
-                  // ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(bottom: 15.0),
-                        child: Text(
+                        child: const Text(
                           "커스텀하기",
                           style: TextStyle(
                               color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
@@ -60,7 +77,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height - 180.0,
+                  height: MediaQuery.of(context).size.height - 200.0,
                   child: SingleChildScrollView(
 
                     child: Container(
@@ -70,7 +87,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                       //     color: Color(0xffF1EEE9),
                       //     borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))
                       // ),
-                      child: new Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         // mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -116,12 +133,12 @@ class _customMainPageViewState extends State<customMainPageView> {
                                           context, MaterialPageRoute(builder: (_) => createCustomProblemPage())
                                       );
                                     },
-                                    child: new Container(
+                                    child: Container(
                                       width: 140.0,
                                       height: 145.0,
                                       padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-                                      decoration: new BoxDecoration(
-                                        borderRadius: new BorderRadius.circular(16.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16.0),
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
@@ -231,19 +248,16 @@ class _customMainPageViewState extends State<customMainPageView> {
                               children: [
                                 GestureDetector(
                                   onTap: (){
-                                    Navigator.push(
-                                        context, MaterialPageRoute(builder: (_) => lrCustomProblemListPage())
-                                    );
+                                    updateYet();
+                                    // Navigator.push(
+                                    //     context, MaterialPageRoute(builder: (_) => lrCustomProblemListPage())
+                                    // );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(bottom: 20.0),
                                     decoration: new BoxDecoration(
                                       borderRadius: new BorderRadius.circular(16.0),
                                       color: Colors.white,
-                                      // border: Border.all(
-                                      //     color: Color(0xff999999),
-                                      //     width: 1.0
-                                      // ),
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.9),
@@ -278,7 +292,7 @@ class _customMainPageViewState extends State<customMainPageView> {
 
                                 GestureDetector(
                                   onTap: (){
-                                    print("clicked!");
+                                    updateYet();
                                   },
                                   child: Container(
                                     decoration: new BoxDecoration(
