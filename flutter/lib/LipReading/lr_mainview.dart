@@ -417,8 +417,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                               "단어",
                                               style: TextStyle(
                                                   color: Color(0xff333333),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500),
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600),
                                             )
                                           ],
                                         ),
@@ -465,8 +465,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                               "문장",
                                               style: TextStyle(
                                                   color: Color(0xff333333),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500),
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600),
                                             )
                                           ],
                                         ),
@@ -522,8 +522,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                         "시험",
                                         style: TextStyle(
                                             color: Color(0xff333333),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600),
                                       )
                                     ],
                                   ),
@@ -608,8 +608,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                               "한 글자",
                                               style: TextStyle(
                                                   color: Color(0xff333333),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500),
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600),
                                             )
                                           ],
                                         ),
@@ -652,8 +652,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                               "단어",
                                               style: TextStyle(
                                                   color: Color(0xff333333),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500),
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600),
                                             )
                                           ],
                                         ),
@@ -703,8 +703,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                         "문장",
                                         style: TextStyle(
                                             color: Color(0xff333333),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600),
                                       )
                                     ],
                                   ),
