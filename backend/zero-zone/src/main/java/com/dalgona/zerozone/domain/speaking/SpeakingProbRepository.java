@@ -11,4 +11,8 @@ public interface SpeakingProbRepository extends JpaRepository<SpeakingProb, Long
     Optional<SpeakingProb> findByTypeAndLetter(String type, Letter letter);
     Optional<SpeakingProb> findByTypeAndWord(String type, Word word);
     Optional<SpeakingProb> findByTypeAndSentence(String type, Sentence sentence);
+
+    Optional<SpeakingProb> findByLetter(Letter letter);
+    Optional<SpeakingProb> findByWord(Word word);
+    Optional<SpeakingProb> findBySentence(Sentence sentence);
 }

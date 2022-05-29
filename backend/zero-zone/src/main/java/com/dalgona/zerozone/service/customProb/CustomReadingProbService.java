@@ -4,6 +4,8 @@ import com.dalgona.zerozone.domain.customProbs.customReading.CustomReadingProb;
 import com.dalgona.zerozone.domain.customProbs.customReading.CustomReadingProbRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
+import com.dalgona.zerozone.hangulAnalyzer.SpacingInfoCreator;
+import com.dalgona.zerozone.hangulAnalyzer.UnicodeHandler;
 import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
 import com.dalgona.zerozone.web.dto.customProb.CustomReadingProbResponseDto;
@@ -44,8 +46,12 @@ public class CustomReadingProbService {
         String url = "test_readprob_url"; // 받아와야함
         requestDto.setUser(user);
         requestDto.setUrl(url);
+        if(requestDto.getHint() == null){
+            String onsetHint = UnicodeHandler.splitHangeulToOnsetAsString(requestDto.getContent());
+            requestDto.setHint(onsetHint);
+        }
         if(isSentenceType(requestDto.getType())){
-            String spacing_info = createSpacingInfo(requestDto.getContent());
+            String spacing_info = SpacingInfoCreator.createSpacingInfo(requestDto.getContent());
             requestDto.setSpacing_info(spacing_info);
         }
         CustomReadingProb customReadingProb;
@@ -59,21 +65,6 @@ public class CustomReadingProbService {
     }
     private boolean isSentenceType(String type){
         return (type.compareTo("sentence"))==0;
-    }
-    // 한글 문자이면 _로 바꾸기
-    private String createSpacingInfo(String content){
-        String arr[] = content.split("");
-        String spacing_info = "";
-
-        for(String token : arr){
-            if(token.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")) {
-                spacing_info += "_";
-            }
-            else{
-                spacing_info += token;
-            }
-        }
-        return spacing_info;
     }
 
     @Transactional
@@ -121,7 +112,7 @@ public class CustomReadingProbService {
             customReadingProb.updateUrl(newURL);
             // 띄어쓰기 정보 다시 생성
             if(isSentenceType(requestDto.getType())){
-                String spacing_info = createSpacingInfo(requestDto.getContent());
+                String spacing_info = SpacingInfoCreator.createSpacingInfo(requestDto.getContent());
                 customReadingProb.updateSpacingInfo(spacing_info);
             }
             customReadingProb.updateContent(requestDto.getContent());

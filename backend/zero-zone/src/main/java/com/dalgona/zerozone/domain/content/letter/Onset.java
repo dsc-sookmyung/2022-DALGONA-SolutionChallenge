@@ -21,5 +21,11 @@ public class Onset extends Content {
 
     @Column(length = 5, nullable = false, unique = true)
     private String onset;
-
+/*
+    @Builder
+    public Onset(Long id, String onset){
+        this.id = id;
+        this.onset = onset;
+    }
+*/
 }

@@ -4,10 +4,6 @@ import com.dalgona.zerozone.domain.bookmark.BookmarkReading;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingRepository;
 import com.dalgona.zerozone.domain.bookmark.BookmarkSpeaking;
 import com.dalgona.zerozone.domain.bookmark.BookmarkSpeakingRepository;
-import com.dalgona.zerozone.domain.recent.RecentReading;
-import com.dalgona.zerozone.domain.recent.RecentReadingRepository;
-import com.dalgona.zerozone.domain.recent.RecentSpeaking;
-import com.dalgona.zerozone.domain.recent.RecentSpeakingRepository;
 import com.dalgona.zerozone.domain.user.*;
 import com.dalgona.zerozone.jwt.JwtAuthenticationFilter;
 import com.dalgona.zerozone.jwt.JwtTokenProvider;
@@ -23,8 +19,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,8 +37,6 @@ public class UserService {
     private final UserEmailAuthRepository userEmailAuthRepository;
     private final BookmarkReadingRepository bookmarkReadingRepository;
     private final BookmarkSpeakingRepository bookmarkSpeakingRepository;
-    private final RecentReadingRepository recentReadingRepository;
-    private final RecentSpeakingRepository recentSpeakingRepository;
 
     private final PasswordEncoder pwdEncorder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -74,12 +66,6 @@ public class UserService {
         bookmarkReadingRepository.save(bookmarkReading);
         BookmarkSpeaking bookmarkSpeaking = new BookmarkSpeaking(user);
         bookmarkSpeakingRepository.save(bookmarkSpeaking);
-
-        // 최근학습 생성
-        RecentReading recentReading = new RecentReading(user);
-        recentReadingRepository.save(recentReading);
-        RecentSpeaking recentSpeaking = new RecentSpeaking(user);
-        recentSpeakingRepository.save(recentSpeaking);
 
         return response.success("회원가입에 성공했습니다.");
     }

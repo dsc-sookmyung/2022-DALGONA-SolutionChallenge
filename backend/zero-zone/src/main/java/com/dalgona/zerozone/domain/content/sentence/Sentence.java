@@ -4,6 +4,7 @@ import com.dalgona.zerozone.domain.content.Content;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import javax.persistence.*;
 public class Sentence {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SENTENCE_ID")
     private Long id;
 
@@ -26,4 +28,9 @@ public class Sentence {
     @Column(length = 200, nullable = false, unique = true)
     private String sentence;
 
+    @Builder
+    public Sentence(Situation situation, String sentence) {
+        this.sentence = sentence;
+        this.situation = situation;
+    }
 }

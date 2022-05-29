@@ -3,8 +3,8 @@ package com.dalgona.zerozone.domain.reading;
 import com.dalgona.zerozone.domain.bookmark.BookmarkReadingProb;
 import com.dalgona.zerozone.domain.content.sentence.Sentence;
 import com.dalgona.zerozone.domain.content.word.Word;
-import com.dalgona.zerozone.domain.recent.RecentReadingProb;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +20,7 @@ import java.util.Objects;
 public class ReadingProb {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "READINGPROBS_ID")
     private Long id;
 
@@ -47,8 +47,15 @@ public class ReadingProb {
     @OneToMany(mappedBy = "readingProb")
     private List<BookmarkReadingProb> bookmarkReadingList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "readingProb")
-    private List<RecentReadingProb> recentReadingList = new ArrayList<>();
+    @Builder
+    public ReadingProb(String type, String hint, String spacing_info, String url, Word word, Sentence sentence){
+        this.type = type;
+        this.hint = hint;
+        this.spacing_info = spacing_info;
+        this.url = url;
+        this.sentence = sentence;
+        this.word = word;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -61,6 +68,6 @@ public class ReadingProb {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, url, hint, spacing_info, word, sentence, bookmarkReadingList, recentReadingList);
+        return Objects.hash(id, type, url, hint, spacing_info, word, sentence, bookmarkReadingList);
     }
 }

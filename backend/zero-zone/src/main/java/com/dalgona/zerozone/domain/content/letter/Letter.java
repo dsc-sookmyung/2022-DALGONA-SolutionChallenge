@@ -1,6 +1,7 @@
 package com.dalgona.zerozone.domain.content.letter;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,9 +11,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class Letter {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LETTER_ID")
     private Long id;
 
@@ -30,5 +33,13 @@ public class Letter {
 
     @Column(length = 15, nullable = false, unique = true)
     private String letter;
+
+    @Builder
+    public Letter(Onset onset, Nucleus nucleus, Coda coda, String letter){
+        this.onset = onset;
+        this.nucleus = nucleus;
+        this.coda = coda;
+        this.letter = letter;
+    }
 
 }
