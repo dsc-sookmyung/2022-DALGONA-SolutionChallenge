@@ -15,13 +15,43 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
 
   bool _isChecked = false;
 
+  updateYet(){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(
+          '업데이트 예정',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        content: const Text('추후 업데이트 될 예정입니다.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('확인'),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
             decoration: BoxDecoration(
-              color: Colors.white
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Color(0xffF3F4F6),
+                  Color(0xffEFF4FA),
+                  Color(0xffECF4FE),
+                ],
+                stops: [0.3, 0.7, 0.9, ],
+              ),
             ),
             child: Container(
                 margin: EdgeInsets.only(left: 10.0, top: 50.0),
@@ -37,6 +67,7 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
                         children: [
 
                           Container(
+                            width: 20.0,
                             alignment: Alignment.centerLeft,
                             child: IconButton(
                               onPressed: (){
@@ -47,7 +78,7 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
                             ),
                           ),
                           Container(
-                            width: 300.0,
+                            width: MediaQuery.of(context).size.width - 40,
                             alignment: Alignment.center,
                             child: Text(
                               "연습문제 만들기",
@@ -288,7 +319,7 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
                                   margin: EdgeInsets.only(top:40.0, bottom: 30.0),
                                   child: GestureDetector(
                                     onTap: (){
-
+                                      updateYet();
                                     },
                                     child: Container(
                                       alignment: Alignment.center,

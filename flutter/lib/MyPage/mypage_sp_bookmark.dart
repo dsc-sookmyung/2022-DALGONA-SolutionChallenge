@@ -227,164 +227,201 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '말하기 북마크 목록',
-          style: TextStyle(
-              color: Color(0xff333333),
-              fontSize: 24,
-              fontWeight: FontWeight.w800),
-        ),
-        centerTitle: true,
-        backgroundColor: Color(0xffC8E8FF),
-        foregroundColor: Color(0xff333333),
-      ),
       body: new Container(
-    color: Color(0xfff0f8ff),
-    child:
-    Column(children: [
-        Padding(padding: EdgeInsets.only(top:50.0, left: 20.0, right: 20.0)),
-        Container(
-            height: 560,
-            child: Column(
-              children: [
-                ...List.generate(
-                  _content.length < 10 ? _content.length : 10,
-                      (idx) => Container(
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        practiceSpeaking(idx);
-                        // await _ProList(idx);
-                        // Navigator.push(
-                        //     context, MaterialPageRoute(
-                        //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
-                      },
-                      child: Container(
-                        height: 50,
-                        margin: EdgeInsets.only(right: 40, left: 40),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 11, horizontal: 8),
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: Colors.blueGrey),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            if(_type[idx]=='Word')
-                              Container(
-                                child: Text('단어'+ ' - ' + _content[idx],
-                                  style: TextStyle(
-                                      fontSize: 15, color: Color(0xff333333)),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              )
-                            else
-                              Container(
-                                child: Text(_type[idx]=='Letter'?'한 글자'+ ' - ' + _content[idx]
-                                    :'문장'+ ' - ' + _content[idx],
-                                  style: TextStyle(
-                                      fontSize: 15, color: Color(0xff333333)),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              )
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Color(0xffF3F4F6),
+                Color(0xffEFF4FA),
+                Color(0xffECF4FE),
               ],
-            )),
-        Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: () async {
-                await _changePage(0);
-                _ProList(currentPage);
-              },
-              child: iconToFirst,
+              stops: [0.3, 0.7, 0.9, ],
             ),
-            SizedBox(
-              width: 4,
-            ),
-            InkWell(
-                onTap: () async {
-                  await _changePage(--currentPage);
-                  _ProList(currentPage);
-                },
-                child: iconPrevious),
-            SizedBox(
-              width: 10,
-            ),
-            ...List.generate(
-              rangeEnd <= pageTotal ? threshold : pageTotal % threshold,
-                  (index) => Flexible(
-                child: InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () async {
-                    await _changePage(index + 1 + rangeStart);
-                    _ProList(currentPage);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(4),
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    decoration: BoxDecoration(
-                        color: (currentPage - 1) % threshold == index
-                            ? Color(0xff5AA9DD)
-                            : colorSub,
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 3.0,
+          ),
+          child: SafeArea(
+            child: Column(children: [
+
+              Container(
+                margin: EdgeInsets.only(top: 20.0, left: 10.0),
+                  height: 48.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      Container(
+                        width: 20.0,
+                        alignment: Alignment.centerLeft,
+                        child: IconButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Icons.arrow_back),
+                          iconSize: 20,
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 40,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "말하기 북마크 목록",
+                          style: TextStyle(
+                              color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
                           ),
-                        ]),
-                    child: Text(
-                      '${index + 1 + rangeStart}',
-                      style: TextStyle(
-                        fontSize: fontSize,
-                        fontFamily: fontFamily,
-                        color: (currentPage - 1) % threshold == index
-                            ? colorSub
-                            : colorPrimary,
+                        ),
+
+                      ),
+                    ],
+                  )
+              ),
+
+
+              // Padding(padding: EdgeInsets.only(top:50.0, left: 20.0, right: 20.0)),
+              Container(
+                  padding: EdgeInsets.only(top:30.0, left: 5.0, right: 5.0),
+                  height: 560,
+                  child: Column(
+                    children: [
+                      ...List.generate(
+                        _content.length < 10 ? _content.length : 10,
+                            (idx) => Container(
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              practiceSpeaking(idx);
+                              // await _ProList(idx);
+                              // Navigator.push(
+                              //     context, MaterialPageRoute(
+                              //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
+                            },
+                            child: Container(
+                              height: 50,
+                              margin: EdgeInsets.only(right: 40, left: 40),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 11, horizontal: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 1, color: Colors.blueGrey),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  if(_type[idx]=='Word')
+                                    Container(
+                                      child: Text('단어'+ ' - ' + _content[idx],
+                                        style: TextStyle(
+                                            fontSize: 15, color: Color(0xff333333)),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    )
+                                  else
+                                    Container(
+                                      child: Text(_type[idx]=='Letter'?'한 글자'+ ' - ' + _content[idx]
+                                          :'문장'+ ' - ' + _content[idx],
+                                        style: TextStyle(
+                                            fontSize: 15, color: Color(0xff333333)),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    )
+
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      await _changePage(0);
+                      _ProList(currentPage);
+                    },
+                    child: iconToFirst,
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  InkWell(
+                      onTap: () async {
+                        await _changePage(--currentPage);
+                        _ProList(currentPage);
+                      },
+                      child: iconPrevious),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  ...List.generate(
+                    rangeEnd <= pageTotal ? threshold : pageTotal % threshold,
+                        (index) => Flexible(
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          await _changePage(index + 1 + rangeStart);
+                          _ProList(currentPage);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.all(4),
+                          padding:
+                          const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          decoration: BoxDecoration(
+                              color: (currentPage - 1) % threshold == index
+                                  ? Color(0xff5AA9DD)
+                                  : colorSub,
+                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(0.0, 1.0), //(x,y)
+                                  blurRadius: 3.0,
+                                ),
+                              ]),
+                          child: Text(
+                            '${index + 1 + rangeStart}',
+                            style: TextStyle(
+                              fontSize: fontSize,
+                              fontFamily: fontFamily,
+                              color: (currentPage - 1) % threshold == index
+                                  ? colorSub
+                                  : colorPrimary,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                      onTap: () async {
+                        await _changePage(++currentPage);
+                        _ProList(currentPage);
+                      },
+                      child: iconNext),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  InkWell(
+                      onTap: () async {
+                        await _changePage(pageTotal);
+                        _ProList(currentPage);
+                      },
+                      child: iconToLast),
+                ],
               ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            InkWell(
-                onTap: () async {
-                  await _changePage(++currentPage);
-                  _ProList(currentPage);
-                },
-                child: iconNext),
-            SizedBox(
-              width: 4,
-            ),
-            InkWell(
-                onTap: () async {
-                  await _changePage(pageTotal);
-                  _ProList(currentPage);
-                },
-                child: iconToLast),
-          ],
-        ),
-        Padding(padding: EdgeInsets.all(15.0))
-      ]),
+              Padding(padding: EdgeInsets.all(15.0))
+            ]),
+          )
     ));
   }
 }
