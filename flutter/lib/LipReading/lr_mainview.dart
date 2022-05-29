@@ -737,6 +737,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                   children: [
                     InkWell(
                         onTap: () async{
+                          Navigator.pop(context);
                           await _Cnt('단어');
                           Navigator.push(
                               context,
@@ -764,6 +765,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     Padding(padding: EdgeInsets.all(1.0)),
                     InkWell(
                       onTap: () async{
+                        Navigator.pop(context);
                         await _Cnt('문장');
                         Navigator.push(
                             context,
@@ -788,6 +790,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     Padding(padding: EdgeInsets.all(1.0)),
                     InkWell(
                       onTap: () async{
+                        Navigator.pop(context);
                         await _Cnt('랜덤');
                         Navigator.push(
                             context,
@@ -824,6 +827,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                       children: [
                         InkWell(
                             onTap: () {
+                              Navigator.pop(context);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -881,6 +885,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                           children: [
                             InkWell(
                                 onTap: () {
+                                  Navigator.pop(context);
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -940,6 +945,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                               children: [
                                 InkWell(
                                     onTap: () {
+                                      Navigator.pop(context);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
