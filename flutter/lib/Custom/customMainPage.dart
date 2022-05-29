@@ -36,8 +36,8 @@ class _customMainPageViewState extends State<customMainPageView> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 50.0),
-                height: 90.0,
+                margin: EdgeInsets.only(top: 50.0),
+                height: 50.0,
                 // decoration: BoxDecoration(
                 //   color: Colors.white,
                 //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
@@ -117,7 +117,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                                   },
                                   child: new Container(
                                     width: 140.0,
-                                    height: 140.0,
+                                    height: 145.0,
                                     padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                                     decoration: new BoxDecoration(
                                       borderRadius: new BorderRadius.circular(16.0),
@@ -132,6 +132,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                                       ],
                                     ),
                                     child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Icon(
                                           Icons.wordpress_outlined,
@@ -139,7 +140,6 @@ class _customMainPageViewState extends State<customMainPageView> {
                                           size: 90.0,
                                         ),
                                         Container(
-                                            margin: EdgeInsets.only(top: 5.0),
                                             child: Text(
                                               "단어",
                                               style: TextStyle(
