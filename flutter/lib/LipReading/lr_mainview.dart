@@ -164,7 +164,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
       print("url : ${url}");
       print("type : ${type}");
 
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: sentence, bookmarked: bookmarked,))
       );
