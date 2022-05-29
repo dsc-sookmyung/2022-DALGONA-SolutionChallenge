@@ -127,63 +127,128 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: AppBar(
-            title: Text(
-              '말하기 연습 - 한 글자',
-              style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
+        body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Color(0xffF3F4F6),
+                  Color(0xffEFF4FA),
+                  Color(0xffECF4FE),
+                ],
+                stops: [
+                  0.3,
+                  0.7,
+                  0.9,
+                ],
+              ),
             ),
-          centerTitle: true,
-          backgroundColor: Color(0xffC8E8FF),
-          foregroundColor: Color(0xff333333),
-        ),
-        body: new Container(
-          color: Color(0xfff0f8ff),
-          padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 30.0, bottom: 100.0),
-          child: new Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2,
-                      color: Color(0xff5AA9DD),
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                  width: 300,
-                  height: 50,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 10.0, bottom:30.0),
-                  child: Text(
-                    '선택한 자음: ${widget.consonant}',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-                  ),
-                ),
-                Expanded(child: GridView.count(
-                crossAxisCount: 3,
-                  children: vowelList.asMap().map((index,data) => MapEntry(index, GestureDetector(
+            child: SafeArea(
+                child: Container(
+                    child: Column(children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 20.0),
+                        height: 50.0,
+                        // decoration: BoxDecoration(
+                        //   color: Colors.white,
+                        //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                        // ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(bottom: 15.0),
+                              alignment: Alignment.centerLeft,
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.arrow_back),
+                                iconSize: 20,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(bottom: 15.0),
+                              alignment: Alignment.center,
+                              width: 300.0,
+                              child: Text(
+                                "말하기 한 글자 연습",
+                                style: TextStyle(
+                                    color: Color(0xff333333),
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          height: MediaQuery.of(context).size.height-100,
+                          child: Container(
+                            padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+                            margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 0.0),
 
-                    onTap: (){
-                      letterInfo(data, index+1);
-                      // getGridViewSelectedItem(context, data, index);
-                      },
-                    child: Container(
+                            child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 2,
+                                          color: Color(0xff5AA9DD),
+                                        ),
+                                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                                    width: 300,
+                                    height: 50,
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.only(top: 10.0, bottom:30.0),
+                                    child: Text(
+                                      '선택한 자음: ${widget.consonant}',
+                                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: GridView.count(
+                                      crossAxisCount: 3,
+                                      children: vowelList.asMap().map((index,data) => MapEntry(index,
+                                          GestureDetector(
+                                              onTap: () {
+                                                letterInfo(data, index+1);
+                                              },
+                                              child: Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 10),
+                                                  decoration: BoxDecoration(
+                                                      color: (index / 3) % 2 < 1
+                                                          ? Color(0xffD8EFFF)
+                                                          : Color(0xff97D5FE),
+                                                      borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              15.0))),
+                                                  child: Center(
+                                                    child: Text(
+                                                      data,
+                                                      style: TextStyle(
+                                                          fontSize: 42,
+                                                          color:
+                                                          Color(0xff333333),
+                                                          fontWeight:
+                                                          FontWeight.w900),
+                                                      textAlign:
+                                                      TextAlign.center,
+                                                    ),
+                                                  )))))
+                                          .values
+                                          .toList(),
+                                    ),
+                                  )
+                                ]),
+                          ))
+                    ])))));
 
-                        margin:EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                        decoration:BoxDecoration(
-                            color: (index/3)%2 < 1 ? Color(0xffD8EFFF) : Color(0xff97D5FE),
-                            borderRadius:BorderRadius.all(Radius.circular(15.0))
-                        ) ,
 
-                        child: Center(
-                          child: Text(
-                            data,
-                            style: TextStyle(fontSize: 42, color: Color(0xff333333), fontWeight: FontWeight.w900),
-                            textAlign: TextAlign.center,
-                          ),
-
-                        ))))
-                ).values.toList(),
-              ),)
-              ]),
-        ));
   }
 }
