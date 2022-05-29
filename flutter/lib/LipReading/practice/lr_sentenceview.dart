@@ -94,7 +94,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                 ],
               ),
             ),
-            child: Container(
+            child: SafeArea(
                 child: Column(children: [
               Container(
                 margin: EdgeInsets.only(top: 20.0),

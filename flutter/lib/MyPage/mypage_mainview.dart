@@ -163,6 +163,28 @@ class _MyPageState extends State<MyPage> {
   }
 
 
+  updateYet(){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(
+          '업데이트 예정',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        content: const Text('추후 업데이트 될 예정입니다.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('확인'),
+          ),
+        ],
+      ),
+    );
+  }
+
+
   @override
   void initState() {
     userInfo();
@@ -330,6 +352,7 @@ class _MyPageState extends State<MyPage> {
                                 GestureDetector(
                                     onTap: (){
                                       // 구화 최근 학습
+                                      updateYet();
                                     },
                                     child: new Container(
                                       width: 140.0,
@@ -370,6 +393,7 @@ class _MyPageState extends State<MyPage> {
                                 GestureDetector(
                                     onTap: (){
                                       // 말하기 최근 학습
+                                      updateYet();
                                     },
                                     child: new Container(
                                       width: 140.0,

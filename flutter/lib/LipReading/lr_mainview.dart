@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/rpg_awesome_icons.dart';
+import 'package:zerozone/Speaking/sp_practiceview_letter.dart';
+import 'package:zerozone/Speaking/sp_practiceview_sentence.dart';
+import 'package:zerozone/Speaking/sp_practiceview_word.dart';
 import 'package:zerozone/custom_icons_icons.dart';
 import 'lr_readvideo.dart';
 import 'test/lr_testview.dart';
@@ -44,6 +47,141 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   late int totalPage;
   late int totalElement;
   late var totalProbCnt;
+
+  Future<void> letterRandomUrlInfo() async {
+
+
+    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/letter/random');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      String letter = data["letter"];
+      int letterId = data["letterId"];
+      bool bookmarked = data["bookmarked"];
+
+      print("url : ${url}");
+      print("type : ${type}");
+
+
+      //Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(url: url, type: type, probId: probId, letter: letter, letterId: letterId, bookmarked: bookmarked,))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        letterRandomUrlInfo();
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  Future<void> wordRandomUrlInfo() async {
+
+
+    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/word/random');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      String word = data["word"];
+      bool bookmarked = data["bookmarked"];
+
+      print("url : ${url}");
+      print("type : ${type}");
+
+
+      //Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: word, bookmarked: bookmarked,))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        wordRandomUrlInfo();
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  Future<void> sentenceRandomUrlInfo() async {
+
+
+    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/sentence/random');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      String sentence = data["sentence"];
+      bool bookmarked = data["bookmarked"];
+
+      print("url : ${url}");
+      print("type : ${type}");
+
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: sentence, bookmarked: bookmarked,))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        sentenceRandomUrlInfo();
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
 
   Future<void> _TestList() async {
     _dateList.clear();
@@ -714,7 +852,9 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                             )),
                         Padding(padding: EdgeInsets.all(1.0)),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            letterRandomUrlInfo();
+                          },
                           child: Container(
                             width: MediaQuery.of(context).size.width-10.0,
                             padding: EdgeInsets.only(top:10.0, bottom: 10.0),
@@ -772,7 +912,9 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                 )),
                             Padding(padding: EdgeInsets.all(1.0)),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                wordRandomUrlInfo();
+                              },
                               child: Container(
                                 width: MediaQuery.of(context).size.width-10.0,
                                 padding: EdgeInsets.only(top:10.0, bottom: 10.0),
@@ -830,7 +972,9 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                     )),
                                 Padding(padding: EdgeInsets.all(1.0)),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    sentenceRandomUrlInfo();
+                                  },
                                   child: Container(
                                     width: MediaQuery.of(context).size.width-10.0,
                                     padding: EdgeInsets.only(top:10.0, bottom: 10.0),
