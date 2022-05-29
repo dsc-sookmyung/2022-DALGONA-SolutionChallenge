@@ -318,7 +318,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height -180.0,
+                    height: MediaQuery.of(context).size.height -160.0,
                     child: SingleChildScrollView(
                       child: Container(
                         padding:
