@@ -183,12 +183,12 @@ class _MyPageState extends State<MyPage> {
                   Color(0xffE3F2FD),
                   Color(0xffBBDEFB),
                 ],
-                stops: [0.5, 0.8, 0.9, ],
+                stops: [0.5, 0.8, 0.9 ],
               ),
               // color: Colors.white,
             ),
             child: Container(
-              margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 70.0),
+              margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 50.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -341,7 +341,7 @@ class _MyPageState extends State<MyPage> {
                                   Container(
                                     margin: EdgeInsets.only(top: 10.0),
                                     child: Text(
-                                      "구화 연습하기",
+                                      "구화 연습",
                                       style: TextStyle(
                                           color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
                                     ),
@@ -381,7 +381,7 @@ class _MyPageState extends State<MyPage> {
                                   Container(
                                     margin: EdgeInsets.only(top: 10.0),
                                     child: Text(
-                                      "말하기 연습하기",
+                                      "말하기 연습",
                                       style: TextStyle(
                                           color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
                                     ),
@@ -452,7 +452,7 @@ class _MyPageState extends State<MyPage> {
                                   Container(
                                     margin: EdgeInsets.only(top: 10.0),
                                     child: Text(
-                                      "구화 연습하기",
+                                      "구화 연습",
                                       style: TextStyle(
                                           color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
                                     ),
@@ -492,7 +492,7 @@ class _MyPageState extends State<MyPage> {
                                   Container(
                                     margin: EdgeInsets.only(top: 10.0),
                                     child: Text(
-                                      "말하기 연습하기",
+                                      "말하기 연습",
                                       style: TextStyle(
                                           color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
                                     ),
@@ -506,9 +506,8 @@ class _MyPageState extends State<MyPage> {
                     ),
                   ),
 
-
                   Container(
-                      margin: EdgeInsets.only(top: 30.0, left: 0.0, right: 0.0),
+                      margin: EdgeInsets.only(top: 30.0),
                       alignment: Alignment.bottomRight,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
