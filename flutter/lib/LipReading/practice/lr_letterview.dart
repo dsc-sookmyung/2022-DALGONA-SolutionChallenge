@@ -8,15 +8,15 @@ import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 
-class ChooseWordConsonantPage extends StatefulWidget {
-  const ChooseWordConsonantPage({Key? key}) : super(key: key);
+class LRChooseWordConsonantPage extends StatefulWidget {
+  const LRChooseWordConsonantPage({Key? key}) : super(key: key);
 
   @override
-  _ChooseWordConsonantPageState createState() =>
-      _ChooseWordConsonantPageState();
+  _LRChooseWordConsonantPageState createState() =>
+      _LRChooseWordConsonantPageState();
 }
 
-class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
+class _LRChooseWordConsonantPageState extends State<LRChooseWordConsonantPage> {
   List<String> consonantList = [
     'ㄱ',
     'ㄴ',

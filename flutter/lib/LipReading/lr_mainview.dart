@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zerozone/custom_icons_icons.dart';
-import 'practice/lr_practiceview.dart';
 import 'lr_readvideo.dart';
 import 'test/lr_testview.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +10,13 @@ import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'testReview/lr_reviewmode.dart';
 import 'package:zerozone/server.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import 'package:zerozone/LipReading/practice/lr_letterview.dart';
+import 'package:zerozone/LipReading/practice/lr_sentenceview.dart';
+import 'package:zerozone/Speaking/sp_word_consonant.dart';
+import 'package:zerozone/Speaking/sp_letter_consonant.dart';
+import 'package:zerozone/Speaking/sp_select_situation.dart';
 
 class lrselectModeMainPage extends StatefulWidget {
   const lrselectModeMainPage({Key? key}) : super(key: key);
@@ -93,7 +99,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return Scaffold(
-        body: new Container(
+        body: SingleChildScrollView(
+        child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
@@ -107,7 +114,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
             ),
           ),
           child: Container(
-            margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 40.0),
+            margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 50.0),
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               // mainAxisAlignment: MainAxisAlignment.center,
@@ -118,7 +125,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     Container(
                       margin: EdgeInsets.only(bottom: 15.0),
                       child: Text(
-                        "연습하기",
+                        "학습하기",
                         style: TextStyle(
                             color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
                         ),
@@ -136,7 +143,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                   decoration: BoxDecoration(
                     // color: Colors.white,
                     border: Border.all(
-                        color: Color(0xff4478FF),
+                        color: Color(0xff0AA1DD),
                         width: 2.0
                     ),
                     borderRadius: BorderRadius.all(
@@ -155,9 +162,9 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     children: [
                       GestureDetector(
                           onTap: (){
-                            // Navigator.push(
-                            //     context, MaterialPageRoute(builder: (_) => )
-                            // );
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (_) => LRChooseWordConsonantPage())
+                            );
                           },
                           child: new Container(
                             width: 140.0,
@@ -194,7 +201,9 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
 
                       GestureDetector(
                           onTap: (){
-                            print("Container clicked");
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (_) => LrModeSentencePage())
+                            );
                           },
                           child: new Container(
                             width: 140.0,
@@ -233,6 +242,48 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                   ),
                 ),
 
+                GestureDetector(
+                    onTap: (){
+                      _showModal("시험");
+                      // Navigator.push(
+                      //     context, MaterialPageRoute(builder: (_) => SelectSituationPage())
+                      // );
+                    },
+                    child: new Container(
+                      width: 140.0,
+                      height: 140.0,
+                      margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 20.0, bottom: 15.0),
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                      decoration: new BoxDecoration(
+                        borderRadius: new BorderRadius.circular(16.0),
+                        color: Color(0xffF3F8FF),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.9),
+                            spreadRadius: 0,
+                            blurRadius: 5,
+                            offset: Offset(2, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(
+                            CustomIcons.book,
+                            color: Color(0xff4478FF),
+                            size: 80.0,
+                          ),
+                          Padding(padding: EdgeInsets.only(bottom:5.0)),
+                          Text(
+                            "시험",
+                            style: TextStyle(
+                                color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
+                    )
+                ),
+
                 Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 35.0, bottom: 20.0),
@@ -259,9 +310,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     children: [
                       GestureDetector(
                           onTap: (){
-                            // Navigator.push(
-                            //     context, MaterialPageRoute(builder: (_) => ())
-                            // );
+                            _showModal("말하기 한 글자");
                           },
                           child: new Container(
                             width: 140.0,
@@ -282,7 +331,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                             child: Column(
                               children: [
                                 Icon(
-                                  Icons.wordpress_outlined,
+                                  Icons.abc_outlined,
                                   color: Color(0xff4478FF),
                                   size: 90.0,
                                 ),
@@ -298,7 +347,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
 
                       GestureDetector(
                           onTap: (){
-                            print("Container clicked");
+                            _showModal("말하기 단어");
                           },
                           child: new Container(
                             width: 140.0,
@@ -340,7 +389,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
 
                 GestureDetector(
                     onTap: (){
-                      print("Container clicked");
+                      _showModal("말하기 문장");
                     },
                     child: new Container(
                       width: 140.0,
@@ -381,6 +430,149 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
           ),
 
         )
+        ));
+  }
+
+  void _showModal(String mode){
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (context) =>
+      mode=="시험"? Container(
+        padding: EdgeInsets.only(top: 20.0),
+        height: 170.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+                onTap: (){},
+                child: Container(
+                  width: 300.0,
+                  child: Center(
+                      child: Text("단어", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
+                  ),
+                )
+            ),
+            Padding(padding: EdgeInsets.all(12.0)),
+            InkWell(
+              onTap: (){},
+              child: Container(
+                width: 300.0,
+                child: Center(
+                    child: Text("문장", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
+                ),
+              ),
+            ),
+            Padding(padding: EdgeInsets.all(12.0)),
+            InkWell(
+              onTap: (){},
+              child: Container(
+                width: 300.0,
+                child: Center(
+                    child: Text("랜덤", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+          : mode=="말하기 한 글자"?
+      Container(
+        padding: EdgeInsets.only(top: 20.0),
+        height: 120.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+                onTap: (){
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => ChooseConsonantPage())
+                  );
+                },
+                child: Container(
+                  width: 300.0,
+                  child: Center(
+                      child: Text("직접 선택", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
+                  ),
+                )
+            ),
+            Padding(padding: EdgeInsets.all(12.0)),
+            InkWell(
+              onTap: (){},
+              child: Container(
+                width: 300.0,
+                child: Center(
+                    child: Text("랜덤", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+          : mode=="말하기 단어"?
+      Container(
+        padding: EdgeInsets.only(top: 20.0),
+        height: 120.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+                onTap: (){
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => ChooseWordConsonantPage())
+                  );
+                },
+                child: Container(
+                  width: 300.0,
+                  child: Center(
+                      child: Text("직접 선택", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
+                  ),
+                )
+            ),
+            Padding(padding: EdgeInsets.all(12.0)),
+            InkWell(
+              onTap: (){},
+              child: Container(
+                width: 300.0,
+                child: Center(
+                    child: Text("랜덤", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
+                ),
+              ),
+            ),
+          ],
+        ),
+      ) : mode=="말하기 문장"?
+      Container(
+        padding: EdgeInsets.only(top: 20.0),
+        height: 120.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+                onTap: (){
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => SelectSituationPage())
                 );
+                  },
+                child: Container(
+                  width: 300.0,
+                  child: Center(
+                      child: Text("직접 선택", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
+                  ),
+                )
+            ),
+            Padding(padding: EdgeInsets.all(12.0)),
+            InkWell(
+              onTap: (){},
+              child: Container(
+                width: 300.0,
+                child: Center(
+                    child: Text("랜덤", style: TextStyle(fontSize: 18.0, color: Color(0xff333333)),)
+                ),
+              ),
+            ),
+          ],
+        ),
+      ) : Container()
+    );
   }
 }
