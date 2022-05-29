@@ -383,7 +383,7 @@ class _MyPageState extends State<MyPage> {
                                                 child: Text(
                                                   "구화 연습",
                                                   style: TextStyle(
-                                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                                      color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
                                                 ),
                                               )
                                             ],
@@ -424,7 +424,7 @@ class _MyPageState extends State<MyPage> {
                                                 child: Text(
                                                   "말하기 연습",
                                                   style: TextStyle(
-                                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                                      color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
                                                 ),
                                               )
                                             ],
@@ -503,7 +503,7 @@ class _MyPageState extends State<MyPage> {
                                                 child: Text(
                                                   "구화 연습",
                                                   style: TextStyle(
-                                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                                      color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
                                                 ),
                                               )
                                             ],
@@ -543,7 +543,7 @@ class _MyPageState extends State<MyPage> {
                                                 child: Text(
                                                   "말하기 연습",
                                                   style: TextStyle(
-                                                      color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w500),
+                                                      color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
                                                 ),
                                               )
                                             ],
