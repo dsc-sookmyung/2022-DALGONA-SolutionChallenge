@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zerozone/Custom/createCustomProblemPage.dart';
+import 'package:zerozone/Custom/createCustomSpeakPage.dart';
 import 'package:zerozone/Custom/lrCustomProblemListPage.dart';
 import 'package:zerozone/Custom/customProblemPage.dart';
 
@@ -174,7 +175,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                                 GestureDetector(
                                     onTap: (){
                                       Navigator.push(
-                                          context, MaterialPageRoute(builder: (_) => createCustomProblemPage())
+                                          context, MaterialPageRoute(builder: (_) => CustomSpeakProblemPage())
                                       );                          },
                                     child: new Container(
                                       width: 140.0,
