@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class createCustomProblemPage extends StatefulWidget {
-  const createCustomProblemPage({Key? key}) : super(key: key);
+class CustomSpeakProblemPage extends StatefulWidget {
+  const CustomSpeakProblemPage({Key? key}) : super(key: key);
 
   @override
-  State<createCustomProblemPage> createState() => _createCustomProblemPageState();
+  State<CustomSpeakProblemPage> createState() => _CustomSpeakProblemPageState();
 }
 
 enum Kind {
@@ -13,14 +13,13 @@ enum Kind {
   SENTENCE
 }
 
-class _createCustomProblemPageState extends State<createCustomProblemPage> {
+class _CustomSpeakProblemPageState extends State<CustomSpeakProblemPage> {
 
   TextEditingController inputController = TextEditingController();
   String inputText = '';
 
   bool _isChecked = false;
   Kind _kind = Kind.WORD;
-
 
   updateYet(){
     showDialog<String>(
@@ -42,7 +41,6 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -157,17 +155,17 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
                                           ),
                                         ),
                                         Container(
-                                          width: 140.0,
-                                          child: RadioListTile(
-                                              title: Text("문장"),
-                                              value: Kind.SENTENCE,
-                                              groupValue: _kind,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _kind = value as Kind;
-                                                });
-                                              }
-                                          )
+                                            width: 140.0,
+                                            child: RadioListTile(
+                                                title: Text("문장"),
+                                                value: Kind.SENTENCE,
+                                                groupValue: _kind,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    _kind = value as Kind;
+                                                  });
+                                                }
+                                            )
                                         ),
 
                                       ],
@@ -271,99 +269,6 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
                                     ),
                                   ),
 
-                                  Container(
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.only(top: 35.0, bottom: 20.0),
-                                    padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                                    width: 220.0,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Color(0xff4478FF),
-                                          width: 2.0
-                                      ),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20.0)
-                                      ),
-                                    ),
-                                    child: Text("연습 문제의 힌트",
-                                      style: TextStyle(
-                                          color: Color(0xff333333), fontSize: 20, fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-
-                                  // hint of the problem
-                                  Container(
-                                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 15.0, right: 15.0),
-                                    decoration: BoxDecoration(
-                                      color: Color(0xffD8EFFF),
-                                      // border: Border.all(
-                                      //     color: Color(0xff4478FF),
-                                      //     width: 2.0
-                                      // ),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0)
-                                      ),
-                                    ),
-
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-
-                                        Container(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "❗️주의 사항❗️",
-                                            style: TextStyle(
-                                                color: Color(0xff333333), fontSize: 18, fontWeight: FontWeight.w800
-                                            ),
-                                          ),
-                                        ),
-
-                                        Text(
-                                          " 연습 문제의 힌트는 초성으로 제시해 주시기 바라며 띄어쓰기를 지켜 주시기 바랍니다.\n️ 힌트를 추가하지 않을 경우, 초성이 자동으로 생성됩니다.\n",
-                                          style: TextStyle(
-                                              color: Color(0xff333333), fontSize: 16, fontWeight: FontWeight.w500
-                                          ),
-                                        ),
-
-                                        Text(
-                                          "예시️",
-                                          style: TextStyle(
-                                              color: Color(0xff333333), fontSize: 17, fontWeight: FontWeight.w700
-                                          ),
-                                        ),
-
-                                        Text(
-                                          "오늘도 좋은 하루 보내세요 \n → ㅇㄴㄷ ㅈㅇ ㅎㄹ ㅂㄴㅅㅇ",
-                                          style: TextStyle(
-                                              color: Color(0xff333333), fontSize: 16, fontWeight: FontWeight.w500
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  Container(
-                                    margin: EdgeInsets.only(top: 20.0),
-                                    width: double.infinity,
-                                    height: 50.0,
-                                    child: TextField(
-                                      controller: inputController,
-                                      decoration: InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                          borderSide: BorderSide(width: 1.5, color: Color(0xff97D5FE)),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                          borderSide: BorderSide(width: 1.5, color: Color(0xff97D5FE)),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
 
                                   // Container(
                                   //   child: Row(
