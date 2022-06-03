@@ -133,8 +133,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                   ],
                 ),
               ),
-              Container(
-                  height: MediaQuery.of(context).size.height - 160.0,
+              Expanded(
                   child: SingleChildScrollView(
                       child: Container(
                     padding:
