@@ -200,8 +200,8 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
                   ],
                 ),
               ),
-              Container(
-                  height: MediaQuery.of(context).size.height - 100,
+              Expanded(
+                  // height: MediaQuery.of(context).size.height - 100,
                   child: Container(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),

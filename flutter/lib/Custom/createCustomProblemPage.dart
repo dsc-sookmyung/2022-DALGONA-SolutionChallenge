@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:zerozone/Login/login.dart';
+import 'dart:convert';
+
+import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
+
 class createCustomProblemPage extends StatefulWidget {
   const createCustomProblemPage({Key? key}) : super(key: key);
 
@@ -16,32 +23,89 @@ enum Kind {
 class _createCustomProblemPageState extends State<createCustomProblemPage> {
 
   TextEditingController inputController = TextEditingController();
+  TextEditingController hintController = TextEditingController();
+
   String inputText = '';
 
   bool _isChecked = false;
   Kind _kind = Kind.WORD;
 
+  void createReadingCustom(String type, String content, String hint) async {
 
-  updateYet(){
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text(
-          '업데이트 예정',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        content: const Text('추후 업데이트 될 예정입니다.'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('확인'),
-          ),
-        ],
-      ),
-    );
+    // final data = jsonEncode({'name': editName});
+
+    var url = Uri.http('${serverHttp}:8080', '/custom/reading');
+
+    var data = jsonEncode({
+      'type' : type,
+      'content': content,
+      'hint': hint,
+    });
+
+    if(hint == ""){
+      data = jsonEncode({
+        'type' : type,
+        'content': content,
+      });
+    }
+
+    print("data: ${data}");
+
+
+
+    // name = editName;
+
+    var response = await http.post(url, body: data, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
+
+    print(url);
+    print("response: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+
+
+
+      Navigator.of(context).pop();
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type, probId: probId, bookmarked: bookmarked,))
+      // );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        createReadingCustom(type, content, hint);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
   }
+
+  void createLipReadingVideo(String text) async {
+
+    text = jsonEncode(text);
+    var url = Uri.https('${address}', '/predict/${text}');
+    var response = await http.get(url);
+
+    print(url);
+    print("machine Learning response: ${response.statusCode}");
+  }
+
 
 
   @override
@@ -102,8 +166,8 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
 
 
 
-                      Container(
-                          height: MediaQuery.of(context).size.height - 120.0,
+                      Expanded(
+                          // height: MediaQuery.of(context).size.height - 120.0,
                           child: SingleChildScrollView(
                             child: Container(
                               margin: EdgeInsets.only(left: 30.0, right: 40.0),
@@ -152,7 +216,8 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
                                               onChanged: (value) {
                                                 setState(() {
                                                   _kind = value as Kind;
-                                                });
+                                                }
+                                                );
                                               }
                                           ),
                                         ),
@@ -348,7 +413,7 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
                                     width: double.infinity,
                                     height: 50.0,
                                     child: TextField(
-                                      controller: inputController,
+                                      controller: hintController,
                                       decoration: InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -393,7 +458,18 @@ class _createCustomProblemPageState extends State<createCustomProblemPage> {
                                     margin: EdgeInsets.only(top:40.0, bottom: 30.0),
                                     child: GestureDetector(
                                       onTap: (){
-                                        updateYet();
+                                        createLipReadingVideo(inputController.text);
+
+                                        var type = "word";
+
+                                        if(_kind == Kind.SENTENCE){
+                                          type = "sentence";
+                                        }
+
+                                        print(inputController.text);
+                                        print(hintController.text);
+
+                                        createReadingCustom(type, inputController.text, hintController.text);
                                       },
                                       child: Container(
                                         alignment: Alignment.center,

@@ -3,16 +3,25 @@ import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/server.dart';
 import 'sp_practiceview_letter.dart';
+import 'sp_letter_code.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+class VowelList {
+  final String vowel;
+  final int index;
+
+  VowelList(this.vowel, this.index);
+}
 
 class ChooseVowelPage extends StatefulWidget {
 
   final String consonant;
   final int consonantIndex;
+  final List<VowelList> vowelList;
 
-  const ChooseVowelPage({Key? key, required this.consonant, required this.consonantIndex }) : super(key: key);
+  const ChooseVowelPage({Key? key, required this.consonant, required this.consonantIndex, required this.vowelList }) : super(key: key);
 
   @override
   _ChooseVowelPageState createState() => _ChooseVowelPageState();
@@ -23,7 +32,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
   int letterId = 0;
   String letter = 'ㄱ';
 
-  List<String> vowelList = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ'];
+  final codeList = new List<CodeList>.empty(growable: true);
 
 
   void letterInfo(String gridItem, int index) async {
@@ -49,71 +58,27 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
 
       dynamic data = body["data"];
 
-      for(dynamic i in data){
-        letterId = i["letterId"];
-        letter = i["letter"];
-        print("letter id: ${letterId}");
-        print("letter: ${letter}");
-        break;
+      if(codeList.length == 0){
+        for(dynamic i in data){
+          String a = i["letter"];
+          int b = i["letterId"];
+          codeList.add(CodeList(a, b));
+        }
       }
 
-      urlInfo(letter, letterId);
+      print("vowelList: ${codeList}");
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => ChooseCodePage(codeList: codeList))
+      );
+
+      // urlInfo(letter, letterId);
 
     }
     else if(response.statusCode == 401){
       await RefreshToken(context);
       if(check == true){
         letterInfo(gridItem, index);
-        check = false;
-      }
-    }
-    else {
-      print('error : ${response.reasonPhrase}');
-    }
-
-  }
-
-  void urlInfo(String letter, int letterId) async {
-
-    Map<String, String> _queryParameters = <String, String>{
-      'id' : letterId.toString(),
-    };
-
-    var url = Uri.http('${serverHttp}:8080', '/speaking/practice/letter', _queryParameters);
-
-    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
-
-    print(url);
-    print("response: ${response.statusCode}");
-
-    if (response.statusCode == 200) {
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-
-      var body = jsonDecode(utf8.decode(response.bodyBytes));
-
-      dynamic data = body["data"];
-
-      String url = data["url"];
-      String type = data["type"];
-      int probId = data["probId"];
-      bool bookmarked = data["bookmarked"];
-
-
-      print("url : ${url}");
-      print("type : ${type}");
-
-
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type, probId: probId, bookmarked: bookmarked,))
-      );
-
-    }
-    else if(response.statusCode == 401){
-      await RefreshToken(context);
-      if(check == true){
-        urlInfo(letter, letterId);
         check = false;
       }
     }
@@ -174,7 +139,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
                               alignment: Alignment.center,
                               width: 300.0,
                               child: Text(
-                                "말하기 한 글자 연습",
+                                "한 글자 연습: 중성",
                                 style: TextStyle(
                                     color: Color(0xff333333),
                                     fontSize: 24,
@@ -184,8 +149,8 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
                           ],
                         ),
                       ),
-                      Container(
-                          height: MediaQuery.of(context).size.height-100,
+                      Expanded(
+                          // height: MediaQuery.of(context).size.height-100,
                           child: Container(
                             padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
                             margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 0.0),
@@ -211,10 +176,10 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
                                   Expanded(
                                     child: GridView.count(
                                       crossAxisCount: 3,
-                                      children: vowelList.asMap().map((index,data) => MapEntry(index,
+                                      children: widget.vowelList.asMap().map((index,data) => MapEntry(index,
                                           GestureDetector(
                                               onTap: () {
-                                                letterInfo(data, index+1);
+                                                letterInfo(data.vowel, data.index);
                                               },
                                               child: Container(
                                                   margin: EdgeInsets.symmetric(
@@ -230,7 +195,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
                                                               15.0))),
                                                   child: Center(
                                                     child: Text(
-                                                      data,
+                                                      data.vowel,
                                                       style: TextStyle(
                                                           fontSize: 42,
                                                           color:
@@ -247,7 +212,12 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
                                   )
                                 ]),
                           ))
-                    ])))));
+                    ]
+                    )
+                )
+            )
+        )
+    );
 
 
   }

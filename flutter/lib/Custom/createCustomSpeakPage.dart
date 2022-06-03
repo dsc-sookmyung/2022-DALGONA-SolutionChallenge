@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:zerozone/Login/login.dart';
+import 'dart:convert';
+
+import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
+
 class CustomSpeakProblemPage extends StatefulWidget {
   const CustomSpeakProblemPage({Key? key}) : super(key: key);
 
@@ -21,25 +28,66 @@ class _CustomSpeakProblemPageState extends State<CustomSpeakProblemPage> {
   bool _isChecked = false;
   Kind _kind = Kind.WORD;
 
-  updateYet(){
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text(
-          '업데이트 예정',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        content: const Text('추후 업데이트 될 예정입니다.'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('확인'),
-          ),
-        ],
-      ),
-    );
+  void createSpeakingCustom(String type, String content) async {
+
+    // final data = jsonEncode({'name': editName});
+
+    var url = Uri.http('${serverHttp}:8080', '/custom/speaking');
+
+    var data = jsonEncode({
+      'type' : type,
+      'content': content,
+    });
+
+    var response = await http.post(url, body: data, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
+
+    print(url);
+    print("response: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+
+
+
+      Navigator.of(context).pop();
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (_) => SpLetterPracticePage(letter: letter, letterId: letterId, url: url, type: type, probId: probId, bookmarked: bookmarked,))
+      // );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        createSpeakingCustom(type, content);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
+
+  void createSpeakingVideo(String text) async {
+
+    text = jsonEncode(text);
+    var url = Uri.https('${address}', '/predict/${text}');
+    var response = await http.get(url);
+
+    print(url);
+    print("machine Learning response: ${response.statusCode}");
   }
 
   @override
@@ -100,8 +148,8 @@ class _CustomSpeakProblemPageState extends State<CustomSpeakProblemPage> {
 
 
 
-                      Container(
-                          height: MediaQuery.of(context).size.height - 120.0,
+                      Expanded(
+                          // height: MediaQuery.of(context).size.height - 120.0,
                           child: SingleChildScrollView(
                             child: Container(
                               margin: EdgeInsets.only(left: 30.0, right: 40.0),
@@ -298,7 +346,16 @@ class _CustomSpeakProblemPageState extends State<CustomSpeakProblemPage> {
                                     margin: EdgeInsets.only(top:40.0, bottom: 30.0),
                                     child: GestureDetector(
                                       onTap: (){
-                                        updateYet();
+                                        createSpeakingVideo(inputController.text);
+                                        var type = "word";
+
+                                        if(_kind == Kind.SENTENCE){
+                                          type = "sentence";
+                                        }
+
+                                        print(inputController.text);
+
+                                        createSpeakingCustom(type, inputController.text);
                                       },
                                       child: Container(
                                         alignment: Alignment.center,
