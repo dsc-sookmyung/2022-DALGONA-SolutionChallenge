@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zerozone/Custom/createCustomProblemPage.dart';
+import 'package:zerozone/Custom/createCustomSpeakPage.dart';
 import 'package:zerozone/Custom/lrCustomProblemListPage.dart';
 import 'package:zerozone/Custom/customProblemPage.dart';
 
@@ -77,8 +78,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                     ],
                   ),
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height - 200.0,
+                Expanded(
                   child: SingleChildScrollView(
 
                     child: Container(
@@ -105,14 +105,14 @@ class _customMainPageViewState extends State<customMainPageView> {
                                   color: Color(0xff4478FF),
                                   width: 2.0
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.9),
-                                  spreadRadius: 0,
-                                  blurRadius: 2,
-                                  offset: Offset(1, 2), // changes position of shadow
-                                ),
-                              ],
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey.withOpacity(0.9),
+                              //     spreadRadius: 0,
+                              //     blurRadius: 2,
+                              //     offset: Offset(1, 2), // changes position of shadow
+                              //   ),
+                              // ],
 
                               borderRadius: BorderRadius.all(
                                   Radius.circular(20.0)
@@ -174,7 +174,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                                 GestureDetector(
                                     onTap: (){
                                       Navigator.push(
-                                          context, MaterialPageRoute(builder: (_) => createCustomProblemPage())
+                                          context, MaterialPageRoute(builder: (_) => CustomSpeakProblemPage())
                                       );                          },
                                     child: new Container(
                                       width: 140.0,
@@ -225,14 +225,6 @@ class _customMainPageViewState extends State<customMainPageView> {
                                   color: Color(0xff4478FF),
                                   width: 2.0
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.9),
-                                  spreadRadius: 0,
-                                  blurRadius: 2,
-                                  offset: Offset(1, 2), // changes position of shadow
-                                ),
-                              ],
                               borderRadius: BorderRadius.all(
                                   Radius.circular(20.0)
                               ),
@@ -257,7 +249,8 @@ class _customMainPageViewState extends State<customMainPageView> {
                                   child: Container(
                                     margin: EdgeInsets.only(bottom: 20.0),
                                     decoration: new BoxDecoration(
-                                      borderRadius: new BorderRadius.circular(16.0),
+                                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(25.0), topLeft: Radius.circular(25.0)),
+                                      // borderRadius: new BorderRadius.circular(16.0),
                                       color: Colors.white,
                                       boxShadow: [
                                         BoxShadow(
@@ -297,7 +290,9 @@ class _customMainPageViewState extends State<customMainPageView> {
                                   },
                                   child: Container(
                                     decoration: new BoxDecoration(
-                                      borderRadius: new BorderRadius.circular(16.0),
+                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0), bottomRight: Radius.circular(25.0)),
+
+                                      // borderRadius: new BorderRadius.circular(16.0),
                                       color: Colors.white,
                                       boxShadow: [
                                         BoxShadow(
