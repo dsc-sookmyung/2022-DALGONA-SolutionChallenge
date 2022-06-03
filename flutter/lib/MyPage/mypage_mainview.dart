@@ -246,21 +246,21 @@ class _MyPageState extends State<MyPage> {
                                 width: double.infinity,
                                 height: 100,
                                 decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topRight,
-                                      colors: [
-                                        Color(0xffFFFFFF),
-                                        Color(0xffE3F2FD),
-                                        Color(0xffBBDEFB),
-                                      ],
-                                      stops: [0.1, 0.3, 0.8, ],
-                                    ),
+                                    // gradient: LinearGradient(
+                                    //   begin: Alignment.topCenter,
+                                    //   end: Alignment.bottomCenter,
+                                    //   colors: [
+                                    //     Color(0xffFFFFFF),
+                                    //     Color(0xffE3F2FD),
+                                    //     Color(0xffBBDEFB),
+                                    //   ],
+                                    //   stops: [0.1, 0.4, 0.8, ],
+                                    // ),
                                     // border: Border.all(
                                     //     color: Color(0xff999999),
                                     //     width: 1.0
                                     // ),
-                                    color: Color(0xffFFFFFF),
+                                    color: Color(0xffD8EFFF),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.9),
@@ -328,14 +328,6 @@ class _MyPageState extends State<MyPage> {
                                       width: 2.0
                                   ),
                                   color: Color(0xffF3F8FF),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.9),
-                                      spreadRadius: 0,
-                                      blurRadius: 2,
-                                      offset: Offset(1, 2), // changes position of shadow
-                                    ),
-                                  ],
                                   borderRadius: BorderRadius.all(
                                       Radius.circular(20.0)
                                   ),
@@ -449,14 +441,6 @@ class _MyPageState extends State<MyPage> {
                                       color: Color(0xff4478FF),
                                       width: 2.0
                                   ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.9),
-                                      spreadRadius: 0,
-                                      blurRadius: 2,
-                                      offset: Offset(1, 2), // changes position of shadow
-                                    ),
-                                  ],
                                   borderRadius: BorderRadius.all(
                                       Radius.circular(20.0)
                                   ),

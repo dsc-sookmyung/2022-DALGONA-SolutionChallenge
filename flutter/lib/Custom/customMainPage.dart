@@ -106,14 +106,14 @@ class _customMainPageViewState extends State<customMainPageView> {
                                   color: Color(0xff4478FF),
                                   width: 2.0
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.9),
-                                  spreadRadius: 0,
-                                  blurRadius: 2,
-                                  offset: Offset(1, 2), // changes position of shadow
-                                ),
-                              ],
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey.withOpacity(0.9),
+                              //     spreadRadius: 0,
+                              //     blurRadius: 2,
+                              //     offset: Offset(1, 2), // changes position of shadow
+                              //   ),
+                              // ],
 
                               borderRadius: BorderRadius.all(
                                   Radius.circular(20.0)
@@ -226,14 +226,6 @@ class _customMainPageViewState extends State<customMainPageView> {
                                   color: Color(0xff4478FF),
                                   width: 2.0
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.9),
-                                  spreadRadius: 0,
-                                  blurRadius: 2,
-                                  offset: Offset(1, 2), // changes position of shadow
-                                ),
-                              ],
                               borderRadius: BorderRadius.all(
                                   Radius.circular(20.0)
                               ),
@@ -258,7 +250,8 @@ class _customMainPageViewState extends State<customMainPageView> {
                                   child: Container(
                                     margin: EdgeInsets.only(bottom: 20.0),
                                     decoration: new BoxDecoration(
-                                      borderRadius: new BorderRadius.circular(16.0),
+                                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(25.0), topLeft: Radius.circular(25.0)),
+                                      // borderRadius: new BorderRadius.circular(16.0),
                                       color: Colors.white,
                                       boxShadow: [
                                         BoxShadow(
@@ -298,7 +291,9 @@ class _customMainPageViewState extends State<customMainPageView> {
                                   },
                                   child: Container(
                                     decoration: new BoxDecoration(
-                                      borderRadius: new BorderRadius.circular(16.0),
+                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0), bottomRight: Radius.circular(25.0)),
+
+                                      // borderRadius: new BorderRadius.circular(16.0),
                                       color: Colors.white,
                                       boxShadow: [
                                         BoxShadow(
