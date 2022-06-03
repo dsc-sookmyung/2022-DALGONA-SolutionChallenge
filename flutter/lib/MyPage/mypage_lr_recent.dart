@@ -25,11 +25,9 @@ class _lrRecentStudyPageState extends State<lrRecentStudyPage> {
   late List _probId = widget.probId;
   late List _type = widget.type;
   late List _content = widget.content;
-  late int totalPage = (_content.length % 10 == 0
-          ? _content.length / 10
-          : _content.length / 10 + 1)
-      .toInt();
+
   int _curPage=1;
+  late int totalPage = _content.length%10 == 0 ? _content.length~/10: _content.length~/10+1;
 
   @override
   void initState() {
@@ -86,7 +84,7 @@ class _lrRecentStudyPageState extends State<lrRecentStudyPage> {
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(bottom: 15.0),
                       child: Text(
-                        "학습하기",
+                        "구화 최근 학습",
                         style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: 24,
@@ -103,21 +101,20 @@ class _lrRecentStudyPageState extends State<lrRecentStudyPage> {
                   itemBuilder: (BuildContext context, int idx) {
                     return (
                         Container(
-                            padding: EdgeInsets.only(top: 5.0),
+                            padding: EdgeInsets.only(top: 10.0),
                         child: Column(
                       children: [
                         ...List.generate(
-                          // _content.length-10*(_curPage-1) < 10 ? _content.length-10*(_curPage-1) : 10,
-                          _content.length,
+                          _curPage==totalPage ? _content.length-(_curPage-1)*10 : 10,
                           (idx) => Container(
                             child: InkWell(
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () {
-                                print(_probId[idx+(_curPage-1)*10]);
+                                print(_probId[idx]);
                               },
                               child: Container(
-                                height: 50,
+                                height: MediaQuery.of(context).size.height*7.5/100,
                                 margin: EdgeInsets.only(right: 40, left: 40),
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 11, horizontal: 8),
@@ -133,8 +130,8 @@ class _lrRecentStudyPageState extends State<lrRecentStudyPage> {
                                     Flexible(
                                       child: Text(
                                         _type[idx] == 'word'
-                                            ? '단어' + ' - ' + _content[idx]
-                                            : '문장' + ' - ' + _content[idx],
+                                            ? '단어' + ' - ' + _content[idx+10*(_curPage-1)]
+                                            : '문장' + ' - ' + _content[idx+10*(_curPage-1)],
                                         style: TextStyle(
                                             fontSize: 15,
                                             color: Color(0xff333333)),
@@ -152,10 +149,17 @@ class _lrRecentStudyPageState extends State<lrRecentStudyPage> {
                     )));
                   },
                   itemCount: totalPage,
-                  pagination: SwiperPagination(),
+                  pagination: SwiperPagination(
+                    builder: DotSwiperPaginationBuilder(
+                      color: Colors.black,
+                      activeColor: Color(0xff4478FF),
+                      size: 20.0,
+                      activeSize: 20.0
+                    )
+                  ),
                   control: SwiperControl(),
                     onIndexChanged: (index) {
-                      _curPage = index;
+                      _curPage = index+1;
                     },
                 ),
               ))

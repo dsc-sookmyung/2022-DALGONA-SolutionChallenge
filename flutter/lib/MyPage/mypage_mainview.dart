@@ -204,7 +204,7 @@ class _MyPageState extends State<MyPage> {
     int len2=ret2!.length;
     int len3=ret3!.length;
     
-    for (int i = 0; i < len; i++) {
+    for (int i = len-1; i >=0; i--) {
     _recentProbId.add(int.parse(ret1[i]));
     _recentType.add(ret2[i]);
     _recentContent.add(ret3[i]);

@@ -845,11 +845,11 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
           topLeft: Radius.circular(20.0),
           topRight: Radius.circular(20.0),
         )),
-        backgroundColor: Color(0xffF3F4F6),
+        backgroundColor: Colors.white,
         builder: (context) => mode == "시험"
             ? Container(
                 padding: EdgeInsets.only(top: 15.0),
-                height: 170.0,
+                height: MediaQuery.of(context).size.height*25/100,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -863,19 +863,24 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                       ver: '단어', cnt: totalProbCnt)));
                         },
                         child: Container(
+                          height: MediaQuery.of(context).size.height*7/100,
                           width: MediaQuery.of(context).size.width - 10.0,
-                          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                          // padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10.0),
-                                topRight: Radius.circular(10.0),
-                              )),
+                              // color: Colors.white,
+                              // borderRadius: BorderRadius.only(
+                              //   topLeft: Radius.circular(10.0),
+                              //   topRight: Radius.circular(10.0),
+                              // ),
+                            border: Border(
+                              bottom: BorderSide(width:1, color: Colors.grey)
+                            )
+                          ),
                           child: Center(
                               child: Text(
                             "단어",
                             style: TextStyle(
-                                fontSize: 18.0, color: Color(0xff333333)),
+                                fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
                           )),
                         )),
                     Padding(padding: EdgeInsets.all(1.0)),
@@ -889,10 +894,13 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                     ver: '문장', cnt: totalProbCnt)));
                       },
                       child: Container(
+                        height: MediaQuery.of(context).size.height*7/100,
                         width: MediaQuery.of(context).size.width - 10.0,
-                        padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                        // padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                            border: Border(
+                                bottom: BorderSide(width:1, color: Colors.grey)
+                            )
                         ),
                         child: Center(
                             child: Text(
@@ -913,14 +921,11 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                     ver: '랜덤', cnt: totalProbCnt)));
                       },
                       child: Container(
+                        height: MediaQuery.of(context).size.height*7/100,
                         width: MediaQuery.of(context).size.width - 10.0,
-                        padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(10.0),
-                            )),
+                        ),
                         child: Center(
                             child: Text(
                           "랜덤",
@@ -935,7 +940,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
             : mode == "말하기 한 글자"
                 ? Container(
                     padding: EdgeInsets.only(top: 15.0),
-                    height: 120.0,
+                    height: MediaQuery.of(context).size.height*17/100,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -944,14 +949,14 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                               getConsonant();
                             },
                             child: Container(
+                              height: MediaQuery.of(context).size.height*7/100,
                               width: MediaQuery.of(context).size.width - 10.0,
-                              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                              // padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                               decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10.0),
-                                    topRight: Radius.circular(10.0),
-                                  )),
+                                  border: Border(
+                                      bottom: BorderSide(width:1, color: Colors.grey)
+                                  )
+                              ),
                               child: Center(
                                   child: Text(
                                 "직접 선택",
@@ -966,14 +971,10 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                             Navigator.pop(context);
                           },
                           child: Container(
+                            height: MediaQuery.of(context).size.height*7/100,
                             width: MediaQuery.of(context).size.width - 10.0,
-                            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                             decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10.0),
-                                  bottomRight: Radius.circular(10.0),
-                                )),
+                               ),
                             child: Center(
                                 child: Text(
                               "랜덤",
@@ -988,7 +989,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                 : mode == "말하기 단어"
                     ? Container(
                         padding: EdgeInsets.only(top: 15.0),
-                        height: 120.0,
+                        height: MediaQuery.of(context).size.height*17/100,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -1002,15 +1003,12 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                               ChooseWordConsonantPage()));
                                 },
                                 child: Container(
+                                  height: MediaQuery.of(context).size.height*7/100,
                                   width:
                                       MediaQuery.of(context).size.width - 10.0,
-                                  padding:
-                                      EdgeInsets.only(top: 10.0, bottom: 10.0),
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.0),
-                                        topRight: Radius.circular(10.0),
+                                      border: Border(
+                                          bottom: BorderSide(width:1, color: Colors.grey)
                                       )),
                                   child: Center(
                                       child: Text(
@@ -1027,15 +1025,10 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                 Navigator.pop(context);
                               },
                               child: Container(
+                                height: MediaQuery.of(context).size.height*7/100,
                                 width: MediaQuery.of(context).size.width - 10.0,
-                                padding:
-                                    EdgeInsets.only(top: 10.0, bottom: 10.0),
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10.0),
-                                      bottomRight: Radius.circular(10.0),
-                                    )),
+                                    ),
                                 child: Center(
                                     child: Text(
                                   "랜덤",
@@ -1050,7 +1043,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     : mode == "말하기 문장"
                         ? Container(
                             padding: EdgeInsets.only(top: 15.0),
-                            height: 120.0,
+                            height: MediaQuery.of(context).size.height*17/100,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -1064,15 +1057,14 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                                   SelectSituationPage()));
                                     },
                                     child: Container(
+                                      height: MediaQuery.of(context).size.height*7/100,
                                       width: MediaQuery.of(context).size.width -
                                           10.0,
                                       padding: EdgeInsets.only(
                                           top: 10.0, bottom: 10.0),
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10.0),
-                                            topRight: Radius.circular(10.0),
+                                          border: Border(
+                                              bottom: BorderSide(width:1, color: Colors.grey)
                                           )),
                                       child: Center(
                                           child: Text(
@@ -1089,16 +1081,11 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                     Navigator.pop(context);
                                   },
                                   child: Container(
+                                    height: MediaQuery.of(context).size.height*7/100,
                                     width: MediaQuery.of(context).size.width -
                                         10.0,
-                                    padding: EdgeInsets.only(
-                                        top: 10.0, bottom: 10.0),
                                     decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(10.0),
-                                          bottomRight: Radius.circular(10.0),
-                                        )),
+                                        ),
                                     child: Center(
                                         child: Text(
                                       "랜덤",

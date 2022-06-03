@@ -46,10 +46,6 @@ class _WordPracticePageState extends State<WordPracticePage> {
   String color = '0xff97D5FE';
   bool _volume = false;
 
-  List<String> _recentProbId = [];
-  List<String> _recentType=[];
-  List<String> _recentContent=[];
-
   final myController = TextEditingController();
 
   double _videoSpeed = 1.0;
@@ -72,6 +68,10 @@ class _WordPracticePageState extends State<WordPracticePage> {
 
     super.initState();
   }
+
+  List<String> _recentProbId = [];
+  List<String> _recentType=[];
+  List<String> _recentContent=[];
 
   _loadRecent() async{
     _recentProbId.clear();
@@ -343,12 +343,13 @@ class _WordPracticePageState extends State<WordPracticePage> {
                       Padding(padding: EdgeInsets.all(4.0)),
                       Row(
                         //동영상 플레이 버튼
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         // crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Padding(padding: EdgeInsets.only(left: 1.0)),
-                          Column(
+                          // Padding(padding: EdgeInsets.only(left: 1.0)),
+                          Row(
                             children: [
+                              Padding(padding: EdgeInsets.only(left:6.0)),
                               InkWell(
                                   onTap: () {
                                     _volume
@@ -395,11 +396,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                       color: Color(0xff4478FF),
                                     ),
                                   )),
-                            ],
-                          ),
                           Padding(padding: EdgeInsets.all(5.0)),
-                          Column(
-                            children: [
                               InkWell(
                                   onTap: () {
                                     setState(() {
@@ -446,9 +443,9 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                   )),
                             ],
                           ),
-                          Padding(padding: EdgeInsets.only(right: 100.0)),
-                          Container(
-                            child: InkWell(
+                          Row(
+                            children: [
+                              InkWell(
                                 onTap: () {
                                   setState(() {
                                     if (_videoSpeed > 0.25) {
@@ -489,18 +486,17 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                     color: Color(0xff4478FF),
                                   ),
                                 )),
-                          ),
                           // Padding(padding: EdgeInsets.only(left: 8.0)),
                           Container(
                             child: Text(
                               '${_videoSpeed}x',
                               textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500),
                             ),
                             width: 60,
                           ),
                           // Padding(padding: EdgeInsets.only(right: 8.0)),
-                          Container(
-                            child: InkWell(
+                          InkWell(
                                 onTap: () {
                                   setState(() {
                                     if (_videoSpeed < 1.5) {
@@ -541,9 +537,10 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                     color: Color(0xff4478FF),
                                   ),
                                 )),
-                          ),
+                              Padding(padding: EdgeInsets.only(right:6.0)),
                         ],
                       ),
+                      ]),
                       Padding(padding: EdgeInsets.all(5.0)),
                       InkWell(
                           onTap: () {
@@ -674,8 +671,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                         )),
                     ])))),
 
-                  ],
-                ))))));
+
+                ]))))));
   }
 
   Widget _initTextField() {
@@ -884,7 +881,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
       Padding(padding: EdgeInsets.all(5.0)),
       Column(children: [
         Container(
-            width: 300,
+            width: MediaQuery.of(context).size.width * 90 / 100,
             height: 50,
             color: Color(0xff97D5FE),
             child: Center(
@@ -911,7 +908,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
         Padding(padding: EdgeInsets.all(5.0)),
         Column(children: [
           Container(
-              width: 300,
+              width: MediaQuery.of(context).size.width * 90 / 100,
               height: 50,
               color: Color(0xff97D5FE),
               child: Center(
