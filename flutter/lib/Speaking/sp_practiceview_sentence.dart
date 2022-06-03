@@ -207,7 +207,7 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
                               alignment: Alignment.center,
                               width: 300.0,
                               child: Text(
-                                "한 글자",
+                                "문장",
                                 style: TextStyle(
                                     color: Color(0xff333333),
                                     fontSize: 24,
