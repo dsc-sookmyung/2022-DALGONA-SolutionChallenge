@@ -195,7 +195,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
                           border: Border.all(color: Color(0xffECF4FE))),
                       // color: Colors.amber,
                       margin: EdgeInsets.only(top: 10.0),
-                      height: 30.0,
+                      height: 40.0,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -221,7 +221,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
                               "한 글자",
                               style: TextStyle(
                                   color: Color(0xff333333),
-                                  fontSize: 21,
+                                  fontSize: 24,
                                   fontWeight: FontWeight.w800),
                             ),
                           ),
@@ -230,7 +230,7 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
                     ),
                     Container(
                       child: Container(
-                        padding: EdgeInsets.only(top: 15.0, left: 25.0, right: 25.0, bottom: 15.0),
+                        padding: EdgeInsets.only(top: 10.0, left: 25.0, right: 25.0, bottom: 15.0),
                         child: Column(
                           children: [
                             Row(
