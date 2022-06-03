@@ -74,76 +74,120 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '말하기 연습 - 문장',
-          style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
-        ),
-        centerTitle: true,
-        backgroundColor: Color(0xffC8E8FF),
-        foregroundColor: Color(0xff333333),
-      ),
-
       body: new Container(
-    color: Color(0xfff0f8ff),
-      child: Container(
-        margin: EdgeInsets.only(top: 40.0, left: 30.0, right: 30.0),
-        padding: EdgeInsets.only(left: 10.0, right: 10.0),
-
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color(0xffF3F4F6),
+              Color(0xffEFF4FA),
+              Color(0xffECF4FE),
+            ],
+            stops: [0.3, 0.7, 0.9, ],
+          ),
+        ),
+      child: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-
           children: [
             Container(
-              margin: EdgeInsets.only(bottom: 30.0),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2,
-                    color: Color(0xff5AA9DD),
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              width: 300,
-              height: 50,
-              alignment: Alignment.center,
-              child: Text(
-                '${widget.situation}',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-              ),
-            ),
-            Container(
-                width: 300,
-                child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: widget.sentenceList.length,
-                    itemBuilder: (context, idx){
-                      return GestureDetector(
-                        onTap: (){
-                          urlInfo(widget.sentenceList[idx].word, widget.sentenceList[idx].index);
+              child: Container(
+                margin: EdgeInsets.only(top: 20.0),
+                  height: 48.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
 
-                        },
-                        child: Container(
-                          height: 48,
-                          alignment: Alignment.center,
-                          child: Text(
-                            widget.sentenceList[idx].word,
-                            style: TextStyle(fontSize: 15),
+                      Container(
+                        width: 20.0,
+                        alignment: Alignment.centerLeft,
+                        child: IconButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Icons.arrow_back),
+                          iconSize: 20,
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 40,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "구화 연습: 문장 선택",
+                          style: TextStyle(
+                              color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
                           ),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1,
-                                color: Colors.blueGrey,
-                              )),
-
                         ),
 
-                      );
-                    }
-                )
+                      ),
+                    ],
+                  )
+              ),
             ),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(top: 40.0, left: 30.0, right: 30.0),
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 30.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: Color(0xff4478FF),
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                      width: 300,
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: Text(
+                        '${widget.situation}',
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    Container(
+                        width: 300,
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: widget.sentenceList.length,
+                            itemBuilder: (context, idx){
+                              return GestureDetector(
+                                onTap: (){
+                                  urlInfo(widget.sentenceList[idx].word, widget.sentenceList[idx].index);
+
+                                },
+                                child: Container(
+                                  height: 48,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    widget.sentenceList[idx].word,
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.blueGrey,
+                                      )),
+
+                                ),
+
+                              );
+                            }
+                        )
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
-      ),
+      )
 
       )
     );
