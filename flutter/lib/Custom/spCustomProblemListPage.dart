@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:zerozone/Custom/practice/practiceSpeakingWordCustom.dart';
 
 import 'package:zerozone/Login/login.dart';
 import 'dart:convert';
@@ -61,22 +62,10 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
       int probId = data["probId"];
       String content = data["content"];
 
-      if(widget.speakingList[idx].type == 'Word'){
-        // String word = data["word"];
-        Navigator.of(context).pop();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => SpWordPracticePage(url: url, type: type, probId: probId, word: content, bookmarked: false))
-        );
-      }
-      else if(widget.speakingList[idx].type == 'Sentence'){
-
-        // String sentence = data["sentence"];
-
-        Navigator.of(context).pop();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => SpSentencePracticePage(url: url, type: type, probId: probId, sentence: content, bookmarked: false,))
-        );
-      }
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpCustomWordPracticePage(url: url, type: type, probId: probId, word: content))
+      );
 
     }
     else if(response.statusCode == 401){
@@ -182,7 +171,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                                                       children: [
                                                         Flexible(
                                                           child: Text(
-                                                            widget.speakingList[idx].type == 'Word'
+                                                            widget.speakingList[idx].type == 'word'
                                                                 ? '단어' + ' - ' + widget.speakingList[idx+10*(_curPage-1)].content
                                                                 : '문장' + ' - ' + widget.speakingList[idx+10*(_curPage-1)].content,
                                                             style: TextStyle(

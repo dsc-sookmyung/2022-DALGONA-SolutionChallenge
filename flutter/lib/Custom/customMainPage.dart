@@ -39,7 +39,7 @@ class _customMainPageViewState extends State<customMainPageView> {
       var body = jsonDecode(utf8.decode(response.bodyBytes));
 
       dynamic data = body["data"];
-      data = data["content"];
+      // data = data["content"];
 
       print(data);
 
@@ -88,7 +88,7 @@ class _customMainPageViewState extends State<customMainPageView> {
       var body = jsonDecode(utf8.decode(response.bodyBytes));
 
       dynamic data = body["data"];
-      data = data["content"];
+      // data = data["content"];
 
       print(data);
 

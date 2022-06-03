@@ -114,7 +114,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                                                       children: [
                                                         Flexible(
                                                           child: Text(
-                                                            widget.lipReadingList[idx].type == 'Word'
+                                                            widget.lipReadingList[idx].type == 'word'
                                                                 ? '단어' + ' - ' + widget.lipReadingList[idx+10*(_curPage-1)].content
                                                                 : '문장' + ' - ' + widget.lipReadingList[idx+10*(_curPage-1)].content,
                                                             style: TextStyle(
