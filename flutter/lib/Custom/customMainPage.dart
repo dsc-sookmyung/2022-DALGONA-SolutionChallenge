@@ -78,8 +78,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                     ],
                   ),
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height - 200.0,
+                Expanded(
                   child: SingleChildScrollView(
 
                     child: Container(
