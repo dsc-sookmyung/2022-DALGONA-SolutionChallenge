@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -46,6 +46,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
   bool _isInit = true; //textfield
   bool _seeAnswer = false; //정답보기
   String color = '0xff97D5FE';
+  bool _volume = false;
 
   final myController = TextEditingController();
 
@@ -55,7 +56,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
   late Future<void> _initializeVideoPlayerFuture;
 
   var data;
-  late String _space;
+  late String _space=widget.space;
   late var _sentence = widget.sentence;
   late var _hint = widget.hint;
   late var _url;
@@ -64,7 +65,6 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
 
   void initState() {
     setState(() {
-      _space = widget.space;
       _url = widget.url;
     });
     _controller = VideoPlayerController.network(
@@ -72,39 +72,54 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    // print('연습: '+widget.sentence+' '+widget.hint+' '+widget.space);
+    _controller.setVolume(0.0);
+    _loadRecent();
+
     super.initState();
 
-    //usingCamera();
   }
 
-  /*void _AddRecent(List id) async {
-    var url = Uri.http('${serverHttp}:8080', '/recent/reading');
-    final data = jsonEncode({'recentProbIdRequestList': id});
+  List<String> _recentProbId = [];
+  List<String> _recentType=[];
+  List<String> _recentContent=[];
 
-    var response = await http.post(url, body: data, headers: {
-      'Accept': 'application/json',
-      "content-type": "application/json",
-      "Authorization": "Bearer $authToken"
-    });
+  _loadRecent() async{
+    _recentProbId.clear();
+    _recentType.clear();
+    _recentContent.clear();
 
-    // print(url);
-    print(response.statusCode);
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      final ret1 = prefs.getStringList('id');
+      final ret2 = prefs.getStringList('type');
+      final ret3 = prefs.getStringList('content');
 
-    if (response.statusCode == 200) {
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-      // var body=jsonDecode(utf8.decode(response.bodyBytes));
-    } else if (response.statusCode == 401) {
-      await RefreshToken(context);
-      if (check == true) {
-        _AddRecent(id);
-        check = false;
+      int len=ret1!.length;
+      int len2=ret2!.length;
+      int len3=ret3!.length;
+
+      for (int i = 0; i < len; i++) {
+        _recentProbId.add(ret1[i]);
+        _recentType.add(ret2[i]);
+        _recentContent.add(ret3[i]);
       }
-    } else {
-      print('error : ${response.reasonPhrase}');
-    }
-  }*/
+    });
+  }
+
+  _saveRecent(int id, String type, String content) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _recentProbId.add(id.toString());
+    _recentType.add(type);
+    _recentContent.add(content);
+
+    setState(() {
+      prefs.setStringList('id', _recentProbId);
+      prefs.setStringList('type', _recentType);
+      prefs.setStringList('content', _recentContent);
+      print('shared: '+ id.toString() +' '+ type +' '+ content);
+    });
+  }
 
   _randomsentence(String situationId, String situation) async {
     Map<String, String> _queryParameters = <String, String>{
@@ -137,12 +152,8 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         _url = data['url'];
         _probId = data['probId'];
         _isStared=data['bookmarked'];
+        _space=data['spacingInfo'];
 
-        var repeat = data['spacingInfo'].split("");
-        for (int i = 0; i < repeat.length; i++) {
-          _space += "_ " * int.parse(repeat[i]);
-          _space += " ";
-        }
         _controller = VideoPlayerController.network(_url);
         _initializeVideoPlayerFuture = _controller.initialize();
         _controller.setLooping(true);
@@ -226,30 +237,77 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-    return WillPopScope(
-        child: GestureDetector(
+    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    return Scaffold(
+      // resizeToAvoidBottomInset: false,
+        body: GestureDetector(
             onTap: () {
               //FocusManager.instance.primaryFocus?.unfocus();
               FocusScope.of(context).unfocus();
             },
-            child: Scaffold(
-                appBar: AppBar(
-                  title: Text(
-                    "문장",
-                    style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800),
-                  ),
-                  centerTitle: true,
-                  backgroundColor: Color(0xffC8E8FF),
-                  foregroundColor: Color(0xff333333),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Color(0xffF3F4F6),
+                    Color(0xffEFF4FA),
+                    Color(0xffECF4FE),
+                  ],
+                  stops: [
+                    0.3,
+                    0.7,
+                    0.9,
+                  ],
                 ),
-                body: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: SizedBox(
-                        height: height - height / 8,
+              ),
+              child: SafeArea(
+                  child: Container(
+                      child: Column(
+                          children: [
+                      Container(
+                      decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xffECF4FE))),
+              // color: Colors.amber,
+              margin: EdgeInsets.only(top: 10.0),
+              height: 30.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10.0),
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _controller.pause();
+                        });
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back),
+                      iconSize: 20,
+                    ),
+                  ),
+                  Container(
+                    // margin: EdgeInsets.only(bottom: 10.0),
+                    alignment: Alignment.center,
+                    width: 300.0,
+                    child: Text(
+                      "문장",
+                      style: TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: 21,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+                child: SingleChildScrollView(
+                    child: Container(
                         child: Column(
                           children: [
                             Row(
@@ -295,185 +353,274 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                             Padding(padding: EdgeInsets.all(2.0)),
                             Row(
                               //동영상 플레이 버튼
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              // crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Padding(padding: EdgeInsets.only(left: 1.0)),
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          minimumSize: Size.zero,
-                                          padding: EdgeInsets.only(top: 9.5, bottom: 9.5,right: 14.0, left: 14.0),
-                                          primary: Color(0xffC8E8FF),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                // crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  // Padding(padding: EdgeInsets.only(left: 1.0)),
+                                  Row(
+                                    children: [
+                                      Padding(padding: EdgeInsets.only(left:6.0)),
+                                      InkWell(
+                                          onTap: () {
+                                            _volume
+                                                ? setState(() {
+                                              _volume = false;
+                                              _controller.setVolume(0.0);
+                                            })
+                                                : setState(() {
+                                              _volume = true;
+                                              _controller.setVolume(2.0);
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 50.0,
+                                            height: 40.0,
+                                            padding: EdgeInsets.only(
+                                                left: 12.0,
+                                                right: 12.0,
+                                                top: 8.0,
+                                                bottom: 8.0),
+                                            decoration: new BoxDecoration(
+                                              // border: Border.all(
+                                              //     width:1,
+                                              //     color: Color(0xff4478FF)
+                                              // ),
+                                              borderRadius:
+                                              new BorderRadius.circular(10.0),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.6),
+                                                  spreadRadius: 0,
+                                                  blurRadius: 0.8,
+                                                  offset: Offset(2,
+                                                      3), // changes position of shadow
+                                                ),
+                                              ],
+                                            ),
+                                            child: Icon(
+                                              _volume
+                                                  ? Icons.volume_up
+                                                  : Icons.volume_off,
+                                              size: 25,
+                                              color: Color(0xff4478FF),
+                                            ),
+                                          )),
+                                      Padding(padding: EdgeInsets.all(5.0)),
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              if (_controller.value.isPlaying) {
+                                                _controller.pause();
+                                              } else {
+                                                _controller.play();
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 50.0,
+                                            height: 40.0,
+                                            padding: EdgeInsets.only(
+                                                left: 12.0,
+                                                right: 12.0,
+                                                top: 6.0,
+                                                bottom: 6.0),
+                                            decoration: new BoxDecoration(
+                                              // border: Border.all(
+                                              //     width:1,
+                                              //     color: Color(0xff4478FF)
+                                              // ),
+                                              borderRadius:
+                                              new BorderRadius.circular(10.0),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.6),
+                                                  spreadRadius: 0,
+                                                  blurRadius: 0.8,
+                                                  offset: Offset(2,
+                                                      3), // changes position of shadow
+                                                ),
+                                              ],
+                                            ),
+                                            child: Icon(
+                                              _controller.value.isPlaying
+                                                  ? Icons.pause
+                                                  : Icons.play_arrow,
+                                              size: 28,
+                                              color: Color(0xff4478FF),
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              if (_videoSpeed > 0.25) {
+                                                _videoSpeed -= 0.25;
+                                              }
+                                            });
+                                            _controller.setPlaybackSpeed(_videoSpeed);
+                                          },
+                                          child: Container(
+                                            width: 50.0,
+                                            height: 40.0,
+                                            padding: EdgeInsets.only(
+                                                left: 12.0,
+                                                right: 12.0,
+                                                top: 6.0,
+                                                bottom: 6.0),
+                                            decoration: new BoxDecoration(
+                                              // border: Border.all(
+                                              //     width:1,
+                                              //     color: Color(0xff4478FF)
+                                              // ),
+                                              borderRadius:
+                                              new BorderRadius.circular(10.0),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.6),
+                                                  spreadRadius: 0,
+                                                  blurRadius: 0.8,
+                                                  offset: Offset(
+                                                      2, 3), // changes position of shadow
+                                                ),
+                                              ],
+                                            ),
+                                            child: Icon(
+                                              Icons.remove,
+                                              size: 25,
+                                              color: Color(0xff4478FF),
+                                            ),
+                                          )),
+                                      // Padding(padding: EdgeInsets.only(left: 8.0)),
+                                      Container(
+                                        child: Text(
+                                          '${_videoSpeed}x',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500),
                                         ),
-                                        child: Icon(
-                                          CustomIcons.to_start,
-                                          size: 17,
-                                          color: Color(0xff97D5FE),
-                                        ),
-                                        onPressed: () {}),
-                                  ],
-                                ),
-                                Padding(padding: EdgeInsets.all(3.0)),
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          if (_controller.value.isPlaying) {
-                                            _controller.pause();
-                                          } else {
-                                            _controller.play();
-                                          }
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Color(0xffC8E8FF),
-                                        minimumSize: Size(45, 37),
-                                        padding: EdgeInsets.only(
-                                            right: 5.0, left: 5.0),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
+                                        width: 60,
                                       ),
-                                      child: Icon(
-                                        _controller.value.isPlaying
-                                            ? Icons.pause
-                                            : Icons.play_arrow,
-                                        size: 21,
-                                        color: Color(0xff97D5FE),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Padding(padding: EdgeInsets.only(right: 130.0)),
-                                Container(
-                                    child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (_videoSpeed > 0.25) {
-                                        _videoSpeed -= 0.25;
-                                      }
-                                    });
-                                    _controller.setPlaybackSpeed(_videoSpeed);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color(0xffC8E8FF),
-                                    minimumSize: Size(40, 35),
-                                    padding:
-                                        EdgeInsets.only(right: 5.0, left: 5.0),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
+                                      // Padding(padding: EdgeInsets.only(right: 8.0)),
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              if (_videoSpeed < 1.5) {
+                                                _videoSpeed += 0.25;
+                                              }
+                                            });
+                                            _controller.setPlaybackSpeed(_videoSpeed);
+                                          },
+                                          child: Container(
+                                            width: 50.0,
+                                            height: 40.0,
+                                            padding: EdgeInsets.only(
+                                                left: 12.0,
+                                                right: 12.0,
+                                                top: 6.0,
+                                                bottom: 6.0),
+                                            decoration: new BoxDecoration(
+                                              // border: Border.all(
+                                              //     width:1,
+                                              //     color: Color(0xff4478FF)
+                                              // ),
+                                              borderRadius:
+                                              new BorderRadius.circular(10.0),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.6),
+                                                  spreadRadius: 0,
+                                                  blurRadius: 0.8,
+                                                  offset: Offset(
+                                                      2, 3), // changes position of shadow
+                                                ),
+                                              ],
+                                            ),
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 25,
+                                              color: Color(0xff4478FF),
+                                            ),
+                                          )),
+                                      Padding(padding: EdgeInsets.only(right:6.0)),
+                                    ],
+                                  ),
+                                ]),
+                            Padding(padding: EdgeInsets.all(5.0)),
+                            InkWell(
+                                onTap: () {
+                                  _pressedHint();
+                                },
+                                child: _isHint
+                                    ? Container(
+                                    padding: EdgeInsets.only(
+                                        top: 8.0,
+                                        bottom: 8.0,
+                                        right: 15.0,
+                                        left: 15.0),
+                                    // height: 40,
+                                    width: MediaQuery.of(context).size.width *
+                                        90 /
+                                        100,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff4478FF),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0)),
                                     ),
+                                    // width: MediaQuery.of(context).size.width,
+                                    child: Text(_hint,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w700)))
+                                    : Container(
+                                  padding: EdgeInsets.only(
+                                      top: 8.0,
+                                      bottom: 8.0,
+                                      right: 15.0,
+                                      left: 15.0),
+                                  // height: 40,
+                                  width: MediaQuery.of(context).size.width *
+                                      90 /
+                                      100,
+                                  decoration: BoxDecoration(
+                                    // color: Color(0xff4478FF),
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
                                   ),
-                                  child: Icon(
-                                    Icons.remove,
-                                    size: 20,
-                                    color: Color(0xff97D5FE),
-                                  ),
+                                  child: Text("힌트 보기",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Color(0xff4478FF),
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600)),
                                 )),
-                                // Padding(padding: EdgeInsets.only(right: 8.0)),
-                                Container(
-                                  child: Text('$_videoSpeed', textAlign: TextAlign.center,),
-                                  width: 40,
-                                ),
-                                Container(
-                                    child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (_videoSpeed < 1.5) {
-                                        _videoSpeed += 0.25;
-                                      }
-                                    });
-                                    _controller.setPlaybackSpeed(_videoSpeed);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color(0xffC8E8FF),
-                                    minimumSize: Size(40, 35),
-                                    padding:
-                                        EdgeInsets.only(right: 5.0, left: 5.0),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
-                                  child: Icon(
-                                    Icons.add,
-                                    size: 20,
-                                    color: Color(0xff97D5FE),
-                                  ),
-                                )),
-                              ],
-                            ),
-                            Padding(padding: EdgeInsets.all(2.0)),
+                            Padding(padding: EdgeInsets.all(4.0)),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                Padding(padding: EdgeInsets.only(left: 17.0)),
                                 Text(
                                   '당신의 답은...',
                                   style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xff333333)),
-                                ),
-                                Padding(padding: EdgeInsets.only(left: 120.0)),
-                                InkWell(
-                                  onTap: () {
-                                    _pressedHint();
-                                  },
-                                  child: _isHint
-                                      ? new Text(
-                                          '힌트 닫기',
-                                          style: TextStyle(
-                                              color: Colors.grey, fontSize: 15),
-                                        )
-                                      : new Text(
-                                          "힌트 보기",
-                                          style: TextStyle(
-                                              color: Colors.grey, fontSize: 15),
-                                        ),
+                                      fontSize: 15, fontWeight: FontWeight.w600),
                                 ),
                               ],
-                            ),
-                            Padding(padding: EdgeInsets.all(2.0)),
-                            Container(
-                              child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  _isHint
-                                      ? Bubble(
-                                          color: Color(0xff97D5FE),
-                                          // stick: true,
-                                          nip: BubbleNip.rightTop,
-                                          margin: BubbleEdges.only(
-                                              top: 2.0,
-                                              bottom: 3.0,
-                                              right: 3.0,
-                                              left: 3.0),
-                                          child: Text(_hint,
-                                              style: TextStyle(
-                                                  color: Color(0xff333333),
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.w600)),
-                                        )
-                                      : Container(),
-                                ],
-                              ),
                             ),
                             Container(
                               child: Text(_space,
                                   style: TextStyle(
                                       fontSize: 24, color: Color(0xff333333))),
                             ),
-                            Padding(padding: EdgeInsets.all(5.0)),
+                            Padding(padding: EdgeInsets.all(3.0)),
                             Container(
-                              margin: EdgeInsets.only(
-                                  top: 3.0, left: 15.0, right: 15.0),
+                              width: MediaQuery.of(context).size.width * 90 / 100,
                               child: Column(
                                 //textfield
                                 //crossAxisAlignment: CrossAxisAlignment.center,
@@ -482,67 +629,65 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                                   _isInit
                                       ? _initTextField()
                                       : _isCorrect
-                                          ? _correctTextField()
-                                          : _errorTextField()
+                                      ? _correctTextField()
+                                      : _errorTextField()
                                 ],
                               ),
                             ),
-                            Padding(padding: EdgeInsets.all(3.0)),
+                            Padding(padding: EdgeInsets.all(6.0)),
                             Column(children: [
                               // 확인 버튼
                               if (!_seeAnswer) ...{
-                                if (_enterAnswer) _Answer() else _reAnswer()
+                                if (_enterAnswer)...{
+                                  _Answer(),
+                                  Padding(padding: EdgeInsets.all(50.0))
+                                }
+                                else...{
+                                  _reAnswer(),
+                                  Padding(padding: EdgeInsets.all(34.0))
+                                }
                               } else ...{
-                                if (_isCorrect) _Correct() else _Wrong()
+                                if (_isCorrect)...{
+                                  _Correct(),
+                                  Padding(padding: EdgeInsets.all(25.0))
+                                }
+                                else...{
+                                  _Wrong(),
+                                  Padding(padding: EdgeInsets.all(10.0))
+                                }
                               }
                             ]),
-                            Spacer(),
-                            Container(
-                              //다음 버튼
-                              alignment: AlignmentDirectional.centerEnd,
-                              padding: EdgeInsets.only(right: 10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                //mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          side: BorderSide(
-                                              color: Color(0xff97D5FE),
-                                              width: 1.0),
-                                        ),
-                                        minimumSize: Size(80, 40),
-                                      ),
-                                      onPressed: () {
-                                        if (_isCorrect) {
-                                          _next();
-                                        } else
-                                          _showDialog();
-                                      },
-                                      child: Text(
-                                        '다음',
-                                        style: TextStyle(
-                                          color: Color(0xff97D5FE),
-                                          fontSize: 16,
-                                        ),
-                                      ))
-                                ],
-                              ),
-                            ),
+                            InkWell(
+                                onTap: (){
+                                  if (_seeAnswer) {
+                                    _next();
+                                  } else
+                                    _showDialog();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                      top: 13.0,
+                                      bottom: 13.0),
+                                  // height: 40,
+                                  width: MediaQuery.of(context).size.width *
+                                      90 /
+                                      100,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xff4478FF),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0))
+                                  ),
+                                  child: Text("다음",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600)),
+                                )),
+                          ])))),
+
                           ],
-                        ))))),
-        onWillPop: () {
-          setState(() {
-            _controller.pause();
-          });
-          // _recent.length>0?
-          // _AddRecent(_recent): null;
-          return Future(() => true);
-        });
+                      ))))));
   }
 
   Widget _initTextField() {
@@ -559,11 +704,11 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         contentPadding: EdgeInsets.symmetric(horizontal: 10),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(width: 2, color: Color(0xff97D5FE)),
+          borderSide: BorderSide(width: 2, color: Color(0xff4478FF)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(width: 2, color: Color(0xff97D5FE)),
+          borderSide: BorderSide(width: 2, color: Color(0xff4478FF)),
         ),
       ),
     ));
@@ -612,15 +757,16 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
     //답 입력하기 전
     return (ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Color(0xff97D5FE),
-          minimumSize: Size(80, 40),
+          primary: Color(0xff4478FF),
+          padding:
+          EdgeInsets.only(right: 40.0, left: 40.0, top: 13.0, bottom: 13.0),
         ),
         onPressed: () {
-          _recent.add(_probId);
           FocusScope.of(context).unfocus();
           if (myController.text == _sentence) {
             //정답
             setState(() {
+              _saveRecent(_probId, "sentence", _sentence);
               _isCorrect = true;
               _seeAnswer = true;
               _isInit = false;
@@ -646,6 +792,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
           style: TextStyle(
             color: Colors.white,
             fontSize: 16,
+            fontWeight: FontWeight.w600,
           ),
         )));
   }
@@ -662,7 +809,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
           children: [
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xff97D5FE),
+                  primary: Colors.white,
                   minimumSize: Size(90, 40),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -678,21 +825,21 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                 child: Text(
                   '재도전',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color(0xff4478FF),
                     fontSize: 18,
                   ),
                 )),
             Padding(padding: EdgeInsets.all(5.0)),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xffFFFFFF),
+                  primary: Colors.white,
                   minimumSize: Size(90, 40),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  side: BorderSide(color: Color(0xff97D5FE), width: 1.0),
                 ),
                 onPressed: () {
                   setState(() {
+                    _saveRecent(_probId, "sentence", _sentence);
                     _seeAnswer = true;
                     _isCorrect = false;
                     _isInit = false;
@@ -701,8 +848,9 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                 child: Text(
                   '답 보기',
                   style: TextStyle(
-                    color: Color(0xff97D5FE),
+                    color: Color(0xff4478FF),
                     fontSize: 18,
+                      fontWeight: FontWeight.w600
                   ),
                 )),
           ],
@@ -739,13 +887,13 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
       Column(children: [
         Text(
           '정답이에요!',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16.0),
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17.0),
         )
       ]),
       Padding(padding: EdgeInsets.all(5.0)),
       Column(children: [
         Container(
-            width: 330,
+            width: MediaQuery.of(context).size.width * 90 / 100,
             height: 50,
             color: Color(0xff97D5FE),
             child: Center(
@@ -772,7 +920,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         Padding(padding: EdgeInsets.all(5.0)),
         Column(children: [
           Container(
-              width: 330,
+              width: MediaQuery.of(context).size.width * 90 / 100,
               height: 50,
               color: Color(0xff97D5FE),
               child: Center(
@@ -808,7 +956,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
             actions: [
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff97D5FE),
+                    primary: Color(0xff4478FF),
                     minimumSize: Size(80, 40),
                   ),
                   onPressed: () {
@@ -821,7 +969,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                   )),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff97D5FE),
+                    primary: Color(0xff4478FF),
                     minimumSize: Size(80, 40),
                   ),
                   onPressed: () {
@@ -836,6 +984,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
   void _next() {
     setState(() {
       _controller.pause();
+      _controller.setVolume(0.0);
       _space = "";
       _randomsentence((widget.id).toString(), widget.situation);
       _seeAnswer = false;
@@ -844,6 +993,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
       _isCorrect = false;
       myController.text = "";
       _isHint = false;
+      _volume=false;
     });
   }
 }

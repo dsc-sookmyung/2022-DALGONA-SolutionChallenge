@@ -51,13 +51,8 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
       data = body["data"];
       // print(data);
 
-      var repeat = data['spacingInfo'].split("");
-      for (int i = 0; i < repeat.length; i++) {
-        _space += "_ " * int.parse(repeat[i]);
-        _space += " ";
-      }
       setState(() {
-        _space;
+        _space=data['spacingInfo'];
         _sentence = data['sentence'];
         _hint = data['hint'];
         _url = data['url'];
