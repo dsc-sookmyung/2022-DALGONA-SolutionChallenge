@@ -98,10 +98,6 @@ class _SelectSituationPageState extends State<SelectSituationPage> {
                   Container(
                     margin: EdgeInsets.only(top: 20.0),
                     height: 50.0,
-                    // decoration: BoxDecoration(
-                    //   color: Colors.white,
-                    //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
-                    // ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,

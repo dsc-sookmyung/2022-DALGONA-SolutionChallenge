@@ -24,6 +24,13 @@ import 'package:zerozone/Speaking/sp_select_situation.dart';
 import 'package:zerozone/LipReading/test/lr_testinfo.dart';
 import 'testReview/lr_reviewmode.dart';
 
+// class ConsonantList {
+//   final String consonant;
+//   final int index;
+//
+//   ConsonantList(this.consonant, this.index);
+// }
+
 class lrselectModeMainPage extends StatefulWidget {
   const lrselectModeMainPage({Key? key}) : super(key: key);
 
@@ -47,6 +54,54 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   late int totalPage;
   late int totalElement;
   late var totalProbCnt;
+  final consonantList = new List<ConsonantList>.empty(growable: true);
+
+  Future<void> getConsonant() async {
+
+    var url = Uri.http('${serverHttp}:8080', '/speaking/list/letter/onset');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print(data);
+
+      if(consonantList.length == 0){
+        for(dynamic i in data){
+          String a = i["onset"];
+          int b = i["id"];
+          consonantList.add(ConsonantList(a, b));
+        }
+      }
+
+      print("sentenceList: ${consonantList}");
+      // urlInfo(letter, letterId);
+
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => ChooseConsonantPage(consonantList: consonantList))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        getConsonant();
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
 
   Future<void> letterRandomUrlInfo() async {
     var url =
@@ -886,11 +941,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                       children: [
                         InkWell(
                             onTap: () {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => ChooseConsonantPage()));
+                              getConsonant();
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width - 10.0,

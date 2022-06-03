@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'Speaking/sp_mainview.dart';
 import 'LipReading/lr_mainview.dart';
 import 'MyPage/mypage_mainview.dart';
 import 'Custom/customMainPage.dart';
