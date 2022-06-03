@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zerozone/Login/refreshToken.dart';
@@ -10,6 +10,7 @@ import 'mypage_studylistview.dart';
 import 'mypage_editinformationview.dart';
 import 'mypage_lr_bookmark.dart';
 import 'mypage_sp_bookmark.dart';
+import 'mypage_lr_recent.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -184,6 +185,38 @@ class _MyPageState extends State<MyPage> {
     );
   }
 
+  late List<int> _recentProbId=[];
+  late List<String> _recentType=[];
+  late List<String> _recentContent=[];
+
+  _loadRecent() async{
+    _recentProbId.clear();
+    _recentType.clear();
+    _recentContent.clear();
+
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+    final ret1 = prefs.getStringList('id');
+    final ret2 = prefs.getStringList('type');
+    final ret3 = prefs.getStringList('content');
+
+    int len=ret1!.length;
+    int len2=ret2!.length;
+    int len3=ret3!.length;
+    
+    for (int i = 0; i < len; i++) {
+    _recentProbId.add(int.parse(ret1[i]));
+    _recentType.add(ret2[i]);
+    _recentContent.add(ret3[i]);
+    }
+    });
+
+    print('최근 학습 load 완료');
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => lrRecentStudyPage(probId: _recentProbId, type: _recentType, content: _recentContent))
+    );
+  }
 
   @override
   void initState() {
@@ -343,8 +376,7 @@ class _MyPageState extends State<MyPage> {
                                   children: [
                                     GestureDetector(
                                         onTap: (){
-                                          // 구화 최근 학습
-                                          updateYet();
+                                          _loadRecent();
                                         },
                                         child: new Container(
                                           width: 140.0,

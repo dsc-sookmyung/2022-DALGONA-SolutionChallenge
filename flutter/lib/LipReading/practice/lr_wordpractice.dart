@@ -44,9 +44,11 @@ class _WordPracticePageState extends State<WordPracticePage> {
   bool _isInit = true; //textfield
   bool _seeAnswer = false; //정답보기
   String color = '0xff97D5FE';
-  bool volume = false;
+  bool _volume = false;
 
-  List<String> _recent = [];
+  List<String> _recentProbId = [];
+  List<String> _recentType=[];
+  List<String> _recentContent=[];
 
   final myController = TextEditingController();
 
@@ -56,73 +58,57 @@ class _WordPracticePageState extends State<WordPracticePage> {
   late Future<void> _initializeVideoPlayerFuture;
 
   var data;
-  late var _hint = 'ㅇㄴ'; //widget.hint;
-  late var _word = '안녕'; //widget.word;
-  late var _url = ''; //widget.url;
-  late var _probId = 1; //widget.probId;
+  late var _hint = widget.hint;
+  late var _word = widget.word;
+  late var _url = widget.url;
+  late var _probId =widget.probId;
 
   void initState() {
     _controller = VideoPlayerController.network(_url);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
+    _controller.setVolume(0.0);
+    _loadRecent();
 
     super.initState();
-    _loadRecent();
   }
 
-  _loadRecent() async {
+  _loadRecent() async{
+    _recentProbId.clear();
+    _recentType.clear();
+    _recentContent.clear();
+
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      final ret = prefs.getStringList('id');
-      for (int i = 0; i < ret!.length; i++) {
-        _recent.add(ret[i]);
+      final ret1 = prefs.getStringList('id');
+      final ret2 = prefs.getStringList('type');
+      final ret3 = prefs.getStringList('content');
+
+      int len=ret1!.length;
+      int len2=ret2!.length;
+      int len3=ret3!.length;
+
+      for (int i = 0; i < len; i++) {
+        _recentProbId.add(ret1[i]);
+        _recentType.add(ret2[i]);
+        _recentContent.add(ret3[i]);
       }
     });
   }
 
-  _saveRecent(int id) async {
+  _saveRecent(int id, String type, String content) async {
     final prefs = await SharedPreferences.getInstance();
-    _recent.add(id.toString());
 
-    if (_recent.length >= 20) {
-      List _ret = [];
-      for (int i = 0; i < _recent.length; i++) {
-        _ret.add(int.parse(_recent[i]));
-      }
-      _AddRecent(_ret);
-    } else {
+    _recentProbId.add(id.toString());
+    _recentType.add(type);
+    _recentContent.add(content);
+
       setState(() {
-        prefs.setStringList('id', _recent);
+        prefs.setStringList('id', _recentProbId);
+        prefs.setStringList('type', _recentType);
+        prefs.setStringList('content', _recentContent);
+        print('shared: '+ id.toString() +' '+ type +' '+ content);
       });
-    }
-  }
-
-  void _AddRecent(List id) async {
-    var url = Uri.http('${serverHttp}:8080', '/recent/reading');
-    final data = jsonEncode({'recentProbIdRequestList': id});
-
-    var response = await http.post(url, body: data, headers: {
-      'Accept': 'application/json',
-      "content-type": "application/json",
-      "Authorization": "Bearer $authToken"
-    });
-
-    // print(url);
-    print(response.statusCode);
-
-    if (response.statusCode == 200) {
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-      // var body=jsonDecode(utf8.decode(response.bodyBytes));
-    } else if (response.statusCode == 401) {
-      await RefreshToken(context);
-      if (check == true) {
-        _AddRecent(id);
-        check = false;
-      }
-    } else {
-      print('error : ${response.reasonPhrase}');
-    }
   }
 
   void _randomWord(String onsetId, String onset) async {
@@ -245,7 +231,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
     double width = MediaQuery.of(context).size.width;
     // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         body: GestureDetector(
             onTap: () {
               //FocusManager.instance.primaryFocus?.unfocus();
@@ -354,7 +340,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                         width: 380,
                         height: 200,
                       ),
-                      Padding(padding: EdgeInsets.all(2.0)),
+                      Padding(padding: EdgeInsets.all(4.0)),
                       Row(
                         //동영상 플레이 버튼
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -365,14 +351,14 @@ class _WordPracticePageState extends State<WordPracticePage> {
                             children: [
                               InkWell(
                                   onTap: () {
-                                    volume
+                                    _volume
                                         ? setState(() {
-                                            volume = false;
+                                            _volume = false;
                                             _controller.setVolume(0.0);
                                           })
                                         : setState(() {
-                                            volume = true;
-                                            _controller.setVolume(1.0);
+                                            _volume = true;
+                                            _controller.setVolume(2.0);
                                           });
                                   },
                                   child: Container(
@@ -402,9 +388,9 @@ class _WordPracticePageState extends State<WordPracticePage> {
                                       ],
                                     ),
                                     child: Icon(
-                                      volume
-                                          ? Icons.volume_off
-                                          : Icons.volume_up,
+                                      _volume
+                                          ? Icons.volume_up
+                                          : Icons.volume_off,
                                       size: 25,
                                       color: Color(0xff4478FF),
                                     ),
@@ -640,56 +626,54 @@ class _WordPracticePageState extends State<WordPracticePage> {
                       Column(children: [
                         // 확인 버튼
                         if (!_seeAnswer) ...{
-                          if (_enterAnswer) _Answer() else _reAnswer()
+                          if (_enterAnswer)...{
+                            _Answer(),
+                            Padding(padding: EdgeInsets.all(60.0))
+                          }
+                          else...{
+                              _reAnswer(),
+                            Padding(padding: EdgeInsets.all(44.0))
+                            }
                         } else ...{
-                          if (_isCorrect) _Correct() else _Wrong()
+                          if (_isCorrect)...{
+                            _Correct(),
+                            Padding(padding: EdgeInsets.all(35.0))
+                            }
+                          else...{
+                            _Wrong(),
+                            Padding(padding: EdgeInsets.all(20.0))
+                          }
                         }
-                      ])
+                      ]),
+                                      InkWell(
+                                        onTap: (){
+                                          if (_seeAnswer) {
+                                          _next();
+                                          } else
+                                          _showDialog();
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              top: 13.0,
+                                              bottom: 13.0),
+                                          // height: 40,
+                                          width: MediaQuery.of(context).size.width *
+                                              90 /
+                                              100,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xff4478FF),
+                                            borderRadius:
+                                            BorderRadius.all(Radius.circular(5.0))
+                                          ),
+                                          child: Text("다음",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w600)),
+                                        )),
                     ])))),
-                    Padding(padding: EdgeInsets.all(3.0)),
 
-                    Container(
-                      //다음 버튼
-                      alignment: AlignmentDirectional.centerEnd,
-                      padding: EdgeInsets.only(right: 10.0),
-                      margin: EdgeInsets.only(bottom: 40.0, right: 20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        //mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.only(
-                                    right: 40.0,
-                                    left: 40.0,
-                                    top: 13.0,
-                                    bottom: 13.0),
-                                primary: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  // side: BorderSide(
-                                  //     color:
-                                  //     Color(0xff4478FF),
-                                  //     width: 1.0),
-                                ),
-                                // minimumSize: Size(100, 45),
-                              ),
-                              onPressed: () {
-                                if (_isCorrect)
-                                  _next();
-                                else
-                                  _showDialog();
-                              },
-                              child: Text(
-                                '다음',
-                                style: TextStyle(
-                                    color: Color(0xff4478FF),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600),
-                              ))
-                        ],
-                      ),
-                    ),
                   ],
                 ))))));
   }
@@ -759,9 +743,11 @@ class _WordPracticePageState extends State<WordPracticePage> {
 
   Widget _Answer() {
     //답 입력하기 전
-    return (ElevatedButton(
+    return (
+
+        ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Colors.white,
+          primary: Color(0xff4478FF),
           padding:
               EdgeInsets.only(right: 40.0, left: 40.0, top: 13.0, bottom: 13.0),
         ),
@@ -770,7 +756,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
           if (myController.text == _word) {
             //정답
             setState(() {
-              _saveRecent(_probId); //최근 학습 단어
+              _saveRecent(_probId, "word", _word); //최근 학습 단어
               _isCorrect = true;
               _seeAnswer = true;
               _isInit = false;
@@ -794,7 +780,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
         child: Text(
           '확인',
           style: TextStyle(
-            color: Color(0xff4478FF),
+            color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -844,7 +830,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _saveRecent(_probId);
+                    _saveRecent(_probId, "word", _word);
                     _seeAnswer = true;
                     _isCorrect = false;
                     _isInit = false;
@@ -900,11 +886,11 @@ class _WordPracticePageState extends State<WordPracticePage> {
         Container(
             width: 300,
             height: 50,
-            color: Color(0xff4478FF),
+            color: Color(0xff97D5FE),
             child: Center(
               child: Text(_word,
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Color(0xff333333),
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600)),
             ))
@@ -990,6 +976,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
   void _next() {
     setState(() {
       _controller.pause();
+      _controller.setVolume(0.0);
       _randomWord((widget.id).toString(), widget.onset);
       _seeAnswer = false;
       _isInit = true;
@@ -997,6 +984,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
       _isCorrect = false;
       myController.text = "";
       _isHint = false;
+      _volume=false;
     });
   }
 }

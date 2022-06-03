@@ -10,7 +10,7 @@ void main() {
   runApp(new MaterialApp(
     home: new SplashScreen(),
     routes: <String, WidgetBuilder>{
-      '/login': (BuildContext context) => LoginPage()
+      '/login': (BuildContext context) => new LoginPage()
     },
   ));
 }
