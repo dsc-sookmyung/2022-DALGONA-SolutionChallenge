@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:zerozone/Custom/createCustomProblemPage.dart';
 import 'package:zerozone/Custom/createCustomSpeakPage.dart';
 import 'package:zerozone/Custom/lrCustomProblemListPage.dart';
-import 'package:zerozone/Custom/customProblemPage.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:zerozone/Custom/spCustomProblemListPage.dart';
+import 'package:zerozone/Login/login.dart';
+import 'dart:convert';
+
+import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/server.dart';
 
 class customMainPageView extends StatefulWidget {
   const customMainPageView({Key? key}) : super(key: key);
@@ -15,25 +22,105 @@ class customMainPageView extends StatefulWidget {
 
 class _customMainPageViewState extends State<customMainPageView> {
 
-  updateYet(){
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text(
-          '업데이트 예정',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        content: const Text('추후 업데이트 될 예정입니다.'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('확인'),
-          ),
-        ],
-      ),
-    );
+  final lipReadingList = new List<LipReadingList>.empty(growable: true);
+  final speakingList = new List<SpeakingList>.empty(growable: true);
+
+  Future<void> getLipReadingList() async {
+
+    var url = Uri.http('${serverHttp}:8080', '/custom/reading/all');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+      // data = data["content"];
+
+      print(data);
+
+      lipReadingList.clear();
+
+      if(lipReadingList.length == 0){
+        for(dynamic i in data){
+          String a = i["type"];
+          String b = i["content"];
+          int c = i["probId"];
+
+          lipReadingList.add(LipReadingList(a, b, c));
+        }
+      }
+
+      // print("vowelList: ${lipReadingList}");
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => lrCustomProblemListPage(lipReadingList: lipReadingList))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        getLipReadingList();
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
+  Future<void> getSpeakingList() async {
+
+    var url = Uri.http('${serverHttp}:8080', '/custom/speaking/all');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+      // data = data["content"];
+
+      print(data);
+
+      speakingList.clear();
+
+      if(speakingList.length == 0){
+        for(dynamic i in data){
+          String a = i["type"];
+          String b = i["content"];
+          int c = i["probId"];
+
+          speakingList.add(SpeakingList(a, b, c));
+        }
+      }
+
+      // print("vowelList: ${lipReadingList}");
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => spCustomProblemListPage(speakingList: speakingList))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        getLipReadingList();
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
   }
 
   @override
@@ -241,10 +328,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                               children: [
                                 GestureDetector(
                                   onTap: (){
-                                    updateYet();
-                                    // Navigator.push(
-                                    //     context, MaterialPageRoute(builder: (_) => lrCustomProblemListPage())
-                                    // );
+                                    getLipReadingList();
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(bottom: 20.0),
@@ -286,7 +370,7 @@ class _customMainPageViewState extends State<customMainPageView> {
 
                                 GestureDetector(
                                   onTap: (){
-                                    updateYet();
+                                    getSpeakingList();
                                   },
                                   child: Container(
                                     decoration: new BoxDecoration(

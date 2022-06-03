@@ -1,32 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:zerozone/Custom/practice/practiceSpeakingWordCustom.dart';
 
-class LipReadingList {
+import 'package:zerozone/Login/login.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/Speaking/sp_practiceview_sentence.dart';
+import 'package:zerozone/Speaking/sp_practiceview_word.dart';
+import 'package:zerozone/server.dart';
+
+class SpeakingList {
   final String type;
   final String content;
   final int probId;
 
-  LipReadingList(this.type, this.content, this.probId);
+  SpeakingList(this.type, this.content, this.probId);
 }
 
-class lrCustomProblemListPage extends StatefulWidget {
+class spCustomProblemListPage extends StatefulWidget {
 
-  final List<LipReadingList> lipReadingList;
+  final List<SpeakingList> speakingList;
 
-  const lrCustomProblemListPage({Key? key, required this.lipReadingList}) : super(key: key);
+  const spCustomProblemListPage({Key? key, required this.speakingList}) : super(key: key);
 
   @override
-  State<lrCustomProblemListPage> createState() => _customProblemListPageState();
+  State<spCustomProblemListPage> createState() => _customProblemListPageState();
 }
 
-class _customProblemListPageState extends State<lrCustomProblemListPage> {
+class _customProblemListPageState extends State<spCustomProblemListPage> {
 
   int _curPage=1;
-  late int totalPage = widget.lipReadingList.length%10 == 0 ? widget.lipReadingList.length~/10: widget.lipReadingList.length~/10+1;
+  late int totalPage = widget.speakingList.length%10 == 0 ? widget.speakingList.length~/10: widget.speakingList.length~/10+1;
+
+
+  Future<void> practiceSpeaking(int idx) async {
+
+    late var url;
+
+    Map<String, String> _queryParameters = <String, String>{
+      'id': widget.speakingList[idx].probId.toString(),
+    };
+
+    url = Uri.http('${serverHttp}:8080', '/custom/speaking', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      String content = data["content"];
+
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SpCustomWordPracticePage(url: url, type: type, probId: probId, word: content))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        practiceSpeaking(idx);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
 
   @override
   void initState() {
-    // print(_probId[0].toString() + ' ' + _type[0] + ' ' + _content[0]);
     super.initState();
   }
 
@@ -72,7 +128,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                               alignment: Alignment.center,
                               margin: EdgeInsets.only(bottom: 15.0),
                               child: Text(
-                                "커스텀 문제: 구화",
+                                "커스텀 문제: 말하기",
                                 style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
                               ),
                             ),
@@ -90,13 +146,14 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                                         child: Column(
                                           children: [
                                             ...List.generate(
-                                              _curPage==totalPage ? widget.lipReadingList.length-(_curPage-1)*10 : 10,
+                                              _curPage==totalPage ? widget.speakingList.length-(_curPage-1)*10 : 10,
                                                   (idx) => Container(
                                                 child: InkWell(
                                                   splashColor: Colors.transparent,
                                                   highlightColor: Colors.transparent,
                                                   onTap: () {
-                                                    print(widget.lipReadingList[idx].probId);
+                                                    print(widget.speakingList[idx].probId);
+                                                    practiceSpeaking(idx);
                                                   },
                                                   child: Container(
                                                     height: MediaQuery.of(context).size.height*7.5/100,
@@ -114,9 +171,9 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                                                       children: [
                                                         Flexible(
                                                           child: Text(
-                                                            widget.lipReadingList[idx].type == 'word'
-                                                                ? '단어' + ' - ' + widget.lipReadingList[idx+10*(_curPage-1)].content
-                                                                : '문장' + ' - ' + widget.lipReadingList[idx+10*(_curPage-1)].content,
+                                                            widget.speakingList[idx].type == 'word'
+                                                                ? '단어' + ' - ' + widget.speakingList[idx+10*(_curPage-1)].content
+                                                                : '문장' + ' - ' + widget.speakingList[idx+10*(_curPage-1)].content,
                                                             style: TextStyle(
                                                                 fontSize: 15,
                                                                 color: Color(0xff333333)),

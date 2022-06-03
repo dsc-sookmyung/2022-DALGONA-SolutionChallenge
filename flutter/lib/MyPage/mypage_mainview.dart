@@ -244,7 +244,7 @@ class _MyPageState extends State<MyPage> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 20.0),
+                margin: EdgeInsets.only(top: 20.0, bottom: 15.0),
                 height: 50.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -272,86 +272,112 @@ class _MyPageState extends State<MyPage> {
                             children: <Widget>[
 
                               Container(
-                                margin: EdgeInsets.only(top: 10.0, left: 0.0, right: 0.0, bottom: 25.0),
-                                //padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0, bottom: 10.0),
-                                alignment: Alignment.center,
+
+                                height: 130,
                                 width: double.infinity,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                    // gradient: LinearGradient(
-                                    //   begin: Alignment.topCenter,
-                                    //   end: Alignment.bottomCenter,
-                                    //   colors: [
-                                    //     Color(0xffFFFFFF),
-                                    //     Color(0xffE3F2FD),
-                                    //     Color(0xffBBDEFB),
-                                    //   ],
-                                    //   stops: [0.1, 0.4, 0.8, ],
-                                    // ),
-                                    // border: Border.all(
-                                    //     color: Color(0xff999999),
-                                    //     width: 1.0
-                                    // ),
-                                    color: Color(0xffD8EFFF),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.9),
-                                        spreadRadius: 0,
-                                        blurRadius: 5,
-                                        offset: Offset(2, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                    borderRadius: BorderRadius.all(Radius.circular(15.0))
+                                decoration: BoxDecoration( //decoration for the outer wrapper
+                                  color: Color(0xffD8EFFF),
+                                  borderRadius: BorderRadius.circular(5), //border radius exactly to ClipRRect
+                                  boxShadow:[
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.9),
+                                      spreadRadius: 0,
+                                      blurRadius: 5,
+                                      offset: Offset(2, 3), // changes position of shadow
+                                    ),
+                                  ],
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-
+                                child: ClipRect(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: Stack(
                                       children: [
-                                        Container(
-                                          margin: EdgeInsets.only(left: 40.0),
-                                          child: Text(
-                                            "${name}",
-                                            style: TextStyle(fontSize: 32, height: 1.8, fontWeight: FontWeight.w700),
+                                        Positioned(
+                                            top:-20, right: -10,
+                                            child:Container(
+                                                height:280,
+                                                width:200,
+                                                decoration:BoxDecoration(
+                                                    shape:BoxShape.circle,
+                                                    color:Color(0xff97D5FE).withOpacity(0.5)
+                                                )
+                                            )
+                                        ),
+                                        Positioned(
+                                            right:-70,top:-100,
+                                            child:Container(
+                                                height:200,
+                                                width:250,
+                                                decoration:BoxDecoration(
+                                                    shape:BoxShape.circle,
+                                                    color:Color(0xff5AA9DD).withOpacity(0.5)
+                                                )
+                                            )
+                                        ),
+                                        Positioned(
+                                          child: Container(
+                                            // margin: EdgeInsets.only(top: 10.0, left: 0.0, right: 0.0, bottom: 25.0),
+                                            alignment: Alignment.center,
+                                            width: 300,
+                                            height: 250,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+
+                                                  children: [
+                                                    Container(
+                                                      margin: EdgeInsets.only(left: 40.0),
+                                                      child: Text(
+                                                        "${name}",
+                                                        style: TextStyle(fontSize: 32, height: 1.8, fontWeight: FontWeight.w700),
+                                                      ),
+                                                    ),
+
+                                                    Container(
+                                                      alignment: Alignment.centerRight,
+                                                      margin: EdgeInsets.only(bottom: 10.0),
+                                                      child: IconButton(
+                                                        onPressed: (){
+                                                          Navigator.push(
+                                                              context, MaterialPageRoute(builder: (_) => ModifyInformationPage())
+                                                          ).then((value) {
+                                                            _update(value);
+                                                          });
+                                                        },
+                                                        icon: Icon(Icons.edit),
+                                                        iconSize: 20,
+                                                      ),
+                                                      height: 20,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(left: 40.0),
+                                                  child: Text(
+                                                    "${email}",
+                                                    style: TextStyle(fontSize: 14, height: 1.8, fontWeight: FontWeight.w200),
+                                                  ),
+                                                )
+
+                                              ],
+                                            ),
                                           ),
                                         ),
 
-                                        Container(
-                                          alignment: Alignment.centerRight,
-                                          margin: EdgeInsets.only(bottom: 10.0),
-                                          child: IconButton(
-                                            onPressed: (){
-                                              Navigator.push(
-                                                  context, MaterialPageRoute(builder: (_) => ModifyInformationPage())
-                                              ).then((value) {
-                                                _update(value);
-                                              });
-                                            },
-                                            icon: Icon(Icons.edit),
-                                            iconSize: 20,
-                                          ),
-                                          height: 20,
-                                        ),
                                       ],
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 40.0),
-                                      child: Text(
-                                        "${email}",
-                                        style: TextStyle(fontSize: 14, height: 1.8, fontWeight: FontWeight.w200),
-                                      ),
-                                    )
-
-                                  ],
+                                  ),
                                 ),
                               ),
 
                               Container(
                                 alignment: Alignment.center,
-                                margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 10.0, bottom: 20.0),
+                                margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 30.0, bottom: 20.0),
                                 padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                                 width: 150.0,
                                 decoration: BoxDecoration(
