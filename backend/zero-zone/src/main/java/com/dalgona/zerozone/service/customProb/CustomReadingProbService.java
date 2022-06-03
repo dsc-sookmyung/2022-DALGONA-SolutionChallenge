@@ -4,7 +4,9 @@ import com.dalgona.zerozone.domain.customProbs.customReading.CustomReadingProb;
 import com.dalgona.zerozone.domain.customProbs.customReading.CustomReadingProbRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
+import com.dalgona.zerozone.hangulAnalyzer.BucketType;
 import com.dalgona.zerozone.hangulAnalyzer.SpacingInfoCreator;
+import com.dalgona.zerozone.hangulAnalyzer.URLEnocder;
 import com.dalgona.zerozone.hangulAnalyzer.UnicodeHandler;
 import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
@@ -21,6 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -43,7 +47,7 @@ public class CustomReadingProbService {
     @Transactional
     public ResponseEntity<?> createCustomReadingProb(CustomReadingProbSaveRequestDto requestDto) {
         User user = getCurrentUser();
-        String url = "test_readprob_url"; // 받아와야함
+        String url = URLEnocder.generateURLWithTypeAndToken(requestDto.getType(), requestDto.getContent(), BucketType.t_custom);
         requestDto.setUser(user);
         requestDto.setUrl(url);
         if(requestDto.getHint() == null){
@@ -68,13 +72,14 @@ public class CustomReadingProbService {
     }
 
     @Transactional
-    public ResponseEntity<?> getCustomReadingProbs(int page) {
+    public ResponseEntity<?> getCustomReadingProbs() {
         User user = getCurrentUser();
-        Pageable paging = PageRequest.of(page-1,10, Sort.by(Sort.Direction.DESC, "id"));
-        Page<CustomReadingProb> customReadingProbList =
-                customReadingProbRepository.findAllByUser(user, paging);
-        Page<CustomReadingProbResponseDto> responseDtos
-                = customReadingProbList.map(CustomReadingProbResponseDto::of);
+        List<CustomReadingProb> customReadingProbList =
+                customReadingProbRepository.findAllByUser(user);
+        List<CustomReadingProbResponseDto> responseDtos = new ArrayList<>();
+        for(CustomReadingProb prob : customReadingProbList){
+            responseDtos.add(new CustomReadingProbResponseDto(prob));
+        }
         return response.success(responseDtos, "커스텀 연습 문제 전체 조회에 성공했습니다.", HttpStatus.OK);
     }
 
@@ -108,7 +113,7 @@ public class CustomReadingProbService {
         // 만약 content가 달라졌다면, 영상과 띄어쓰기 정보를 새로 생성한다
         if(isContentChanged(customReadingProb.getContent(), requestDto.getContent())){
             // 영상 요청
-            String newURL = "newURL";
+            String newURL = URLEnocder.generateURLWithTypeAndToken(requestDto.getType(), requestDto.getContent(), BucketType.t_custom);
             customReadingProb.updateUrl(newURL);
             // 띄어쓰기 정보 다시 생성
             if(isSentenceType(requestDto.getType())){

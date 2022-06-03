@@ -19,7 +19,7 @@ public class WordService {
 
     public void init() {
         CSVReader csvReader = new CSVReader();
-        List<List<String>> words = csvReader.readCSV("Word.csv");
+        List<List<String>> words = csvReader.readCSV("/home/minpearl0826/Word.csv");
         saveWord(words);
     }
 

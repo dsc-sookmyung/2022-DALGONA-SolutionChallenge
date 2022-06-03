@@ -14,7 +14,7 @@ public class AuthorityService {
 
     public void init() {
         CSVReader csvReader = new CSVReader();
-        List<List<String>> authorities = csvReader.readCSV("Authority.csv");
+        List<List<String>> authorities = csvReader.readCSV("/home/minpearl0826/Authority.csv");
         saveSpeakingProb(authorities);
     }
 

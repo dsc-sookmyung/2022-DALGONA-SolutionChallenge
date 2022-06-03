@@ -18,7 +18,7 @@ public class LetterService {
 
     public void init() {
         CSVReader csvReader = new CSVReader();
-        List<List<String>> letters = csvReader.readCSV("Letter.csv");
+        List<List<String>> letters = csvReader.readCSV("/home/minpearl0826/Letter.csv");
         saveLetter(letters);
     }
     private void saveLetter(List<List<String>> letters){

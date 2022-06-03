@@ -3,6 +3,11 @@ package com.dalgona.zerozone.service.init;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class InitService {
@@ -16,10 +21,10 @@ public class InitService {
     private final SpeakingProbService speakingProbService;
 
     public void init(){
-        initAuthority();
-        initCategory();
-        initContent();
-        initProb();
+//        initAuthority();
+//        initCategory();
+//        initContent();
+//        initProb();
     }
 
     // Authority

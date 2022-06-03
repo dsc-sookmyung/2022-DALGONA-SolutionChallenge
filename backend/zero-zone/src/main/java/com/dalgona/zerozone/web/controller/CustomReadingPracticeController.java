@@ -21,8 +21,8 @@ public class CustomReadingPracticeController {
 
     // 연습 문제 리스트
     @GetMapping("/custom/reading/all")
-    public ResponseEntity<?> getCustomReadingProbs(@RequestParam(required = false, defaultValue = "1", value = "page")  int page){
-        return customReadingProbService.getCustomReadingProbs(page);
+    public ResponseEntity<?> getCustomReadingProbs(){
+        return customReadingProbService.getCustomReadingProbs();
     }
 
     // 연습 문제 조회

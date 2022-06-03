@@ -27,7 +27,7 @@ public class CategoryService {
 
     private void initOnset(){
         CSVReader csvReader = new CSVReader();
-        List<List<String>> onsets = csvReader.readCSV("Onset.csv");
+        List<List<String>> onsets = csvReader.readCSV("/home/minpearl0826/Onset.csv");
         saveOnset(onsets);
     }
 
@@ -44,7 +44,7 @@ public class CategoryService {
 
     private void initNucleus(){
         CSVReader csvReader = new CSVReader();
-        List<List<String>> nucleuses = csvReader.readCSV("Nucleus.csv");
+        List<List<String>> nucleuses = csvReader.readCSV("/home/minpearl0826/Nucleus.csv");
         saveNucleus(nucleuses);
     }
 
@@ -61,7 +61,7 @@ public class CategoryService {
 
     private void initCoda(){
         CSVReader csvReader = new CSVReader();
-        List<List<String>> codas = csvReader.readCSV("Coda.csv");
+        List<List<String>> codas = csvReader.readCSV("/home/minpearl0826/Coda.csv");
         saveCodas(codas);
     }
 
@@ -78,7 +78,7 @@ public class CategoryService {
 
     private void initSituation(){
         CSVReader csvReader = new CSVReader();
-        List<List<String>> situations = csvReader.readCSV("Situation.csv");
+        List<List<String>> situations = csvReader.readCSV("/home/minpearl0826/Situation.csv");
         saveSituations(situations);
     }
 
