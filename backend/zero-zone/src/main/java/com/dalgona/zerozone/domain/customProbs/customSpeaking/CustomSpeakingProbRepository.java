@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface CustomSpeakingProbRepository extends JpaRepository<CustomSpeakingProb, Long> {
-    Page<CustomSpeakingProb> findAllByUser(User user, Pageable paging);
+    List<CustomSpeakingProb> findAllByUser(User user);
 }

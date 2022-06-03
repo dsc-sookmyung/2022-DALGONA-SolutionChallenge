@@ -1,11 +1,15 @@
 package com.dalgona.zerozone.service.customProb;
 
+import com.dalgona.zerozone.domain.customProbs.customReading.CustomReadingProb;
 import com.dalgona.zerozone.domain.customProbs.customSpeaking.CustomSpeakingProb;
 import com.dalgona.zerozone.domain.customProbs.customSpeaking.CustomSpeakingProbRepository;
 import com.dalgona.zerozone.domain.user.User;
 import com.dalgona.zerozone.domain.user.UserRepository;
+import com.dalgona.zerozone.hangulAnalyzer.BucketType;
+import com.dalgona.zerozone.hangulAnalyzer.URLEnocder;
 import com.dalgona.zerozone.jwt.SecurityUtil;
 import com.dalgona.zerozone.web.dto.Response;
+import com.dalgona.zerozone.web.dto.customProb.CustomReadingProbResponseDto;
 import com.dalgona.zerozone.web.dto.customProb.CustomSpeakingProbResponseDto;
 import com.dalgona.zerozone.web.dto.customProb.CustomSpeakingProbSaveRequestDto;
 import com.dalgona.zerozone.web.dto.customProb.CustomSpeakingProbUpdateRequestDto;
@@ -19,6 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -41,7 +47,7 @@ public class CustomSpeakingProbService {
     @Transactional
     public ResponseEntity<?> createCustomSpeakingProb(CustomSpeakingProbSaveRequestDto requestDto) {
         User user = getCurrentUser();
-        String url = "test"; // 받아와야함
+        String url = URLEnocder.generateURLWithTypeAndToken(requestDto.getType(), requestDto.getContent(), BucketType.t_custom);
         requestDto.setUser(user);
         requestDto.setUrl(url);
         CustomSpeakingProb customSpeakingProb;
@@ -55,13 +61,14 @@ public class CustomSpeakingProbService {
     }
 
     @Transactional
-    public ResponseEntity<?> getCustomSpeakingProbs(int page) {
+    public ResponseEntity<?> getCustomSpeakingProbs() {
         User user = getCurrentUser();
-        Pageable paging = PageRequest.of(page-1,10, Sort.by(Sort.Direction.DESC, "id"));
-        Page<CustomSpeakingProb> customSpeakingProbList =
-                customSpeakingProbRepository.findAllByUser(user, paging);
-        Page<CustomSpeakingProbResponseDto> responseDtos
-                = customSpeakingProbList.map(CustomSpeakingProbResponseDto::of);
+        List<CustomSpeakingProb> customSpeakingProbList =
+                customSpeakingProbRepository.findAllByUser(user);
+        List<CustomSpeakingProbResponseDto> responseDtos = new ArrayList<>();
+        for(CustomSpeakingProb prob : customSpeakingProbList){
+            responseDtos.add(new CustomSpeakingProbResponseDto(prob));
+        }
         return response.success(responseDtos, "커스텀 연습 문제 전체 조회에 성공했습니다.", HttpStatus.OK);
     }
 
@@ -96,7 +103,7 @@ public class CustomSpeakingProbService {
         // 만약 content가 달라졌다면, 영상을 새로 생성한다
         if(isContentChanged(customSpeakingProb.getContent(), requestDto.getContent())){
             // 영상 요청
-            String newURL = "newURL";
+            String newURL = URLEnocder.generateURLWithTypeAndToken(requestDto.getType(), requestDto.getContent(), BucketType.t_custom);
             customSpeakingProb.updateContent(requestDto.getContent());
             customSpeakingProb.updateUrl(newURL);
         }

@@ -17,7 +17,7 @@ public class SentenceService {
 
     public void init() {
         CSVReader csvReader = new CSVReader();
-        List<List<String>> sentences = csvReader.readCSV("Sentence.csv");
+        List<List<String>> sentences = csvReader.readCSV("/home/minpearl0826/Sentence.csv");
         saveSentence(sentences);
     }
 

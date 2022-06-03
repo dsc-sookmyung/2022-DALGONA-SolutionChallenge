@@ -21,8 +21,8 @@ public class CustomSpeakingPracticeController {
 
     // 연습 문제 전체 조회
     @GetMapping("/custom/speaking/all")
-    public ResponseEntity<?> getCustomSpeakingProbs(@RequestParam(required = false, defaultValue = "1", value = "page")  int page){
-        return customSpeakingProbService.getCustomSpeakingProbs(page);
+    public ResponseEntity<?> getCustomSpeakingProbs(){
+        return customSpeakingProbService.getCustomSpeakingProbs();
     }
 
     // 연습 문제 조회

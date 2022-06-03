@@ -8,6 +8,8 @@ import com.dalgona.zerozone.domain.content.word.Word;
 import com.dalgona.zerozone.domain.content.word.WordRepository;
 import com.dalgona.zerozone.domain.speaking.SpeakingProb;
 import com.dalgona.zerozone.domain.speaking.SpeakingProbRepository;
+import com.dalgona.zerozone.hangulAnalyzer.BucketType;
+import com.dalgona.zerozone.hangulAnalyzer.URLEnocder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,7 @@ public class SpeakingProbService {
 
     public void init() {
         CSVReader csvReader = new CSVReader();
-        List<List<String>> speakingProbs = csvReader.readCSV("SpeakingProb.csv");
+        List<List<String>> speakingProbs = csvReader.readCSV("/home/minpearl0826/SpeakingProb.csv");
         saveSpeakingProb(speakingProbs);
     }
 
@@ -32,7 +34,7 @@ public class SpeakingProbService {
         for(List<String> row : speakingProbs){
             String type = row.get(0);
             String token = row.get(1);
-            String url = row.get(2);
+            String url = URLEnocder.generateURLWithTypeAndToken(type, token, BucketType.t_static);
 
             Letter letter;
             Word word;
@@ -70,8 +72,6 @@ public class SpeakingProbService {
                         .build();
                 if(!(speakingProbRepository.findBySentence(sentence).isPresent()))
                     speakingProbRepository.save(speakingProb);
-            } else {
-                throw new IllegalArgumentException("잘못된 타입입니다");
             }
         }
     }
