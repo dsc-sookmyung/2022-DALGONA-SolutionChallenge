@@ -597,7 +597,7 @@ class _MyPageState extends State<MyPage> {
                               ),
 
                               Container(
-                                  margin: EdgeInsets.only(top: 10.0),
+                                  margin: EdgeInsets.only(top: 30.0),
                                   alignment: Alignment.bottomRight,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
