@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'Login/login.dart';
 import 'tabbar_mainview.dart';
+import 'LipReading/practice/lr_wordpractice.dart';
+import 'LipReading/lr_mainview.dart';
 
 void main() {
   runApp(new MaterialApp(
     home: new SplashScreen(),
     routes: <String, WidgetBuilder>{
-      '/login': (BuildContext context) => new LoginPage()
+      '/login': (BuildContext context) => LoginPage()
     },
   ));
 }

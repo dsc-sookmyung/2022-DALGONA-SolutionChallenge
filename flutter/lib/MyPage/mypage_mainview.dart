@@ -228,8 +228,7 @@ class _MyPageState extends State<MyPage> {
                   ],
                 ),
               ),
-              Container(
-                  height: MediaQuery.of(context).size.height -160.0,
+              Expanded(
                   child: SingleChildScrollView(
                     child: Container(
 
