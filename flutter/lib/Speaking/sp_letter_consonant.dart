@@ -90,8 +90,8 @@ class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
                           ],
                         ),
                       ),
-                      Container(
-                          height: MediaQuery.of(context).size.height-100,
+                      Expanded(
+                          // height: MediaQuery.of(context).size.height-100,
                           child: Container(
                             padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
                             margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 0.0),
@@ -141,6 +141,11 @@ class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
                                   )
                                 ]),
                           ))
-                    ])))));
+                    ]
+                    )
+                )
+            )
+        )
+    );
   }
 }
