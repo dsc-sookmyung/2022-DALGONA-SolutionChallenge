@@ -72,83 +72,131 @@ class _WordSelectPageState extends State<WordSelectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '말하기 연습 - 단어',
-          style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
-        ),
-        centerTitle: true,
-        backgroundColor: Color(0xffC8E8FF),
-        foregroundColor: Color(0xff333333),
-      ),
-
       body: new Container(
-    color: Color(0xfff0f8ff),
-        child:Container(
-         margin: EdgeInsets.only(top: 60.0, left: 30.0, right: 30.0),
-         padding: EdgeInsets.only(left: 10.0, right: 10.0),
-
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-
-          children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 40.0),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2,
-                    color: Color(0xff5AA9DD),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color(0xffF3F4F6),
+              Color(0xffEFF4FA),
+              Color(0xffECF4FE),
+            ],
+            stops: [0.3, 0.7, 0.9,],
+          ),
+        ),
+        child:SafeArea(
+          child: Container(
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 20.0),
+                  height: 50.0,
+                  // decoration: BoxDecoration(
+                  //   color: Colors.white,
+                  //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                  // ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 15.0),
+                        alignment: Alignment.centerLeft,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Icons.arrow_back),
+                          iconSize: 20,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 15.0),
+                        alignment: Alignment.center,
+                        width: 300.0,
+                        child: Text(
+                          "단어 연습",
+                          style: TextStyle(
+                              color: Color(0xff333333),
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800),
+                        ),
+                      ),
+                    ],
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              width: 300,
-              height: 50,
-              alignment: Alignment.center,
-              child: Text(
-                '선택한 자음: ${widget.consonant}',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-              ),
-            ),
-            Container(
-              width: 300,
-                // decoration: BoxDecoration(
-                //   border: Border.all(
-                //     width: 2,
-                //     color: Colors.grey,
-                //   ),
-                //   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                // ),
-                child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: widget.wordList.length,
-                    itemBuilder: (context, idx){
-                      return GestureDetector(
-                        onTap: (){
-                          urlInfo(widget.wordList[idx].word, widget.wordList[idx].index);
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
+                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
 
-                        },
-                        child: Container(
-                          height: 48,
-                          alignment: Alignment.center,
-                          child: Text(
-                            widget.wordList[idx].word,
-                            style: TextStyle(fontSize: 15),
-                          ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: 40.0),
                           decoration: BoxDecoration(
                               border: Border.all(
-                                width: 1,
-                                color: Colors.grey,
-                              )),
-
+                                width: 2,
+                                color: Color(0xff5AA9DD),
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                          width: 300,
+                          height: 50,
+                          alignment: Alignment.center,
+                          child: Text(
+                            '선택한 자음: ${widget.consonant}',
+                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                          ),
                         ),
+                        Expanded(
+                            // width: 300,
+                            // decoration: BoxDecoration(
+                            //   border: Border.all(
+                            //     width: 2,
+                            //     color: Colors.grey,
+                            //   ),
+                            //   borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            // ),
+                            child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: widget.wordList.length,
+                                itemBuilder: (context, idx){
+                                  return GestureDetector(
+                                    onTap: (){
+                                      urlInfo(widget.wordList[idx].word, widget.wordList[idx].index);
 
-                      );
-                    }
+                                    },
+                                    child: Container(
+                                      height: 48,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        widget.wordList[idx].word,
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.grey,
+                                          )),
+
+                                    ),
+
+                                  );
+                                }
+                            )
+                        ),
+                      ],
+                    ),
+                  ),
                 )
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        )
 
 
     ));
