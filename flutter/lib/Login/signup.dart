@@ -1,7 +1,6 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:zerozone/Login/privacypolicy.dart';
 import 'login.dart';
 
 import 'package:http/http.dart' as http;
@@ -317,7 +316,18 @@ class _SignUpPageState extends State<SignUpPage> {
             //resizeToAvoidBottomInset : false,
             body: SingleChildScrollView(
                 child: new Container(
-          color: Color(0xfff0f8ff),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Color(0xffF3F4F6),
+                        Color(0xffEFF4FA),
+                        Color(0xffECF4FE),
+                      ],
+                      stops: [0.3, 0.7, 0.9, ],
+                    ),
+                  ),
           child: Container(
               margin: EdgeInsets.only(
                   top: 120.0, left: 30.0, right: 30.0, bottom: 80.0),
@@ -334,7 +344,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           style: new TextStyle(
                               fontSize: 32.0,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xff5AA9DD)),
+                              color: Color(0xff4478FF)),
                         ),
                       ),
                     ),
@@ -349,7 +359,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
                           margin: EdgeInsets.only(bottom: 15.0, right: 20.0),
@@ -361,7 +371,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xff97D5FE), width: 2.0),
+                                      color: Color(0xff666666), width: 2.0),
                                 ),
                                 contentPadding:
                                     EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -375,9 +385,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           width: 240,
                         ),
                         Container(
-                          //margin: EdgeInsets.only(bottom: 15.0),
+                          margin: EdgeInsets.only(bottom: 15.0),
                           child: RaisedButton(
-                            color: Color(0xff97D5FE),
+                            color: Color(0xff4478FF),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -419,7 +429,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xff97D5FE), width: 2.0),
+                                      color: Color(0xff666666), width: 2.0),
                                 ),
                                 contentPadding:
                                     EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -435,7 +445,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         Container(
                           margin: EdgeInsets.only(bottom: 15.0),
                           child: RaisedButton(
-                            color: Color(0xff97D5FE),
+                            color: Color(0xff4478FF),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -475,7 +485,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Color(0xff97D5FE), width: 2.0),
+                                  color: Color(0xff666666), width: 2.0),
                             ),
                             contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                             hintText: '이름을 입력하세요.',
@@ -508,7 +518,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Color(0xff97D5FE), width: 2.0),
+                                  color: Color(0xff666666), width: 2.0),
                             ),
                             contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                             hintText: '비밀번호를 입력하세요.',
@@ -548,7 +558,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Color(0xff97D5FE), width: 2.0),
+                                  color: Color(0xff666666), width: 2.0),
                             ),
                             contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                             hintText: '비밀번호를 입력하세요.',
@@ -556,48 +566,25 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       height: 40,
                     ),
-                    // Row(
-                    //   //mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     Checkbox(
-                    //       value: _isChecked,
-                    //       onChanged: (value) {
-                    //         setState(() {
-                    //           _isChecked = !_isChecked;
-                    //         });
-                    //       },
-                    //     ),
-                    //     TextButton(
-                    //         onPressed: (){
-                    //           Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage()),);
-                    //         },
-                    //         child: Text(
-                    //           '개인정보 이용정책',
-                    //           style: TextStyle(fontWeight: FontWeight.w600),
-                    //         )
-                    //     ),
-                    //     Text('에 동의합니다.'),
-                    //   ],
-                    // ),
-
                     Container(
                       margin: EdgeInsets.only(top: 30.0, bottom: 10.0),
                       child: new RaisedButton(
-                        color: Color(0xff97D5FE),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        color: Color(0xff4478FF),
                         child: new Text(
                           '회원가입',
                           style: new TextStyle(
-                            fontSize: 17.0,
+                            fontSize: 18.0,
                             color: Color(0xffFFFFFF),
                           ),
                         ),
                         onPressed: () {
                           validateAndSignUp();
-
-                          //비밀번호 확인도 여기서 확인해 주어야 함.
                         },
                       ),
-                      height: 40,
+                      height: 45,
                     ),
                     Container(
                       child: Row(
@@ -613,7 +600,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                     builder: (context) => LoginPage()),
                               );
                             },
-                            child: Text('로그인'),
+                            child: Text(
+                                '로그인',
+                              style: TextStyle(
+                                color: Color(0xff4478FF),
+                              ),
+                            ),
                           )
                         ],
                       ),
