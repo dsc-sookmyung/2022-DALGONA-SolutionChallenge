@@ -152,9 +152,11 @@ class _customMainPageViewState extends State<customMainPageView> {
                   height: 50.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        child: const Text(
+                        margin: EdgeInsets.only(bottom: 15.0),
+                        child: Text(
                           "커스텀하기",
                           style: TextStyle(
                               color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
@@ -169,7 +171,7 @@ class _customMainPageViewState extends State<customMainPageView> {
                   child: SingleChildScrollView(
 
                     child: Container(
-                      padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
                       margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 0.0),
                       // decoration: BoxDecoration(
                       //     color: Color(0xffF1EEE9),
@@ -183,7 +185,7 @@ class _customMainPageViewState extends State<customMainPageView> {
 
                           Container(
                             alignment: Alignment.center,
-                            margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 10.0, bottom: 20.0),
+                            margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 5.0, bottom: 20.0),
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                             width: 220.0,
                             decoration: BoxDecoration(

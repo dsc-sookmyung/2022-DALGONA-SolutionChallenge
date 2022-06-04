@@ -416,10 +416,6 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
               Container(
                 margin: EdgeInsets.only(top: 20.0),
                 height: 50.0,
-                // decoration: BoxDecoration(
-                //   color: Colors.white,
-                //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
-                // ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -441,9 +437,9 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                 child: SingleChildScrollView(
                   child: Container(
                     padding:
-                        EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+                        EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0),
                     margin: EdgeInsets.only(
-                        left: 20.0, right: 20.0, top: 0.0, bottom: 10.0),
+                        left: 20.0, right: 20.0, top: 0.0, bottom: 10),
                     // decoration: BoxDecoration(
                     //     color: Color(0xffF1EEE9),
                     //     borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))
@@ -708,7 +704,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                         Container(
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(
-                              left: 0.0, right: 15.0, top: 35.0, bottom: 20.0),
+                              left: 0.0, right: 15.0, top: 20.0, bottom: 20.0),
                           padding: EdgeInsets.only(
                               top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                           width: 220.0,

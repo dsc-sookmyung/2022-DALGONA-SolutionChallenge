@@ -308,19 +308,18 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
             Expanded(
                 child: SingleChildScrollView(
                     child: Container(
+                        margin: EdgeInsets.only(left: 25.0, right: 25.0),
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Padding(padding: EdgeInsets.only(left: 8.0)),
                                 Text(
                                   "무슨 말인지 맞춰보세요!",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                Padding(padding: EdgeInsets.only(right: 180.0)),
                                 IconButton(
                                   onPressed: _pressedStar,
                                   icon:(_isStared)
@@ -350,16 +349,13 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                               width: 380,
                               height: 200,
                             ),
-                            Padding(padding: EdgeInsets.all(2.0)),
+                            Padding(padding: EdgeInsets.all(4.0)),
                             Row(
                               //동영상 플레이 버튼
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                // crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  // Padding(padding: EdgeInsets.only(left: 1.0)),
                                   Row(
                                     children: [
-                                      Padding(padding: EdgeInsets.only(left:6.0)),
                                       InkWell(
                                           onTap: () {
                                             _volume
@@ -547,7 +543,6 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                                               color: Color(0xff4478FF),
                                             ),
                                           )),
-                                      Padding(padding: EdgeInsets.only(right:6.0)),
                                     ],
                                   ),
                                 ]),
@@ -558,54 +553,53 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                                 },
                                 child: _isHint
                                     ? Container(
-                                    padding: EdgeInsets.only(
-                                        top: 8.0,
-                                        bottom: 8.0,
-                                        right: 15.0,
-                                        left: 15.0),
-                                    // height: 40,
-                                    width: MediaQuery.of(context).size.width *
-                                        90 /
-                                        100,
+                                    margin: EdgeInsets.only(top:4.0, bottom: 7.0),
+                                    padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 15.0, left: 15.0),
+                                    height: 50,
+                                    alignment: Alignment.center,
+                                    width: MediaQuery.of(context).size.width * 90 / 100,
                                     decoration: BoxDecoration(
-                                      color: Color(0xff4478FF),
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
+                                      color: Color(0xff97D5FE),
+                                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                     ),
                                     // width: MediaQuery.of(context).size.width,
                                     child: Text(_hint,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w700)))
+                                            color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w700)))
                                     : Container(
-                                  padding: EdgeInsets.only(
-                                      top: 8.0,
-                                      bottom: 8.0,
-                                      right: 15.0,
-                                      left: 15.0),
+                                  // padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 15.0, left: 15.0),
                                   // height: 40,
-                                  width: MediaQuery.of(context).size.width *
-                                      90 /
-                                      100,
-                                  decoration: BoxDecoration(
-                                    // color: Color(0xff4478FF),
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                  child: Text("힌트 보기",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Color(0xff4478FF),
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w600)),
-                                )),
-                            Padding(padding: EdgeInsets.all(4.0)),
+                                    width: MediaQuery.of(context).size.width * 90 / 100,
+                                    decoration: BoxDecoration(
+                                      // color: Color(0xff4478FF),
+                                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+
+                                    ),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 50.0,
+                                      margin: EdgeInsets.only(top:4.0, bottom: 7.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xff97D5FE),
+                                            width: 2.0
+                                        ),
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                      ),
+                                      child: Text("힌트 보기",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Color(0xff97D5FE),
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.w700)
+                                      ),
+                                    )
+                                )
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Padding(padding: EdgeInsets.only(left: 17.0)),
                                 Text(
                                   '당신의 답은...',
                                   style: TextStyle(
@@ -640,20 +634,20 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                               if (!_seeAnswer) ...{
                                 if (_enterAnswer)...{
                                   _Answer(),
-                                  Padding(padding: EdgeInsets.all(50.0))
+                                  Padding(padding: EdgeInsets.all(43.0))
                                 }
                                 else...{
                                   _reAnswer(),
-                                  Padding(padding: EdgeInsets.all(34.0))
+                                  Padding(padding: EdgeInsets.all(27.0))
                                 }
                               } else ...{
                                 if (_isCorrect)...{
                                   _Correct(),
-                                  Padding(padding: EdgeInsets.all(25.0))
+                                  Padding(padding: EdgeInsets.all(18.0))
                                 }
                                 else...{
                                   _Wrong(),
-                                  Padding(padding: EdgeInsets.all(10.0))
+                                  Padding(padding: EdgeInsets.all(11.0))
                                 }
                               }
                             ]),
@@ -827,6 +821,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                   style: TextStyle(
                     color: Color(0xff4478FF),
                     fontSize: 18,
+                      fontWeight: FontWeight.w600
                   ),
                 )),
             Padding(padding: EdgeInsets.all(5.0)),
@@ -883,7 +878,6 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
 
   Widget _Correct() {
     return (Column(children: [
-      Padding(padding: EdgeInsets.all(8.0)),
       Column(children: [
         Text(
           '정답이에요!',
@@ -910,7 +904,6 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
   Widget _Wrong() {
     return (Column(
       children: [
-        Padding(padding: EdgeInsets.all(8.0)),
         Column(children: [
           Text(
             '정답은',
