@@ -14,16 +14,12 @@ import 'dart:convert';
 import 'package:zerozone/server.dart';
 
 class SentenceTestPage extends StatefulWidget {
-  final int num;
-  final int time;
   final Map data;
   final String title;
   final List space;
   const SentenceTestPage(
       {Key? key,
       required this.title,
-      required this.num,
-      required this.time,
       required this.data,
       required this.space})
       : super(key: key);
@@ -52,7 +48,6 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
   var testResult = <Map>[];
 
   var _totalTime = 0;
-  late var _time = widget.time;
   late Timer _timer;
 
   late var body = widget.data['data'];
@@ -195,7 +190,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
             child: Scaffold(
                 appBar: AppBar(
                   title: Text(
-                    '남은 시간: $_time 초',
+                    '남은 시간:초',
                     style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: 25,
@@ -468,7 +463,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
                               children: [
                                 Container(
                                   child: Text(
-                                    '$pro_num/${widget.num}',
+                                    '$pro_num/10',
                                     style: TextStyle(
                                         fontSize: 20.0,
                                         color: Color(0xff333333)),
@@ -491,7 +486,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
                                       ),
                                       onPressed: () async {
                                         _check();
-                                        if (pro_num == widget.num) {
+                                        if (pro_num == 10) {
                                           _controller.pause();
                                           await _score(body['id'], testResult,
                                               _correct_num);
@@ -502,7 +497,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
                                                       lrTestResultPage(
                                                         title: widget.title,
                                                         cnt:
-                                                            '$_correct_num/${widget.num}',
+                                                            '$_correct_num/10',
                                                         time: _totalTime,
                                                       )));
                                         } else {
@@ -789,18 +784,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
   void _start() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        _time--;
         _totalTime++;
-
-        if (_time == 0) {
-          _timer.cancel();
-
-          setState(() {
-            _seeAnswer = true;
-            _isCorrect = false;
-            _isInit = false;
-          });
-        }
       });
     });
   }
@@ -900,7 +884,6 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
       _url = testinfo[pro_num - 1]['url'];
       _hint = testinfo[pro_num - 1]['hint'];
       _space = widget.space[pro_num - 1];
-      _time = widget.time;
       _controller = VideoPlayerController.network(_url);
       _initializeVideoPlayerFuture = _controller.initialize();
       _controller.setLooping(true);

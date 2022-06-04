@@ -13,8 +13,7 @@ import 'package:zerozone/server.dart';
 
 class lrTestInfoPage extends StatefulWidget {
   final String ver;
-  final int cnt;
-  const lrTestInfoPage({Key? key, required this.ver, required this.cnt})
+  const lrTestInfoPage({Key? key, required this.ver})
       : super(key: key);
   @override
   _lrTestInfoPageState createState() => _lrTestInfoPageState();
@@ -22,20 +21,17 @@ class lrTestInfoPage extends StatefulWidget {
 
 class _lrTestInfoPageState extends State<lrTestInfoPage> {
   final myController1 = TextEditingController();
-  final myController2 = TextEditingController();
-  final myController3 = TextEditingController();
 
   var res;
-  late var totalProbCnt = widget.cnt;
 
   void initState() {
     super.initState();
   }
 
-  _wordTest(String title, String count) async {
+  _wordTest(String title) async {
     var url = Uri.http('${serverHttp}:8080', '/reading/test/word');
 
-    final data = jsonEncode({'testName': title, 'probsCount': count});
+    final data = jsonEncode({'testName': title, 'probsCount': 10});
 
     var response = await http.post(url, body: data, headers: {
       'Accept': 'application/json',
@@ -55,7 +51,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
-        _wordTest(title, count);
+        _wordTest(title);
         check = false;
       }
     } else {
@@ -64,11 +60,11 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   }
 
   late List _space = [];
-  _sentenceTest(String title, String count) async {
+  _sentenceTest(String title) async {
     _space.clear();
     var url = Uri.http('${serverHttp}:8080', '/reading/test/sentence');
 
-    final data = jsonEncode({'testName': title, 'probsCount': count});
+    final data = jsonEncode({'testName': title, 'probsCount': 10});
 
     var response = await http.post(url, body: data, headers: {
       'Accept': 'application/json',
@@ -99,7 +95,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
-        _sentenceTest(title, count);
+        _sentenceTest(title);
         check = false;
       }
     } else {
@@ -107,11 +103,11 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
     }
   }
 
-  _randomTest(String title, String count) async {
+  _randomTest(String title) async {
     _space.clear();
     var url = Uri.http('${serverHttp}:8080', '/reading/test/random');
 
-    final data = jsonEncode({'testName': title, 'probsCount': count});
+    final data = jsonEncode({'testName': title, 'probsCount': 10});
 
     var response = await http.post(url, body: data, headers: {
       'Accept': 'application/json',
@@ -142,7 +138,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
-        _sentenceTest(title, count);
+        _randomTest(title);
         check = false;
       }
     } else {
@@ -185,7 +181,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
-        _sentenceTest(title, count);
+        _sentenceTest(title);
         check = false;
       }
     } else {
@@ -197,7 +193,11 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   Widget build(BuildContext context) {
     // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return Scaffold(
-        body: Container(
+        body:GestureDetector(
+        onTap: () {
+      FocusScope.of(context).unfocus();
+    },
+        child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
@@ -256,20 +256,20 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: new Container(
-                    color: Color(0xfff0f8ff),
                     child: Container(
                       alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height*40/100,
+                      width: MediaQuery.of(context).size.width*90/100,
                       margin: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height*20/100, bottom: MediaQuery.of(context).size.height*20/100, right: 30.0, left: 30.0),
                       decoration: BoxDecoration(
-                        // color: Colors.white,
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(width:4, color: Color(0xff4478FF))
                         ),
                       child: Column(
                         children: [
-                          Padding(padding: EdgeInsets.all(10.0)),
+                          Padding(padding: EdgeInsets.all(20.0)),
                           Text(
                             '테스트 이름',
                             style: TextStyle(
@@ -297,13 +297,13 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10.0)),
                                   borderSide:
-                                      BorderSide(width: 2, color: Colors.white),
+                                      BorderSide(width: 2, color: Color(0xff333333)),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10.0)),
                                   borderSide:
-                                      BorderSide(width: 2, color: Colors.white),
+                                      BorderSide(width: 2, color: Color(0xff4478FF)),
                                 ),
                               ),
                             ),
@@ -315,7 +315,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                               Padding(padding: EdgeInsets.all(15.0)),
                               Container(
                                 child: Text(
-                                  '문제 개수',
+                                  '문제 수',
                                   style: TextStyle(
                                       color: Color(0xff333333),
                                       fontSize: 18.0,
@@ -325,7 +325,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                               // Padding(padding: EdgeInsets.all(15.0)),
                               Container(
                                 child: Text(
-                                  '10개',
+                                  '총 10개',
                                   style: TextStyle(
                                       color: Color(0xff333333),
                                       fontSize: 18.0,
@@ -341,8 +341,6 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                 primary: Color(0xff4478FF),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  // side: BorderSide(
-                                  //     color: Color(0xffff97D5FE), width: 1.0),
                                 ),
                                 // minimumSize: Size(100, 40),
                               ),
@@ -355,25 +353,9 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                     gravity: ToastGravity.CENTER,
                                     backgroundColor: Colors.grey,
                                   );
-                                } else if (int.parse(myController2.text) >
-                                    totalProbCnt) {
-                                  Fluttertoast.showToast(
-                                    msg: '문제의 개수가 너무 많습니다',
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    backgroundColor: Colors.grey,
-                                  );
-                                } else if (int.parse(myController3.text) > 60) {
-                                  Fluttertoast.showToast(
-                                    msg: '응시 시간이 너무 깁니다',
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    backgroundColor: Colors.grey,
-                                  );
-                                } else {
                                   if (widget.ver == '단어') {
                                     await _wordTest(
-                                        myController1.text, myController2.text);
+                                        myController1.text);
                                     Navigator.of(context).pop();
                                     // print(res);
                                     Navigator.push(
@@ -381,14 +363,11 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                         MaterialPageRoute(
                                             builder: (_) => WordTestPage(
                                                 title: myController1.text,
-                                                num: int.parse(
-                                                    myController2.text),
-                                                time: int.parse(
-                                                    myController3.text),
                                                 data: res)));
+                                  };
                                   } else if (widget.ver == '문장') {
                                     await _sentenceTest(
-                                        myController1.text, myController2.text);
+                                        myController1.text);
                                     // print(res);
                                     Navigator.of(context).pop();
                                     Navigator.push(
@@ -396,16 +375,12 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                         MaterialPageRoute(
                                             builder: (_) => SentenceTestPage(
                                                 title: myController1.text,
-                                                num: int.parse(
-                                                    myController2.text),
-                                                time: int.parse(
-                                                    myController3.text),
                                                 data: res,
                                                 space: _space)));
                                   } else if (widget.ver == '랜덤' ||
                                       widget.ver == '북마크') {
                                     await _randomTest(
-                                        myController1.text, myController2.text);
+                                        myController1.text);
                                     // print(res);
                                     Navigator.of(context).pop();
                                     Navigator.push(
@@ -413,15 +388,10 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                         MaterialPageRoute(
                                             builder: (_) => RandomTestPage(
                                                 title: myController1.text,
-                                                num: int.parse(
-                                                    myController2.text),
-                                                time: int.parse(
-                                                    myController3.text),
                                                 data: res,
                                                 space: _space)));
                                   }
-                                }
-                              },
+                                },
                               child: Padding(
                                 padding: EdgeInsets.only(
                                     top: 10.0,
@@ -442,7 +412,6 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                     ),
                   ),
                 ),
-              )
-            ])))));
+            ]))))));
   }
 }
