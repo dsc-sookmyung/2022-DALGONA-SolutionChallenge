@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:zerozone/Custom/practice/practiceLipReadingSentence.dart';
+import 'package:zerozone/Custom/practice/practiceLipReadingWord.dart';
+import 'package:zerozone/server.dart';
+import 'package:zerozone/Login/login.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import 'package:zerozone/Login/refreshToken.dart';
 
 class LipReadingList {
   final String type;
@@ -23,6 +31,62 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
 
   int _curPage=1;
   late int totalPage = widget.lipReadingList.length%10 == 0 ? widget.lipReadingList.length~/10: widget.lipReadingList.length~/10+1;
+
+  Future<void> practiceLipReading(int idx) async {
+
+    late var url;
+
+    Map<String, String> _queryParameters = <String, String>{
+      'id': widget.lipReadingList[idx].probId.toString(),
+    };
+
+    url = Uri.http('${serverHttp}:8080', '/custom/reading', _queryParameters);
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      String content = data["content"];
+      String hint  = data["hint"];
+      String space = data["spacing_info"];
+
+      Navigator.of(context).pop();
+
+      if(type == "word"){
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => CustomWordPracticePage(probId: probId, content: content, url: url, hint: hint))
+        );
+      }
+      else{
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => CustomSentencePracticePage(probId: probId, content: content, url: url, hint: hint, space: space))
+        );
+      }
+
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        practiceLipReading(idx);
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
 
   @override
   void initState() {
@@ -51,7 +115,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                     child: Column(children: [
                       Container(
                         margin: EdgeInsets.only(top: 20.0),
-                        height: 40.0,
+                        height: 50.0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,7 +160,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                                                   splashColor: Colors.transparent,
                                                   highlightColor: Colors.transparent,
                                                   onTap: () {
-                                                    print(widget.lipReadingList[idx].probId);
+                                                    practiceLipReading(idx);
                                                   },
                                                   child: Container(
                                                     height: MediaQuery.of(context).size.height*7.5/100,

@@ -284,7 +284,7 @@ class _CustomSpeakProblemPageState extends State<CustomSpeakProblemPage> {
                                         ),
 
                                         Text(
-                                          "지금은 2시입니다. → 지금은 두 시입니다.",
+                                          "지금은 2시입니다 → 지금은 두 시입니다",
                                           style: TextStyle(
                                               color: Color(0xff333333), fontSize: 16, fontWeight: FontWeight.w500
                                           ),
