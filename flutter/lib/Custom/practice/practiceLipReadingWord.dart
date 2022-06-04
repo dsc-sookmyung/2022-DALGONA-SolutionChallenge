@@ -423,7 +423,6 @@ class _CustomWordPracticePageState extends State<CustomWordPracticePage> {
                                                         )
                                                     )
                                                 ),
-                                                // Padding(padding: EdgeInsets.all(4.0)),
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [

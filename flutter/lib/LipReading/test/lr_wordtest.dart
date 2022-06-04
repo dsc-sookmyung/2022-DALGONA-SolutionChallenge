@@ -180,12 +180,12 @@ class _WordTestPageState extends State<WordTestPage> {
             Expanded(
                 child: SingleChildScrollView(
                     child: Container(
+                      margin: EdgeInsets.only(top: 10.0, left: 25.0, right: 25.0),
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Padding(padding: EdgeInsets.only(left: 8.0, top:4.0)),
                                 Text(
                                   "무슨 말인지 맞춰보세요!",
                                   style: TextStyle(
@@ -216,12 +216,9 @@ class _WordTestPageState extends State<WordTestPage> {
                             Row(
                               //동영상 플레이 버튼
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                // crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  // Padding(padding: EdgeInsets.only(left: 1.0)),
                                   Row(
                                     children: [
-                                      Padding(padding: EdgeInsets.only(left:6.0)),
                                       InkWell(
                                           onTap: () {
                                             _volume
@@ -409,7 +406,6 @@ class _WordTestPageState extends State<WordTestPage> {
                                               color: Color(0xff4478FF),
                                             ),
                                           )),
-                                      Padding(padding: EdgeInsets.only(right:6.0)),
                                     ],
                                   ),
                                 ]),
@@ -420,50 +416,50 @@ class _WordTestPageState extends State<WordTestPage> {
                                 },
                                 child: _isHint
                                     ? Container(
-                                    padding: EdgeInsets.only(
-                                        top: 8.0,
-                                        bottom: 8.0,
-                                        right: 15.0,
-                                        left: 15.0),
-                                    // height: 40,
-                                    width: MediaQuery.of(context).size.width *
-                                        90 /
-                                        100,
+                                    margin: EdgeInsets.only(top:4.0, bottom: 7.0),
+                                    padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 15.0, left: 15.0),
+                                    height: 50,
+                                    alignment: Alignment.center,
+                                    width: MediaQuery.of(context).size.width * 90 / 100,
                                     decoration: BoxDecoration(
-                                      color: Color(0xff4478FF),
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
+                                      color: Color(0xff97D5FE),
+                                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                     ),
                                     // width: MediaQuery.of(context).size.width,
                                     child: Text(_hint,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w700)))
+                                            color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w700)))
                                     : Container(
-                                  padding: EdgeInsets.only(
-                                      top: 8.0,
-                                      bottom: 8.0,
-                                      right: 15.0,
-                                      left: 15.0),
+                                  // padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 15.0, left: 15.0),
                                   // height: 40,
-                                  width: MediaQuery.of(context).size.width *
-                                      90 /
-                                      100,
-                                  decoration: BoxDecoration(
-                                    // color: Color(0xff4478FF),
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                  child: Text("힌트 보기",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Color(0xff4478FF),
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w600)),
-                                )),
-                            Padding(padding: EdgeInsets.all(4.0)),
+                                    width: MediaQuery.of(context).size.width * 90 / 100,
+                                    decoration: BoxDecoration(
+                                      // color: Color(0xff4478FF),
+                                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+
+                                    ),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 50.0,
+                                      margin: EdgeInsets.only(top:4.0, bottom: 7.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xff97D5FE),
+                                            width: 2.0
+                                        ),
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                      ),
+                                      child: Text("힌트 보기",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Color(0xff97D5FE),
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.w700)
+                                      ),
+                                    )
+                                )
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -497,20 +493,20 @@ class _WordTestPageState extends State<WordTestPage> {
                               if (!_seeAnswer) ...{
                                 if (_enterAnswer)...{
                                   _Answer(),
-                                  Padding(padding: EdgeInsets.all(60.0))
+                                  Padding(padding: EdgeInsets.all(55.0))
                                 }
                                 else...{
                                   _reAnswer(),
-                                  Padding(padding: EdgeInsets.all(44.0))
+                                  Padding(padding: EdgeInsets.all(39.0))
                                 }
                               } else ...{
                                 if (_isCorrect)...{
                                   _Correct(),
-                                  Padding(padding: EdgeInsets.all(35.0))
+                                  Padding(padding: EdgeInsets.all(25.0))
                                 }
                                 else...{
                                   _Wrong(),
-                                  Padding(padding: EdgeInsets.all(20.0))
+                                  Padding(padding: EdgeInsets.all(15.0))
                                 }
                               }
                             ]),
@@ -742,7 +738,6 @@ class _WordTestPageState extends State<WordTestPage> {
 
   Widget _Correct() {
     return (Column(children: [
-      Padding(padding: EdgeInsets.all(8.0)),
       Column(children: [
         Text(
           '정답이에요!',
@@ -769,7 +764,6 @@ class _WordTestPageState extends State<WordTestPage> {
   Widget _Wrong() {
     return (Column(
       children: [
-        Padding(padding: EdgeInsets.all(8.0)),
         Column(children: [
           Text(
             '정답은',

@@ -181,7 +181,7 @@ class _RandomTestPageState extends State<RandomTestPage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return Scaffold(
       // resizeToAvoidBottomInset: false,
         body: GestureDetector(
@@ -252,12 +252,12 @@ class _RandomTestPageState extends State<RandomTestPage> {
                             Expanded(
                                 child: SingleChildScrollView(
                                     child: Container(
+                                        margin: EdgeInsets.only(top: 10.0, left: 25.0, right: 25.0),
                                         child: Column(
                                             children: [
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
-                                                  Padding(padding: EdgeInsets.only(left: 8.0, top:4.0)),
                                                   Text(
                                                     "무슨 말인지 맞춰보세요!",
                                                     style: TextStyle(
@@ -293,7 +293,6 @@ class _RandomTestPageState extends State<RandomTestPage> {
                                                     // Padding(padding: EdgeInsets.only(left: 1.0)),
                                                     Row(
                                                       children: [
-                                                        Padding(padding: EdgeInsets.only(left:6.0)),
                                                         InkWell(
                                                             onTap: () {
                                                               _volume
@@ -481,7 +480,6 @@ class _RandomTestPageState extends State<RandomTestPage> {
                                                                 color: Color(0xff4478FF),
                                                               ),
                                                             )),
-                                                        Padding(padding: EdgeInsets.only(right:6.0)),
                                                       ],
                                                     ),
                                                   ]),
@@ -492,54 +490,53 @@ class _RandomTestPageState extends State<RandomTestPage> {
                                                   },
                                                   child: _isHint
                                                       ? Container(
-                                                      padding: EdgeInsets.only(
-                                                          top: 8.0,
-                                                          bottom: 8.0,
-                                                          right: 15.0,
-                                                          left: 15.0),
-                                                      // height: 40,
-                                                      width: MediaQuery.of(context).size.width *
-                                                          90 /
-                                                          100,
+                                                      margin: EdgeInsets.only(top:4.0, bottom: 7.0),
+                                                      padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 15.0, left: 15.0),
+                                                      height: 50,
+                                                      alignment: Alignment.center,
+                                                      width: MediaQuery.of(context).size.width * 90 / 100,
                                                       decoration: BoxDecoration(
-                                                        color: Color(0xff4478FF),
-                                                        borderRadius:
-                                                        BorderRadius.all(Radius.circular(10.0)),
+                                                        color: Color(0xff97D5FE),
+                                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                                       ),
                                                       // width: MediaQuery.of(context).size.width,
                                                       child: Text(_hint,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 16.0,
-                                                              fontWeight: FontWeight.w700)))
+                                                              color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w700)))
                                                       : Container(
-                                                    padding: EdgeInsets.only(
-                                                        top: 8.0,
-                                                        bottom: 8.0,
-                                                        right: 15.0,
-                                                        left: 15.0),
+                                                    // padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 15.0, left: 15.0),
                                                     // height: 40,
-                                                    width: MediaQuery.of(context).size.width *
-                                                        90 /
-                                                        100,
-                                                    decoration: BoxDecoration(
-                                                      // color: Color(0xff4478FF),
-                                                      borderRadius:
-                                                      BorderRadius.all(Radius.circular(10.0)),
-                                                    ),
-                                                    child: Text("힌트 보기",
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            color: Color(0xff4478FF),
-                                                            fontSize: 16.0,
-                                                            fontWeight: FontWeight.w600)),
-                                                  )),
-                                              Padding(padding: EdgeInsets.all(4.0)),
+                                                      width: MediaQuery.of(context).size.width * 90 / 100,
+                                                      decoration: BoxDecoration(
+                                                        // color: Color(0xff4478FF),
+                                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+
+                                                      ),
+                                                      child: Container(
+                                                        alignment: Alignment.center,
+                                                        height: 50.0,
+                                                        margin: EdgeInsets.only(top:4.0, bottom: 7.0),
+                                                        decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Color(0xff97D5FE),
+                                                              width: 2.0
+                                                          ),
+                                                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                                        ),
+                                                        child: Text("힌트 보기",
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                color: Color(0xff97D5FE),
+                                                                fontSize: 18.0,
+                                                                fontWeight: FontWeight.w700)
+                                                        ),
+                                                      )
+                                                  )
+                                              ),
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
-                                                  Padding(padding: EdgeInsets.only(left: 17.0)),
                                                   Text(
                                                     '당신의 답은...',
                                                     style: TextStyle(
@@ -555,8 +552,7 @@ class _RandomTestPageState extends State<RandomTestPage> {
                                               ): Container(),
                                               Padding(padding: EdgeInsets.all(3.0)),
                                               Container(
-                                                margin: EdgeInsets.only(
-                                                    top: 3.0, left: 15.0, right: 15.0),
+                                                width: MediaQuery.of(context).size.width * 90 / 100,
                                                 child: Column(
                                                   //textfield
                                                   //crossAxisAlignment: CrossAxisAlignment.center,
@@ -576,83 +572,78 @@ class _RandomTestPageState extends State<RandomTestPage> {
                                                 if (!_seeAnswer) ...{
                                                   if (_enterAnswer)...{
                                                     _Answer(),
+                                                    _type=='sentence'?
+                                                    Padding(padding: EdgeInsets.all(43.0)):
                                                     Padding(padding: EdgeInsets.all(50.0))
                                                   }
                                                   else...{
                                                     _reAnswer(),
+                                                    _type=='sentence'?
+                                                    Padding(padding: EdgeInsets.all(27.0)):
                                                     Padding(padding: EdgeInsets.all(34.0))
                                                   }
                                                 } else ...{
                                                   if (_isCorrect)...{
                                                     _Correct(),
+                                                    _type=='sentence'?
+                                                    Padding(padding: EdgeInsets.all(18.0)):
                                                     Padding(padding: EdgeInsets.all(25.0))
                                                   }
                                                   else...{
                                                     _Wrong(),
-                                                    Padding(padding: EdgeInsets.all(10.0))
+                                                    _type=='sentence'?
+                                                    Padding(padding: EdgeInsets.all(10.0)):
+                                                    Padding(padding: EdgeInsets.all(15.0))
                                                   }
                                                 }
                                               ]),
-                                              Spacer(),
-                                              Row(
-                                                // crossAxisAlignment: CrossAxisAlignment.,
-                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        '$pro_num/10',
-                                                        style: TextStyle(
-                                                            fontSize: 20.0,
-                                                            color: Color(0xff333333)),
-                                                      ),
+                                              InkWell(
+                                                  onTap: () async{
+                                                    _check();
+                                                    if (pro_num == 10) {
+                                                      _controller.pause();
+                                                      await _score(body['id'], testResult, _correct_num);
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (_) =>
+                                                                  lrTestResultPage(
+                                                                    title: widget.title,
+                                                                    cnt:
+                                                                    '$_correct_num/10',
+                                                                    time: _totalTime,
+                                                                  )));
+                                                    } else {
+                                                      if (_seeAnswer)
+                                                        _next();
+                                                      else {
+                                                        _showDialog();
+                                                      }
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        top: 13.0,
+                                                        bottom: 13.0),
+                                                    // height: 40,
+                                                    width: MediaQuery.of(context).size.width *
+                                                        90 /
+                                                        100,
+                                                    decoration: BoxDecoration(
+                                                        color: Color(0xff4478FF),
+                                                        borderRadius:
+                                                        BorderRadius.all(Radius.circular(5.0))
                                                     ),
-                                                    InkWell(
-                                                        onTap: () async{
-                                                          _check();
-                                                          if (pro_num == 10) {
-                                                            _controller.pause();
-                                                            await _score(body['id'], testResult, _correct_num);
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder: (_) =>
-                                                                        lrTestResultPage(
-                                                                          title: widget.title,
-                                                                          cnt:
-                                                                          '$_correct_num/10',
-                                                                          time: _totalTime,
-                                                                        )));
-                                                          } else {
-                                                            if (_seeAnswer)
-                                                              _next();
-                                                            else {
-                                                              _showDialog();
-                                                            }
-                                                          }
-                                                        },
-                                                        child: Container(
-                                                          padding: EdgeInsets.only(
-                                                              top: 13.0,
-                                                              bottom: 13.0),
-                                                          // height: 40,
-                                                          width: MediaQuery.of(context).size.width *
-                                                              90 /
-                                                              100,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xff4478FF),
-                                                              borderRadius:
-                                                              BorderRadius.all(Radius.circular(5.0))
-                                                          ),
-                                                          child: Text("다음",
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  color: Colors.white,
-                                                                  fontSize: 16.0,
-                                                                  fontWeight: FontWeight.w600)),
-                                                        )),
-                                                  ]),
-                                            ]))))]),
-                    )))));
+                                                    child: Text("다음",
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16.0,
+                                                            fontWeight: FontWeight.w600)),
+                                                  )),
+                                            ]),
+                                    )))])),
+                ))));
   }
 
   Widget _initTextField() {
@@ -667,11 +658,11 @@ class _RandomTestPageState extends State<RandomTestPage> {
         contentPadding: EdgeInsets.symmetric(horizontal: 10),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(width: 2, color: Color(0xff97D5FE)),
+          borderSide: BorderSide(width: 2, color: Color(0xff4478FF)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(width: 2, color: Color(0xff97D5FE)),
+          borderSide: BorderSide(width: 2, color: Color(0xff4478FF)),
         ),
       ),
     ));
@@ -720,8 +711,9 @@ class _RandomTestPageState extends State<RandomTestPage> {
     //답 입력하기 전
     return (ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Color(0xff97D5FE),
-          minimumSize: Size(80, 40),
+          primary: Color(0xff4478FF),
+          padding:
+          EdgeInsets.only(right: 40.0, left: 40.0, top: 13.0, bottom: 13.0),
         ),
         onPressed: () {
           FocusScope.of(context).unfocus();
@@ -755,6 +747,7 @@ class _RandomTestPageState extends State<RandomTestPage> {
           style: TextStyle(
             color: Colors.white,
             fontSize: 16,
+              fontWeight: FontWeight.w600
           ),
         )));
   }
@@ -789,16 +782,16 @@ class _RandomTestPageState extends State<RandomTestPage> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
+                      fontWeight: FontWeight.w600
                   ),
                 )),
             Padding(padding: EdgeInsets.all(5.0)),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xffFFFFFF),
+                  primary: Color(0xff4478FF),
                   minimumSize: Size(90, 40),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  side: BorderSide(color: Color(0xff97D5FE), width: 1.0),
                 ),
                 onPressed: () {
                   setState(() {
@@ -811,27 +804,15 @@ class _RandomTestPageState extends State<RandomTestPage> {
                 child: Text(
                   '답 보기',
                   style: TextStyle(
-                    color: Color(0xff97D5FE),
+                    color: Colors.white,
                     fontSize: 18,
+                      fontWeight: FontWeight.w600
                   ),
                 )),
           ],
         )
       ],
     ));
-  }
-
-  void _pressedStar() {
-    FocusScope.of(context).unfocus();
-    setState(() {
-      if (_isStared) {
-        _isStared = false;
-        deleteReadingBookmark(_probId);
-      } else {
-        _isStared = true;
-        ReadingBookmark(_probId);
-      }
-    });
   }
 
   void _pressedHint() {
@@ -845,17 +826,16 @@ class _RandomTestPageState extends State<RandomTestPage> {
 
   Widget _Correct() {
     return (Column(children: [
-      Padding(padding: EdgeInsets.all(8.0)),
       Column(children: [
         Text(
           '정답이에요!',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16.0),
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17.0),
         )
       ]),
       Padding(padding: EdgeInsets.all(5.0)),
       Column(children: [
         Container(
-            width: 300,
+            width: MediaQuery.of(context).size.width * 90 / 100,
             height: 50,
             color: Color(0xff97D5FE),
             child: Center(
@@ -872,7 +852,6 @@ class _RandomTestPageState extends State<RandomTestPage> {
   Widget _Wrong() {
     return (Column(
       children: [
-        Padding(padding: EdgeInsets.all(8.0)),
         Column(children: [
           Text(
             '정답은',
@@ -926,7 +905,7 @@ class _RandomTestPageState extends State<RandomTestPage> {
             actions: [
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff97D5FE),
+                    primary: Color(0xff4478FF),
                     minimumSize: Size(80, 40),
                   ),
                   onPressed: () {
@@ -939,7 +918,7 @@ class _RandomTestPageState extends State<RandomTestPage> {
                   )),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff97D5FE),
+                    primary: Color(0xff4478FF),
                     minimumSize: Size(80, 40),
                   ),
                   onPressed: () {

@@ -244,12 +244,14 @@ class _MyPageState extends State<MyPage> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 20.0, bottom: 15.0),
+                margin: EdgeInsets.only(top: 20.0),
                 height: 50.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
+                      margin: EdgeInsets.only(bottom: 15.0),
                       child: Text(
                         "마이페이지",
                         style: TextStyle(
@@ -266,7 +268,8 @@ class _MyPageState extends State<MyPage> {
                     child: Container(
 
                         child: Container(
-                          margin: EdgeInsets.only(left: 40.0, right: 40.0),
+                          padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
+                          margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
