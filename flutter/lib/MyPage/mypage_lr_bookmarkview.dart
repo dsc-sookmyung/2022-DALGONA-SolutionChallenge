@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
