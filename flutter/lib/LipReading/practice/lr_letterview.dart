@@ -179,8 +179,8 @@ class _LRChooseWordConsonantPageState extends State<LRChooseWordConsonantPage> {
                                                   },
                                                   child: Container(
                                                       margin: EdgeInsets.symmetric(
-                                                          vertical: 15,
-                                                          horizontal: 15),
+                                                          vertical: 10,
+                                                          horizontal: 10),
                                                       decoration: BoxDecoration(
                                                           color: (index / 3) % 2 < 1
                                                               ? Color(0xffD8EFFF)
