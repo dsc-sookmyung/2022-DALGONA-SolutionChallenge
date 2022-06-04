@@ -456,8 +456,9 @@ class _SpSentencePracticePageState extends State<SpSentencePracticePage> {
                                       child: Text(
                                         '${widget.sentence}',
                                         style: TextStyle(
-                                          fontSize: 30, fontWeight: FontWeight.w600,
+                                          fontSize: 24, fontWeight: FontWeight.w600,
                                         ),
+                                        textAlign: TextAlign.center,
                                       ),
                                     )
                                 ),
