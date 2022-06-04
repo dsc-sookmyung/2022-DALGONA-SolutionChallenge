@@ -10,6 +10,7 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
@@ -126,6 +127,47 @@ class _SpLetterPracticePageState extends State<SpLetterPracticePage> {
 
   }
 
+  List<String> _recentProbId = [];
+  List<String> _recentType=[];
+  List<String> _recentContent=[];
+
+  _loadRecent() async{
+    _recentProbId.clear();
+    _recentType.clear();
+    _recentContent.clear();
+
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      final ret1 = prefs.getStringList('s_id');
+      final ret2 = prefs.getStringList('s_typ');
+      final ret3 = prefs.getStringList('s_content');
+
+      int len=ret1!.length;
+      int len2=ret2!.length;
+      int len3=ret3!.length;
+
+      for (int i = 0; i < len; i++) {
+        _recentProbId.add(ret1[i]);
+        _recentType.add(ret2[i]);
+        _recentContent.add(ret3[i]);
+      }
+    });
+  }
+
+  _saveRecent(int id, String type, String content) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _recentProbId.add(id.toString());
+    _recentType.add(type);
+    _recentContent.add(content);
+
+    setState(() {
+      prefs.setStringList('s-id', _recentProbId);
+      prefs.setStringList('s-type', _recentType);
+      prefs.setStringList('s-content', _recentContent);
+      print('shared: '+ id.toString() +' '+ type +' '+ content);
+    });
+  }
 
   @override
   void initState() {

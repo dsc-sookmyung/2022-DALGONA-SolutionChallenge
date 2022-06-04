@@ -145,20 +145,20 @@ class _CustomSentencePracticePageState extends State<CustomSentencePracticePage>
                             Expanded(
                                 child: SingleChildScrollView(
                                     child: Container(
+                                        margin: EdgeInsets.only(top: 10.0, left: 25.0, right: 25.0),
                                         child: Column(
                                             children: [
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
-                                                  Padding(padding: EdgeInsets.only(left: 8.0)),
                                                   Text(
                                                     "무슨 말인지 맞춰보세요!",
                                                     style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.w600),
+                                                        fontSize: 15, fontWeight: FontWeight.w600),
                                                   ),
                                                 ],
                                               ),
+                                              Padding(padding:EdgeInsets.all(4.0)),
                                               Container(
                                                 child: FutureBuilder(
                                                   future: _initializeVideoPlayerFuture,
@@ -178,7 +178,7 @@ class _CustomSentencePracticePageState extends State<CustomSentencePracticePage>
                                                 width: 380,
                                                 height: 200,
                                               ),
-                                              Padding(padding: EdgeInsets.all(2.0)),
+                                              Padding(padding: EdgeInsets.all(4.0)),
                                               Row(
                                                 //동영상 플레이 버튼
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,7 +187,7 @@ class _CustomSentencePracticePageState extends State<CustomSentencePracticePage>
                                                     // Padding(padding: EdgeInsets.only(left: 1.0)),
                                                     Row(
                                                       children: [
-                                                        Padding(padding: EdgeInsets.only(left:6.0)),
+                                                        // Padding(padding: EdgeInsets.only(left:6.0)),
                                                         InkWell(
                                                             onTap: () {
                                                               _volume
@@ -386,17 +386,14 @@ class _CustomSentencePracticePageState extends State<CustomSentencePracticePage>
                                                   },
                                                   child: _isHint
                                                       ? Container(
-                                                      padding: EdgeInsets.only(
-                                                          top: 8.0,
-                                                          bottom: 8.0,
-                                                          right: 15.0,
-                                                          left: 15.0),
-                                                      // height: 40,
+                                                      margin: EdgeInsets.only(top:7.0, bottom: 7.0),
+                                                      padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 15.0, left: 15.0),
+                                                      height: 50,
                                                       width: MediaQuery.of(context).size.width *
                                                           90 /
                                                           100,
                                                       decoration: BoxDecoration(
-                                                        color: Color(0xff4478FF),
+                                                        color: Color(0xff97D5FE),
                                                         borderRadius:
                                                         BorderRadius.all(Radius.circular(10.0)),
                                                       ),
@@ -408,12 +405,12 @@ class _CustomSentencePracticePageState extends State<CustomSentencePracticePage>
                                                               fontSize: 16.0,
                                                               fontWeight: FontWeight.w700)))
                                                       : Container(
-                                                    padding: EdgeInsets.only(
-                                                        top: 8.0,
-                                                        bottom: 8.0,
-                                                        right: 15.0,
-                                                        left: 15.0),
-                                                    // height: 40,
+                                                    // padding: EdgeInsets.only(
+                                                    //     top: 8.0,
+                                                    //     bottom: 8.0,
+                                                    //     right: 15.0,
+                                                    //     left: 15.0),
+                                                    // // height: 40,
                                                     width: MediaQuery.of(context).size.width *
                                                         90 /
                                                         100,
@@ -422,18 +419,30 @@ class _CustomSentencePracticePageState extends State<CustomSentencePracticePage>
                                                       borderRadius:
                                                       BorderRadius.all(Radius.circular(10.0)),
                                                     ),
-                                                    child: Text("힌트 보기",
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            color: Color(0xff4478FF),
-                                                            fontSize: 16.0,
-                                                            fontWeight: FontWeight.w600)),
-                                                  )),
-                                              Padding(padding: EdgeInsets.all(4.0)),
+                                                      child: Container(
+                                                        alignment: Alignment.center,
+                                                        height: 50.0,
+                                                        margin: EdgeInsets.only(top:7.0, bottom: 7.0),
+                                                        decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Color(0xff97D5FE),
+                                                              width: 2.0
+                                                          ),
+                                                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                                        ),
+                                                        child: Text("힌트 보기",
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                color: Color(0xff97D5FE),
+                                                                fontSize: 18.0,
+                                                                fontWeight: FontWeight.w700)
+                                                        ),),
+                                                      )),
+                                              // Padding(padding: EdgeInsets.all(4.0)),
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
-                                                  Padding(padding: EdgeInsets.only(left: 17.0)),
+                                                  Padding(padding: EdgeInsets.only(left: 5.0)),
                                                   Text(
                                                     '당신의 답은...',
                                                     style: TextStyle(
@@ -468,16 +477,20 @@ class _CustomSentencePracticePageState extends State<CustomSentencePracticePage>
                                                 if (!_seeAnswer) ...{
                                                   if (_enterAnswer)...{
                                                     _Answer(),
+                                                    Padding(padding: EdgeInsets.all(50.0))
                                                   }
                                                   else...{
                                                     _reAnswer(),
+                                                    Padding(padding: EdgeInsets.all(34.0))
                                                   }
                                                 } else ...{
                                                   if (_isCorrect)...{
                                                     _Correct(),
+                                                    Padding(padding: EdgeInsets.all(25.0))
                                                   }
                                                   else...{
                                                     _Wrong(),
+                                                    Padding(padding: EdgeInsets.all(10.0))
                                                   }
                                                 }
                                               ]),

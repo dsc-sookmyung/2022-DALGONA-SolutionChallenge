@@ -57,7 +57,6 @@ class _WordTestPageState extends State<WordTestPage> {
   late var _hint = testinfo[pro_num - 1]['hint'];
   late var _ans = testinfo[pro_num - 1]['content'];
   late var _url = testinfo[pro_num - 1]['url'];
-  late bool _isStared = testinfo[pro_num - 1]['bookmarked'];
 
   void initState() {
     setState(() {
@@ -100,76 +99,6 @@ class _WordTestPageState extends State<WordTestPage> {
     }
   }
 
-  void ReadingBookmark(int probId) async {
-    Map<String, String> _queryParameters = <String, String>{
-      'readingProbId': probId.toString(),
-    };
-
-    var url =
-        Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
-
-    var response = await http.post(url, headers: {
-      'Accept': 'application/json',
-      "content-type": "application/json",
-      "Authorization": "Bearer ${authToken}"
-    });
-
-    print(url);
-
-    if (response.statusCode == 200) {
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-
-      var body = jsonDecode(utf8.decode(response.bodyBytes));
-
-      dynamic data = body["data"];
-
-      print("북마크에 등록되었습니다.");
-    } else if (response.statusCode == 401) {
-      await RefreshToken(context);
-      if (check == true) {
-        ReadingBookmark(probId);
-        check = false;
-      }
-    } else {
-      print('error : ${response.reasonPhrase}');
-    }
-  }
-
-  void deleteReadingBookmark(int probId) async {
-    Map<String, String> _queryParameters = <String, String>{
-      'readingProbId': probId.toString(),
-    };
-
-    var url =
-        Uri.http('${serverHttp}:8080', '/bookmark/reading', _queryParameters);
-
-    var response = await http.delete(url, headers: {
-      'Accept': 'application/json',
-      "content-type": "application/json",
-      "Authorization": "Bearer ${authToken}"
-    });
-
-    print(url);
-
-    if (response.statusCode == 200) {
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-
-      var body = jsonDecode(utf8.decode(response.bodyBytes));
-
-      dynamic data = body["data"];
-
-      print("북마크가 해제되었습니다.");
-    } else if (response.statusCode == 401) {
-      await RefreshToken(context);
-      if (check == true) {
-        deleteReadingBookmark(probId);
-        check = false;
-      }
-    } else {
-      print('error : ${response.reasonPhrase}');
-    }
-  }
-
   void dispose() {
     _timer.cancel();
     _controller.pause();
@@ -180,7 +109,7 @@ class _WordTestPageState extends State<WordTestPage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return Scaffold(
       // resizeToAvoidBottomInset: false,
         body: GestureDetector(
@@ -254,9 +183,9 @@ class _WordTestPageState extends State<WordTestPage> {
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Padding(padding: EdgeInsets.only(left: 8.0)),
+                                Padding(padding: EdgeInsets.only(left: 8.0, top:4.0)),
                                 Text(
                                   "무슨 말인지 맞춰보세요!",
                                   style: TextStyle(
@@ -752,7 +681,7 @@ class _WordTestPageState extends State<WordTestPage> {
           children: [
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
+                  primary: Color(0xff4478FF),
                   minimumSize: Size(90, 40),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -776,11 +705,10 @@ class _WordTestPageState extends State<WordTestPage> {
             Padding(padding: EdgeInsets.all(5.0)),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xffFFFFFF),
+                  primary: Color(0xff4478FF),
                   minimumSize: Size(90, 40),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  side: BorderSide(color: Color(0xff97D5FE), width: 1.0),
                 ),
                 onPressed: () {
                   setState(() {
@@ -793,7 +721,7 @@ class _WordTestPageState extends State<WordTestPage> {
                 child: Text(
                   '답 보기',
                   style: TextStyle(
-                    color: Color(0xff4478FF),
+                    color: Colors.white,
                     fontSize: 18,fontWeight: FontWeight.w600
                   ),
                 )),
@@ -801,19 +729,6 @@ class _WordTestPageState extends State<WordTestPage> {
         )
       ],
     ));
-  }
-
-  void _pressedStar() {
-    FocusScope.of(context).unfocus();
-    setState(() {
-      if (_isStared) {
-        _isStared = false;
-        deleteReadingBookmark(_probId);
-      } else {
-        _isStared = true;
-        ReadingBookmark(_probId);
-      }
-    });
   }
 
   void _pressedHint() {
