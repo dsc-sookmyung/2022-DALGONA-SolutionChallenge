@@ -63,7 +63,19 @@ class _LoginPageState extends State<LoginPage> {
         },
         child: Scaffold(
             body: new Container(
-          color: Color(0xfff0f8ff),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Color(0xffF3F4F6),
+                    Color(0xffEFF4FA),
+                    Color(0xffECF4FE),
+                  ],
+                  stops: [0.3, 0.7, 0.9, ],
+                ),
+              ),
+          // color: Color(0xfff0f8ff),
           child: Container(
             padding: EdgeInsets.all(30),
             child: new Form(
@@ -81,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: new TextStyle(
                           fontSize: 32.0,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff5AA9DD)),
+                          color: Color(0xff4478FF)),
                     ),
                   ),
 
@@ -123,20 +135,23 @@ class _LoginPageState extends State<LoginPage> {
 
                   //로그인
                   Container(
-                    margin: EdgeInsets.only(
-                        left: 0.0, top: 40.0, right: 0.0, bottom: 10.0),
+                    margin: EdgeInsets.only(left: 0.0, top: 40.0, right: 0.0, bottom: 10.0),
+
                     child: new RaisedButton(
-                      color: Color(0xff97D5FE),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                      ),
+                      color: Color(0xff4478FF),
                       child: new Text(
                         '로그인',
                         style: new TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 18.0,
                           color: Color(0xffFFFFFF),
                         ),
                       ),
                       onPressed: validateAndSave,
                     ),
-                    height: 40,
+                    height: 45,
                   ),
 
                   //회원가입
@@ -144,17 +159,20 @@ class _LoginPageState extends State<LoginPage> {
                     margin: EdgeInsets.only(
                         left: 0.0, top: 10.0, right: 0.0, bottom: 0.0),
                     child: new RaisedButton(
-                      color: Color(0xff97D5FE),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)
+                      ),
+                      color: Color(0xff4478FF),
                       child: new Text(
                         '회원가입',
                         style: new TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 18.0,
                           color: Color(0xffFFFFFF),
                         ),
                       ),
                       onPressed: signUp,
                     ),
-                    height: 40,
+                    height: 45,
                   ),
                 ],
               ),
