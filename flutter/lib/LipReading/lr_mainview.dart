@@ -5,7 +5,6 @@ import 'package:zerozone/Speaking/sp_practiceview_letter.dart';
 import 'package:zerozone/Speaking/sp_practiceview_sentence.dart';
 import 'package:zerozone/Speaking/sp_practiceview_word.dart';
 import 'package:zerozone/custom_icons_icons.dart';
-import 'test/lr_testview.dart';
 import 'package:flutter/services.dart';
 import 'testReview/lr_reviewmode.dart';
 import 'package:http/http.dart' as http;
@@ -657,10 +656,11 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                     ),
                                   ))
                             ])),
+
                         Container(
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(
-                              left: 0.0, right: 15.0, top: 10.0, bottom: 20.0),
+                              left: 0.0, right: 15.0, top: 35.0, bottom: 20.0),
                           padding: EdgeInsets.only(
                               top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                           width: 220.0,
@@ -860,7 +860,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (_) => lrTestInfoPage(
-                                      ver: '단어', cnt: totalProbCnt)));
+                                      ver: '단어')));
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height*7/100,
@@ -891,7 +891,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (_) => lrTestInfoPage(
-                                    ver: '문장', cnt: totalProbCnt)));
+                                    ver: '문장')));
                       },
                       child: Container(
                         height: MediaQuery.of(context).size.height*7/100,
@@ -918,7 +918,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (_) => lrTestInfoPage(
-                                    ver: '랜덤', cnt: totalProbCnt)));
+                                    ver: '랜덤')));
                       },
                       child: Container(
                         height: MediaQuery.of(context).size.height*7/100,

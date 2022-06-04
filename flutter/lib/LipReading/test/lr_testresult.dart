@@ -9,7 +9,6 @@ import 'lr_sentencetest.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:confetti/confetti.dart';
 import 'dart:async';
-import 'lr_testview.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
