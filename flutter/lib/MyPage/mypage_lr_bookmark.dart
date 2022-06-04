@@ -30,7 +30,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
   late List _content = widget.content;
 
   int _curPage=1;
-  late int totalPage = widget.totalPage;
+  late int totalPage = widget.totalElements%10 == 0 ? widget.totalElements~/10: widget.totalElements~/10+1;
 
   Future<void> _ProList(int page) async {
     _type.clear();
@@ -262,7 +262,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                                                   color: Color(0xffFFFFFF),
                                                   border: Border(
                                                       left: BorderSide(
-                                                        color: _type[idx] == "Word" ? Color(0xff2D31FA) : (_type[idx] == "Sentence" ? Color(0xff161D6E) : Color(0xff00BBF0)),
+                                                        color: _type[idx+10*(_curPage-1)] == "Word" ? Color(0xff2D31FA) : (_type[idx+10*(_curPage-1)] == "Sentence" ? Color(0xff161D6E) : Color(0xff00BBF0)),
                                                         width: 5.0,
                                                       ),
                                                       right: BorderSide(
@@ -294,7 +294,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                                                   crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                                   children: [
-                                                    if(_type[idx]=='Word')
+                                                    if(_type[idx+10*(_curPage-1)]=='Word')
                                                       Row(
                                                           children: [
                                                             Container(
@@ -320,7 +320,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                                                                     ),
                                                                   )
                                                               ),
-                                                              child: Text( _content[idx],
+                                                              child: Text( _content[idx+10*(_curPage-1)],
                                                                 style: TextStyle(
                                                                     fontSize: 18, color: Color(0xff333333)),
                                                                 overflow: TextOverflow.ellipsis,
@@ -336,7 +336,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                                                               alignment: Alignment.center,
                                                               width: MediaQuery.of(context).size.width * 20 / 100,
                                                               padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                                                              child: Text(_type[idx]=='Letter'? '글 자' :'문 장',
+                                                              child: Text(_type[idx+10*(_curPage-1)]=='Letter'? '글 자' :'문 장',
                                                                 style: TextStyle(
                                                                     fontSize: 20, color: Color(0xff333333), fontWeight: FontWeight.w700
                                                                 ),
@@ -355,7 +355,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                                                                     ),
                                                                   )
                                                               ),
-                                                              child: Text( _content[idx],
+                                                              child: Text( _content[idx+10*(_curPage-1)],
                                                                 style: TextStyle(
                                                                     fontSize: 18, color: Color(0xff333333)),
                                                                 overflow: TextOverflow.ellipsis,
@@ -381,9 +381,8 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                                       size: 20.0,
                                       activeSize: 20.0)),
                               // control: SwiperControl(),
-                              onIndexChanged: (index) async{
+                              onIndexChanged: (index) {
                                 _curPage = index + 1;
-                                await _ProList(_curPage);
                               },
                             ),
                           ))

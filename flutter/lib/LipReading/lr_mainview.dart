@@ -14,6 +14,7 @@ import 'package:zerozone/Login/login.dart';
 import 'testReview/lr_reviewmode.dart';
 import 'package:zerozone/server.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:zerozone/LipReading/practice/lr_letterview.dart';
 import 'package:zerozone/LipReading/practice/lr_sentenceview.dart';
@@ -179,6 +180,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
       print("url : ${url}");
       print("type : ${type}");
 
+      _saveRecent(probId, 'Letter', letter);
       //Navigator.of(context).pop();
       Navigator.push(
           context,
@@ -229,6 +231,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
       print("url : ${url}");
       print("type : ${type}");
 
+      _saveRecent(probId, 'Word', word);
+
       //Navigator.of(context).pop();
       Navigator.push(
           context,
@@ -278,6 +282,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
 
       print("url : ${url}");
       print("type : ${type}");
+
+      _saveRecent(probId, 'Sentence', sentence);
 
       // Navigator.of(context).pop();
       Navigator.push(
@@ -384,8 +390,51 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   //   }
   // }
 
+  List<String> _recentProbId = [];
+  List<String> _recentType=[];
+  List<String> _recentContent=[];
+
+  _loadRecent() async{
+    _recentProbId.clear();
+    _recentType.clear();
+    _recentContent.clear();
+
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      final ret1 = prefs.getStringList('s_id');
+      final ret2 = prefs.getStringList('s_type');
+      final ret3 = prefs.getStringList('s_content');
+
+      int len=ret1!.length;
+      int len2=ret2!.length;
+      int len3=ret3!.length;
+
+      for (int i = 0; i < len; i++) {
+        _recentProbId.add(ret1[i]);
+        _recentType.add(ret2[i]);
+        _recentContent.add(ret3[i]);
+      }
+    });
+  }
+
+  _saveRecent(int id, String type, String content) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _recentProbId.add(id.toString());
+    _recentType.add(type);
+    _recentContent.add(content);
+
+    setState(() {
+      prefs.setStringList('s_id', _recentProbId);
+      prefs.setStringList('s_type', _recentType);
+      prefs.setStringList('s_content', _recentContent);
+      print('shared: '+ id.toString() +' '+ type +' '+ content);
+    });
+  }
+
   @override
   void initState() {
+    _loadRecent();
     super.initState();
   }
 
