@@ -16,8 +16,18 @@ class WordList {
   WordList(this.word, this.index);
 }
 
+class WordConsonantList {
+  final String wordConsonant;
+  final int index;
+
+  WordConsonantList(this.wordConsonant, this.index);
+}
+
 class ChooseWordConsonantPage extends StatefulWidget {
-  const ChooseWordConsonantPage({Key? key}) : super(key: key);
+
+  final List<WordConsonantList> wordConsonantList;
+
+  const ChooseWordConsonantPage({Key? key, required this.wordConsonantList}) : super(key: key);
 
   @override
   _ChooseWordConsonantPageState createState() =>
@@ -29,23 +39,6 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
   String letter = 'ㄱ';
 
   final wordList = new List<WordList>.empty(growable: true);
-
-  List<String> consonantList = [
-    'ㄱ',
-    'ㄴ',
-    'ㄷ',
-    'ㄹ',
-    'ㅁ',
-    'ㅂ',
-    'ㅅ',
-    'ㅇ',
-    'ㅈ',
-    'ㅊ',
-    'ㅋ',
-    'ㅌ',
-    'ㅍ',
-    'ㅎ'
-  ];
 
   getGridViewSelectedItem(BuildContext context, String gridItem, int index) {
     letterInfo(gridItem, index + 1);
@@ -210,14 +203,14 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
                       Expanded(
                         child: GridView.count(
                           crossAxisCount: 3,
-                          children: consonantList
+                          children: widget.wordConsonantList
                               .asMap()
                               .map((index, data) => MapEntry(
                                   index,
                                   GestureDetector(
                                       onTap: () {
                                         getGridViewSelectedItem(
-                                            context, data, index);
+                                            context, data.wordConsonant, index);
                                       },
                                       child: Container(
                                           margin: EdgeInsets.symmetric(
@@ -230,7 +223,7 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
                                                   Radius.circular(15.0))),
                                           child: Center(
                                             child: Text(
-                                              data,
+                                              data.wordConsonant,
                                               style: TextStyle(
                                                   fontSize: 42,
                                                   color: Color(0xff333333),

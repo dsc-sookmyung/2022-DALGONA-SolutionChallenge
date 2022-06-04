@@ -394,8 +394,6 @@ class _CustomWordPracticePageState extends State<CustomWordPracticePage> {
                                                             style: TextStyle(
                                                                 color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w700)))
                                                         : Container(
-                                                      // padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 15.0, left: 15.0),
-                                                      // height: 40,
                                                         width: MediaQuery.of(context).size.width * 90 / 100,
                                                         decoration: BoxDecoration(
                                                           // color: Color(0xff4478FF),

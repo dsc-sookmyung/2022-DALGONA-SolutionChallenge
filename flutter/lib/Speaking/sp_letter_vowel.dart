@@ -161,7 +161,7 @@ class _ChooseVowelPageState extends State<ChooseVowelPage> {
                                     decoration: BoxDecoration(
                                         border: Border.all(
                                           width: 2,
-                                          color: Color(0xff5AA9DD),
+                                          color: Color(0xff4478FF),
                                         ),
                                         borderRadius: BorderRadius.all(Radius.circular(5.0))),
                                     width: 300,

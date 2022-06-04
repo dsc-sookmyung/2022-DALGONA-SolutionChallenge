@@ -90,11 +90,7 @@ class _ChooseCodePageState extends State<ChooseCodePage> {
                   Color(0xffEFF4FA),
                   Color(0xffECF4FE),
                 ],
-                stops: [
-                  0.3,
-                  0.7,
-                  0.9,
-                ],
+                stops: [0.3, 0.7, 0.9,],
               ),
             ),
             child: SafeArea(
@@ -170,10 +166,8 @@ class _ChooseCodePageState extends State<ChooseCodePage> {
                                                       data.code,
                                                       style: TextStyle(
                                                           fontSize: 42,
-                                                          color:
-                                                          Color(0xff333333),
-                                                          fontWeight:
-                                                          FontWeight.w900),
+                                                          color: Color(0xff333333),
+                                                          fontWeight: FontWeight.w700),
                                                       textAlign:
                                                       TextAlign.center,
                                                     ),

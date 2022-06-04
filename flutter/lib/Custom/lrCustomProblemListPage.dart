@@ -115,7 +115,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                     child: Column(children: [
                       Container(
                         margin: EdgeInsets.only(top: 20.0),
-                        height: 40.0,
+                        height: 50.0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,

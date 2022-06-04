@@ -53,7 +53,55 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
   late int totalPage;
   late int totalElement;
   late var totalProbCnt;
+
   final consonantList = new List<ConsonantList>.empty(growable: true);
+  final wordConsonantList = new List<WordConsonantList>.empty(growable: true);
+
+  Future<void> getWordConsonant() async {
+
+    var url = Uri.http('${serverHttp}:8080', '/speaking/list/letter/onset');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      print(data);
+
+      if(wordConsonantList.length == 0){
+        for(dynamic i in data){
+          String a = i["onset"];
+          int b = i["id"];
+          wordConsonantList.add(WordConsonantList(a, b));
+        }
+      }
+
+      print("sentenceList: ${wordConsonantList}");
+      // urlInfo(letter, letterId);
+
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => ChooseWordConsonantPage(wordConsonantList: wordConsonantList))
+      );
+
+    }
+    else if(response.statusCode == 401){
+      await RefreshToken(context);
+      if(check == true){
+        getConsonant();
+        check = false;
+      }
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
 
   Future<void> getConsonant() async {
 
@@ -992,12 +1040,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                           children: [
                             InkWell(
                                 onTap: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              ChooseWordConsonantPage()));
+                                  getWordConsonant();
                                 },
                                 child: Container(
                                   height: MediaQuery.of(context).size.height*7/100,
