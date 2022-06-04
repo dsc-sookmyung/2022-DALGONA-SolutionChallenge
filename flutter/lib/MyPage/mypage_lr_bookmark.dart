@@ -236,7 +236,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                               loop: false,
                               itemBuilder: (BuildContext context, int idx) {
                                 return (Container(
-                                    padding: EdgeInsets.only(top: 10.0),
+                                    padding: EdgeInsets.only(top: 5.0),
                                     child: Column(
                                       children: [
                                         ...List.generate(
@@ -255,16 +255,38 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                                                 //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
                                               },
                                               child: Container(
-                                                height: MediaQuery.of(context).size.height *
-                                                    7.5 /
-                                                    100,
-                                                margin:
-                                                EdgeInsets.only(right: 40, left: 40),
-                                                padding: const EdgeInsets.symmetric(
-                                                    vertical: 11, horizontal: 8),
+                                                height: MediaQuery.of(context).size.height * 6.7 / 100,
+                                                margin: EdgeInsets.only(right: 50, left: 50, top: 5.0, bottom: 5.0,),
+                                                // padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
                                                 decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      width: 1, color: Colors.blueGrey),
+                                                  color: Color(0xffFFFFFF),
+                                                  border: Border(
+                                                      left: BorderSide(
+                                                        color: _type[idx] == "Word" ? Color(0xff2D31FA) : (_type[idx] == "Sentence" ? Color(0xff161D6E) : Color(0xff00BBF0)),
+                                                        width: 5.0,
+                                                      ),
+                                                      right: BorderSide(
+                                                        color: Colors.black,
+                                                        width: 1.0,
+                                                      ),
+                                                      top: BorderSide(
+                                                        color: Colors.black,
+                                                        width: 1.0,
+                                                      ),
+                                                      bottom: BorderSide(
+                                                        color: Colors.black,
+                                                        width: 1.0,
+                                                      )
+                                                  ),
+                                                  // borderRadius: BorderRadius.circular(15.0),
+                                                  boxShadow:[
+                                                    BoxShadow(
+                                                      color: Colors.grey.withOpacity(0.9),
+                                                      spreadRadius: 0,
+                                                      blurRadius: 5,
+                                                      offset: Offset(2, 3), // changes position of shadow
+                                                    ),
+                                                  ],
                                                 ),
                                                 child: Row(
                                                   mainAxisAlignment:
@@ -272,29 +294,81 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                                                   crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                                   children: [
-                                                    Flexible(
-                                                      child: Text(
-                                                        _type[idx] == 'Word'
-                                                            ? '단어' +
-                                                            ' - ' +
-                                                            _content[idx +
-                                                                10 * (_curPage - 1)]
-                                                            : '문장' +
-                                                            ' - ' +
-                                                            _content[idx +
-                                                                10 * (_curPage - 1)],
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(0xff333333)),
-                                                        overflow: TextOverflow.ellipsis,
-                                                        maxLines: 1,
-                                                      ),
-                                                    ),
+                                                    if(_type[idx]=='Word')
+                                                      Row(
+                                                          children: [
+                                                            Container(
+                                                              width: MediaQuery.of(context).size.width * 20 / 100,
+                                                              alignment: Alignment.center,
+                                                              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                                                              child: Text('단 어',
+                                                                style: TextStyle(
+                                                                    fontSize: 20, color: Color(0xff333333), fontWeight: FontWeight.w700
+                                                                ),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              width: MediaQuery.of(context).size.width * 50 / 100,
+                                                              padding: EdgeInsets.only(left: 10.0),
+                                                              decoration: BoxDecoration(
+                                                                  border: Border(
+                                                                    left: BorderSide(
+                                                                      color: Colors.black,
+                                                                      width: 2.0,
+                                                                    ),
+                                                                  )
+                                                              ),
+                                                              child: Text( _content[idx],
+                                                                style: TextStyle(
+                                                                    fontSize: 18, color: Color(0xff333333)),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                              ),
+                                                            )
+                                                          ]
+                                                      )
+                                                    else
+                                                      Row(
+                                                          children: [
+                                                            Container(
+                                                              alignment: Alignment.center,
+                                                              width: MediaQuery.of(context).size.width * 20 / 100,
+                                                              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                                                              child: Text(_type[idx]=='Letter'? '글 자' :'문 장',
+                                                                style: TextStyle(
+                                                                    fontSize: 20, color: Color(0xff333333), fontWeight: FontWeight.w700
+                                                                ),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              width: MediaQuery.of(context).size.width * 50 / 100,
+                                                              padding: EdgeInsets.only(left: 10.0),
+                                                              decoration: BoxDecoration(
+                                                                  border: Border(
+                                                                    left: BorderSide(
+                                                                      color: Colors.black,
+                                                                      width: 2.0,
+                                                                    ),
+                                                                  )
+                                                              ),
+                                                              child: Text( _content[idx],
+                                                                style: TextStyle(
+                                                                    fontSize: 18, color: Color(0xff333333)),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                              ),
+                                                            )
+                                                          ]
+                                                      )
                                                   ],
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                              ),
                                         )
                                       ],
                                     )));
@@ -306,7 +380,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                                       activeColor: Color(0xff4478FF),
                                       size: 20.0,
                                       activeSize: 20.0)),
-                              control: SwiperControl(),
+                              // control: SwiperControl(),
                               onIndexChanged: (index) async{
                                 _curPage = index + 1;
                                 await _ProList(_curPage);
