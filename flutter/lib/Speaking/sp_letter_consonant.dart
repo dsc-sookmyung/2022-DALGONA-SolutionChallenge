@@ -173,7 +173,7 @@ class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
                                                     context, data.consonant, data.index);
                                               },
                                               child: Container(
-                                                  margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                                                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                                   decoration: BoxDecoration(
                                                       color: (index / 3) % 2 < 1 ? Color(0xffD8EFFF) : Color(0xff97D5FE),
                                                       borderRadius: BorderRadius.all(Radius.circular(15.0))),

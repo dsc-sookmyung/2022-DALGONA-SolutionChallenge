@@ -349,7 +349,7 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
                                                             padding: EdgeInsets.only(left: 10.0, right: 10.0),
                                                             child: Text('단 어 ',
                                                               style: TextStyle(
-                                                                  fontSize: 22, color: Color(0xff333333), fontWeight: FontWeight.w700
+                                                                  fontSize: 20, color: Color(0xff333333), fontWeight: FontWeight.w700
                                                               ),
                                                               overflow: TextOverflow.ellipsis,
                                                               maxLines: 1,
@@ -384,7 +384,7 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
                                                               padding: EdgeInsets.only(left: 10.0, right: 10.0),
                                                               child: Text(_type[idx]=='Letter'? '글 자' :'문 장',
                                                                 style: TextStyle(
-                                                                    fontSize: 22, color: Color(0xff333333), fontWeight: FontWeight.w700
+                                                                    fontSize: 20, color: Color(0xff333333), fontWeight: FontWeight.w700
                                                                 ),
                                                                 overflow: TextOverflow.ellipsis,
                                                                 maxLines: 1,
@@ -403,7 +403,7 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
                                                               ),
                                                               child: Text( _content[idx],
                                                                 style: TextStyle(
-                                                                    fontSize: 18, color: Color(0xff333333)),
+                                                                    fontSize: 18 , color: Color(0xff333333)),
                                                                 overflow: TextOverflow.ellipsis,
                                                                 maxLines: 1,
                                                               ),
