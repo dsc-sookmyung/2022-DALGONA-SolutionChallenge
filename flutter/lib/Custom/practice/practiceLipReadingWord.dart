@@ -139,13 +139,12 @@ class _CustomWordPracticePageState extends State<CustomWordPracticePage> {
                               Expanded(
                                   child: SingleChildScrollView(
                                       child: Container(
-                                        margin: EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
+                                          margin: EdgeInsets.only(top: 10.0, left: 25.0, right: 25.0),
                                           child: Column(
                                               children: [
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
-                                                    Padding(padding: EdgeInsets.only(left: 8.0)),
                                                     Text(
                                                       "무슨 말인지 맞춰보세요!",
                                                       style: TextStyle(
@@ -153,6 +152,7 @@ class _CustomWordPracticePageState extends State<CustomWordPracticePage> {
                                                     ),
                                                   ],
                                                 ),
+                                                Padding(padding:EdgeInsets.all(4.0)),
                                                 Container(
                                                   child: FutureBuilder(
                                                     future: _initializeVideoPlayerFuture,
@@ -180,7 +180,6 @@ class _CustomWordPracticePageState extends State<CustomWordPracticePage> {
                                                       // Padding(padding: EdgeInsets.only(left: 1.0)),
                                                       Row(
                                                         children: [
-                                                          Padding(padding: EdgeInsets.only(left:6.0)),
                                                           InkWell(
                                                               onTap: () {
                                                                 _volume
@@ -380,13 +379,13 @@ class _CustomWordPracticePageState extends State<CustomWordPracticePage> {
                                                     child: _isHint
                                                         ?
                                                     Container(
-                                                        margin: EdgeInsets.only(top:10.0, bottom: 10.0),
+                                                        margin: EdgeInsets.only(top:7.0, bottom: 7.0),
                                                         padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 15.0, left: 15.0),
                                                         height: 50,
                                                         alignment: Alignment.center,
                                                         width: MediaQuery.of(context).size.width * 90 / 100,
                                                         decoration: BoxDecoration(
-                                                          color: Color(0xff4478FF),
+                                                          color: Color(0xff97D5FE),
                                                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                                         ),
                                                         // width: MediaQuery.of(context).size.width,
@@ -395,33 +394,34 @@ class _CustomWordPracticePageState extends State<CustomWordPracticePage> {
                                                             style: TextStyle(
                                                                 color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w700)))
                                                         : Container(
-                                                        // padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 15.0, left: 15.0),
-                                                      // height: 40,
-                                                      width: MediaQuery.of(context).size.width * 90 / 100,
-                                                      decoration: BoxDecoration(
-                                                        // color: Color(0xff4478FF),
-                                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-
-                                                      ),
-                                                      child: Container(
-                                                        alignment: Alignment.center,
-                                                        height: 50.0,
-                                                        margin: EdgeInsets.only(top:10.0, bottom: 10.0),
+                                                        width: MediaQuery.of(context).size.width * 90 / 100,
                                                         decoration: BoxDecoration(
-                                                          color: Colors.grey,
+                                                          // color: Color(0xff4478FF),
                                                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
+
                                                         ),
-                                                        child: Text("힌트 보기",
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                color: Color(0xff333333),
-                                                                fontSize: 18.0,
-                                                                fontWeight: FontWeight.w700)
-                                                        ),
-                                                      )
+                                                        child: Container(
+                                                          alignment: Alignment.center,
+                                                          height: 50.0,
+                                                          margin: EdgeInsets.only(top:7.0, bottom: 7.0),
+                                                          decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                              color: Color(0xff97D5FE),
+                                                              width: 2.0
+                                                          ),
+                                                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                                          ),
+                                                          child: Text("힌트 보기",
+                                                              textAlign: TextAlign.center,
+                                                              style: TextStyle(
+                                                                  color: Color(0xff97D5FE),
+                                                                  fontSize: 18.0,
+                                                                  fontWeight: FontWeight.w700)
+                                                          ),
+                                                        )
                                                     )
                                                 ),
-                                                Padding(padding: EdgeInsets.all(4.0)),
+                                                // Padding(padding: EdgeInsets.all(4.0)),
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [

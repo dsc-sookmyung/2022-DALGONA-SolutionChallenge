@@ -350,39 +350,39 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
     }
   }
 
-  _Cnt(String ver) async {
-    var url;
-    if (ver == '단어')
-      url = Uri.http('${serverHttp}:8080', '/reading/test/word');
-    else if (ver == '문장')
-      url = Uri.http('${serverHttp}:8080', '/reading/test/sentence');
-    else if (ver == '랜덤')
-      url = Uri.http('${serverHttp}:8080', '/reading/test/random');
-    else if (ver == '북마크')
-      url = Uri.http('${serverHttp}:8080', '/reading/test/bookmark');
-
-    var response = await http.get(url, headers: {
-      'Accept': 'application/json',
-      "content-type": "application/json",
-      "Authorization": "Bearer $authToken"
-    });
-    print(url);
-    print('Response status: ${response.statusCode}');
-
-    if (response.statusCode == 200) {
-      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-
-      var body = jsonDecode(utf8.decode(response.bodyBytes));
-      var data = body['data'];
-      totalProbCnt = data['totalProbCount'];
-    } else if (response.statusCode == 401) {
-      await RefreshToken(context);
-      if (check == true) {
-        _Cnt(ver);
-        check = false;
-      }
-    }
-  }
+  // _Cnt(String ver) async {
+  //   var url;
+  //   if (ver == '단어')
+  //     url = Uri.http('${serverHttp}:8080', '/reading/test/word');
+  //   else if (ver == '문장')
+  //     url = Uri.http('${serverHttp}:8080', '/reading/test/sentence');
+  //   else if (ver == '랜덤')
+  //     url = Uri.http('${serverHttp}:8080', '/reading/test/random');
+  //   else if (ver == '북마크')
+  //     url = Uri.http('${serverHttp}:8080', '/reading/test/bookmark');
+  //
+  //   var response = await http.get(url, headers: {
+  //     'Accept': 'application/json',
+  //     "content-type": "application/json",
+  //     "Authorization": "Bearer $authToken"
+  //   });
+  //   print(url);
+  //   print('Response status: ${response.statusCode}');
+  //
+  //   if (response.statusCode == 200) {
+  //     print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+  //
+  //     var body = jsonDecode(utf8.decode(response.bodyBytes));
+  //     var data = body['data'];
+  //     totalProbCnt = data['totalProbCount'];
+  //   } else if (response.statusCode == 401) {
+  //     await RefreshToken(context);
+  //     if (check == true) {
+  //       _Cnt(ver);
+  //       check = false;
+  //     }
+  //   }
+  // }
 
   @override
   void initState() {
@@ -902,8 +902,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InkWell(
-                        onTap: () async {
-                          await _Cnt('단어');
+                        onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -933,8 +932,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                         )),
                     Padding(padding: EdgeInsets.all(1.0)),
                     InkWell(
-                      onTap: () async {
-                        await _Cnt('문장');
+                      onTap: ()  {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -960,8 +958,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     ),
                     Padding(padding: EdgeInsets.all(1.0)),
                     InkWell(
-                      onTap: () async {
-                        await _Cnt('랜덤');
+                      onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(

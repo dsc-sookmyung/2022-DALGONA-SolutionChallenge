@@ -29,6 +29,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   }
 
   _wordTest(String title) async {
+    print("wordTest");
     var url = Uri.http('${serverHttp}:8080', '/reading/test/word');
 
     final data = jsonEncode({'testName': title, 'probsCount': 10});
@@ -47,7 +48,11 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       res = body;
-      Navigator.of(context).pop();
+      var result = res['data'];
+      result = result['readingProbResponseDtoList'];
+
+      print(result);
+
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
@@ -59,9 +64,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
     }
   }
 
-  late List _space = [];
   _sentenceTest(String title) async {
-    _space.clear();
     var url = Uri.http('${serverHttp}:8080', '/reading/test/sentence');
 
     final data = jsonEncode({'testName': title, 'probsCount': 10});
@@ -82,16 +85,9 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
       res = body;
       var result = res['data'];
       result = result['readingProbResponseDtoList'];
-      for (int i = 0; i < result.length; i++) {
-        var _repeat = result[i]['spacingInfo'].split("");
-        var str = "";
-        for (int j = 0; j < _repeat.length; j++) {
-          str += "_ " * int.parse(_repeat[j]);
-          str += " ";
-        }
-        _space.add(str);
-      }
-      print(_space);
+
+      print(result);
+
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
@@ -104,7 +100,6 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   }
 
   _randomTest(String title) async {
-    _space.clear();
     var url = Uri.http('${serverHttp}:8080', '/reading/test/random');
 
     final data = jsonEncode({'testName': title, 'probsCount': 10});
@@ -125,16 +120,9 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
       res = body;
       var result = res['data'];
       result = result['readingProbResponseDtoList'];
-      for (int i = 0; i < result.length; i++) {
-        var _repeat = result[i]['spacingInfo'].split("");
-        var str = "";
-        for (int j = 0; j < _repeat.length; j++) {
-          str += "_ " * int.parse(_repeat[j]);
-          str += " ";
-        }
-        _space.add(str);
-      }
-      print(_space);
+
+      print(result);
+
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
@@ -147,7 +135,6 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
   }
 
   _bookmarkTest(String title, String count) async {
-    _space.clear();
     var url = Uri.http('${serverHttp}:8080', '/reading/test/bookmark');
 
     final data = jsonEncode({'testName': title, 'probsCount': count});
@@ -168,16 +155,8 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
       res = body;
       var result = res['data'];
       result = result['readingProbResponseDtoList'];
-      for (int i = 0; i < result.length; i++) {
-        var _repeat = result[i]['spacingInfo'].split("");
-        var str = "";
-        for (int j = 0; j < _repeat.length; j++) {
-          str += "_ " * int.parse(_repeat[j]);
-          str += " ";
-        }
-        _space.add(str);
-      }
-      print(_space);
+
+      print(result);
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
@@ -354,6 +333,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                     backgroundColor: Colors.grey,
                                   );
                                   if (widget.ver == '단어') {
+                                    print('단어');
                                     await _wordTest(
                                         myController1.text);
                                     Navigator.of(context).pop();
@@ -375,8 +355,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                         MaterialPageRoute(
                                             builder: (_) => SentenceTestPage(
                                                 title: myController1.text,
-                                                data: res,
-                                                space: _space)));
+                                                data: res)));
                                   } else if (widget.ver == '랜덤' ||
                                       widget.ver == '북마크') {
                                     await _randomTest(
@@ -388,8 +367,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                         MaterialPageRoute(
                                             builder: (_) => RandomTestPage(
                                                 title: myController1.text,
-                                                data: res,
-                                                space: _space)));
+                                                data: res)));
                                   }
                                 },
                               child: Padding(
