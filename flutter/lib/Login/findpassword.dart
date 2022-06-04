@@ -204,7 +204,18 @@ class _findPasswordPageState extends State<findPasswordPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new Container(
-        color: Color(0xfff0f8ff),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color(0xffF3F4F6),
+              Color(0xffEFF4FA),
+              Color(0xffECF4FE),
+            ],
+            stops: [0.3, 0.7, 0.9, ],
+          ),
+        ),
         child: Container(
         padding: EdgeInsets.all(30),
         key: _formKey,
@@ -217,7 +228,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
                   child: Center(
                     child: Text(
                       '비밀번호 찾기',
-                      style: new TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Color(0xff5AA9DD) ),
+                      style: new TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Color(0xff4478FF) ),
                     ),
                   ),
                 ),
@@ -241,7 +252,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xff97D5FE), width: 2.0),
+                              borderSide: BorderSide(color: Color(0xff95979A), width: 2.0),
                             ),
                             contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                             hintText: '이메일을 입력하세요.',hintStyle: TextStyle(fontSize: 16.0)
@@ -254,7 +265,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
                     ),
                     Container(
                       child: RaisedButton(
-                        color: Color(0xff97D5FE),
+                        color: Color(0xff4478FF),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
@@ -285,7 +296,7 @@ class _findPasswordPageState extends State<findPasswordPage> {
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xff97D5FE), width: 2.0),
+                          borderSide: BorderSide(color: Color(0xff95979A), width: 2.0),
                         ),
                         contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         hintText: '인증번호를 입력하세요.',
@@ -300,16 +311,19 @@ class _findPasswordPageState extends State<findPasswordPage> {
                 Container(
                   margin: EdgeInsets.only(top:70.0, bottom: 10.0),
                   child: new RaisedButton(
-                    color: Color(0xff97D5FE),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Color(0xff4478FF),
                     child: new Text(
                       '인증번호 확인',
-                      style: new TextStyle(fontSize: 17.0, color: Color(0xffFFFFFF), ),
+                      style: new TextStyle(fontSize: 18.0, color: Color(0xffFFFFFF), ),
                     ),
                     onPressed: (){
                       checkAuthCode(_email.text, _emailAuthCode.text);
                     },
                   ),
-                  height: 40,
+                  height: 45,
                 ),
                 Container(
 
@@ -322,7 +336,12 @@ class _findPasswordPageState extends State<findPasswordPage> {
                           Navigator.pop(context);
                           Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
                         },
-                        child: Text('로그인'),
+                        child: Text(
+                          '로그인',
+                          style: TextStyle(
+                            color: Color(0xff4478FF),
+                          ),
+                        ),
                       )
                     ],
                   ),

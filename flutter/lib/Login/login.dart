@@ -123,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: const Text(
                                   "비밀번호 찾기",
                                   style: TextStyle(
-                                    fontSize: 12.0,
+                                    fontSize: 15.0,
                                     color: Color(0xff666666),
                                   ),
                                 ),

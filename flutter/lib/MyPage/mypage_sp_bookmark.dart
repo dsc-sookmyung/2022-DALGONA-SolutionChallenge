@@ -426,7 +426,7 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
                                       activeColor: Color(0xff4478FF),
                                       size: 20.0,
                                       activeSize: 20.0)),
-                              control: SwiperControl(),
+                              // control: SwiperControl(),
                               onIndexChanged: (index) {
                                 _curPage = index + 1;
                               },
