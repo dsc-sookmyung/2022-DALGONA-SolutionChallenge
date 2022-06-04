@@ -11,6 +11,7 @@ import 'mypage_editinformationview.dart';
 import 'mypage_lr_bookmark.dart';
 import 'mypage_sp_bookmark.dart';
 import 'mypage_lr_recent.dart';
+import 'mypage_sp_recent.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -189,7 +190,7 @@ class _MyPageState extends State<MyPage> {
   late List<String> _recentType=[];
   late List<String> _recentContent=[];
 
-  _loadRecent() async{
+  _loadLRRecent() async{
     _recentProbId.clear();
     _recentType.clear();
     _recentContent.clear();
@@ -215,6 +216,35 @@ class _MyPageState extends State<MyPage> {
 
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => lrRecentStudyPage(probId: _recentProbId, type: _recentType, content: _recentContent))
+    );
+  }
+
+  _loadSPRecent() async{
+    _recentProbId.clear();
+    _recentType.clear();
+    _recentContent.clear();
+
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      final ret1 = prefs.getStringList('s_id');
+      final ret2 = prefs.getStringList('s_type');
+      final ret3 = prefs.getStringList('s_content');
+
+      int len=ret1!.length;
+      int len2=ret2!.length;
+      int len3=ret3!.length;
+
+      for (int i = len-1; i >=0; i--) {
+        _recentProbId.add(int.parse(ret1[i]));
+        _recentType.add(ret2[i]);
+        _recentContent.add(ret3[i]);
+      }
+    });
+
+    print('최근 학습 load 완료');
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => SPRecentStudyPage(probId: _recentProbId, type: _recentType, content: _recentContent))
     );
   }
 
@@ -405,7 +435,7 @@ class _MyPageState extends State<MyPage> {
                                   children: [
                                     GestureDetector(
                                         onTap: (){
-                                          _loadRecent();
+                                          _loadLRRecent();
                                         },
                                         child: new Container(
                                           width: 140.0,
@@ -446,7 +476,7 @@ class _MyPageState extends State<MyPage> {
                                     GestureDetector(
                                         onTap: (){
                                           // 말하기 최근 학습
-                                          updateYet();
+                                          _loadSPRecent();
                                         },
                                         child: new Container(
                                           width: 140.0,
