@@ -54,8 +54,6 @@ class _SelectSituationPageState extends State<SelectSituationPage> {
       print("sentenceList: ${sentenceList}");
       // urlInfo(letter, letterId);
 
-      _saveRecent(situationId, 'Sentence', situation);
-
       Navigator.of(context).pop();
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => SentenceSelectPage(sentenceList: sentenceList, situation: situation,))
@@ -72,54 +70,6 @@ class _SelectSituationPageState extends State<SelectSituationPage> {
     else {
       print('error : ${response.reasonPhrase}');
     }
-  }
-
-  List<String> _recentProbId = [];
-  List<String> _recentType=[];
-  List<String> _recentContent=[];
-
-  _loadRecent() async{
-    _recentProbId.clear();
-    _recentType.clear();
-    _recentContent.clear();
-
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      final ret1 = prefs.getStringList('s_id');
-      final ret2 = prefs.getStringList('s_type');
-      final ret3 = prefs.getStringList('s_content');
-
-      int len=ret1!.length;
-      int len2=ret2!.length;
-      int len3=ret3!.length;
-
-      for (int i = 0; i < len; i++) {
-        _recentProbId.add(ret1[i]);
-        _recentType.add(ret2[i]);
-        _recentContent.add(ret3[i]);
-      }
-    });
-  }
-
-  _saveRecent(int id, String type, String content) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    _recentProbId.add(id.toString());
-    _recentType.add(type);
-    _recentContent.add(content);
-
-    setState(() {
-      prefs.setStringList('s_id', _recentProbId);
-      prefs.setStringList('s_type', _recentType);
-      prefs.setStringList('s_content', _recentContent);
-      print('shared: '+ id.toString() +' '+ type +' '+ content);
-    });
-  }
-
-  void initState() {
-    _loadRecent();
-
-    super.initState();
   }
 
   @override

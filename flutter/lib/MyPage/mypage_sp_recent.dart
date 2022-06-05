@@ -41,7 +41,7 @@ class _SPRecentStudyPageState extends State<SPRecentStudyPage> {
     Map<String, String> _queryParameters = <String, String>{
       'id': _probId[idx].toString(),
     };
-
+    print(idx);
     print("type: ${_type[idx]}");
 
     if (_type[idx] == 'Word') {
