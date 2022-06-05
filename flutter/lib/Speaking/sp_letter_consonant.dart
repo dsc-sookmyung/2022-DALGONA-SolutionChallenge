@@ -142,7 +142,7 @@ class _ChooseConsonantPageState extends State<ChooseConsonantPage> {
                               alignment: Alignment.center,
                               width: 300.0,
                               child: Text(
-                                "한 글자 연습: 초성",
+                                "글자 말하기 연습: 초성",
                                 style: TextStyle(
                                     color: Color(0xff333333),
                                     fontSize: 24,

@@ -183,7 +183,7 @@ class _ChooseWordConsonantPageState extends State<ChooseWordConsonantPage> {
                       alignment: Alignment.center,
                       width: 300.0,
                       child: Text(
-                        "말하기 단어 연습",
+                        "단어 말하기 연습: 초성",
                         style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: 24,

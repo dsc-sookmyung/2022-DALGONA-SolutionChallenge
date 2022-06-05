@@ -135,7 +135,7 @@ class _CustomSpeakProblemPageState extends State<CustomSpeakProblemPage> {
                                 width: MediaQuery.of(context).size.width - 40,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  "연습문제 만들기",
+                                  "말하기 연습문제 만들기",
                                   style: TextStyle(
                                       color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
                                   ),

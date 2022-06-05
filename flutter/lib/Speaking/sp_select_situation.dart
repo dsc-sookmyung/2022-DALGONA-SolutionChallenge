@@ -118,7 +118,7 @@ class _SelectSituationPageState extends State<SelectSituationPage> {
                           alignment: Alignment.center,
                           width: 300.0,
                           child: Text(
-                            "말하기 문장 연습",
+                            "문장 말하기 연습: 상황",
                             style: TextStyle(
                                 color: Color(0xff333333),
                                 fontSize: 24,

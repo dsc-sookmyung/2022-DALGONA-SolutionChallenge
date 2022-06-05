@@ -172,7 +172,7 @@ class _ChooseCodePageState extends State<ChooseCodePage> {
                               alignment: Alignment.center,
                               width: 300.0,
                               child: Text(
-                                "한 글자 연습: 종성",
+                                "글자 말하기 연습: 종성",
                                 style: TextStyle(
                                     color: Color(0xff333333),
                                     fontSize: 24,

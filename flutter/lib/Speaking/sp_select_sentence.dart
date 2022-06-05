@@ -167,7 +167,7 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
                         width: MediaQuery.of(context).size.width - 40,
                         alignment: Alignment.center,
                         child: Text(
-                          "말하기 연습: 문장 선택",
+                          "문장 말하기 연습: 문장",
                           style: TextStyle(
                               color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
                           ),

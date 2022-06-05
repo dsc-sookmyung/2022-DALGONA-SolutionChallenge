@@ -167,7 +167,7 @@ class _WordSelectPageState extends State<WordSelectPage> {
                         alignment: Alignment.center,
                         width: 300.0,
                         child: Text(
-                          "단어 연습",
+                          "단어 말하기 연습: 단어",
                           style: TextStyle(
                               color: Color(0xff333333),
                               fontSize: 24,
