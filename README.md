@@ -13,7 +13,7 @@
 
 ## 🛠 Project Architecure
 
-![README_arc](https://user-images.githubusercontent.com/61380136/172065205-218f8589-08da-4036-a079-056fe2d3a6fa.png)
+![model_architecture](https://user-images.githubusercontent.com/61380136/172066287-ec4ed9bb-ba3f-4801-a238-848179690dab.png)
 
 ## 📽  Demo Video Link
 
