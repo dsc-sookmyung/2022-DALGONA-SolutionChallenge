@@ -885,8 +885,6 @@ class _WordTestPageState extends State<WordTestPage> {
   void _next() {
     setState(() {
       _timer.cancel();
-      _controller.setVolume(0.0);
-      _controller.pause();
       _seeAnswer = false;
       _isInit = true;
       _enterAnswer = true;
@@ -900,6 +898,10 @@ class _WordTestPageState extends State<WordTestPage> {
       _hint = testinfo[pro_num - 1]['hint'];
       _controller = VideoPlayerController.network(_url);
       _initializeVideoPlayerFuture = _controller.initialize();
+      _controller.pause();
+      _volume?
+        _controller.setVolume(1.0): _controller.setVolume(0.0);
+      _controller.setPlaybackSpeed(_videoSpeed);
       _controller.setLooping(true);
       _start();
     });

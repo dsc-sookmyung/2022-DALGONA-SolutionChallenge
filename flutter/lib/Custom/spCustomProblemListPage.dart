@@ -107,7 +107,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                     child: Column(children: [
                       Container(
                         margin: EdgeInsets.only(top: 20.0),
-                        height: 40.0,
+                        height: 50.0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,7 +128,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                               alignment: Alignment.center,
                               margin: EdgeInsets.only(bottom: 15.0),
                               child: Text(
-                                "커스텀 문제: 말하기",
+                                "말하기 커스텀",
                                 style: TextStyle(color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800),
                               ),
                             ),
@@ -142,7 +142,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                               itemBuilder: (BuildContext context, int idx) {
                                 return (
                                     Container(
-                                        padding: EdgeInsets.only(top: 10.0),
+                                        padding: EdgeInsets.only(top: 5.0),
                                         child: Column(
                                           children: [
                                             ...List.generate(
@@ -156,8 +156,8 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                                                     practiceSpeaking(idx+10*(_curPage-1));
                                                   },
                                                   child: Container(
-                                                    height: MediaQuery.of(context).size.height*5.7/100,
-                                                    margin: EdgeInsets.only(right: 50, left: 50, top: 10.0, bottom: 5.0),
+                                                    height: MediaQuery.of(context).size.height*6.7/100,
+                                                    margin: EdgeInsets.only(right: 50, left: 50, top: 5.0, bottom: 5.0),
                                                     // padding: const EdgeInsets.symmetric(
                                                     //     vertical: 11, horizontal: 8),
                                                     decoration: BoxDecoration(

@@ -201,18 +201,18 @@ class _MyPageState extends State<MyPage> {
     // prefs.remove('content');
 
     setState(() {
-    final ret1 = prefs.getStringList('id');
-    final ret2 = prefs.getStringList('type');
-    final ret3 = prefs.getStringList('content');
+      List<String>? ret1 = prefs.getStringList('id');
+      List<String>? ret2 = prefs.getStringList('type');
+      List<String>? ret3 = prefs.getStringList('content');
 
-    int len=ret1!.length;
-    int len2=ret2!.length;
-    int len3=ret3!.length;
+      int len=ret1?.length ?? 0;
+      int len2=ret2?.length ?? 0;
+      int len3=ret3?.length ?? 0;
 
     for (int i = len-1; i >=0; i--) {
-        _recentProbId.add(int.parse(ret1[i]));
-        _recentType.add(ret2[i]);
-        _recentContent.add(ret3[i]);
+        _recentProbId.add(int.parse(ret1![i]));
+        _recentType.add(ret2![i]);
+        _recentContent.add(ret3![i]);
     // print(ret1[i]+' '+ret2[i]+' '+ret3[i]);
     }
     });
@@ -229,19 +229,21 @@ class _MyPageState extends State<MyPage> {
     _recentContent.clear();
 
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      final ret1 = prefs.getStringList('s_id');
-      final ret2 = prefs.getStringList('s_type');
-      final ret3 = prefs.getStringList('s_content');
 
-      int len=ret1!.length;
-      int len2=ret2!.length;
-      int len3=ret3!.length;
+    setState(() {
+      List<String>? ret1 = prefs.getStringList('s_id');
+      List<String>? ret2 = prefs.getStringList('s_type');
+      List<String>? ret3 = prefs.getStringList('s_content');
+
+      int len=ret1?.length ?? 0;
+      int len2=ret2?.length ?? 0;
+      int len3=ret3?.length ?? 0;
 
       for (int i = len-1; i >=0; i--) {
-        _recentProbId.add(int.parse(ret1[i]));
-        _recentType.add(ret2[i]);
-        _recentContent.add(ret3[i]);
+        _recentProbId.add(int.parse(ret1![i]));
+        _recentType.add(ret2![i]);
+        _recentContent.add(ret3![i]);
+        // print(ret1[i]+' '+ret2[i]+' '+ret3[i]);
       }
     });
 
@@ -357,41 +359,44 @@ class _MyPageState extends State<MyPage> {
                                           child: Container(
                                             // margin: EdgeInsets.only(top: 10.0, left: 0.0, right: 0.0, bottom: 25.0),
                                             alignment: Alignment.center,
-                                            width: 300,
+                                            width: MediaQuery.of(context).size.width*80/100,
                                             height: 250,
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: <Widget>[
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                Container(
+                                                  margin: EdgeInsets.only(bottom:5.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
 
-                                                  children: [
-                                                    Container(
-                                                      margin: EdgeInsets.only(left: 40.0),
-                                                      child: Text(
-                                                        "${name}",
-                                                        style: TextStyle(fontSize: 32, height: 1.8, fontWeight: FontWeight.w700),
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(left: 40.0),
+                                                        child: Text(
+                                                          "${name}",
+                                                          style: TextStyle(fontSize: 32, height: 1.8, fontWeight: FontWeight.w700),
+                                                        ),
                                                       ),
-                                                    ),
-
-                                                    Container(
-                                                      alignment: Alignment.centerRight,
-                                                      margin: EdgeInsets.only(bottom: 10.0),
-                                                      child: IconButton(
-                                                        onPressed: (){
-                                                          Navigator.push(
-                                                              context, MaterialPageRoute(builder: (_) => ModifyInformationPage())
-                                                          ).then((value) {
-                                                            _update(value);
-                                                          });
-                                                        },
-                                                        icon: Icon(Icons.edit),
-                                                        iconSize: 20,
+                                                      Container(
+                                                        alignment: Alignment.centerRight,
+                                                        // margin: EdgeInsets.only(bottom: 10.0),
+                                                        child: IconButton(
+                                                          onPressed: (){
+                                                            Navigator.push(
+                                                                context, MaterialPageRoute(builder: (_) => ModifyInformationPage())
+                                                            ).then((value) {
+                                                              _update(value);
+                                                            });
+                                                          },
+                                                          icon: Icon(Icons.edit),
+                                                          iconSize: 20,
+                                                        ),
+                                                        height: 20,
                                                       ),
-                                                      height: 20,
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
                                                 Container(
                                                   margin: EdgeInsets.only(left: 40.0),
@@ -439,7 +444,6 @@ class _MyPageState extends State<MyPage> {
                                   children: [
                                     GestureDetector(
                                         onTap: (){
-                                          print('1');
                                           _loadLRRecent();
                                         },
                                         child: new Container(

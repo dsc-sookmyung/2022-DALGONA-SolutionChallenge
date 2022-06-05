@@ -119,7 +119,6 @@ class _SPRecentStudyPageState extends State<SPRecentStudyPage> {
 
   @override
   void initState() {
-    print(_probId[0].toString() + ' ' + _type[0] + ' ' + _content[0]);
     super.initState();
   }
 
