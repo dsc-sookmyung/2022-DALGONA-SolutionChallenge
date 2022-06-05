@@ -153,7 +153,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                                                   highlightColor: Colors.transparent,
                                                   onTap: () {
                                                     print(widget.speakingList[idx+10*(_curPage-1)].probId);
-                                                    practiceSpeaking(idx);
+                                                    practiceSpeaking(idx+10*(_curPage-1));
                                                   },
                                                   child: Container(
                                                     height: MediaQuery.of(context).size.height*5.7/100,

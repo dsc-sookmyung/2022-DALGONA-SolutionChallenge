@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Speaking/sp_select_situation.dart';
@@ -23,6 +24,12 @@ class SentenceSelectPage extends StatefulWidget {
 
 
 class _SentenceSelectPageState extends State<SentenceSelectPage> {
+
+  void initState() {
+    _loadRecent();
+
+    super.initState();
+  }
 
   Future<void> urlInfo(String letter, int index) async {
 
@@ -47,9 +54,13 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
       String type = data["type"];
       int probId = data["probId"];
       bool bookmarked = data["bookmarked"];
+      int sentenceId = data["sentenceId"];
 
       print("url : ${url}");
       print("type : ${type}");
+
+
+      _saveRecent(sentenceId, 'Sentence', letter);
 
 
       Navigator.of(context).pop();
@@ -69,6 +80,48 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
       print('error : ${response.reasonPhrase}');
     }
 
+  }
+
+  List<String> _recentProbId = [];
+  List<String> _recentType=[];
+  List<String> _recentContent=[];
+
+  _loadRecent() async{
+    _recentProbId.clear();
+    _recentType.clear();
+    _recentContent.clear();
+
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      final ret1 = prefs.getStringList('s_id');
+      final ret2 = prefs.getStringList('s_type');
+      final ret3 = prefs.getStringList('s_content');
+
+      int len=ret1!.length;
+      int len2=ret2!.length;
+      int len3=ret3!.length;
+
+      for (int i = 0; i < len; i++) {
+        _recentProbId.add(ret1[i]);
+        _recentType.add(ret2[i]);
+        _recentContent.add(ret3[i]);
+      }
+    });
+  }
+
+  _saveRecent(int id, String type, String content) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _recentProbId.add(id.toString());
+    _recentType.add(type);
+    _recentContent.add(content);
+
+    setState(() {
+      prefs.setStringList('s_id', _recentProbId);
+      prefs.setStringList('s_type', _recentType);
+      prefs.setStringList('s_content', _recentContent);
+      print('shared: '+ id.toString() +' '+ type +' '+ content);
+    });
   }
 
   @override
@@ -114,7 +167,7 @@ class _SentenceSelectPageState extends State<SentenceSelectPage> {
                         width: MediaQuery.of(context).size.width - 40,
                         alignment: Alignment.center,
                         child: Text(
-                          "구화 연습: 문장 선택",
+                          "말하기 연습: 문장 선택",
                           style: TextStyle(
                               color: Color(0xff333333), fontSize: 24, fontWeight: FontWeight.w800
                           ),

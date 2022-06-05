@@ -46,11 +46,12 @@ class _WordSelectPageState extends State<WordSelectPage> {
       String type = data["type"];
       int probId = data["probId"];
       bool bookmarked = data["bookmarked"];
+      int wordId = data["wordId"];
 
       print("url : ${url}");
       print("type : ${type}");
 
-      _saveRecent(probId, 'Word', letter);
+      _saveRecent(wordId, 'Word', letter);
 
       Navigator.of(context).pop();
       Navigator.push(

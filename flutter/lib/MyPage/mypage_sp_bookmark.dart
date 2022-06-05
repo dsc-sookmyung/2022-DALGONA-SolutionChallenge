@@ -301,8 +301,8 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
                                                 //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
                                               },
                                               child: Container(
-                                                height: MediaQuery.of(context).size.height * 5.7 / 100,
-                                                margin: EdgeInsets.only(right: 50, left: 50, top: 10.0, bottom: 5.0),
+                                                height: MediaQuery.of(context).size.height * 6.7 / 100,
+                                                margin: EdgeInsets.only(right: 50, left: 50, top: 5.0, bottom: 5.0,),
                                                 // padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
                                                 decoration: BoxDecoration(
                                                   color: Color(0xffFFFFFF),

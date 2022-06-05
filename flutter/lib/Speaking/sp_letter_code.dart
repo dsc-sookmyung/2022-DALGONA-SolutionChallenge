@@ -49,12 +49,13 @@ class _ChooseCodePageState extends State<ChooseCodePage> {
       String type = data["type"];
       int probId = data["probId"];
       bool bookmarked = data["bookmarked"];
+      int letterId = data["letterId"];
 
 
       print("url : ${url}");
-      print("type : ${type}");
+      print("type : ${data}");
 
-      _saveRecent(probId, 'Letter', letter);
+      _saveRecent(letterId, 'Letter', letter);
 
       Navigator.of(context).pop();
       Navigator.of(context).pop();
