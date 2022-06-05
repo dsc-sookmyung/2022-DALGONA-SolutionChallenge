@@ -122,12 +122,10 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
 
       if (_type[idx] == 'Word') {
         content=data["word"];
-        Navigator.of(context).pop();
         Navigator.push(context,
             MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: content, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space,)));
       } else if (_type[idx] == 'Sentence') {
         content=data["sentence"];
-        Navigator.of(context).pop();
         Navigator.push(
             context,
             MaterialPageRoute(

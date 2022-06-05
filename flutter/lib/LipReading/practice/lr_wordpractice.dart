@@ -21,6 +21,7 @@ class WordPracticePage extends StatefulWidget {
   final String hint;
   final String url;
   final bool bookmarked;
+  final int wordId;
   const WordPracticePage(
       {Key? key,
       required this.onset,
@@ -29,7 +30,8 @@ class WordPracticePage extends StatefulWidget {
       required this.word,
       required this.hint,
       required this.url,
-      required this.bookmarked})
+      required this.bookmarked,
+      required this.wordId})
       : super(key: key);
 
   @override
@@ -58,8 +60,9 @@ class _WordPracticePageState extends State<WordPracticePage> {
   late var _word = widget.word;
   late var _url = widget.url;
   late var _probId =widget.probId;
+  late var _wordId=widget.wordId;
 
-  void initState() {
+  void initState () {
     _controller = VideoPlayerController.network(_url);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
@@ -141,7 +144,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
         _url = data['url'];
         _probId = data['probId'];
         _isStared = data['bookmarked'];
-
+        _wordId=data['wordId'];
         _controller = VideoPlayerController.network(_url);
         _initializeVideoPlayerFuture = _controller.initialize();
         _controller.setLooping(true);
@@ -747,7 +750,7 @@ class _WordPracticePageState extends State<WordPracticePage> {
           if (myController.text == _word) {
             //정답
             setState(() {
-              _saveRecent(_probId, "word", _word); //최근 학습 단어
+              _saveRecent(_wordId, "word", _word); //최근 학습 단어
               _isCorrect = true;
               _seeAnswer = true;
               _isInit = false;
@@ -964,8 +967,8 @@ class _WordPracticePageState extends State<WordPracticePage> {
 
   void _next() {
     setState(() {
-      _controller.pause();
       _controller.setVolume(0.0);
+      _controller.pause();
       _randomWord((widget.id).toString(), widget.onset);
       _seeAnswer = false;
       _isInit = true;

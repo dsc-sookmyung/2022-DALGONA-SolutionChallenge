@@ -82,14 +82,12 @@ class _SPRecentStudyPageState extends State<SPRecentStudyPage> {
         type = "word";
         String space = "";
 
-        Navigator.of(context).pop();
         Navigator.push(context,
             MaterialPageRoute(builder: (_) => SpWordPracticePage(probId: probId, type: type,word: word,url: url, bookmarked: bookmarked,)));
       } else if (_type[idx] == 'Sentence') {
         String word = data["sentence"];
         String type = "sentence";
 
-        Navigator.of(context).pop();
         Navigator.push(
             context,
             MaterialPageRoute(

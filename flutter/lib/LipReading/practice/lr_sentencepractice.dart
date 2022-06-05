@@ -22,6 +22,7 @@ class SentencePracticePage extends StatefulWidget {
   final String url;
   final int probId;
   final bool bookmarked;
+  final int sentenceId;
   const SentencePracticePage(
       {Key? key,
       required this.id,
@@ -31,7 +32,8 @@ class SentencePracticePage extends StatefulWidget {
       required this.space,
       required this.hint,
       required this.url,
-      required this.bookmarked})
+      required this.bookmarked,
+      required this.sentenceId})
       : super(key: key);
 
   @override
@@ -61,6 +63,8 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
   late var _hint = widget.hint;
   late var _url;
   late int _probId = widget.probId;
+  late int _sentenceId=widget.sentenceId;
+
   List _recent = [];
 
   void initState() {
@@ -153,6 +157,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
         _probId = data['probId'];
         _isStared=data['bookmarked'];
         _space=data['spacingInfo'];
+        _sentenceId=data['sentenceId'];
 
         _controller = VideoPlayerController.network(_url);
         _initializeVideoPlayerFuture = _controller.initialize();
@@ -760,7 +765,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
           if (myController.text == _sentence) {
             //정답
             setState(() {
-              _saveRecent(_probId, "sentence", _sentence);
+              _saveRecent(_sentenceId, "sentence", _sentence);
               _isCorrect = true;
               _seeAnswer = true;
               _isInit = false;
@@ -834,7 +839,7 @@ class _SentencePracticePageState extends State<SentencePracticePage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _saveRecent(_probId, "sentence", _sentence);
+                    _saveRecent(_sentenceId, "sentence", _sentence);
                     _seeAnswer = true;
                     _isCorrect = false;
                     _isInit = false;

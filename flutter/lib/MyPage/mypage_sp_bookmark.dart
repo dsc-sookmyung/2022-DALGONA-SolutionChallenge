@@ -188,7 +188,6 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
         String word = data["sentence"];
         String type = "sentence";
 
-        Navigator.of(context).pop();
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -200,7 +199,6 @@ class _SPBookmarkPageState extends State<SPBookmarkPage> {
         String type = "letter";
         int letterId = data["letterId"];
 
-        Navigator.of(context).pop();
         Navigator.push(
             context,
             MaterialPageRoute(

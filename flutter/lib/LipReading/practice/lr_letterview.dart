@@ -47,6 +47,7 @@ class _LRChooseWordConsonantPageState extends State<LRChooseWordConsonantPage> {
                   hint: _hint,
                   url: _url,
                   bookmarked: _bookmark,
+              wordId: _wordId
                 )));
   }
 
@@ -56,6 +57,7 @@ class _LRChooseWordConsonantPageState extends State<LRChooseWordConsonantPage> {
   late var _url = "";
   late bool _bookmark;
   late var _probId;
+  late var _wordId;
 
   _randomWord(String onsetId, String onset) async {
     Map<String, String> _queryParameters = <String, String>{
@@ -85,6 +87,8 @@ class _LRChooseWordConsonantPageState extends State<LRChooseWordConsonantPage> {
       _url = data['url'];
       _bookmark = data['bookmarked'];
       _probId = data['probId'];
+      _wordId=data['wordId'];
+
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
