@@ -82,7 +82,7 @@ class _ModifyInformationPageState extends State<ModifyInformationPage> {
                             alignment: Alignment.centerLeft,
                             child: IconButton(
                               onPressed: (){
-                                Navigator.pop(context);
+                                Navigator.pop(context, name);
                               },
                               icon: Icon(Icons.arrow_back),
                               iconSize: 20,
@@ -155,7 +155,29 @@ class _ModifyInformationPageState extends State<ModifyInformationPage> {
                                 style: TextStyle(fontSize: 17),
                               ),
                               onPressed: () {
-                                changeName(_name.text);
+                                if(_name.text != null && _name.text != ""){
+                                  changeName(_name.text);
+                                }
+                                else if (_name.text == ""){
+                                  showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) => AlertDialog(
+                                      title: const Text(
+                                        '이름 미입력',
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                      content: const Text('변경할 이름을 입력해 주세요.'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('확인'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
                               },
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),

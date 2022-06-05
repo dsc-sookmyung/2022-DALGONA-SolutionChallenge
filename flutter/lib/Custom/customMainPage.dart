@@ -45,17 +45,15 @@ class _customMainPageViewState extends State<customMainPageView> {
 
       lipReadingList.clear();
 
-      if(lipReadingList.length == 0){
-        for(dynamic i in data){
-          String a = i["type"];
-          String b = i["content"];
-          int c = i["probId"];
+      for(dynamic i in data){
+        String a = i["type"];
+        String b = i["content"];
+        int c = i["probId"];
 
-          lipReadingList.add(LipReadingList(a, b, c));
-        }
+        lipReadingList.add(LipReadingList(a, b, c));
       }
 
-      // print("vowelList: ${lipReadingList}");
+       print("lipReadingList: ${lipReadingList}");
 
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => lrCustomProblemListPage(lipReadingList: lipReadingList))
@@ -90,21 +88,19 @@ class _customMainPageViewState extends State<customMainPageView> {
       dynamic data = body["data"];
       // data = data["content"];
 
-      print(data);
+      // print(data);
 
       speakingList.clear();
 
-      if(speakingList.length == 0){
-        for(dynamic i in data){
-          String a = i["type"];
-          String b = i["content"];
-          int c = i["probId"];
+      for(dynamic i in data){
+        String a = i["type"];
+        String b = i["content"];
+        int c = i["probId"];
 
-          speakingList.add(SpeakingList(a, b, c));
-        }
+        speakingList.add(SpeakingList(a, b, c));
       }
 
-      // print("vowelList: ${lipReadingList}");
+      print("speakingList: ${speakingList}");
 
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => spCustomProblemListPage(speakingList: speakingList))
