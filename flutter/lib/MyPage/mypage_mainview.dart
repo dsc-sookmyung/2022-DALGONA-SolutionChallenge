@@ -250,7 +250,7 @@ class _MyPageState extends State<MyPage> {
 
   @override
   void initState() {
-    userInfo();
+    // userInfo();
     super.initState();
   }
 

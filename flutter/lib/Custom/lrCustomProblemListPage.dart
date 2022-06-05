@@ -172,7 +172,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                                                       color: Color(0xffFFFFFF),
                                                       border: Border(
                                                           left: BorderSide(
-                                                            color: widget.lipReadingList[idx].type == "word" ? Color(0xff2D31FA) : (widget.lipReadingList[idx].type == "sentence" ? Color(0xff161D6E) : Color(0xff00BBF0)),
+                                                            color: widget.lipReadingList[idx+10*(_curPage-1)].type == "word" ? Color(0xff2D31FA) : (widget.lipReadingList[idx+10*(_curPage-1)].type == "sentence" ? Color(0xff161D6E) : Color(0xff00BBF0)),
                                                             width: 5.0,
                                                           ),
                                                           right: BorderSide(
@@ -204,7 +204,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                                                       MainAxisAlignment.spaceBetween,
                                                       crossAxisAlignment: CrossAxisAlignment.center,
                                                       children: [
-                                                        if(widget.lipReadingList[idx].type=='word')
+                                                        if(widget.lipReadingList[idx+10*(_curPage-1)].type=='word')
                                                           Row(
                                                               children: [
                                                                 Container(
@@ -230,7 +230,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                                                                         ),
                                                                       )
                                                                   ),
-                                                                  child: Text( widget.lipReadingList[idx].content,
+                                                                  child: Text( widget.lipReadingList[idx+10*(_curPage-1)].content,
                                                                     style: TextStyle(
                                                                         fontSize: 18, color: Color(0xff333333)),
                                                                     overflow: TextOverflow.ellipsis,
@@ -246,7 +246,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                                                                   alignment: Alignment.center,
                                                                   width: MediaQuery.of(context).size.width * 20 / 100,
                                                                   padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                                                                  child: Text(widget.lipReadingList[idx].type=='letter'? '글 자' :'문 장',
+                                                                  child: Text(widget.lipReadingList[idx+10*(_curPage-1)].type=='letter'? '글 자' :'문 장',
                                                                     style: TextStyle(
                                                                         fontSize: 20, color: Color(0xff333333), fontWeight: FontWeight.w700
                                                                     ),
@@ -265,7 +265,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                                                                         ),
                                                                       )
                                                                   ),
-                                                                  child: Text( widget.lipReadingList[idx].content,
+                                                                  child: Text( widget.lipReadingList[idx+10*(_curPage-1)].content,
                                                                     style: TextStyle(
                                                                         fontSize: 18 , color: Color(0xff333333)),
                                                                     overflow: TextOverflow.ellipsis,

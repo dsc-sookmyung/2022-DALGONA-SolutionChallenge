@@ -152,7 +152,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                                                   splashColor: Colors.transparent,
                                                   highlightColor: Colors.transparent,
                                                   onTap: () {
-                                                    print(widget.speakingList[idx].probId);
+                                                    print(widget.speakingList[idx+10*(_curPage-1)].probId);
                                                     practiceSpeaking(idx);
                                                   },
                                                   child: Container(
@@ -164,7 +164,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                                                       color: Color(0xffFFFFFF),
                                                       border: Border(
                                                           left: BorderSide(
-                                                            color: widget.speakingList[idx].type == "word" ? Color(0xff2D31FA) : (widget.speakingList[idx].type == "sentence" ? Color(0xff161D6E) : Color(0xff00BBF0)),
+                                                            color: widget.speakingList[idx+10*(_curPage-1)].type == "word" ? Color(0xff2D31FA) : (widget.speakingList[idx+10*(_curPage-1)].type == "sentence" ? Color(0xff161D6E) : Color(0xff00BBF0)),
                                                             width: 5.0,
                                                           ),
                                                           right: BorderSide(
@@ -193,7 +193,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       crossAxisAlignment: CrossAxisAlignment.center,
                                                       children: [
-                                                        if(widget.speakingList[idx].type=='word')
+                                                        if(widget.speakingList[idx+10*(_curPage-1)].type=='word')
                                                           Row(
                                                               children: [
                                                                 Container(
@@ -219,7 +219,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                                                                         ),
                                                                       )
                                                                   ),
-                                                                  child: Text( widget.speakingList[idx].content,
+                                                                  child: Text( widget.speakingList[idx+10*(_curPage-1)].content,
                                                                     style: TextStyle(
                                                                         fontSize: 18, color: Color(0xff333333)),
                                                                     overflow: TextOverflow.ellipsis,
@@ -235,7 +235,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                                                                   alignment: Alignment.center,
                                                                   width: MediaQuery.of(context).size.width * 20 / 100,
                                                                   padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                                                                  child: Text(widget.speakingList[idx].type=='letter'? '글 자' :'문 장',
+                                                                  child: Text(widget.speakingList[idx+10*(_curPage-1)].type=='letter'? '글 자' :'문 장',
                                                                     style: TextStyle(
                                                                         fontSize: 20, color: Color(0xff333333), fontWeight: FontWeight.w700
                                                                     ),
@@ -254,7 +254,7 @@ class _customProblemListPageState extends State<spCustomProblemListPage> {
                                                                         ),
                                                                       )
                                                                   ),
-                                                                  child: Text( widget.speakingList[idx].content,
+                                                                  child: Text( widget.speakingList[idx+10*(_curPage-1)].content,
                                                                     style: TextStyle(
                                                                         fontSize: 18 , color: Color(0xff333333)),
                                                                     overflow: TextOverflow.ellipsis,
