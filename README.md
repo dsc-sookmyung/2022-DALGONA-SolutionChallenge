@@ -23,7 +23,16 @@
 
 ## 👩🏼‍💻  How to use
 
-
+![1](https://user-images.githubusercontent.com/44363187/172065171-cc1148d0-4ec4-4c0d-8b61-b3d0cc36d7c8.gif)
+![2](https://user-images.githubusercontent.com/44363187/172065173-36510dbf-0016-4ce4-91e2-e2e510b8a10e.gif)
+![3](https://user-images.githubusercontent.com/44363187/172065176-5a84cb57-19cb-429b-a5fc-e26a30980fd4.PNG)
+![4](https://user-images.githubusercontent.com/44363187/172065178-150cc4a6-85e9-49f4-92e9-bd2e0b08a0c8.gif)
+![5](https://user-images.githubusercontent.com/44363187/172065180-aa4ab5dc-3ef4-4a1b-a948-aa8d4985020a.gif)
+![6](https://user-images.githubusercontent.com/44363187/172065182-dc883232-019e-42ae-bbd9-428470049975.gif)
+![7](https://user-images.githubusercontent.com/44363187/172065184-4c481008-6bd0-44d9-8a62-51696cd18cc4.gif)
+![8](https://user-images.githubusercontent.com/44363187/172065186-9dbaa5e0-29dc-4776-8f4f-d10a2c83b20c.gif)
+![9](https://user-images.githubusercontent.com/44363187/172065187-672e10b1-c38f-4593-bdef-7a349864d21d.gif)
+![10](https://user-images.githubusercontent.com/44363187/172065195-a2c37892-4ae9-4341-ab0c-a43a42f1509d.gif)
 
 <br/>
 
