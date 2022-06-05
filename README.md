@@ -11,6 +11,9 @@
 
 <br/>
 
+## 🛠 Project Architecure
+
+![README_arc](https://user-images.githubusercontent.com/61380136/172065205-218f8589-08da-4036-a079-056fe2d3a6fa.png)
 
 ## 📽  Demo Video Link
 
