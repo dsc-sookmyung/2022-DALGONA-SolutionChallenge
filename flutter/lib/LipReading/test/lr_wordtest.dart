@@ -693,7 +693,7 @@ class _WordTestPageState extends State<WordTestPage> {
                 child: Text(
                   '재도전',
                   style: TextStyle(
-                    color: Color(0xff4478FF),
+                    color: Colors.white,
                     fontSize: 18,
                       fontWeight: FontWeight.w600
                   ),
@@ -885,8 +885,8 @@ class _WordTestPageState extends State<WordTestPage> {
   void _next() {
     setState(() {
       _timer.cancel();
-      _controller.pause();
       _controller.setVolume(0.0);
+      _controller.pause();
       _seeAnswer = false;
       _isInit = true;
       _enterAnswer = true;
@@ -901,7 +901,6 @@ class _WordTestPageState extends State<WordTestPage> {
       _controller = VideoPlayerController.network(_url);
       _initializeVideoPlayerFuture = _controller.initialize();
       _controller.setLooping(true);
-      _volume=false;
       _start();
     });
   }

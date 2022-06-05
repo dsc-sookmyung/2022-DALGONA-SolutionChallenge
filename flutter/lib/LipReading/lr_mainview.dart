@@ -948,6 +948,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                   children: [
                     InkWell(
                         onTap: () {
+                          Navigator.of(context).pop();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -978,6 +979,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     Padding(padding: EdgeInsets.all(1.0)),
                     InkWell(
                       onTap: ()  {
+                        Navigator.of(context).pop();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -1004,6 +1006,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                     Padding(padding: EdgeInsets.all(1.0)),
                     InkWell(
                       onTap: () {
+                        Navigator.of(context).pop();
                         Navigator.push(
                             context,
                             MaterialPageRoute(

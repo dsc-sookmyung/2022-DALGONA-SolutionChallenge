@@ -764,7 +764,7 @@ class _RandomTestPageState extends State<RandomTestPage> {
           children: [
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xff97D5FE),
+                  primary: Color(0xff4478FF),
                   minimumSize: Size(90, 40),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),

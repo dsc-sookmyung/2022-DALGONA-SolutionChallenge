@@ -726,7 +726,7 @@ class _BookmarkPracticePageState extends State<BookmarkPracticePage> {
                 child: Text(
                   '답 보기',
                   style: TextStyle(
-                    color: Color(0xff97D5FE),
+                    color: Colors.white,
                     fontSize: 18,
                       fontWeight: FontWeight.w600
                   ),

@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zerozone/server.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import '../Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
+import 'mypage_lr_bookmarkview.dart';
 
 class lrRecentStudyPage extends StatefulWidget {
   final List<int> probId;
@@ -29,9 +33,76 @@ class _lrRecentStudyPageState extends State<lrRecentStudyPage> {
   int _curPage=1;
   late int totalPage = _content.length%10 == 0 ? _content.length~/10: _content.length~/10+1;
 
+  Future<void> practiceLipReading(int idx) async {
+    late var url;
+
+    Map<String, String> _queryParameters = <String, String>{
+      'id': _probId[idx].toString(),
+    };
+    print(idx);
+    print("type: ${_type[idx]}");
+
+    if (_type[idx] == 'word') {
+      url = Uri.http(
+          '${serverHttp}:8080', '/reading/practice/word', _queryParameters);
+    } else if (_type[idx] == 'sentence') {
+      url = Uri.http(
+          '${serverHttp}:8080', '/reading/practice/sentence', _queryParameters);
+    }
+
+    var response = await http.get(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      bool bookmarked = data["bookmarked"];
+      String content;
+      String space=data["spacingInfo"];
+      String hint=data["hint"];
+
+      if (_type[idx] == 'word') {
+        content=data["word"];
+        Navigator.of(context).pop();
+        Navigator.push(context,
+            MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: content, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space,)));
+      } else if (_type[idx] == 'sentence') {
+        content=data["sentence"];
+        Navigator.of(context).pop();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => BookmarkPracticePage(probId: probId, content: content, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space,)));
+
+      }
+
+    } else if (response.statusCode == 401) {
+      await RefreshToken(context);
+      if (check == true) {
+        practiceLipReading(idx);
+        check = false;
+      }
+    } else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
+
   @override
   void initState() {
-    print(_probId[0].toString() + ' ' + _type[0] + ' ' + _content[0]);
+
     super.initState();
   }
 
@@ -111,6 +182,7 @@ class _lrRecentStudyPageState extends State<lrRecentStudyPage> {
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () {
+                                practiceLipReading(idx+10*(_curPage-1));
                                 print(_probId[idx+10*(_curPage-1)]);
                               },
                               child: Container(
