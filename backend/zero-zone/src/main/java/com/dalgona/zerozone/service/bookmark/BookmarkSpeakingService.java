@@ -89,7 +89,7 @@ public class BookmarkSpeakingService {
         Optional<BookmarkSpeaking> bookmarkSpeaking = bookmarkSpeakingRepository.findByUser(user);
         if(!bookmarkSpeaking.isPresent()) return response.fail("해당 회원의 발음 북마크가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // 3. 해당 북마크에 저장된 문제 리스트 조회
-        Pageable paging = PageRequest.of(page-1,10, Sort.by(Sort.Direction.DESC, "id"));
+        Pageable paging = PageRequest.of(page-1,50, Sort.by(Sort.Direction.DESC, "id"));
         Page<BookmarkSpeakingProb> bookmarkSpeakingProbList =
                 bookmarkSpeakingProbRepository.findAllByBookmarkSpeaking(bookmarkSpeaking.get(), paging);
         // 4. Dto로 변환
