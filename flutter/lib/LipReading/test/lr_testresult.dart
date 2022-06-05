@@ -186,7 +186,7 @@ class _lrTestResultPageState extends State<lrTestResultPage> {
                                     Padding(
                                         padding: EdgeInsets.only(right: 5.0)),
                                     Text(
-                                      '$totaltime',
+                                      '${totaltime} 초',
                                       style: TextStyle(
                                           color: Color(0xff333333),
                                           fontSize: 20.0),

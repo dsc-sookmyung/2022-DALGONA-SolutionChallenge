@@ -30,8 +30,6 @@ class ReviewListPage extends StatefulWidget {
   const ReviewListPage(
       {Key? key,
       required this.testId,
-      required this.totalPage,
-      required this.totalElements,
       required this.testProbId,
       required this.type,
       required this.content,
@@ -40,7 +38,7 @@ class ReviewListPage extends StatefulWidget {
       required this.title,
       required this.score});
   final String date, title, score;
-  final int testId, totalPage, totalElements;
+  final int testId;
   final List testProbId, type, content, correct;
 
   @override
@@ -48,32 +46,10 @@ class ReviewListPage extends StatefulWidget {
 }
 
 class _ReviewListPageState extends State<ReviewListPage> {
-  onPageChanged(int pageNumber) {
-    setState(() {
-      pageInit = pageNumber;
-    });
-  }
-
   late List _testProbId = widget.testProbId;
   late List _type = widget.type;
   late List _content = widget.content;
   late List _correct = widget.correct;
-
-  late int pageTotal = widget.totalPage;
-  int pageInit = 1;
-  late int threshold = pageTotal < 5 ? pageTotal : 5;
-  Color colorPrimary = Colors.black;
-  Color colorSub = Colors.white;
-  late Widget iconToFirst;
-  late Widget iconPrevious;
-  late Widget iconNext;
-  late Widget iconToLast;
-  double fontSize = 15;
-  String? fontFamily;
-
-  late int rangeStart;
-  late int rangeEnd;
-  late int currentPage;
 
   Future<void> _ProList(int id, int page) async {
     _type.clear();
@@ -86,8 +62,8 @@ class _ReviewListPageState extends State<ReviewListPage> {
       'page': page.toString()
     };
 
-    var url =
-        Uri.http('${serverHttp}:8080', '/reading/test/list/probs', _queryParameters);
+    var url = Uri.http(
+        '${serverHttp}:8080', '/reading/test/list/probs', _queryParameters);
 
     var response = await http.get(url, headers: {
       'Accept': 'application/json',
@@ -122,233 +98,274 @@ class _ReviewListPageState extends State<ReviewListPage> {
 
   @override
   void initState() {
-    currentPage = pageInit;
-    iconToFirst = Icon(Icons.first_page, color: Color(0xff5AA9DD),);
-    iconPrevious = Icon(Icons.keyboard_arrow_left, color: Color(0xff5AA9DD));
-    iconNext = Icon(Icons.keyboard_arrow_right, color: Color(0xff5AA9DD));
-    iconToLast = Icon(Icons.last_page, color: Color(0xff5AA9DD));
-
-    _rangeSet();
-
     super.initState();
-  }
-
-  _changePage(int page) {
-    if (page <= 0) page = 1;
-
-    if (page > pageTotal) page = pageTotal;
-
-    setState(() {
-      currentPage = page;
-      _rangeSet();
-      onPageChanged(currentPage);
-    });
-  }
-
-  void _rangeSet() {
-    rangeStart = currentPage % threshold == 0
-        ? currentPage - threshold
-        : (currentPage ~/ threshold) * threshold;
-
-    rangeEnd = pageTotal < threshold ? pageTotal : rangeStart + threshold;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '기록 확인',
-          style: TextStyle(
-              color: Color(0xff333333),
-              fontSize: 24,
-              fontWeight: FontWeight.w800),
-        ),
-        centerTitle: true,
-        backgroundColor: Color(0xffC8E8FF),
-        foregroundColor: Color(0xff333333),
-      ),
-      body: new Container(
-    color: Color(0xfff0f8ff),
-    child:
-    Column(children: [
-        Padding(padding: EdgeInsets.all(20.0)),
-        Container(
-            height: 570,
-            child: Column(
-              children: [
-                Container(
-                  height: 75,
-                  margin: EdgeInsets.only(right: 40.0, left: 40.0),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 7.3, horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${widget.date}',
-                              style: TextStyle(fontSize: 13),
-                            ),
-                            Padding(padding: EdgeInsets.only(top: 5.0)),
-                            Text(
-                              '${widget.title}',
-                              style: TextStyle(fontSize: 19,),
-                            ),
-                          ]),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${widget.score}',
-                            style: TextStyle(fontSize: 21.0),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.grey,
-                    ),
-                    color: Color(0xffC8E8FF),
-                  ),
-                ),
-                ...List.generate(
-                  _content.length < 10 ? _content.length : 10,
-                  (idx) => Container(
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        // await _ProList(idx);
-                        // Navigator.push(
-                        //     context, MaterialPageRoute(
-                        //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(right: 40, left: 40),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 11, horizontal: 8),
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: Colors.blueGrey),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Text(_type[idx]=='Word'?'단어'+ ' - ' + _content[idx]
-                                  :'문장'+ ' - ' + _content[idx],
-                                style: TextStyle(
-                                    fontSize: 15, color: Color(0xff333333)),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ),
-                            Container(
-                              child: Icon(
-                                _correct[idx] ? CustomIcons.check : Icons.clear,
-                                color: _correct[idx] ? Colors.green : Colors.red,
-                                size: _correct[idx] ? 18.0: 22.0,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )),
-        Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: () async {
-                await _changePage(0);
-                _ProList(widget.testId, currentPage);
-              },
-              child: iconToFirst,
-            ),
-            SizedBox(
-              width: 4,
-            ),
-            InkWell(
-                onTap: () async {
-                  await _changePage(--currentPage);
-                  _ProList(widget.testId, currentPage);
-                },
-                child: iconPrevious),
-            SizedBox(
-              width: 10,
-            ),
-            ...List.generate(
-              rangeEnd <= pageTotal ? threshold : pageTotal % threshold,
-              (index) => Flexible(
-                child: InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () async {
-                    await _changePage(index + 1 + rangeStart);
-                    _ProList(widget.testId, currentPage);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(4),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    decoration: BoxDecoration(
-                        color: (currentPage - 1) % threshold == index
-                            ? Color(0xff5AA9DD)
-                            : colorSub,
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 3.0,
-                          ),
-                        ]),
-                    child: Text(
-                      '${index + 1 + rangeStart}',
-                      style: TextStyle(
-                        fontSize: fontSize,
-                        fontFamily: fontFamily,
-                        color: (currentPage - 1) % threshold == index
-                            ? colorSub
-                            : colorPrimary,
-                      ),
-                    ),
-                  ),
-                ),
+        body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Color(0xffF3F4F6),
+                  Color(0xffEFF4FA),
+                  Color(0xffECF4FE),
+                ],
+                stops: [
+                  0.3,
+                  0.7,
+                  0.9,
+                ],
               ),
             ),
-            SizedBox(
-              width: 10,
-            ),
-            InkWell(
-                onTap: () async {
-                  await _changePage(++currentPage);
-                  _ProList(widget.testId, currentPage);
-                },
-                child: iconNext),
-            SizedBox(
-              width: 4,
-            ),
-            InkWell(
-                onTap: () async {
-                  await _changePage(pageTotal);
-                  _ProList(widget.testId, currentPage);
-                },
-                child: iconToLast),
-          ],
-        ),
-        Padding(padding: EdgeInsets.all(15.0))
-      ]),
-    ));
+            child: SafeArea(
+                child: Container(
+                    child: Column(children: [
+              Container(
+                margin: EdgeInsets.only(top: 20.0),
+                height: 50.0,
+                // decoration: BoxDecoration(
+                //   color: Colors.white,
+                //   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))
+                // ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 15.0),
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back),
+                        iconSize: 20,
+                      ),
+                    ),
+                    Container(
+                      width: 300.0,
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(bottom: 15.0),
+                      child: Text(
+                        "시험 결과",
+                        style: TextStyle(
+                            color: Color(0xff333333),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                  child: Container(
+                      padding: EdgeInsets.only(
+                        right: 50,
+                        left: 50,
+                        top: 5.0,
+                        bottom: 5.0,
+                      ),
+                    // padding: EdgeInsets.only(right:10, left: 10),
+                      child: Column(children: [
+                        // Padding(padding: EdgeInsets.only(top: 5.0)),
+                                Container(
+                                  height: MediaQuery.of(context).size.height*10/100,
+                                  // margin:
+                                  //     EdgeInsets.only(right: 40.0, left: 40.0),
+                                  padding: EdgeInsets.only(top: 2.0, bottom: 2.0, left: 20.0, right: 20.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '${widget.date}',
+                                              style: TextStyle(fontSize: 13, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                                            ),
+                                            Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 2.0)),
+                                            Text(
+                                              '${widget.title}',
+                                              style: TextStyle(
+                                                fontSize: 28,
+                                                color: Color(0xff4478FF),
+                                                fontWeight: FontWeight.w600
+                                              ),
+                                            ),
+                                          ]),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '${widget.score}',
+                                            style: TextStyle(fontSize: 21.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color(0xffC8E8FF),
+                                  ),
+                                ),
+                                ...List.generate(_content.length,
+                                      (idx) => Container(
+                                    child: InkWell(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        // practiceLipReading(idx);
+                                        // await _ProList(idx);
+                                        // Navigator.push(
+                                        //     context, MaterialPageRoute(
+                                        //     builder: (_) => ReviewListPage2(totalPage: _Page,totalElements: _Element,testProbId: _testProbId,type: _type,content: _content,correct: _correct, date: _dateList[idx],title: _testName[idx],score: '${_correctCount[idx]}/10',)));
+                                      },
+                                      child: Container(
+                                        height: MediaQuery.of(context).size.height * 6 / 100,
+                                        margin: EdgeInsets.only(top: 5.0, bottom: 5.0,),
+                                        // padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xffFFFFFF),
+                                          border: Border(
+                                              left: BorderSide(
+                                                color: _type[idx] == "Word" ? Color(0xff2D31FA) : (_type[idx] == "Sentence" ? Color(0xff161D6E) : Color(0xff00BBF0)),
+                                                width: 5.0,
+                                              ),
+                                              right: BorderSide(
+                                                color: Colors.black,
+                                                width: 1.0,
+                                              ),
+                                              top: BorderSide(
+                                                color: Colors.black,
+                                                width: 1.0,
+                                              ),
+                                              bottom: BorderSide(
+                                                color: Colors.black,
+                                                width: 1.0,
+                                              )
+                                          ),
+                                          // borderRadius: BorderRadius.circular(15.0),
+                                          boxShadow:[
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(0.9),
+                                              spreadRadius: 0,
+                                              blurRadius: 5,
+                                              offset: Offset(2, 3), // changes position of shadow
+                                            ),
+                                          ],
+                                        ),
+                                        child: Row(
+                                          // mainAxisAlignment:
+                                          // MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: [
+                                        Container(
+                                          margin: EdgeInsets.only(left:3.0),
+                                          child: Icon(
+                                            _correct[idx]
+                                                ? CustomIcons.check
+                                                : Icons.clear,
+                                            color: _correct[idx]
+                                                ? Colors.green
+                                                : Colors.red,
+                                            size:
+                                            _correct[idx] ? 18.0 : 22.0,
+                                          ),
+                                        ),
+                                            _correct[idx]?
+                                            Padding(padding: EdgeInsets.only(left:5.0)): Padding(padding: EdgeInsets.only(left:2.0)),
+                                            if(_type[idx]=='Word')
+                                              Row(
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.of(context).size.width * 15 / 100,
+                                                      // alignment: Alignment.center,
+                                                      // padding: EdgeInsets.only(right: 10.0),
+                                                      child: Text('단 어',
+                                                        style: TextStyle(
+                                                            fontSize: 20, color: Color(0xff333333), fontWeight: FontWeight.w700
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: MediaQuery.of(context).size.width * 50 / 100,
+                                                      padding: EdgeInsets.only(left: 10.0),
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                            left: BorderSide(
+                                                              color: Colors.black,
+                                                              width: 2.0,
+                                                            ),
+                                                          )
+                                                      ),
+                                                      child: Text( _content[idx],
+                                                        style: TextStyle(
+                                                            fontSize: 18, color: Color(0xff333333)),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                    )
+                                                  ]
+                                              )
+                                            else
+                                              Row(
+                                                  children: [
+                                                    Container(
+                                                      // alignment: Alignment.center,
+                                                      width: MediaQuery.of(context).size.width * 15 / 100,
+                                                      // padding: EdgeInsets.only(right: 10.0),
+                                                      child: Text(_type[idx]=='Letter'? '글 자' :'문 장',
+                                                        style: TextStyle(
+                                                            fontSize: 20, color: Color(0xff333333), fontWeight: FontWeight.w700
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: MediaQuery.of(context).size.width * 50 / 100,
+                                                      padding: EdgeInsets.only(left: 10.0),
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                            left: BorderSide(
+                                                              color: Colors.black,
+                                                              width: 2.0,
+                                                            ),
+                                                          )
+                                                      ),
+                                                      child: Text( _content[idx],
+                                                        style: TextStyle(
+                                                            fontSize: 18, color: Color(0xff333333)),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                    )
+                                                  ]
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )),
+                      )]))
+            )));
   }
 }

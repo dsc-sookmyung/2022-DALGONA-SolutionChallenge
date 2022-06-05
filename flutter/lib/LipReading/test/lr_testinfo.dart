@@ -332,7 +332,7 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                     gravity: ToastGravity.CENTER,
                                     backgroundColor: Colors.grey,
                                   );
-                                  if (widget.ver == '단어') {
+                                }else if (widget.ver == '단어') {
                                     print('단어');
                                     await _wordTest(
                                         myController1.text);
@@ -344,7 +344,6 @@ class _lrTestInfoPageState extends State<lrTestInfoPage> {
                                             builder: (_) => WordTestPage(
                                                 title: myController1.text,
                                                 data: res)));
-                                  };
                                   } else if (widget.ver == '문장') {
                                     await _sentenceTest(
                                         myController1.text);

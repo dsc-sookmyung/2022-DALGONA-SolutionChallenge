@@ -85,6 +85,8 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
     Map<String, String> _queryParameters = <String, String>{
       'id': _testProbId[idx].toString(),
     };
+    print(idx);
+    print("type: ${_type[idx]}");
 
     if (_type[idx] == 'Word') {
       url = Uri.http(
@@ -112,52 +114,27 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
 
       String url = data["url"];
       String type = data["type"];
-      String hint = data["hint"];
       int probId = data["probId"];
       bool bookmarked = data["bookmarked"];
+      String content;
+      String space=data["spacingInfo"];
+      String hint=data["hint"];
 
       if (_type[idx] == 'Word') {
-        String word = data["word"];
-        String type = "word";
-        String space = "";
-
+        content=data["word"];
         Navigator.of(context).pop();
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => BookmarkPracticePage(
-                    probId: probId,
-                    content: word,
-                    hint: hint,
-                    url: url,
-                    bookmarked: bookmarked,
-                    type: type,
-                    space: space)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: content, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space,)));
       } else if (_type[idx] == 'Sentence') {
-        String word = data["sentence"];
-        String type = "sentence";
-        String _space = "";
-
-        var repeat = data['spacingInfo'].split("");
-
-        for (int i = 0; i < repeat.length; i++) {
-          _space += "_ " * int.parse(repeat[i]);
-          _space += " ";
-        }
-
+        content=data["sentence"];
         Navigator.of(context).pop();
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (_) => BookmarkPracticePage(
-                    probId: probId,
-                    content: word,
-                    hint: hint,
-                    url: url,
-                    bookmarked: bookmarked,
-                    type: type,
-                    space: _space)));
+                builder: (_) => BookmarkPracticePage(probId: probId, content: content, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space,)));
+
       }
+
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
@@ -248,7 +225,7 @@ class _LRBookmarkPageState extends State<LRBookmarkPage> {
                                               splashColor: Colors.transparent,
                                               highlightColor: Colors.transparent,
                                               onTap: () async {
-                                                // practiceLipReading(idx);
+                                                practiceLipReading(idx+10*(_curPage-1));
                                                 // await _ProList(idx);
                                                 // Navigator.push(
                                                 //     context, MaterialPageRoute(
