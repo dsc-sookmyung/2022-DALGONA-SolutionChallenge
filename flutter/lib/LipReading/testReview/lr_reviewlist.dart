@@ -1,30 +1,12 @@
-library number_pagination;
-
 import 'package:flutter/material.dart';
-import 'package:fluttericon/brandico_icons.dart';
-import 'package:fluttericon/elusive_icons.dart';
-import 'package:fluttericon/entypo_icons.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:fluttericon/fontelico_icons.dart';
-import 'package:fluttericon/iconic_icons.dart';
-import 'package:fluttericon/linearicons_free_icons.dart';
-import 'package:fluttericon/linecons_icons.dart';
-import 'package:fluttericon/maki_icons.dart';
-import 'package:fluttericon/meteocons_icons.dart';
-import 'package:fluttericon/mfg_labs_icons.dart';
-import 'package:fluttericon/modern_pictograms_icons.dart';
-import 'package:fluttericon/octicons_icons.dart';
-import 'package:fluttericon/rpg_awesome_icons.dart';
-import 'package:fluttericon/typicons_icons.dart';
-import 'package:fluttericon/web_symbols_icons.dart';
-import 'package:fluttericon/zocial_icons.dart';
 import 'package:zerozone/custom_icons_icons.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:zerozone/Login/refreshToken.dart';
 import 'package:zerozone/Login/login.dart';
 import 'package:zerozone/server.dart';
+
+import '../../Mypage/mypage_lr_bookmarkview.dart';
 
 class ReviewListPage extends StatefulWidget {
   const ReviewListPage(
@@ -51,48 +33,102 @@ class _ReviewListPageState extends State<ReviewListPage> {
   late List _content = widget.content;
   late List _correct = widget.correct;
 
-  Future<void> _ProList(int id, int page) async {
-    _type.clear();
-    _content.clear();
-    _correct.clear();
-    _testProbId.clear();
+  // Future<void> _ProList(int id, int page) async {
+  //   _type.clear();
+  //   _content.clear();
+  //   _correct.clear();
+  //   _testProbId.clear();
+  //
+  //   Map<String, String> _queryParameters = <String, String>{
+  //     'testId': id.toString(),
+  //     'page': page.toString()
+  //   };
+  //
+  //   var url = Uri.http(
+  //       '${serverHttp}:8080', '/reading/test/list/probs', _queryParameters);
+  //
+  //   var response = await http.get(url, headers: {
+  //     'Accept': 'application/json',
+  //     "content-type": "application/json",
+  //     "Authorization": "Bearer $authToken"
+  //   });
+  //   print(url);
+  //   print('Response status: ${response.statusCode}');
+  //
+  //   if (response.statusCode == 200) {
+  //     print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+  //     var body = jsonDecode(utf8.decode(response.bodyBytes));
+  //     var _data = body['data'];
+  //     var _list = _data['content'];
+  //     for (int i = 0; i < _list.length; i++) {
+  //       setState(() {
+  //         _type.add(_list[i]['type']);
+  //         _testProbId.add(_list[i]['testProbId']);
+  //         _content.add(_list[i]['content']);
+  //         _correct.add(_list[i]['correct']);
+  //       });
+  //     }
+  //     print('저장 완료');
+  //   } else if (response.statusCode == 401) {
+  //     await RefreshToken(context);
+  //     if (check == true) {
+  //       _ProList(id, page);
+  //       check = false;
+  //     }
+  //   }
+  // }
+
+  Future<void> practiceLipReading(int idx) async {
+    late var url;
+    print(_testProbId[idx]);
 
     Map<String, String> _queryParameters = <String, String>{
-      'testId': id.toString(),
-      'page': page.toString()
+      'testProbId': _testProbId[idx].toString(),
     };
 
-    var url = Uri.http(
-        '${serverHttp}:8080', '/reading/test/list/probs', _queryParameters);
+    print(idx);
+    print("type: ${_type[idx]}");
+
+    url = Uri.http(
+        '${serverHttp}:8080', '/reading/test/list/probs/result', _queryParameters);
 
     var response = await http.get(url, headers: {
       'Accept': 'application/json',
       "content-type": "application/json",
-      "Authorization": "Bearer $authToken"
+      "Authorization": "Bearer ${authToken}"
     });
+
     print(url);
     print('Response status: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
       var body = jsonDecode(utf8.decode(response.bodyBytes));
-      var _data = body['data'];
-      var _list = _data['content'];
-      for (int i = 0; i < _list.length; i++) {
-        setState(() {
-          _type.add(_list[i]['type']);
-          _testProbId.add(_list[i]['testProbId']);
-          _content.add(_list[i]['content']);
-          _correct.add(_list[i]['correct']);
-        });
-      }
-      print('저장 완료');
+
+      dynamic data = body["data"];
+      data=data["readingProb"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      bool bookmarked = data["bookmarked"];
+      String content=data["content"];
+      String space=data["spacingInfo"];
+      String hint=data["hint"];
+
+        Navigator.of(context).pop();
+        Navigator.push(context,
+            MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: content, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space,)));
+
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
       if (check == true) {
-        _ProList(id, page);
+        practiceLipReading(idx);
         check = false;
       }
+    } else {
+      print('error : ${response.reasonPhrase}');
     }
   }
 
@@ -174,8 +210,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
                         // Padding(padding: EdgeInsets.only(top: 5.0)),
                                 Container(
                                   height: MediaQuery.of(context).size.height*10/100,
-                                  // margin:
-                                  //     EdgeInsets.only(right: 40.0, left: 40.0),
+                                  margin: EdgeInsets.only(bottom: 5.0),
                                   padding: EdgeInsets.only(top: 2.0, bottom: 2.0, left: 20.0, right: 20.0),
                                   child: Row(
                                     mainAxisAlignment:
@@ -189,7 +224,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
                                           children: [
                                             Text(
                                               '${widget.date}',
-                                              style: TextStyle(fontSize: 13, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                                              style: TextStyle(fontSize: 13, color: Color(0xff666666), fontWeight: FontWeight.w500),
                                             ),
                                             Padding(
                                                 padding:
@@ -218,6 +253,15 @@ class _ReviewListPageState extends State<ReviewListPage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Color(0xffC8E8FF),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.9),
+                                        spreadRadius: 0,
+                                        blurRadius: 5,
+                                        offset: Offset(2,
+                                            3), // changes position of shadow
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 ...List.generate(_content.length,
@@ -226,7 +270,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
-                                        // practiceLipReading(idx);
+                                        practiceLipReading(idx);
                                         // await _ProList(idx);
                                         // Navigator.push(
                                         //     context, MaterialPageRoute(
