@@ -973,6 +973,7 @@ class _RandomTestPageState extends State<RandomTestPage> {
   void _next() {
     setState(() {
       _timer.cancel();
+      _controller.setVolume(0.0);
       _controller.pause();
       _seeAnswer = false;
       _isInit = true;
@@ -990,6 +991,7 @@ class _RandomTestPageState extends State<RandomTestPage> {
       _controller = VideoPlayerController.network(_url);
       _initializeVideoPlayerFuture = _controller.initialize();
       _controller.setLooping(true);
+      _volume=false;
       _start();
     });
   }

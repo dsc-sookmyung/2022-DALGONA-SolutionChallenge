@@ -24,6 +24,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
   late var _url;
   late var _probId;
   late var _bookmarked;
+  late var _sentenceId;
 
   _randomsentence(String situationId, String situation) async {
     _space = "";
@@ -58,6 +59,8 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
         _url = data['url'];
         _probId = data['probId'];
         _bookmarked = data['bookmarked'];
+        _sentenceId=data['sentenceId'];
+
       });
     } else if (response.statusCode == 401) {
       await RefreshToken(context);
@@ -190,6 +193,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                                             hint: _hint,
                                             url: _url,
                                             bookmarked: _bookmarked,
+                                            sentenceId: _sentenceId
                                           )));
                             },
                             child: new Container(
@@ -239,6 +243,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                                             hint: _hint,
                                             url: _url,
                                             bookmarked: _bookmarked,
+                                            sentenceId: _sentenceId,
                                           )));
                             },
                             child: new Container(
@@ -288,6 +293,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                                             hint: _hint,
                                             url: _url,
                                             bookmarked: _bookmarked,
+                                            sentenceId: _sentenceId,
                                           )));
                             },
                             child: new Container(
@@ -337,6 +343,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                                             hint: _hint,
                                             url: _url,
                                             bookmarked: _bookmarked,
+                                            sentenceId: _sentenceId,
                                           )));
                             },
                             child: new Container(
@@ -386,6 +393,7 @@ class _LrModeSentencePageState extends State<LrModeSentencePage> {
                                             hint: _hint,
                                             url: _url,
                                             bookmarked: _bookmarked,
+                                            sentenceId: _sentenceId,
                                           )));
                             },
                             child: new Container(

@@ -76,12 +76,10 @@ class _lrRecentStudyPageState extends State<lrRecentStudyPage> {
 
       if (_type[idx] == 'word') {
         content=data["word"];
-        Navigator.of(context).pop();
         Navigator.push(context,
             MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: content, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space,)));
       } else if (_type[idx] == 'sentence') {
         content=data["sentence"];
-        Navigator.of(context).pop();
         Navigator.push(
             context,
             MaterialPageRoute(

@@ -196,6 +196,10 @@ class _MyPageState extends State<MyPage> {
     _recentContent.clear();
 
     final prefs = await SharedPreferences.getInstance();
+    // prefs.remove('id');
+    // prefs.remove('type');
+    // prefs.remove('content');
+
     setState(() {
     final ret1 = prefs.getStringList('id');
     final ret2 = prefs.getStringList('type');
@@ -204,14 +208,14 @@ class _MyPageState extends State<MyPage> {
     int len=ret1!.length;
     int len2=ret2!.length;
     int len3=ret3!.length;
-    
+
     for (int i = len-1; i >=0; i--) {
-    _recentProbId.add(int.parse(ret1[i]));
-    _recentType.add(ret2[i]);
-    _recentContent.add(ret3[i]);
+        _recentProbId.add(int.parse(ret1[i]));
+        _recentType.add(ret2[i]);
+        _recentContent.add(ret3[i]);
+    // print(ret1[i]+' '+ret2[i]+' '+ret3[i]);
     }
     });
-
     print('최근 학습 load 완료');
 
     Navigator.push(
@@ -435,6 +439,7 @@ class _MyPageState extends State<MyPage> {
                                   children: [
                                     GestureDetector(
                                         onTap: (){
+                                          print('1');
                                           _loadLRRecent();
                                         },
                                         child: new Container(
