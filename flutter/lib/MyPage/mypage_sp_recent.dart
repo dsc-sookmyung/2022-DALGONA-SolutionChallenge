@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zerozone/Login/login.dart';
+import 'package:zerozone/Login/refreshToken.dart';
+import 'package:zerozone/Speaking/sp_practiceview_letter.dart';
+import 'package:zerozone/Speaking/sp_practiceview_sentence.dart';
+import 'package:zerozone/Speaking/sp_practiceview_word.dart';
 import 'package:zerozone/server.dart';
 import 'package:card_swiper/card_swiper.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SPRecentStudyPage extends StatefulWidget {
   final List<int> probId;
@@ -26,6 +34,90 @@ class _SPRecentStudyPageState extends State<SPRecentStudyPage> {
 
   int _curPage=1;
   late int totalPage = _content.length%10 == 0 ? _content.length~/10: _content.length~/10+1;
+
+  Future<void> practiceSpeaking(int idx) async {
+    late var url;
+
+    Map<String, String> _queryParameters = <String, String>{
+      'id': _probId[idx].toString(),
+    };
+
+    print("type: ${_type[idx]}");
+
+    if (_type[idx] == 'Word') {
+      url = Uri.http(
+          '${serverHttp}:8080', '/speaking/practice/word', _queryParameters);
+    } else if (_type[idx] == 'Sentence') {
+      url = Uri.http(
+          '${serverHttp}:8080', '/speaking/practice/sentence', _queryParameters);
+    }
+    else{
+      url = Uri.http(
+          '${serverHttp}:8080', '/speaking/practice/letter', _queryParameters);
+    }
+
+    var response = await http.get(url, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
+
+    print(url);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      dynamic data = body["data"];
+
+      String url = data["url"];
+      String type = data["type"];
+      int probId = data["probId"];
+      bool bookmarked = data["bookmarked"];
+
+      if (_type[idx] == 'Word') {
+        String word = data["word"];
+        type = "word";
+        String space = "";
+
+        Navigator.of(context).pop();
+        Navigator.push(context,
+            MaterialPageRoute(builder: (_) => SpWordPracticePage(probId: probId, type: type,word: word,url: url, bookmarked: bookmarked,)));
+      } else if (_type[idx] == 'Sentence') {
+        String word = data["sentence"];
+        String type = "sentence";
+
+        Navigator.of(context).pop();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => SpSentencePracticePage(probId: probId, type: type, sentence: word,url: url, bookmarked: bookmarked)
+            ));
+      }
+      else{
+        String word = data["letter"];
+        String type = "letter";
+        int letterId = data["letterId"];
+
+        Navigator.of(context).pop();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => SpLetterPracticePage(probId: probId, type: type, letter: word,url: url, bookmarked: bookmarked, letterId: letterId,)
+            ));
+      }
+    } else if (response.statusCode == 401) {
+      await RefreshToken(context);
+      if (check == true) {
+        practiceSpeaking(idx);
+        check = false;
+      }
+    } else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
 
   @override
   void initState() {
@@ -109,6 +201,7 @@ class _SPRecentStudyPageState extends State<SPRecentStudyPage> {
                                                   splashColor: Colors.transparent,
                                                   highlightColor: Colors.transparent,
                                                   onTap: () {
+                                                    practiceSpeaking(idx+10*(_curPage-1));
                                                     print(_probId[idx+10*(_curPage-1)]);
                                                   },
                                                   child: Container(

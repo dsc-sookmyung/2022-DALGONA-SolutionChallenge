@@ -160,7 +160,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                                                   splashColor: Colors.transparent,
                                                   highlightColor: Colors.transparent,
                                                   onTap: () {
-                                                    practiceLipReading(idx);
+                                                    practiceLipReading(idx+10*(_curPage-1));
                                                   },
                                                   child: Container(
                                                     height: MediaQuery.of(context).size.height*5.7/100,
@@ -295,6 +295,7 @@ class _customProblemListPageState extends State<lrCustomProblemListPage> {
                               // control: SwiperControl(),
                               onIndexChanged: (index) {
                                 _curPage = index+1;
+                                print(_curPage);
                               },
                             ),
                           ))
