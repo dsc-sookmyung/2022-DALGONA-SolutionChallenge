@@ -967,8 +967,6 @@ class _WordPracticePageState extends State<WordPracticePage> {
 
   void _next() {
     setState(() {
-      _controller.setVolume(0.0);
-      _controller.pause();
       _randomWord((widget.id).toString(), widget.onset);
       _seeAnswer = false;
       _isInit = true;
@@ -976,7 +974,13 @@ class _WordPracticePageState extends State<WordPracticePage> {
       _isCorrect = false;
       myController.text = "";
       _isHint = false;
-      _volume=false;
+      _initializeVideoPlayerFuture = _controller.initialize();
+      _volume?
+      _controller.setVolume(1.0): _controller.setVolume(0.0);
+      _controller.setPlaybackSpeed(_videoSpeed);
+      _controller.pause();
+      _controller.setLooping(true);
+
     });
   }
 }

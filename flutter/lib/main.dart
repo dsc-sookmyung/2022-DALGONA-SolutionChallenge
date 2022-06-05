@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'Login/login.dart';
 import 'tabbar_mainview.dart';
 import 'LipReading/practice/lr_wordpractice.dart';
-import 'LipReading/lr_mainview.dart';
+// import 'LipReading/test/lr_testresult.dart';
 
 void main() {
   runApp(new MaterialApp(

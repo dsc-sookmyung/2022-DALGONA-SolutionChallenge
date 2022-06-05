@@ -973,7 +973,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                               child: Text(
                             "단어",
                             style: TextStyle(
-                                fontSize: 18.0, color: Color(0xff333333), fontWeight: FontWeight.w500),
+                                fontSize: 18.0, color: Color(0xff333333)),
                           )),
                         )),
                     Padding(padding: EdgeInsets.all(1.0)),

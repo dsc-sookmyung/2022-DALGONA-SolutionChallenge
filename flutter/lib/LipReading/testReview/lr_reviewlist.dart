@@ -117,7 +117,6 @@ class _ReviewListPageState extends State<ReviewListPage> {
       String space=data["spacingInfo"];
       String hint=data["hint"];
 
-        Navigator.of(context).pop();
         Navigator.push(context,
             MaterialPageRoute(builder: (_) => BookmarkPracticePage(probId: probId, content: content, hint: hint, url: url, bookmarked: bookmarked, type: type, space: space,)));
 
