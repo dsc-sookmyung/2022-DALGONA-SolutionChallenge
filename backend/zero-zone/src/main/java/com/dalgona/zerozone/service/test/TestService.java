@@ -123,7 +123,7 @@ public class TestService {
         // 회원 조회
         User user = getCurrentUser();
         // 회원의 시험 리스트 조회
-        Pageable paging = PageRequest.of(page-1,10, Sort.by(Sort.Direction.DESC, "id"));
+        Pageable paging = PageRequest.of(page-1,50, Sort.by(Sort.Direction.DESC, "id"));
         Page<Test> testList = testRepository.findAllByUser(user, paging);
         // dto로 변환
         Page<TestListByUserResponseDto> testListByUserResponseDtos

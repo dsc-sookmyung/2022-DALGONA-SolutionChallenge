@@ -1,5 +1,6 @@
 package com.dalgona.zerozone.service.init;
 
+import com.dalgona.zerozone.hangulAnalyzer.SpacingInfoCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +22,11 @@ public class InitService {
     private final SpeakingProbService speakingProbService;
 
     public void init(){
+        SpacingInfoCreator.createSpacingInfo("안녕히 가세요 바이바이");
 //        initAuthority();
 //        initCategory();
 //        initContent();
-//        initProb();
+        initProb();
     }
 
     // Authority
