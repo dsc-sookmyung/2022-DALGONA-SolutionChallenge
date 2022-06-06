@@ -5,9 +5,17 @@
 <br/>
 
 ## ❗️  Introduction
- There are three main ways the hard of hearing communicate. They are writing, sign language, and lip reading. Hard of hearing usually communicate using handwriting, sign language, and spoken language. lip-reading. In the case of writing, immediate communication is difficult. Also, sign language is difficult to communicate because most non-disabled people do not know sign language. , and sign language is a burden for non-disabled people to learn sign language. Finally, lip reading need more steady effort than other methods and must be mastered through hard practice. Lip-reading is a way of reading and interpreting the speaker's mouth movement and expression. It’s easy to convey the meaning because hard of hearing can actively talk, need a lot of effort to learn and use.
+ There are three main ways the hard of hearing communicate. They are writing, sign language, and lip reading. Hard of hearing usually communicate using handwriting, sign language, and spoken language. lip-reading. In the case of writing, immediate communication is difficult. Also, sign language is difficult to communicate because most non-disabled people do not know sign language. And sign language is a burden for non-disabled people to learn sign language. Finally, lip reading need more steady effort than other methods and must be mastered through hard practice. Lip-reading is a way of reading and interpreting the speaker's mouth movement and expression. It’s easy to convey the meaning because hard of hearing can actively talk, need a lot of effort to learn and use.
 
  Zerozone aims to help smooth communication of hard of hearings by providing various contents to practice lip reading. In addition, it provides pronunciation feedback feature using Google Speech API, in order to help users with difficulties of their pronunciation. All of the contents are based on Korean Language System.
+
+<br/>
+
+## 🗒 Feature Overview
+
+| Lip Reading Practice    | Speaking Practice                                           | Custom Practice           | Test mode (Lip Reading Only)                                           | Bookmark, Recent Practice                                                                                        |
+|-------------------------|-------------------------------------------------------------|---------------------------|------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| - Word <br/> - Sentence | - Letter <br/> - Word <br/> - Sentence <br/> - Random <br/> | - Create <br/> - Practice | - Create and Take an exam <br/> - Test Review <br/> - Test Score <br/> | - Bookmark List <br/> - Speaking & Lip Reading <br/> - Recent Practice List <br/> - Speaking & Lip Reading <br/> |
 
 <br/>
 
@@ -17,7 +25,7 @@
 
 ## 📽  Demo Video Link
 
- [![Zero Zone](https://user-images.githubusercontent.com/61380136/161100088-6861a7e8-8a51-484f-b6ca-624daec438b1.png)](https://www.youtube.com/watch?v=2lRl3bbPffc)
+ [![Zero Zone](https://user-images.githubusercontent.com/61380136/172161684-8a55c24f-9fae-451d-980f-eaf4e1935d97.png)](https://www.youtube.com/watch?v=Uk09T4HpCKs)
  
  <br/>
 
