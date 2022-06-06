@@ -684,7 +684,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
           children: [
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xff97D5FE),
+                  primary: Color(0xff4478FF),
                   minimumSize: Size(90, 40),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -700,7 +700,7 @@ class _SentenceTestPageState extends State<SentenceTestPage> {
                 child: Text(
                   '재도전',
                   style: TextStyle(
-                    color: Color(0xff4478FF),
+                    color: Colors.white,
                     fontSize: 18,
                       fontWeight: FontWeight.w600
                   ),

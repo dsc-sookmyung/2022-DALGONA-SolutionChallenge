@@ -541,8 +541,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                                 LRChooseWordConsonantPage()));
                                   },
                                   child: new Container(
-                                    width: 140.0,
-                                    height: 140.0,
+                                    width: MediaQuery.of(context).size.width*36/100,
+                                    height: MediaQuery.of(context).size.width*36/100,
                                     padding: EdgeInsets.only(
                                         left: 10.0,
                                         right: 10.0,
@@ -588,8 +588,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                                 LrModeSentencePage()));
                                   },
                                   child: new Container(
-                                    width: 140.0,
-                                    height: 140.0,
+                                    width: MediaQuery.of(context).size.width*36/100,
+                                    height: MediaQuery.of(context).size.width*36/100,
                                     padding: EdgeInsets.only(
                                         left: 10.0,
                                         right: 10.0,
@@ -629,6 +629,7 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                             ],
                           ),
                         ),
+                        Padding(padding: EdgeInsets.only(top:20.0)),
                         Container(
                             child: Row(
                                 mainAxisAlignment:
@@ -642,13 +643,13 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                     // );
                                   },
                                   child: new Container(
-                                    width: 140.0,
-                                    height: 140.0,
-                                    margin: EdgeInsets.only(
-                                        left: 0.0,
-                                        right: 15.0,
-                                        top: 20.0,
-                                        bottom: 15.0),
+                                    width: MediaQuery.of(context).size.width*36/100,
+                                    height: MediaQuery.of(context).size.width*36/100,
+                                    // margin: EdgeInsets.only(
+                                    //     left: 0.0,
+                                    //     right: 15.0,
+                                    //     top: 20.0,
+                                    //     bottom: 15.0),
                                     padding: EdgeInsets.only(
                                         left: 10.0,
                                         right: 10.0,
@@ -704,8 +705,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                                 date: _dateList)));
                                   },
                                   child: new Container(
-                                    width: 140.0,
-                                    height: 140.0,
+                                    width: MediaQuery.of(context).size.width*36/100,
+                                    height: MediaQuery.of(context).size.width*36/100,
                                     padding: EdgeInsets.only(
                                         left: 10.0,
                                         right: 10.0,
@@ -749,11 +750,11 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                     ),
                                   ))
                             ])),
-
+                        // Padding(padding: EdgeInsets.only(bottom:35.0)),
                         Container(
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(
-                              left: 0.0, right: 15.0, top: 20.0, bottom: 20.0),
+                              left: 0.0, right: 15.0, top: 35.0, bottom: 20.0),
                           padding: EdgeInsets.only(
                               top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                           width: 220.0,
@@ -790,8 +791,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                     _showModal("말하기 한 글자");
                                   },
                                   child: new Container(
-                                    width: 140.0,
-                                    height: 140.0,
+                                    width: MediaQuery.of(context).size.width*36/100,
+                                    height: MediaQuery.of(context).size.width*36/100,
                                     padding: EdgeInsets.only(
                                         left: 10.0,
                                         right: 10.0,
@@ -833,8 +834,8 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                                     _showModal("말하기 단어");
                                   },
                                   child: new Container(
-                                    width: 140.0,
-                                    height: 140.0,
+                                    width: MediaQuery.of(context).size.width*36/100,
+                                    height: MediaQuery.of(context).size.width*36/100,
                                     padding: EdgeInsets.only(
                                         left: 10.0,
                                         right: 10.0,
@@ -874,18 +875,14 @@ class _lrselectModeMainPageState extends State<lrselectModeMainPage> {
                             ],
                           ),
                         ),
+                        Padding(padding: EdgeInsets.only(top:20.0)),
                         GestureDetector(
                             onTap: () {
                               _showModal("말하기 문장");
                             },
                             child: new Container(
-                              width: 140.0,
-                              height: 140.0,
-                              margin: EdgeInsets.only(
-                                  left: 0.0,
-                                  right: 15.0,
-                                  top: 20.0,
-                                  bottom: 30.0),
+                              width: MediaQuery.of(context).size.width*36/100,
+                              height: MediaQuery.of(context).size.width*36/100,
                               padding: EdgeInsets.only(
                                   left: 10.0,
                                   right: 10.0,

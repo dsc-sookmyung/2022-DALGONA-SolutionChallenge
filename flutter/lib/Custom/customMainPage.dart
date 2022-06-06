@@ -220,8 +220,8 @@ class _customMainPageViewState extends State<customMainPageView> {
                                       );
                                     },
                                     child: Container(
-                                      width: 140.0,
-                                      height: 145.0,
+                                      width: MediaQuery.of(context).size.width*36/100,
+                                      height: MediaQuery.of(context).size.width*36/100,
                                       padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(16.0),
@@ -262,8 +262,8 @@ class _customMainPageViewState extends State<customMainPageView> {
                                           context, MaterialPageRoute(builder: (_) => CustomSpeakProblemPage())
                                       );                          },
                                     child: new Container(
-                                      width: 140.0,
-                                      height: 145.0,
+                                      width: MediaQuery.of(context).size.width*36/100,
+                                      height: MediaQuery.of(context).size.width*36/100,
                                       padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                                       decoration: new BoxDecoration(
                                         borderRadius: new BorderRadius.circular(16.0),
@@ -298,10 +298,10 @@ class _customMainPageViewState extends State<customMainPageView> {
                               ],
                             ),
                           ),
-
+                          Padding(padding: EdgeInsets.only(top:35.0)),
                           Container(
                             alignment: Alignment.center,
-                            margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 35.0, bottom: 20.0),
+                            margin: EdgeInsets.only(bottom:20.0),
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                             width: 220.0,
                             decoration: BoxDecoration(
