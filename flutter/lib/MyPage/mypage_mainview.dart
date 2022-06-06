@@ -447,8 +447,8 @@ class _MyPageState extends State<MyPage> {
                                           _loadLRRecent();
                                         },
                                         child: new Container(
-                                          width: 140.0,
-                                          height: 130.0,
+                                          width: MediaQuery.of(context).size.width*36/100,
+                                          height: MediaQuery.of(context).size.width*36/100,
                                           padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                                           decoration: new BoxDecoration(
                                             borderRadius: new BorderRadius.circular(16.0),
@@ -488,8 +488,8 @@ class _MyPageState extends State<MyPage> {
                                           _loadSPRecent();
                                         },
                                         child: new Container(
-                                          width: 140.0,
-                                          height: 130.0,
+                                          width: MediaQuery.of(context).size.width*36/100,
+                                          height: MediaQuery.of(context).size.width*36/100,
                                           padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                                           decoration: new BoxDecoration(
                                             borderRadius: new BorderRadius.circular(16.0),
@@ -527,11 +527,10 @@ class _MyPageState extends State<MyPage> {
                                 ),
                               ),
 
-
-
+                              Padding(padding: EdgeInsets.only(top:35.0)),
                               Container(
                                 alignment: Alignment.center,
-                                margin: EdgeInsets.only(left: 0.0, right: 15.0, top: 35.0, bottom: 20.0),
+                                margin: EdgeInsets.only(bottom: 20.0),
                                 padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                                 width: 150.0,
                                 decoration: BoxDecoration(
@@ -559,8 +558,8 @@ class _MyPageState extends State<MyPage> {
                                           _LRList();
                                         },
                                         child: new Container(
-                                          width: 140.0,
-                                          height: 130.0,
+                                          width: MediaQuery.of(context).size.width*36/100,
+                                          height: MediaQuery.of(context).size.width*36/100,
                                           padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                                           decoration: new BoxDecoration(
                                             borderRadius: new BorderRadius.circular(16.0),
@@ -599,8 +598,8 @@ class _MyPageState extends State<MyPage> {
                                           _SPList();
                                         },
                                         child: new Container(
-                                          width: 140.0,
-                                          height: 130.0,
+                                          width: MediaQuery.of(context).size.width*36/100,
+                                          height: MediaQuery.of(context).size.width*36/100,
                                           padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                                           decoration: new BoxDecoration(
                                             borderRadius: new BorderRadius.circular(16.0),
