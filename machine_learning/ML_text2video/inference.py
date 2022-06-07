@@ -9,6 +9,7 @@ from models import Wav2Lip
 import platform
 from gtts import gTTS #Import Google Text to Speech
 from IPython.display import Audio #Import Audio method from IPython's Display Class
+import librosa
 
 
 parser = argparse.ArgumentParser(description='Inference code to lip-sync videos in the wild using Wav2Lip models')
@@ -24,7 +25,7 @@ parser.add_argument('--face', type=str,
 parser.add_argument('--audio', type=str, 
 					help='Filepath of video/audio file to use as raw audio source', required=False)
 parser.add_argument('--outfile', type=str, help='Video path to save result. See default for an e.g.', 
-								default='results/result_voice.mp4')
+								default='custom_results/result_voice.mp4')
 
 parser.add_argument('--static', type=bool, 
 					help='If True, then use only first video frame for inference', default=False)
@@ -61,7 +62,6 @@ args.img_size = 96
 # print(os.listdir())
 args.face = "input_vid.mp4"
 args.audio = "input_audio.wav"
-# args.outfile = "https://storage.googleapis.com/zerozone-custom-video/animalforest.mp4"
 
 if os.path.isfile(args.face) and args.face.split('.')[1] in ['jpg', 'png', 'jpeg']:
 	args.static = True
@@ -190,7 +190,7 @@ def load_model(path):
 
 def main():
   ##### TTS (Make input_audio.wav via args.text) #####
-  tts = gTTS(args.text,lang='ko') #Provide the string to convert to speech (영어 : en, 한글 : ko)
+  tts = gTTS(args.text,lang='ko') #Provide the string to convert to speech
   tts.save('input_audio.wav') #save the string converted to speech as a .wav file
   sound_file = 'input_audio.wav'
   Audio(sound_file, autoplay=True) 
@@ -236,6 +236,17 @@ def main():
 
     subprocess.call(command, shell=True)
     args.audio = 'temp/temp.wav'
+  frame_length = 0.025
+  frame_stride = 0.010
+  
+  # y, sr = librosa.load(args.audio, sr=16000)
+
+  # wav_length = len(y)/sr
+  # input_nfft = int(round(sr*frame_length))
+  # input_stride = int(round(sr*frame_stride))
+ 
+  # mel = librosa.feature.melspectrogram(y=y, n_mels=40, n_fft=input_nfft, hop_length=input_stride)
+
 
   wav = audio.load_wav(args.audio, 16000)
   mel = audio.melspectrogram(wav)
@@ -289,8 +300,13 @@ def main():
 
   out.release()
 
-  command = 'ffmpeg -y -i {} -i {} -strict -2 -q:v 1 {}'.format(args.audio, 'temp/result.avi', args.outfile)
-  subprocess.call(command, shell=platform.system() != 'Windows')
+  command1 = 'ffmpeg -y -i {} -i {} -strict -2 -q:v 1 {}'.format(args.audio, 'temp/result.avi', args.outfile)
+  print('command1 : ',command1)
+  subprocess.call(command1, shell=platform.system() != 'Windows')
+  command2 = 'gsutil cp ./'+args.outfile+' gs://zerozone-custom-video/custom/'+args.text+'.mp4'
+  print('command2 : ',command2)
+  subprocess.call(command2, shell=platform.system() != 'Windows')
+  
 
 if __name__ == '__main__':
   main()
